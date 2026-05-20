@@ -892,7 +892,6 @@ note.remove();
 
  </script>
 
-
 <div id="offerPopup" style="
 position:fixed;
 bottom:20px;
@@ -900,26 +899,41 @@ left:20px;
 right:20px;
 background:#ff5722;
 color:white;
-padding:18px;
+padding:15px;
 border-radius:15px;
 text-align:center;
 font-weight:bold;
 z-index:9999;
 box-shadow:0 4px 15px rgba(0,0,0,0.3);
 ">
-🔥 Today Offer — Flat 20% OFF
-<br><br>
-<button onclick="closePopup()" style="
-background:white;
-color:#ff5722;
-border:none;
-padding:8px 20px;
-border-radius:20px;
-cursor:pointer;
-font-weight:bold;
-">
-Close
-</button>
+
+    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=500&auto=format&fit=crop&q=60" alt="Luxury Flat" style="
+    width:100%; 
+    max-height:160px; 
+    object-fit:cover; 
+    border-radius:10px; 
+    margin-bottom:10px;
+    display:block;
+    ">
+
+    <span style="font-size:16px;">🔥 Dream Flat — Flat 20% OFF!</span>
+    <br>
+    <span style="font-size:12px; font-weight:normal; opacity:0.9;">Limited Time Festive Offer</span>
+    <br><br>
+    
+    <button onclick="closePopup()" style="
+    background:white;
+    color:#ff5722;
+    border:none;
+    padding:8px 25px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    ">
+    Close
+    </button>
 </div>
 
 <script>
@@ -927,8 +941,7 @@ function closePopup() {
     document.getElementById('offerPopup').style.display = 'none';
 }
 </script>
-    
-   
+ 
 </body>
 
     </html>
