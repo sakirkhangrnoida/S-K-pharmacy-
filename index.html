@@ -890,8 +890,45 @@ note.remove();
 
 },7000);
 
-</script>
+ </script>
 
+
+<div id="offerPopup" style="
+position:fixed;
+bottom:20px;
+left:20px;
+right:20px;
+background:#ff5722;
+color:white;
+padding:18px;
+border-radius:15px;
+text-align:center;
+font-weight:bold;
+z-index:9999;
+box-shadow:0 4px 15px rgba(0,0,0,0.3);
+">
+🔥 Today Offer — Flat 20% OFF
+<br><br>
+<button onclick="closePopup()" style="
+background:white;
+color:#ff5722;
+border:none;
+padding:8px 20px;
+border-radius:20px;
+cursor:pointer;
+font-weight:bold;
+">
+Close
+</button>
+</div>
+
+<script>
+function closePopup() {
+    document.getElementById('offerPopup').style.display = 'none';
+}
+</script>
+    
+   
 </body>
 
     </html>
