@@ -1188,27 +1188,22 @@ document.head.appendChild(styleNode);
   </script>
 <script type="module">
   import { WebAgent } from 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/index.js';
-    
+
   const aiAgent = new WebAgent({
-    // यहाँ आपकी असली Public Key डाल दी गई है
-    apiKey: "eb4e199f-87d0-40e1-9556-32d163e79109", 
-    assistantId: "2fb421a7-19e2-4c10-bc2a-da2d32b57ef4",
-    config: {
-      allowWebActions: true, 
-      readScreenContent: true 
-    }
+    apiKey: "eb4e199f-878b-493d-aa6f-196c73c31d9b", 
+    assistantId: "2fb421a7-19e2-4c10-bc2a-da2d32b57ef4"
   });
 
-  window.addEventListener('DOMContentLoaded', () => {
-    aiAgent.mount({
-      position: "bottom-right",
-      theme: {
-        primaryColor: "#007bff",
-        welcomeMessage: "नमस्ते! मैं इस वेबसाइट का AI असिस्टेंट हूँ। मैं आपके लिए यहाँ कोई भी काम कर सकता हूँ।"
-      }
-    
-  });
+  // इसे DOMContentLoaded के बाहर रखें ताकि यह तुरंत लोड हो
+  aiAgent.mount({
+    position: "bottom-right",
+    theme: {
+      primaryColor: "#007bff",
+      welcomeMessage: "नमस्ते! मैं आपकी किस प्रकार सहायता कर सकता हूँ?"
+    }
+  }).catch(err => console.error("Vapi Error:", err));
 </script>
+    
     
 </body>
 
