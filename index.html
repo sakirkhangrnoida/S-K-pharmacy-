@@ -1123,7 +1123,50 @@ function closePopup() {
     document.getElementById('offerPopup').style.display = 'none';
 }
 </script>
- 
+
+  <script>
+// ==========================================
+// लाइव विजिटर्स और इंस्टॉल बटन सिस्टम
+// ==========================================
+var visitorNames = ["अमित कुमार", "राहुल शर्मा", "संजय सिंह", "राजेश यादव", "मनोज दीक्षित", "सुनील वर्मा", "प्रियंका सैनी", "दीपक मौर्य"];
+
+document.addEventListener("DOMContentLoaded", function() {
+    var additionalUiHtml = `
+        <div id="live-visitor-banner" style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: bold; z-index: 10001; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: all 0.5s ease; font-family: sans-serif;">
+            <span style="height: 10px; width: 10px; background-color: #25D366; border-radius: 50%; display: inline-block; animation: bannerBlink 1s infinite;"></span>
+            <span id="visitor-text">🔥 42 लोग अभी इस वेबसाइट पर दवाइयाँ देख रहे हैं</span>
+        </div>
+
+        <div id="install-app-banner" style="position: fixed; bottom: 0; left: 0; width: 100%; background: #111; color: white; padding: 10px 0; text-align: center; z-index: 9998; font-family: sans-serif; display: flex; justify-content: center; align-items: center; gap: 15px;">
+            <span style="font-size: 14px; font-weight: bold;">📱 S K Pharmacy ऐप डाउनलोड करें!</span>
+            <button onclick="alert('ऐप डाउनलोड शुरू हो रहा है...')" style="background: #ff9800; color: white; border: none; padding: 6px 15px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 13px;">इंस्टॉल करें</button>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', additionalUiHtml);
+
+    // हर 7 सेकंड में लाइव विजिटर का नाम या काउंट बदलना
+    setInterval(function() {
+        var bannerText = document.getElementById("visitor-text");
+        if (!bannerText) return;
+        
+        var randomChoice = Math.floor(Math.random() * 2);
+        if(randomChoice === 0) {
+            var randomCount = Math.floor(Math.random() * (55 - 28 + 1)) + 28;
+            bannerText.innerText = "🔥 " + randomCount + " लोग अभी इस वेबसाइट पर दवाइयाँ देख रहे हैं";
+        } else {
+            var randomName = visitorNames[Math.floor(Math.random() * visitorNames.length)];
+            bannerText.innerText = "🛍️ " + randomName + " ने अभी-अभी एक ऑर्डर प्लेस किया है!";
+        }
+    }, 7000);
+});
+
+// ब्लिंकिंग एनीमेशन के लिए CSS
+var styleNode = document.createElement('style');
+styleNode.innerHTML = "@keyframes bannerBlink { 0% {opacity: 0.2;} 50% {opacity: 1;} 100% {opacity: 0.2;} }";
+document.head.appendChild(styleNode);
+  </script>
+
+
 </body>
 
     </html>
