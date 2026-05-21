@@ -981,10 +981,14 @@ function checkMyPincode(inputId, msgId) {
         msgHtml.style.color = "red";
     }
 }
-
 // --- 3. कार्ट के मुख्य फंक्शन ---
 function addToCart(name, price) {
-    cart.push({ name: name, price: parseInt(price) });
+    var existingItem = cart.find(item => item.name === name);
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ name: name, price: parseInt(price), quantity: 1 });
+    }
     updateCartUi();
     alert("🛒 " + name + " को आपके कार्ट में जोड़ दिया गया है!");
 }
@@ -1001,21 +1005,28 @@ function toggleCartModal() {
 }
 
 function updateCartUi() {
-    document.getElementById("cart-count").innerText = cart.length;
+    document.getElementById("cart-count").innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
     var listHtml = "";
     var total = 0;
-    
+
     if (cart.length === 0) {
-        listHtml = "<p style='text-align:center; color:#999; margin: 20px 0;'>आपका कार्ट अभी खाली है।</p>";
+        listHtml = "<p style='text-align:center; color:#999; margin: 20px 0;'>आपका कार्ट अभी खाली है!</p>";
     } else {
         cart.forEach(function(item, index) {
-            total += item.price;
+            var itemTotal = item.price * item.quantity;
+            total += itemTotal;
             listHtml += `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; background: #f7f7f7; padding: 8px; border-radius: 4px; border-left: 3px solid #25D366;">
-                    <span style="font-size:14px; color:#333; font-weight:500;">${item.name}</span>
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-weight:bold; color:#111;">₹${item.price}</span>
-                        <span onclick="removeFromCart(${index})" style="color: red; cursor: pointer; font-size: 16px;">🗑️</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed #eee; padding-bottom: 10px;">
+                    <div style="max-width: 50%;">
+                        <span style="font-size:14px; color:#333; font-weight: 500;">${item.name}</span><br>
+                        <span style="font-size:12px; color:#666;">₹${item.price} x ${item.quantity}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button onclick="changeQuantity(${index}, -1)" style="background:#f0f0f0; border:none; padding:2px 8px; font-weight:bold; border-radius:4px; cursor:pointer;">-</button>
+                        <span style="font-weight:bold; font-size:14px;">${item.quantity}</span>
+                        <button onclick="changeQuantity(${index}, 1)" style="background:#f0f0f0; border:none; padding:2px 8px; font-weight:bold; border-radius:4px; cursor:pointer;">+</button>
+                        <span style="font-weight:bold; color:#111; margin-left:10px;">₹${itemTotal}</span>
+                        <span onclick="removeFromCart(${index})" style="color: red; cursor: pointer; font-size: 16px; margin-left: 10px;">🗑️</span>
                     </div>
                 </div>
             `;
@@ -1025,6 +1036,13 @@ function updateCartUi() {
     document.getElementById("cart-total").innerText = total;
 }
 
+function changeQuantity(index, change) {
+    cart[index].quantity += change;
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
+    updateCartUi();
+}
 // --- 5. व्हाट्सएप पर पूरा कार्ट भेजने का तरीका ---
 function sendOrderViaWhatsApp() {
     if (cart.length === 0) {
@@ -1058,9 +1076,10 @@ function sendOrderViaWhatsApp() {
     message += "*🛒 ऑर्डर लिस्ट:*\n";
     var total = 0;
     cart.forEach(function(item, index) {
-        message += (index + 1) + ". " + item.name + " - ₹" + item.price + "\n";
-        total += item.price;
-    });
+    var itemTotal = item.price * item.quantity;
+    message += (index + 1) + ". " + item.name + " - [मात्रा: " + item.quantity + "] - ₹" + itemTotal + "\n";
+    total += itemTotal;
+});
     
     message += "\n*💰 कुल बिल राशि:* ₹" + total + "\n\n";
     message += "कृपया ऑर्डर की पुष्टि करें। धन्यवाद!";
