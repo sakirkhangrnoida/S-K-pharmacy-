@@ -900,12 +900,40 @@ note.remove();
 
  </script>
 <script>
+// 1. पेज लोड होते ही यह कोड खुद सारे प्रोडक्ट्स में पिनकोड बॉक्स जोड़ देगा
+document.addEventListener("DOMContentLoaded", function() {
+    // आपकी वेबसाइट के सभी प्रोडक्ट कार्ड्स को ढूंढना
+    var productCards = document.querySelectorAll(".product-card");
+    
+    productCards.forEach(function(card, index) {
+        var uniqueId = index + 1; // हर प्रोडक्ट के लिए नंबर (1, 2, 3...)
+        
+        // पिनकोड बॉक्स का सुंदर ढांचा
+        var pincodeHtml = `
+            <div style="margin: 10px auto; text-align: center; width: 85%;">
+                <input type="text" id="pincode-input-${uniqueId}" placeholder="पिनकोड डालें" maxlength="6" style="width: 55%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; outline: none; vertical-align: middle;">
+                <button type="button" onclick="checkMyPincode('pincode-input-${uniqueId}', 'pincode-msg-${uniqueId}')" style="width: 38%; padding: 6px 0; background-color: #ff9800; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; vertical-align: middle;">चेक करें</button>
+                <div id="pincode-msg-${uniqueId}" style="font-size: 12px; margin-top: 5px; font-weight: bold;"></div>
+            </div>
+        `;
+        
+        // इसे प्रोडक्ट के 'View Details' या 'Order Now' बटन से ठीक पहले फिट करना
+        var orderButton = card.querySelector("a, button");
+        if (orderButton) {
+            orderButton.insertAdjacentHTML('beforebegin', pincodeHtml);
+        } else {
+            card.appendChild(pincodeHtml);
+        }
+    });
+});
+
+// 2. पिनकोड चेक करने का मुख्य लॉजिक
 function checkMyPincode(inputId, msgId) {
     var pin = document.getElementById(inputId).value;
     var msgHtml = document.getElementById(msgId);
     
-    // 📢 जिन पिनकोड्स पर आपको डिलिवरी देनी है, उन्हें यहाँ बदल सकते हैं
-    var allowedPincodes = ["201301", "203201", "201303", "110001", "400001"]; 
+    // 📢 यहाँ अपने एरिया के सारे पिनकोड कॉमा (,) लगा कर लिख दें
+    var allowedPincodes = ["110001", "1100096", "282001", "226001","208001","221001","283125","203201",];
     
     if (pin.length !== 6 || isNaN(pin)) {
         msgHtml.innerHTML = "❌ कृपया सही 6 अंकों का पिनकोड डालें";
@@ -919,7 +947,6 @@ function checkMyPincode(inputId, msgId) {
     }
 }
 </script>
-    
 
 <div id="offerPopup" style="
 position:fixed;
