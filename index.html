@@ -900,41 +900,76 @@ note.remove();
 
  </script>
 <script>
-// 1. पेज लोड होते ही यह कोड खुद सारे प्रोडक्ट्स में पिनकोड बॉक्स जोड़ देगा
+// --- 1. कार्ट और पिनकोड का कंबाइंड सिस्टम ---
+var cart = [];
+var allowedPincodes = ["110001", "110096", "282001", "226001", "208001", "221001", "283125", "203201"]; 
+
 document.addEventListener("DOMContentLoaded", function() {
-    // आपकी वेबसाइट के सभी प्रोडक्ट कार्ड्स को ढूंढना
     var productCards = document.querySelectorAll(".product-card");
     
     productCards.forEach(function(card, index) {
-        var uniqueId = index + 1; // हर प्रोडक्ट के लिए नंबर (1, 2, 3...)
+        var uniqueId = index + 1;
         
-        // पिनकोड बॉक्स का सुंदर ढांचा
+        // आपके कार्ड से नाम और कीमत उठाना
+        var titleNode = card.querySelector(".product-title");
+        var priceNode = card.querySelector(".price, [class*='price']");
+        var productName = titleNode ? titleNode.innerText.trim() : "Product " + uniqueId;
+        var productPrice = priceNode ? priceNode.innerText.replace(/[^0-9]/g, '') : "0";
+
+        // आपकी थीम के असली 'Add To Cart' बटन को एक्टिवेट करना
+        var allButtons = card.querySelectorAll("button, a");
+        allButtons.forEach(function(btn) {
+            if(btn.innerText.toLowerCase().includes("add to cart")) {
+                btn.setAttribute("type", "button");
+                btn.setAttribute("onclick", `addToCart('${productName}', ${productPrice})`);
+            }
+        });
+
+        // पिनकोड चेकर बॉक्स को ऑटोमैटिक आपके बटन्स से ठीक ऊपर सेट करना
         var pincodeHtml = `
-            <div style="margin: 10px auto; text-align: center; width: 85%;">
-                <input type="text" id="pincode-input-${uniqueId}" placeholder="पिनकोड डालें" maxlength="6" style="width: 55%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; outline: none; vertical-align: middle;">
-                <button type="button" onclick="checkMyPincode('pincode-input-${uniqueId}', 'pincode-msg-${uniqueId}')" style="width: 38%; padding: 6px 0; background-color: #ff9800; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; vertical-align: middle;">चेक करें</button>
-                <div id="pincode-msg-${uniqueId}" style="font-size: 12px; margin-top: 5px; font-weight: bold;"></div>
+            <div style="margin: 15px auto 10px auto; text-align: center; width: 90%;">
+                <input type="text" id="pincode-input-${uniqueId}" placeholder="डिलिवरी पिनकोड जांचें" maxlength="6" style="width: 55%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; outline: none; vertical-align: middle;">
+                <button type="button" onclick="checkMyPincode('pincode-input-${uniqueId}', 'pincode-msg-${uniqueId}')" style="width: 38%; padding: 8px 0; background-color: #ff9800; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; vertical-align: middle;">चेक करें</button>
+                <div id="pincode-msg-${uniqueId}" style="font-size: 13px; margin-top: 5px; font-weight: bold;"></div>
             </div>
         `;
         
-        // इसे प्रोडक्ट के 'View Details' या 'Order Now' बटन से ठीक पहले फिट करना
-        var orderButton = card.querySelector("a, button");
-        if (orderButton) {
-            orderButton.insertAdjacentHTML('beforebegin', pincodeHtml);
-        } else {
-            card.appendChild(pincodeHtml);
+        // पहले बटन के ऊपर पिनकोड बॉक्स डालना
+        if (allButtons.length > 0) {
+            allButtons[0].insertAdjacentHTML('beforebegin', pincodeHtml);
         }
     });
+
+    // स्क्रीन पर नीचे तैरता हुआ (Floating) 'कार्ट देखें' बटन जोड़ना
+    var cartUiHtml = `
+        <div id="floating-cart-btn" onclick="toggleCartModal()" style="position: fixed; bottom: 20px; right: 20px; background: #25D366; color: white; padding: 15px 20px; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9999; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+            🛒 कार्ट देखें (<span id="cart-count">0</span>)
+        </div>
+
+        <div id="cart-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; justify-content: center; align-items: center; font-family: sans-serif;">
+            <div style="background: white; padding: 20px; border-radius: 8px; width: 90%; max-width: 440px; max-height: 80vh; overflow-y: auto; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.5);">
+                <span onclick="toggleCartModal()" style="position: absolute; top: 10px; right: 15px; font-size: 28px; cursor: pointer; font-weight: bold; color: #666;">&times;</span>
+                <h3 style="margin-top: 0; color: #333; text-align: center; border-bottom: 2px solid #25D366; padding-bottom: 10px;">📋 आपका कार्ट (Your Cart)</h3>
+                <div id="cart-items-list" style="margin: 15px 0;"></div>
+                <h4 style="text-align: right; margin: 10px 0; font-size: 16px; color: #111;">कुल राशि: <span style="color:#25D366; font-size:18px;">₹<span id="cart-total">0</span></span></h4>
+                
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+                <h4 style="margin: 0 0 10px 0; color: #555;">🚚 डिलिवरी का पता भरें:</h4>
+                <input type="text" id="cust-name" placeholder="आपका नाम (Your Name)" style="width: 95%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                <textarea id="cust-address" placeholder="पूरा पता (मकान नंबर, गली, लैंडमार्क)" style="width: 95%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; height: 60px; resize: none;"></textarea>
+                <input type="text" id="cust-pin" placeholder="6 अंकों का पिनकोड" maxlength="6" style="width: 95%; padding: 10px; margin-bottom: 18px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;">
+                
+                <button type="button" onclick="sendOrderViaWhatsApp()" style="width: 100%; padding: 12px; background: #25D366; color: white; border: none; border-radius: 4px; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">✅ WhatsApp पर ऑर्डर भेजें</button>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', cartUiHtml);
 });
 
-// 2. पिनकोड चेक करने का मुख्य लॉजिक
+// --- 2. पिनकोड चेकर लॉजिक ---
 function checkMyPincode(inputId, msgId) {
     var pin = document.getElementById(inputId).value;
     var msgHtml = document.getElementById(msgId);
-    
-    // 📢 यहाँ अपने एरिया के सारे पिनकोड कॉमा (,) लगा कर लिख दें
-    var allowedPincodes = ["110001", "1100096", "282001", "226001","208001","221001","283125","203201",];
-    
     if (pin.length !== 6 || isNaN(pin)) {
         msgHtml.innerHTML = "❌ कृपया सही 6 अंकों का पिनकोड डालें";
         msgHtml.style.color = "red";
@@ -946,8 +981,99 @@ function checkMyPincode(inputId, msgId) {
         msgHtml.style.color = "red";
     }
 }
-</script>
 
+// --- 3. कार्ट के मुख्य फंक्शन ---
+function addToCart(name, price) {
+    cart.push({ name: name, price: parseInt(price) });
+    updateCartUi();
+    alert("🛒 " + name + " को आपके कार्ट में जोड़ दिया गया है!");
+}
+
+// --- 4. कार्ट से सामान हटाना ---
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartUi();
+}
+
+function toggleCartModal() {
+    var modal = document.getElementById("cart-modal");
+    modal.style.display = (modal.style.display === "none" || modal.style.display === "") ? "flex" : "none";
+}
+
+function updateCartUi() {
+    document.getElementById("cart-count").innerText = cart.length;
+    var listHtml = "";
+    var total = 0;
+    
+    if (cart.length === 0) {
+        listHtml = "<p style='text-align:center; color:#999; margin: 20px 0;'>आपका कार्ट अभी खाली है।</p>";
+    } else {
+        cart.forEach(function(item, index) {
+            total += item.price;
+            listHtml += `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; background: #f7f7f7; padding: 8px; border-radius: 4px; border-left: 3px solid #25D366;">
+                    <span style="font-size:14px; color:#333; font-weight:500;">${item.name}</span>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-weight:bold; color:#111;">₹${item.price}</span>
+                        <span onclick="removeFromCart(${index})" style="color: red; cursor: pointer; font-size: 16px;">🗑️</span>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    document.getElementById("cart-items-list").innerHTML = listHtml;
+    document.getElementById("cart-total").innerText = total;
+}
+
+// --- 5. व्हाट्सएप पर पूरा कार्ट भेजने का तरीका ---
+function sendOrderViaWhatsApp() {
+    if (cart.length === 0) {
+        alert("❌ आपका कार्ट खाली है!");
+        return;
+    }
+    
+    var name = document.getElementById("cust-name").value.trim();
+    var address = document.getElementById("cust-address").value.trim();
+    var pin = document.getElementById("cust-pin").value.trim();
+    
+    if (!name || !address || !pin) {
+        alert("❌ कृपया नाम, पता और पिनकोड पूरा भरें।");
+        return;
+    }
+    if (pin.length !== 6 || isNaN(pin)) {
+        alert("❌ पिनकोड 6 अंकों का होना चाहिए।");
+        return;
+    }
+    if (!allowedPincodes.includes(pin)) {
+        alert("❌ माफ़ कीजिए, इस पिनकोड पर डिलिवरी उपलब्ध नहीं है।");
+        return;
+    }
+
+    var message = "*📦 नया ऑर्डर (S K Pharmacy)*\n\n";
+    message += "*👤 कस्टमर की जानकारी:*\n";
+    message += "• नाम: " + name + "\n";
+    message += "• पता: " + address + "\n";
+    message += "• पिनकोड: " + pin + "\n\n";
+    
+    message += "*🛒 ऑर्डर लिस्ट:*\n";
+    var total = 0;
+    cart.forEach(function(item, index) {
+        message += (index + 1) + ". " + item.name + " - ₹" + item.price + "\n";
+        total += item.price;
+    });
+    
+    message += "\n*💰 कुल बिल राशि:* ₹" + total + "\n\n";
+    message += "कृपया ऑर्डर की पुष्टि करें। धन्यवाद!";
+
+    var whatsappNumber = "917983006957"; 
+    var whatsappUrl = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
+    
+    cart = [];
+    updateCartUi();
+    toggleCartModal();
+    window.open(whatsappUrl, '_blank');
+}
+</script>
 <div id="offerPopup" style="
 position:fixed;
 bottom:20px;
