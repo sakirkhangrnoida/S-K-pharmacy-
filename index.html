@@ -1187,8 +1187,8 @@ styleNode.innerHTML = "@keyframes bannerBlink { 0% {opacity: 0.2;} 50% {opacity:
 document.head.appendChild(styleNode);
   </script>
 <script type="module">
-  import { WebAgent } from 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest';
-
+  import { WebAgent } from 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/index.js';
+    
   const aiAgent = new WebAgent({
     // यहाँ आपकी असली Public Key डाल दी गई है
     apiKey: "eb4e199f-87d0-40e1-9556-32d163e79109", 
@@ -1206,7 +1206,7 @@ document.head.appendChild(styleNode);
         primaryColor: "#007bff",
         welcomeMessage: "नमस्ते! मैं इस वेबसाइट का AI असिस्टेंट हूँ। मैं आपके लिए यहाँ कोई भी काम कर सकता हूँ।"
       }
-    });
+    
   });
 </script>
     
