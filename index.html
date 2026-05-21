@@ -901,7 +901,8 @@ note.remove();
  </script>
 <script>
 // --- 1. कार्ट और पिनकोड का कंबाइंड सिस्टम ---
-var cart = [];
+var cart = JSON.parse(localStorage.getItem('pharmacyCart')) || [];
+    
 var allowedPincodes = ["110001", "110096", "282001", "226001", "208001", "221001", "283125", "203201"]; 
 
 document.addEventListener("DOMContentLoaded", function() {
