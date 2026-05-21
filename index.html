@@ -1186,7 +1186,31 @@ var styleNode = document.createElement('style');
 styleNode.innerHTML = "@keyframes bannerBlink { 0% {opacity: 0.2;} 50% {opacity: 1;} 100% {opacity: 0.2;} }";
 document.head.appendChild(styleNode);
   </script>
+<script type="module">
+  import { WebAgent } from 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest';
 
+  // AI Agent को आपकी वेबसाइट के सारे काम सँभालने के लिए कॉन्फ़िगर करना
+  const aiAgent = new WebAgent({
+    apiKey: "YOUR_VAPI_API_KEY", // यहाँ अपनी AI सर्विस की API Key डालें
+    assistantId: "YOUR_ASSISTANT_ID", // यहाँ अपने एजेंट की ID डालें
+    config: {
+      allowWebActions: true, // यह AI को आपकी वेबसाइट पर क्लिक और फॉर्म भरने की अनुमति देता है
+      readScreenContent: true // यह AI को आपकी वेबसाइट का टेक्स्ट पढ़ने की अनुमति देता है
+    }
+  });
+
+  // जब वेबसाइट पूरी तरह लोड हो जाए तब AI को एक्टिवेट करें
+  window.addEventListener('DOMContentLoaded', () => {
+    aiAgent.mount({
+      position: "bottom-right",
+      theme: {
+        primaryColor: "#007bff",
+        welcomeMessage: "नमस्ते! मैं इस वेबसाइट का AI असिस्टेंट हूँ। मैं आपके लिए यहाँ कोई भी काम कर सकता हूँ।"
+      }
+    });
+  });
+</script>
+    
 
 </body>
 
