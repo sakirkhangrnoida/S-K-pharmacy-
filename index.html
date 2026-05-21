@@ -1035,7 +1035,8 @@ function updateCartUi() {
     document.getElementById("cart-items-list").innerHTML = listHtml;
     document.getElementById("cart-total").innerText = total;
 }
-
+localStorage.setItem('pharmacyCart', JSON.stringify(cart));
+    
 function changeQuantity(index, change) {
     cart[index].quantity += change;
     if (cart[index].quantity <= 0) {
