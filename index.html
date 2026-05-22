@@ -1186,32 +1186,16 @@ var styleNode = document.createElement('style');
 styleNode.innerHTML = "@keyframes bannerBlink { 0% {opacity: 0.2;} 50% {opacity: 1;} 100% {opacity: 0.2;} }";
 document.head.appendChild(styleNode);
   </script>
-<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web/dist/index.global.js"></script>
-
 <script>
-const vapi = new Vapi("eb4e199f-878b-49d3-aa6f-196c73c31d9b");
-
-const aiButton = document.createElement("button");
-
-aiButton.innerHTML = "🤖 AI Chat";
-
-aiButton.style.position = "fixed";
-aiButton.style.bottom = "20px";
-aiButton.style.right = "20px";
-aiButton.style.background = "#0080ff";
-aiButton.style.color = "white";
-aiButton.style.padding = "12px 20px";
-aiButton.style.border = "none";
-aiButton.style.borderRadius = "50px";
-aiButton.style.fontSize = "16px";
-aiButton.style.zIndex = "99999";
-aiButton.style.cursor = "pointer";
-
-document.body.appendChild(aiButton);
-
-aiButton.addEventListener("click", function () {
-    vapi.start("2fb421a7-19e2-4c10-bc2a-da23b257fe74");
-});
+  console.log("Script start ho raha hai..."); // यह देखने के लिए कि स्क्रिप्ट चल रही है या नहीं
+  const vapi = new Vapi('eb4e199f-878b-49d3-aa6f-196c73c31d9b');
+  console.log("Vapi init ho gaya");
+  
+  const aiButton = document.createElement("button");
+  aiButton.innerHTML = "🤖 AI Chat";
+  // ... बाकी की स्टाइलिंग ...
+  document.body.appendChild(aiButton);
+  console.log("Button add ho gaya");
 </script>
    
 </body>
