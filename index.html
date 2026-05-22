@@ -1186,27 +1186,26 @@ var styleNode = document.createElement('style');
 styleNode.innerHTML = "@keyframes bannerBlink { 0% {opacity: 0.2;} 50% {opacity: 1;} 100% {opacity: 0.2;} }";
 document.head.appendChild(styleNode);
   </script>
-<script type="module">
-import { WebAgent } from "https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/index.js";
 
-const agent = new WebAgent({
-  apiKey: "eb4e199f-878b-493d-aa6f-196c73c31d9b",
-  assistantId: "2fb421a7-19e2-4c10-bc2a-da2d3b257ef4"
-});
+   <script type="module">
+  import { WebAgent } from "https://unpkg.com/@vapi-ai/web@latest/dist/index.js";
 
-window.addEventListener("load", () => {
-  agent.mount({
-    position: "bottom-right",
-    theme: {
-      primaryColor: "#007bff",
-      secondaryColor: "#ffffff"
-    },
-    welcomeMessage: "नमस्ते! मैं S K Pharmacy AI हूँ 😊"
+  const agent = new WebAgent({
+    apiKey: "eb4e199f-878b-493d-aa6f-196c73c31d9b",
+    assistantId: "2fb421a7-19e2-4c10-bc2a-da2d3b257ef4"
   });
-});
-</script>
 
-    
+  window.onload = () => {
+    agent.mount({
+      position: "bottom-right",
+      theme: {
+        primaryColor: "#0080ff",
+        secondaryColor: "#ffffff"
+      },
+      welcomeMessage: "नमस्ते! मैं S K Pharmacy AI हूँ 😊"
+    });
+  };
+   </script> 
 </body>
 
     </html>
