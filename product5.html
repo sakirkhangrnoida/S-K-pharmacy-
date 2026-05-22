@@ -1,296 +1,66 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Garnier Garnier Bright Complete- S K Pharmacy</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-<style>
-
-body{
-font-family:Arial,sans-serif;
-margin:0;
-background:#f4f7f6;
-padding-bottom:80px;
-}
-
-.header{
-background:#1a1e23;
-color:white;
-padding:18px;
-text-align:center;
-}
-
-.product-box{
-background:white;
-margin:15px;
-padding:20px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-text-align:center;
-}
-
-.product-box img{
-width:100%;
-max-width:300px;
-height:300px;
-object-fit:contain;
-}
-
-.price{
-margin-top:10px;
-}
-
-.old-price{
-text-decoration:line-through;
-color:#888;
-font-size:16px;
-margin-right:8px;
-}
-
-.new-price{
-color:#d9534f;
-font-size:28px;
-font-weight:bold;
-}
-
-.buy-btn{
-display:block;
-background:#25D366;
-color:white;
-padding:14px;
-margin-top:15px;
-border-radius:30px;
-text-decoration:none;
-font-size:18px;
-font-weight:bold;
-}
-
-.pay-btn{
-display:block;
-background:#2ea44f;
-color:white;
-padding:14px;
-margin-top:12px;
-border-radius:30px;
-text-decoration:none;
-font-size:18px;
-font-weight:bold;
-}
-
-.amazon-btn{
-display:block;
-background:#ff9800;
-color:white;
-padding:14px;
-margin-top:12px;
-border-radius:30px;
-text-decoration:none;
-font-size:18px;
-font-weight:bold;
-}
-
-.info{
-background:white;
-margin:15px;
-padding:20px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-line-height:1.9;
-font-size:15px;
-color:#333;
-}
-
-.share-btn{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#007bff;
-color:white;
-width:60px;
-height:60px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:24px;
-text-decoration:none;
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SESA Ayurvedic Hair Oil - S K Pharmacy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+   .header { background: #333; color: white; padding: 20px; text-align: center; }
+   .container { padding: 15px; }
+   .back-btn { background: #333; color: white; padding: 10px 15px; border-radius: 8px; text-decoration: none; display: inline-block; margin-bottom: 15px; }
+   .product-box { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+   .product-img { width: 100%; border-radius: 8px; margin-bottom: 15px; display: block; }
+   .btn { padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; text-decoration: none; display: block; margin-bottom: 10px; }
+   .whatsapp { background: #25D366; color: white; }
+   .amazon { background: #232f3e; color: white; }
+   .details { background: white; padding: 15px; border-radius: 12px; margin-top: 15px; }
+  </style>
 </head>
-
 <body>
 
-<div class="header">
+  <div class="header">
+    <h2 style="margin: 0;">SESA Ayurvedic Hair Oil</h2>
+    <p style="margin: 5px 0 0 0;">S K Pharmacy Product Details</p>
+  </div>
 
-<h1>Garnier Bright complete</h1>
+  <div class="container">
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back</a>
 
-<p>S K Pharmacy Product Details</p>
+    <div class="product-box">
+      <img src="20001.jpg" class="product-img">
 
-</div>
+      <h3 style="margin: 0 0 5px 0; text-align: center;">SESA Ayurvedic Hair Oil</h3>
+      <p style="color: #666; margin: 0 0 10px 0; text-align: center;">100% Natural | Reduces Hair Fall</p>
+      
+      <div style="text-align: center; margin-bottom: 15px;">
+        <span style="font-size: 14px; color: #999; text-decoration: line-through; margin-right: 8px;">₹210</span>
+        <span style="font-size: 24px; font-weight: bold; color: #e63946;">₹200</span>
+      </div>
 
-<div class="product-box">
+      <!-- पिनकोड चेक -->
+      <div style="margin-bottom: 12px;">
+        <input type="number" id="pincode-sesa" placeholder="डिलीवरी पिनकोड जांचें" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 8px; box-sizing: border-box; text-align: center;">
+        <button onclick="checkPincode('sesa')" style="width: 100%; background: #ff9800; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px;">चेक करें</button>
+        <p id="result-sesa" style="font-size: 13px; margin: 8px 0 0 0; text-align: center; font-weight: bold;"></p>
+      </div>
 
-<img src="25664.png">
+      <a href="https://wa.me/917983006957?text=मुझे%20SESA%20Hair%20Oil%20चाहिए" class="btn whatsapp">
+        <i class="fab fa-whatsapp"></i> WhatsApp पर ऑर्डर करें
+      </a>
 
-<h2>
-Garnier Bright Complete 
-</h2>
+      <a href="#" target="_blank" class="btn amazon">
+        <i class="fab fa-amazon"></i> Buy on Amazon
+      </a>
+    </div>
 
-<p>
-Anti Pimple Face Wash
-</p>
-
-<div class="price">
-
-<span class="old-price">
-₹180
-</span>
-
-<span class="new-price">
-₹130
-</span>
-
-</div>
-
-<a href="https://wa.me/917983006957?text=मुझे%20Garnier%20Men%20AcnoFight%20Face%20Wash%20ऑर्डर%20करना%20है"
-class="buy-btn">
-
-<i class="fab fa-whatsapp"></i>
-
-Order on WhatsApp
-
-</a>
-
-<button onclick="addToCart()"
-style="
-width:100%;
-background:#ff9800;
-color:white;
-padding:14px;
-margin-top:12px;
-border:none;
-border-radius:30px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-">
-
-🛒 Add To Cart
-
-</button>
-
-<div id="cartBox"
-style="
-display:none;
-background:white;
-margin-top:15px;
-padding:15px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-text-align:center;
-">
-
-<h3>
-✅ Product Added Successfully
-</h3>
-
-<p>
-आपका प्रोडक्ट कार्ट में जुड़ गया है
-</p>
-
-</div>
-
-<a href="upi://pay?pa=7983006957@ibl&pn=SK%20Pharmacy&cu=INR"
-class="pay-btn">
-
-💳 Pay Now
-
-</a>
-
-<a href="https://amzn.to/3WvZmT4"
-target="_blank"
-class="amazon-btn">
-
-🛒 Buy on Amazon
-
-</a>
-
-</div>
-
-<div class="info">
-
-<h3>
-📋 Product Information
-</h3>
-
-<p>
-
-Garnier Bright Complete Face Wash चेहरे के pimples,
-oil और dirt को हटाने में मदद करता है।
-
-</p>
-
-<ul>
-
-<li>✅ Anti Pimple Formula</li>
-
-<li>✅ Oil Control</li>
-
-<li>✅ Deep Face Cleansing</li>
-
-<li>✅ Fresh & Clean Skin</li>
-
-<li>✅ Suitable For Men</li>
-
-</ul>
-
-<h3>
-⭐ उपयोग करने का तरीका
-</h3>
-
-<p>
-
-चेहरे को हल्का गीला करें।
-Face wash लगाकर 1 मिनट massage करें और पानी से धो लें।
-
-</p>
-
-<h3>
-⚠️ Important Note
-</h3>
-
-<p>
-
-आंखों में जाने से बचाएं।
-सिर्फ बाहरी उपयोग के लिए।
-
-</p>
-
-</div>
-
-<a href="https://wa.me/?text=https://sakirkhangrnoida.github.io/product1.html"
-class="share-btn">
-
-<i class="fas fa-share-alt"></i>
-
-</a>
-
-<script>
-
-function addToCart(){
-
-document.getElementById("cartBox").style.display="block";
-
-}
-
-</script>
-
-</body>
-  </html>
+    <div class="details">
+      <h3>प्रोडक्ट की जानकारी</h3>
+      <p><b>फायदे:</b><br>
+      ✓ 100% Natural Aluves<br>
+      ✓ Proprietary Ayurvedic Medicine<br>
+      ✓ Clinically Proven<br>
+      ✓ बालों का झड़ना कम करे<br>
+      ✓ नए बालों की ग्रोथ में मदद<br>
+      ✓ स्कैल्प को पोषण दे
