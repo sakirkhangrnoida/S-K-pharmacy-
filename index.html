@@ -1187,23 +1187,25 @@ styleNode.innerHTML = "@keyframes bannerBlink { 0% {opacity: 0.2;} 50% {opacity:
 document.head.appendChild(styleNode);
   </script>
 <script type="module">
-  import { WebAgent } from 'https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/index.js';
+import { WebAgent } from "https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/index.js";
 
-  const aiAgent = new WebAgent({
-    apiKey: "eb4e199f-878b-493d-aa6f-196c73c31d9b", 
-    assistantId: "2fb421a7-19e2-4c10-bc2a-da2d32b57ef4"
-  });
+const agent = new WebAgent({
+  apiKey: "eb4e199f-878b-493d-aa6f-196c73c31d9b",
+  assistantId: "2fb421a7-19e2-4c10-bc2a-da2d3b257ef4"
+});
 
-  // इसे DOMContentLoaded के बाहर रखें ताकि यह तुरंत लोड हो
-  aiAgent.mount({
+window.addEventListener("load", () => {
+  agent.mount({
     position: "bottom-right",
     theme: {
       primaryColor: "#007bff",
-      welcomeMessage: "नमस्ते! मैं आपकी किस प्रकार सहायता कर सकता हूँ?"
-    }
-  }).catch(err => console.error("Vapi Error:", err));
+      secondaryColor: "#ffffff"
+    },
+    welcomeMessage: "नमस्ते! मैं S K Pharmacy AI हूँ 😊"
+  });
+});
 </script>
-    
+
     
 </body>
 
