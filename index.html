@@ -1186,26 +1186,33 @@ var styleNode = document.createElement('style');
 styleNode.innerHTML = "@keyframes bannerBlink { 0% {opacity: 0.2;} 50% {opacity: 1;} 100% {opacity: 0.2;} }";
 document.head.appendChild(styleNode);
   </script>
+<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web/dist/index.global.js"></script>
 
-   <script type="module">
-  import { WebAgent } from "https://unpkg.com/@vapi-ai/web@latest/dist/index.js";
+<script>
+const vapi = new Vapi("eb4e199f-878b-49d3-aa6f-196c73c31d9b");
 
-  const agent = new WebAgent({
-    apiKey: "eb4e199f-878b-493d-aa6f-196c73c31d9b",
-    assistantId: "2fb421a7-19e2-4c10-bc2a-da2d3b257ef4"
-  });
+vapi.start("2fb421a7-19e2-4c10-bc2a-da23b257fe74");
 
-  window.onload = () => {
-    agent.mount({
-      position: "bottom-right",
-      theme: {
-        primaryColor: "#0080ff",
-        secondaryColor: "#ffffff"
-      },
-      welcomeMessage: "नमस्ते! मैं S K Pharmacy AI हूँ 😊"
-    });
-  };
-   </script> 
+const button = document.createElement("button");
+button.innerHTML = "🤖 AI Chat";
+button.style.position = "fixed";
+button.style.bottom = "20px";
+button.style.right = "20px";
+button.style.padding = "12px 18px";
+button.style.background = "#0080ff";
+button.style.color = "white";
+button.style.border = "none";
+button.style.borderRadius = "50px";
+button.style.fontSize = "16px";
+button.style.zIndex = "9999";
+
+document.body.appendChild(button);
+
+button.onclick = () => {
+    vapi.start("2fb421a7-19e2-4c10-bc2a-da23b257fe74");
+};
+</script>
+   
 </body>
 
     </html>
