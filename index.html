@@ -1191,26 +1191,27 @@ document.head.appendChild(styleNode);
 <script>
 const vapi = new Vapi("eb4e199f-878b-49d3-aa6f-196c73c31d9b");
 
-vapi.start("2fb421a7-19e2-4c10-bc2a-da23b257fe74");
+const aiButton = document.createElement("button");
 
-const button = document.createElement("button");
-button.innerHTML = "🤖 AI Chat";
-button.style.position = "fixed";
-button.style.bottom = "20px";
-button.style.right = "20px";
-button.style.padding = "12px 18px";
-button.style.background = "#0080ff";
-button.style.color = "white";
-button.style.border = "none";
-button.style.borderRadius = "50px";
-button.style.fontSize = "16px";
-button.style.zIndex = "9999";
+aiButton.innerHTML = "🤖 AI Chat";
 
-document.body.appendChild(button);
+aiButton.style.position = "fixed";
+aiButton.style.bottom = "20px";
+aiButton.style.right = "20px";
+aiButton.style.background = "#0080ff";
+aiButton.style.color = "white";
+aiButton.style.padding = "12px 20px";
+aiButton.style.border = "none";
+aiButton.style.borderRadius = "50px";
+aiButton.style.fontSize = "16px";
+aiButton.style.zIndex = "99999";
+aiButton.style.cursor = "pointer";
 
-button.onclick = () => {
+document.body.appendChild(aiButton);
+
+aiButton.addEventListener("click", function () {
     vapi.start("2fb421a7-19e2-4c10-bc2a-da23b257fe74");
-};
+});
 </script>
    
 </body>
