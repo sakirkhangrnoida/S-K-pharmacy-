@@ -1334,7 +1334,7 @@ function closeSidebar() {
     document.getElementById('overlay').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
-</script>
+
     document.getElementById('settingsMenu').style.display = 'none';
     document.getElementById('settingsModal').style.display = 'block';
     let content = document.getElementById('modalContent');
@@ -1418,6 +1418,7 @@ function saveEdit() {
     localStorage.setItem('userData', JSON.stringify(user));
     alert('Profile अपडेट हो गया'); openModal('account');
 }
+</script>
 <div id="settingsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000;">
     <div style="background: white; width: 90%; max-width: 500px; margin: 20px auto; border-radius: 12px; max-height: 90vh; overflow-y: auto;">
         <div style="padding: 15px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white;">
@@ -1429,7 +1430,8 @@ function saveEdit() {
 </div>
  <!-- Overlay for Sidebar -->
 <div id="overlay" onclick="closeSidebar()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>   
-</script>
- </body>
+
+
+</body>
 
     </html>
