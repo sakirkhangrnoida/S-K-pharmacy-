@@ -309,6 +309,54 @@ width:85%;
 </head>
 
 <body>
+  <header class="header" style="display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; background: #1976d2; padding: 10px 15px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <button onclick="openSidebar()" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer;">☰</button>
+        <img src="logo.png" style="width: 35px; height: 35px; border-radius: 50%; border: 2px solid orange;">
+        <h1 style="color: #fff; margin: 0; font-size: 18px;">S K Pharmacy</h1>
+    </div>
+    <div>
+        <button onclick="openSidebar()" style="background: none; border: none; color: white; font-size: 28px; cursor: pointer;">⋮</button>
+    </div>
+</header>
+
+<!-- Amazon जैसा Side Menu -->
+<div id="sidebar" style="position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: white; z-index: 9999; transition: 0.3s; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.3);">
+    <div style="background: #232f3e; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+        <div onclick="openModal('account')" style="cursor: pointer;">
+            <strong style="font-size: 16px;">👤 Hello, Sign In</strong>
+        </div>
+        <span onclick="closeSidebar()" style="font-size: 28px; cursor: pointer;">×</span>
+    </div>
+
+    <div style="padding: 10px 0;">
+        <div style="padding: 12px 20px; font-weight: bold; font-size: 18px; color: #111;">S K Pharmacy Home</div>
+
+        <div style="height: 1px; background: #ddd; margin: 5px 0;"></div>
+        <div style="padding: 12px 20px; font-weight: bold; color: #111;">Shop By Category</div>
+        <div onclick="filterCategory('all')" style="padding: 10px 20px; cursor: pointer; color: #333;">All Medicines</div>
+        <div onclick="filterCategory('fever')" style="padding: 10px 20px; cursor: pointer; color: #333;">Fever & Pain</div>
+        <div onclick="filterCategory('diabetes')" style="padding: 10px 20px; cursor: pointer; color: #333;">Diabetes Care</div>
+        <div onclick="filterCategory('baby')" style="padding: 10px 20px; cursor: pointer; color: #333;">Baby Care</div>
+
+        <div style="height: 1px; background: #ddd; margin: 5px 0;"></div>
+        <div style="padding: 12px 20px; font-weight: bold; color: #111;">Help & Settings</div>
+        <div onclick="openModal('account')" style="padding: 10px 20px; cursor: pointer; color: #333;">👤 Your Account</div>
+        <div onclick="openModal('help')" style="padding: 10px 20px; cursor: pointer; color: #333;">❓ Help & Support</div>
+        <div onclick="openModal('location')" style="padding: 10px 20px; cursor: pointer; color: #333;">📍 Our Location</div>
+        <div onclick="openModal('privacy')" style="padding: 10px 20px; cursor: pointer; color: #333;">🔒 Privacy Policy</div>
+        <div onclick="openModal('terms')" style="padding: 10px 20px; cursor: pointer; color: #333;">📄 Terms & Conditions</div>
+
+        <div style="height: 1px; background: #ddd; margin: 5px 0;"></div>
+        <div style="padding: 12px 20px; font-weight: bold; color: #111;">Contact Us</div>
+        <a href="tel:9258751739" style="display: block; padding: 10px 20px; cursor: pointer; color: #333; text-decoration: none;">📞 9258751739</a>
+        <a href="tel:7983006957" style="display: block; padding: 10px 20px; cursor: pointer; color: #333; text-decoration: none;">📞 7983006957</a>
+        <a href="mailto:sakirkhangrnoida@gmail.com" style="display: block; padding: 10px 20px; cursor: pointer; color: #333; text-decoration: none;">📧 sakirkhangrnoida@gmail.com</a>
+    </div>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" onclick="closeSidebar()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9998;"></div>  
 <!-- LIVE VISITOR -->
 
 <div id="liveVisitors"
@@ -1271,13 +1319,20 @@ document.head.appendChild(styleNode);
       vapi.start();
     });
     // Settings के सारे फंक्शन
-function toggleSettings() {
-    let menu = document.getElementById('settingsMenu');
-    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-}
+
 function closeModal() {
     document.getElementById('settingsModal').style.display = 'none';
 }
+  function openSidebar() {
+    document.getElementById('sidebar').style.left = '0';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+function closeSidebar() {
+    document.getElementById('sidebar').style.left = '-300px';
+    document.getElementById('overlay').style.display = 'none';
+    }
+    
 function openModal(type) {
     document.getElementById('settingsMenu').style.display = 'none';
     document.getElementById('settingsModal').style.display = 'block';
@@ -1331,8 +1386,7 @@ function openModal(type) {
     }
     if(type === 'help') {
         title.innerText = 'Help';
-        content.innerHTML = `<a href="https://wa.me/917983006957" style="background: #25d366; color: white; padding: 12px 20px; border-radius: 6px; text-decoration: none; display: block; text-align: center;">WhatsApp: 7983006957</a>`;
-    }
+        content.innerHTML = `<a href="https://wa.me/919258751739" style="background: #25d366; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; display: inline-block; margin-top: 15px;">WhatsApp पर बात करें</a>`
     if(type === 'location') {
         title.innerText = 'Our Location';
         content.innerHTML = `<p><b>S K Pharmacy</b><br>Greater Noida, Silapur Gaon<br>Dankaur, Pin: 203201</p><a href="https://maps.google.com/?q=Silapur+Gaon+Dankaur+Greater+Noida" target="_blank" style="background: #4285f4; color: white; padding: 12px 20px; border-radius: 6px; text-decoration: none; display: inline-block;">Open in Maps</a>`;
@@ -1363,33 +1417,6 @@ function saveEdit() {
     localStorage.setItem('userData', JSON.stringify(user));
     alert('Profile अपडेट हो गया'); openModal('account');
 }
-document.addEventListener('click', function(event) {
-    let menu = document.getElementById('settingsMenu');
-    let button = event.target.closest('button');
-    if (!button || button.getAttribute('onclick') !== 'toggleSettings()') {
-        if(menu) menu.style.display = 'none';
-    }
-});  
-  });
-</script>
- <header class="header" style="display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <img src="logo.png" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid orange;">
-        <h1 style="color: #fff; margin: 0; font-size: 18px;">S K Pharmacy</h1>
-    </div>
-    <div style="position: relative;">
-        <button onclick="toggleSettings()" style="background: none; border: none; color: white; font-size: 28px; cursor: pointer;">⋮</button>
-        <div id="settingsMenu" style="display: none; position: absolute; right: 0; top: 45px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); width: 240px; z-index: 999;">
-            <div onclick="openModal('account')" style="padding: 14px 16px; cursor: pointer; border-bottom: 1px solid #eee; color: #333;">👤 Account / Login</div>
-            <div onclick="openModal('privacy')" style="padding: 14px 16px; cursor: pointer; border-bottom: 1px solid #eee; color: #333;">🔒 Privacy Policy</div>
-            <div onclick="openModal('terms')" style="padding: 14px 16px; cursor: pointer; border-bottom: 1px solid #eee; color: #333;">📄 Terms & Conditions</div>
-            <div onclick="openModal('help')" style="padding: 14px 16px; cursor: pointer; border-bottom: 1px solid #eee; color: #333;">❓ Help</div>
-            <div onclick="openModal('location')" style="padding: 14px 16px; cursor: pointer; color: #333;">📍 Our Location</div>
-        </div>
-    </div>
-</header>
-
-<!-- Settings Modal -->
 <div id="settingsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000;">
     <div style="background: white; width: 90%; max-width: 500px; margin: 20px auto; border-radius: 12px; max-height: 90vh; overflow-y: auto;">
         <div style="padding: 15px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white;">
