@@ -63,6 +63,9 @@ font-size:15px;
 /* HEADER */
 
 .header{
+<div id="settings-icon" style="cursor: pointer; font-size: 24px; color: #fff; text-align: right; margin-right: 15px; padding: 10px;">
+  &#8942;
+</div>
 background:#1a1e23;
 color:white;
 padding:25px 15px;
@@ -1273,6 +1276,18 @@ document.head.appendChild(styleNode);
     });
   });
 </script>
+ <div id="settings-modal" style="display: none; position: fixed; top: 60px; right: 10px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 9999; width: 250px; color: black;">
+  <h3 style="margin-top:0;">Settings</h3>
+  <hr>
+  <p><strong>पता:</strong> सिलापुर गांव, दनकौर, ग्रेटर नोएडा - 203201</p>
+  <hr>
+  <ul style="list-style: none; padding: 0;">
+    <li style="margin-bottom: 10px;">Edit Profile</li>
+    <li style="margin-bottom: 10px;">Privacy Policy</li>
+    <li style="margin-bottom: 10px;">Help</li>
+  </ul>
+  <button onclick="document.getElementById('settings-modal').style.display='none'" style="width:100%; padding:8px; background:orange; border:none; color:white;">Close</button>
+ </div>
     
 </body>
 
