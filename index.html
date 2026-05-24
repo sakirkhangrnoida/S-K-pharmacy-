@@ -358,7 +358,15 @@ width:85%;
 <!-- Overlay -->
 <div id="overlay" onclick="closeSidebar()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9998;"></div>  
 <!-- LIVE VISITOR -->
+<!-- Overlay -->
+<div id="overlay" onclick="closeModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;"></div>
 
+<!-- Modal Popup - ये डालना जरूरी है -->
+<div id="settingsModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px; border-radius:10px; z-index:1000; width:90%; max-width:400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+    <span onclick="closeModal()" style="position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer; color:#666;">&times;</span>
+    <h2 id="modalTitle" style="margin-top:0; margin-bottom:15px;"></h2>
+    <div id="modalContent"></div>
+</div>
 <div id="liveVisitors"
 style="
 background:#1a1e23;
@@ -1002,7 +1010,7 @@ note.remove();
 
 },7000);
 
- </script>
+
 <script>
 // --- 1. कार्ट और पिनकोड का कंबाइंड सिस्टम ---
 var cart = JSON.parse(localStorage.getItem('pharmacyCart')) || [];
@@ -1320,7 +1328,7 @@ document.head.appendChild(styleNode);
     });
     // Settings के सारे फंक्शन
 
-<div id="settingsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000;">
+<div id="settingsModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px; border-radius:10px; z-index:1001; width:90%; max-width:400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
     <div style="background: white; width: 90%; max-width: 500px; margin: 20px auto; border-radius: 12px; max-height: 90vh; overflow-y: auto;">
         <div style="padding: 15px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white;">
             <h2 id="modalTitle" style="margin: 0; font-size: 18px; color: #333;">Settings</h2>
@@ -1330,10 +1338,8 @@ document.head.appendChild(styleNode);
     </div>
 </div>
  <!-- Overlay for Sidebar -->
-<div id="overlay" onclick="closeSidebar()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>   
-
-
-</script>
+<div id="overlay" onclick="closeModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;"></div>
+<script src="script.js"></script>
    
 </body>
 
