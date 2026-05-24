@@ -1320,105 +1320,6 @@ document.head.appendChild(styleNode);
     });
     // Settings के सारे फंक्शन
 
-function closeModal() {
-    document.getElementById('settingsModal').style.display = 'none';
-}
-  function openSidebar() {
-    document.getElementById('sidebar').style.left = '0';
-    document.getElementById('overlay').style.display = 'block';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeSidebar() {
-    document.getElementById('sidebar').style.left = '-300px';
-    document.getElementById('overlay').style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-    document.getElementById('settingsMenu').style.display = 'none';
-    document.getElementById('settingsModal').style.display = 'block';
-    let content = document.getElementById('modalContent');
-    let title = document.getElementById('modalTitle');
-    
-    if(type === 'account') {
-        title.innerText = 'Account';
-        let user = JSON.parse(localStorage.getItem('userData'));
-        if(user) {
-            content.innerHTML = `
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h3 style="margin: 5px 0;">${user.name}</h3>
-                    <p style="color: #666; margin: 0;">${user.email}</p>
-                </div>
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                    <p style="margin: 5px 0;"><b>Address:</b><br>${user.address}</p>
-                </div>
-                <button onclick="logout()" style="background: #dc3545; color: white; padding: 12px; border: none; border-radius: 6px; width: 100%; margin-bottom: 10px;">Logout</button>
-                <button onclick="showEdit()" style="background: #007bff; color: white; padding: 12px; border: none; border-radius: 6px; width: 100%;">Edit Profile</button>
-                <div id="editForm" style="display:none; margin-top:15px;">
-                    <input id="editName" placeholder="Full Name" value="${user.name}" style="width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
-                    <input id="editAddress" placeholder="Address" value="${user.address}" style="width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
-                    <button onclick="saveEdit()" style="background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 6px; width: 100%;">Save</button>
-                </div>
-            `;
-        } else {
-            content.innerHTML = `
-                <input id="loginEmail" type="email" placeholder="Email" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
-                <input id="loginPass" type="password" placeholder="Password" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
-                <button onclick="login()" style="background: #007bff; color: white; padding: 12px; border: none; border-radius: 6px; width: 100%; margin-top: 10px;">Login</button>
-                <p style="text-align: center; margin: 15px 0;">OR</p>
-                <button onclick="showSignup()" style="background: #28a745; color: white; padding: 12px; border: none; border-radius: 6px; width: 100%;">Create New Account</button>
-                <div id="signupForm" style="display:none; margin-top:15px;">
-                    <input id="signupName" placeholder="Full Name" style="width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
-                    <input id="signupEmail" type="email" placeholder="Email" style="width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
-                    <input id="signupPass" type="password" placeholder="Password" style="width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
-                    <input id="signupAddress" placeholder="Address" value="Greater Noida, Silapur Gaon, Dankaur, Pin: 203201" style="width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;">
-                    <button onclick="signup()" style="background: #28a745; color: white; padding: 12px; border: none; border-radius: 6px; width: 100%; margin-top: 10px;">Create Account</button>
-                </div>
-            `;
-        }
-    }
-    if(type === 'privacy') {
-        title.innerText = 'Privacy Policy';
-        content.innerHTML = `<p>S K Pharmacy आपकी प्राइवेसी का सम्मान करती है। आपका डेटा सिर्फ ऑर्डर के लिए इस्तेमाल होगा।</p><p><b>Address:</b><br>Greater Noida, Silapur Gaon, Dankaur - 203201</p>`;
-    }
-    if(type === 'terms') {
-        title.innerText = 'Terms & Conditions';
-        content.innerHTML = `<p>1. सारे प्रोडक्ट ओरिजिनल हैं।<br>2. पेमेंट के बाद ऑर्डर कैंसल नहीं होगा।</p><p><b>Shop:</b><br>Greater Noida, Silapur Gaon, Dankaur - 203201</p>`;
-    }
-    if(type === 'help') {
-        title.innerText = 'Help';
-        content.innerHTML = `<a href="https://wa.me/919258751739" style="background: #25d366; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; display: inline-block; margin-top: 15px;">WhatsApp पर बात करें</a>`
-    if(type === 'location') {
-        title.innerText = 'Our Location';
-        content.innerHTML = `<p><b>S K Pharmacy</b><br>Greater Noida, Silapur Gaon<br>Dankaur, Pin: 203201</p><a href="https://maps.google.com/?q=Silapur+Gaon+Dankaur+Greater+Noida" target="_blank" style="background: #4285f4; color: white; padding: 12px 20px; border-radius: 6px; text-decoration: none; display: inline-block;">Open in Maps</a>`;
-    }
-}
-function showSignup() { document.getElementById('signupForm').style.display = 'block'; }
-function signup() {
-    let user = { name: document.getElementById('signupName').value, email: document.getElementById('signupEmail').value, pass: document.getElementById('signupPass').value, address: document.getElementById('signupAddress').value };
-    if(user.name && user.email && user.pass) {
-        localStorage.setItem('userData', JSON.stringify(user));
-        alert('Account बन गया!'); openModal('account');
-    } else { alert('सभी फील्ड भरें'); }
-}
-function login() {
-    let email = document.getElementById('loginEmail').value;
-    let pass = document.getElementById('loginPass').value;
-    let user = JSON.parse(localStorage.getItem('userData'));
-    if(user && user.email === email && user.pass === pass) {
-        alert('Login Success'); openModal('account');
-    } else { alert('Email या Password गलत'); }
-}
-function logout() { localStorage.removeItem('userData'); alert('Logout हो गए'); openModal('account'); }
-function showEdit() { document.getElementById('editForm').style.display = 'block'; }
-function saveEdit() {
-    let user = JSON.parse(localStorage.getItem('userData'));
-    user.name = document.getElementById('editName').value;
-    user.address = document.getElementById('editAddress').value;
-    localStorage.setItem('userData', JSON.stringify(user));
-    alert('Profile अपडेट हो गया'); openModal('account');
-}
-</script>
 <div id="settingsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000;">
     <div style="background: white; width: 90%; max-width: 500px; margin: 20px auto; border-radius: 12px; max-height: 90vh; overflow-y: auto;">
         <div style="padding: 15px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white;">
@@ -1432,6 +1333,8 @@ function saveEdit() {
 <div id="overlay" onclick="closeSidebar()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>   
 
 
+</script>
+   
 </body>
 
     </html>
