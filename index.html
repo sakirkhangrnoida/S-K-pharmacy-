@@ -1328,7 +1328,11 @@ document.head.appendChild(styleNode);
 
 <!-- JS फाइल लिंक करना जरूरी है -->
 <script src="script.js"></script>
-
+<!-- Error Debug Box -->
+<div id="debugBox" style="display:none; position:fixed; bottom:10px; left:10px; right:10px; background:#ff0000; color:white; padding:10px; border-radius:5px; z-index:99999; font-size:12px; max-height:150px; overflow-y:auto;">
+    <b>ERROR:</b> <span id="debugText"></span>
+    <span onclick="document.getElementById('debugBox').style.display='none'" style="float:right; cursor:pointer; font-size:16px;">×</span>
+</div>
 </body>
     
 </html>
