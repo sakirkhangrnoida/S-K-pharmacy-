@@ -319,18 +319,16 @@ width:85%;
         <button onclick="openSidebar()" style="background: none; border: none; color: white; font-size: 28px; cursor: pointer;">⋮</button>
     </div>
 </header>
-
 <!-- Amazon जैसा Side Menu -->
-<div id="sidebar" style="position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: white; z-index: 9999; transition: 0.3s; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.3);">
+<div id="sidebar" style="position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: white; z-index: 9999; overflow-y: auto; transition: 0.3s;">
     <div style="background: #232f3e; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
-            <strong style="font-size: 16px;">👤 Hello, Sign In</strong>
-        </div>
+        <strong style="font-size: 16px;">👤 Hello, Sign In</strong>
         <span onclick="closeSidebar()" style="font-size: 28px; cursor: pointer;">×</span>
     </div>
 
     <div style="padding: 10px 0;">
         <div style="padding: 12px 20px; font-weight: bold; font-size: 18px; color: #111;">S K Pharmacy Home</div>
-
+        
         <div style="height: 1px; background: #ddd; margin: 5px 0;"></div>
         <div style="padding: 12px 20px; font-weight: bold; color: #111;">Shop By Category</div>
         <div onclick="filterCategory('all')" style="padding: 10px 20px; cursor: pointer; color: #333;">All Medicines</div>
@@ -341,42 +339,35 @@ width:85%;
         <div style="height: 1px; background: #ddd; margin: 5px 0;"></div>
         <div style="padding: 12px 20px; font-weight: bold; color: #111;">Help & Settings</div>
         <div onclick="openModal('account')" style="padding: 10px 20px; cursor: pointer; color: #333;">
-    👤 Your Account
-</div>
-<div onclick="openModal('location')" style="padding: 10px 20px; cursor: pointer; color: #333;">
-    📍 Our Location
-</div>
-<div onclick="openModal('privacy')" style="padding: 10px 20px; cursor: pointer; color: #333;">
-    🔒 Privacy Policy
-</div>
-        
+            👤 Your Account
+        </div>
+        <div onclick="openModal('location')" style="padding: 10px 20px; cursor: pointer; color: #333;">
+            📍 Our Location
+        </div>
+        <div onclick="openModal('privacy')" style="padding: 10px 20px; cursor: pointer; color: #333;">
+            🔒 Privacy Policy
+        </div>
+        <div onclick="openModal('terms')" style="padding: 10px 20px; cursor: pointer; color: #333;">
+            📄 Terms & Conditions
+        </div>
+
         <div style="height: 1px; background: #ddd; margin: 5px 0;"></div>
         <div style="padding: 12px 20px; font-weight: bold; color: #111;">Contact Us</div>
         <a href="tel:9258751739" style="display: block; padding: 10px 20px; cursor: pointer; color: #333; text-decoration: none;">📞 9258751739</a>
         <a href="tel:7983006957" style="display: block; padding: 10px 20px; cursor: pointer; color: #333; text-decoration: none;">📞 7983006957</a>
         <a href="mailto:sakirkhangrnoida@gmail.com" style="display: block; padding: 10px 20px; cursor: pointer; color: #333; text-decoration: none;">📧 sakirkhangrnoida@gmail.com</a>
     </div>
-</div>
+</div> <!-- Sidebar का div यहाँ बंद होगा -->
 
 <!-- Modal के लिए Overlay - ये जरूरी है -->
 <div id="overlay" onclick="closeModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;"></div>
-
 <!-- Modal Popup - ये वाला जरूरी है -->
 <div id="settingsModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px; border-radius:10px; z-index:1001; width:90%; max-width:400px;">
     <span onclick="closeModal()" style="position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer; color:#666;">&times;</span>
     <h2 id="modalTitle" style="margin-top:0; margin-bottom:15px;"></h2>
     <div id="modalContent"></div>
 </div>
-- 
-<div id="liveVisitors"
-style="
-background:#1a1e23;
-color:white;
-padding:10px;
-text-align:center;
-font-size:15px;
-font-weight:bold;
-">
+<div id="liveVisitors" style="background:#1a1e23; color:white; padding:10px; text-align:center; font-size:15px; font-weight:bold;">
 
 👀 25 People Viewing This Website
 
