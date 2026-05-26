@@ -213,3 +213,8 @@ document.getElementById('overlay').onclick = function() {
     closeSidebar();
     closeModal();
         }
+function toggleDarkMode(){
+
+document.body.classList.toggle("dark-mode");
+
+}
