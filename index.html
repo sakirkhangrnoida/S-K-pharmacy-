@@ -1283,37 +1283,7 @@ document.addEventListener("DOMContentLoaded", function() {
             bannerText.innerText = "🛍️ " + randomName + " ने अभी-अभी एक ऑर्डर प्लेस किया है!";
         }
     }, 7000);
-});
-
-// ब्लिंकिंग एनीमेशन के लिए CSS
-var styleNode = document.createElement('style');
-styleNode.innerHTML = "@keyframes bannerBlink { 0% {opacity: 0.2;} 50% {opacity: 1;} 100% {opacity: 0.2;} }";
-document.head.appendChild(styleNode);
-  </script>
-<script src="https://unpkg.com/@vapi-ai/web/dist/index.global.js"></script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const vapi = new Vapi('eb4e199f-878b-49d3-aa6f-196c73c31d9b');
-
-    const aiButton = document.createElement("button");
-    aiButton.innerHTML = "🤖 AI Chat";
-    
-    // स्टाइलिंग
-    aiButton.style.position = "fixed";
-    aiButton.style.bottom = "80px"; 
-    aiButton.style.right = "20px";
-    aiButton.style.zIndex = "999999";
-    aiButton.style.padding = "15px 25px";
-    aiButton.style.background = "#0080ff";
-    aiButton.style.color = "white";
-    aiButton.style.borderRadius = "50px";
-    aiButton.style.border = "none";
-    aiButton.style.cursor = "pointer";
-    aiButton.style.boxShadow = "0 4px 10px rgba(0,0,0,0.3)";
-
-    document.body.appendChild(aiButton);
-    
+    </script>
 // Settings के सारे फंक्शन
 
 <!-- Modal Popup - Account बटन के लिए -->
@@ -1333,7 +1303,7 @@ document.head.appendChild(styleNode);
     <b>ERROR:</b> <span id="debugText"></span>
     <span onclick="document.getElementById('debugBox').style.display='none'" style="float:right; cursor:pointer; font-size:16px;">×</span>
 </div>
-
+<script src="script.js"></script>
 </body>
 </html>
 
