@@ -178,7 +178,7 @@ function toggleDarkMode(){
 document.body.classList.toggle("dark-mode");
 
 }
-// ========== AUTO SHOPPING CART - बस पेस्ट कर दे ==========
+// ========= AUTO SHOPPING CART + AMAZON BUTTON - FIXED =========
 (function() {
     // 1. Cart का HTML ऑटो बना दो
     if (!document.getElementById('cartIcon')) {
@@ -186,7 +186,7 @@ document.body.classList.toggle("dark-mode");
         <div id="cartIcon" onclick="openCartAuto()">
             🛒 <span id="cartCount">0</span>
         </div>
-        
+
         <div id="cartModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeCartAuto()">&times;</span>
@@ -205,48 +205,101 @@ document.body.classList.toggle("dark-mode");
     let cartCSS = `
     #cartIcon{position:fixed;top:20px;right:20px;background:#25D366;color:white;padding:12px 16px;border-radius:50px;cursor:pointer;font-size:18px;z-index:999;box-shadow:0 4px 8px rgba(0,0,0,0.2)}
     #cartCount{background:red;border-radius:50%;padding:2px 6px;font-size:12px;margin-left:4px}
-    #cartItems{max-height:300px;overflow-y:auto;margin:20px 0}
-    .cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #ddd}
-    .cart-item button{background:red;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer}
+   .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5)}
+   .modal-content{background:#fff;margin:5% auto;padding:20px;border-radius:10px;width:90%;max-width:500px;position:relative}
+   .cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #ddd}
+   .cart-item button{background:red;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer}
     #checkoutBtn{width:100%;padding:15px;background:#25D366;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;margin-top:10px}
+   .qty-controls{display:flex;border:2px solid #ff9900;border-radius:8px;overflow:hidden;height:40px;max-width:200px;margin-top:8px}
+   .qty-controls button{background:#ff9900;color:#fff;border:none;width:40px;font-size:20px;cursor:pointer}
+   .qty-controls div{flex:1;background:#fff;text-align:center;line-height:40px;font-weight:bold}
+   .external-links{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+   .external-links a{padding:8px 12px;border-radius:6px;text-decoration:none;font-size:13px;color:#fff}
+   .prime-link{display:block;margin-top:8px;color:#007185;font-size:13px;text-decoration:none}
     `;
     let styleSheet = document.createElement("style");
     styleSheet.innerText = cartCSS;
     document.head.appendChild(styleSheet);
 
-    // 3. Cart का दिमाग
+    // 3. Cart का दिमाग + Qty + Stock
     let cart = JSON.parse(localStorage.getItem('cartAuto')) || [];
-    
+
     function updateCartCount() {
-        document.getElementById('cartCount').innerText = cart.length;
+        let totalQty = cart.reduce(function(sum, item) {
+            return sum + (item.qty || 1);
+        }, 0);
+        document.getElementById('cartCount').innerText = totalQty;
     }
 
-    window.addToCartAuto = function(name, price) {
-        cart.push({name: name, price: parseInt(price)});
+    function updateProductButton(productName, price, stock) {
+        let item = cart.find(function(p) { return p.name === productName; });
+        let allBtns = document.querySelectorAll('[data-product="' + productName + '"]');
+
+        allBtns.forEach(function(btn) {
+            let container = btn.parentNode;
+            let existingQty = container.querySelector('.qty-controls');
+            if(existingQty) existingQty.remove();
+
+            if(item) {
+                btn.style.display = 'none';
+                let qtyDiv = document.createElement('div');
+                qtyDiv.className = 'qty-controls';
+                qtyDiv.innerHTML = '<button onclick="removeFromCartAuto(\'' + productName + '\')">🗑️</button><div>' + item.qty + ' in cart</div><button onclick="addToCartAuto(\'' + productName + '\', ' + price + ', ' + stock + ')">+</button>';
+                container.appendChild(qtyDiv);
+            } else {
+                btn.style.display = 'block';
+            }
+        });
+    }
+
+    window.addToCartAuto = function(name, price, stock) {
+        stock = parseInt(stock) || 999;
+        let item = cart.find(function(p) { return p.name === name; });
+
+        if(item) {
+            if(item.qty < stock) {
+                item.qty++;
+            } else {
+                alert('Sorry, only ' + stock + ' items in stock!');
+                return;
+            }
+        } else {
+            cart.push({name: name, price: parseInt(price), qty: 1, stock: stock});
+        }
+
         localStorage.setItem('cartAuto', JSON.stringify(cart));
         updateCartCount();
-        alert(name + ' added to cart!');
+        updateProductButton(name, price, stock);
+    }
+
+    window.removeFromCartAuto = function(productName) {
+        let item = cart.find(function(p) { return p.name === productName; });
+        if(item) {
+            if(item.qty > 1) {
+                item.qty--;
+            } else {
+                cart = cart.filter(function(p) { return p.name!== productName; });
+            }
+        }
+        localStorage.setItem('cartAuto', JSON.stringify(cart));
+        updateCartCount();
+        updateProductButton(productName, item? item.price : 0, item? item.stock : 999);
     }
 
     window.openCartAuto = function() {
         let cartDiv = document.getElementById('cartItems');
         cartDiv.innerHTML = '';
         let total = 0;
-        
+
         if(cart.length === 0) {
             cartDiv.innerHTML = '<p>Cart is empty</p>';
         } else {
-            cart.forEach((item, index) => {
-                total += item.price;
-                cartDiv.innerHTML += `
-                    <div class="cart-item">
-                        <span>${item.name} - ₹${item.price}</span>
-                        <button onclick="removeFromCartAuto(${index})">Remove</button>
-                    </div>
-                `;
+            cart.forEach(function(item, index) {
+                total += item.price * item.qty;
+                cartDiv.innerHTML += '<div class="cart-item"><span>' + item.name + ' - ₹' + item.price + ' x ' + item.qty + '</span><button onclick="removeItemCompletely(' + index + ')">Remove</button></div>';
             });
         }
-        
+
         document.getElementById('totalAmount').innerText = total;
         document.getElementById('cartModal').style.display = 'block';
     }
@@ -255,11 +308,13 @@ document.body.classList.toggle("dark-mode");
         document.getElementById('cartModal').style.display = 'none';
     }
 
-    window.removeFromCartAuto = function(index) {
+    window.removeItemCompletely = function(index) {
+        let removedItem = cart[index];
         cart.splice(index, 1);
         localStorage.setItem('cartAuto', JSON.stringify(cart));
         updateCartCount();
         openCartAuto();
+        updateProductButton(removedItem.name, removedItem.price, removedItem.stock);
     }
 
     window.checkoutWhatsAppAuto = function() {
@@ -267,50 +322,67 @@ document.body.classList.toggle("dark-mode");
             alert('Cart is empty!');
             return;
         }
-        
-        let phone = "919258751739"; // अपना नंबर डाल दे
+
+        let phone = "919258751739";
         let message = `Hi S K Pharmacy!%0A%0AMy Order:%0A`;
         let total = 0;
-        
-        cart.forEach((item, i) => {
-            message += `${i+1}. ${item.name} - ₹${item.price}%0A`;
-            total += item.price;
+
+        cart.forEach(function(item, i) {
+            message += `${i+1}. ${item.name} - ₹${item.price} x ${item.qty} = ₹${item.price * item.qty}%0A`;
+            total += item.price * item.qty;
         });
-        
+
         message += `%0A*Total: ₹${total}*%0A%0APlease confirm my order.`;
         window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
-        
+
         cart = [];
         localStorage.removeItem('cartAuto');
         updateCartCount();
         closeCartAuto();
+        location.reload();
     }
 
-    // 4. सारे प्रोडक्ट कार्ड को ऑटो पकड़ो और बटन बदल दो
+    // 4. प्रोडक्ट कार्ड ऑटो सेटअप + Amazon/Flipkart/Meesho लिंक
     function autoSetupButtons() {
-        // तेरी साइट के हर प्रोडक्ट कार्ड को ढूंढो
-        document.querySelectorAll('.product-card, .card, .product').forEach(card => {
-            let nameEl = card.querySelector('h3, h4, .product-name, .product-title');
-            let priceEl = card.querySelector('.price, .product-price');
+        document.querySelectorAll('.product-card,.card,.product').forEach(function(card) {
+            let nameEl = card.querySelector('h3, h4,.product-name,.product-title');
+            let priceEl = card.querySelector('.price,.product-price');
             let btn = card.querySelector('button');
-            
-            if(nameEl && priceEl && btn) {
+
+            if(nameEl && priceEl && btn &&!btn.getAttribute('data-setup')) {
                 let name = nameEl.innerText.trim();
-                let price = priceEl.innerText.replace(/[^0-9]/g, ''); // सिर्फ नंबर निकालो
-                
-                // बटन का टेक्स्ट और काम बदल दो
+                let price = priceEl.innerText.replace(/[^0-9]/g, '');
+                let stock = btn.getAttribute('data-stock') || 999;
+                let amazonLink = btn.getAttribute('data-amazon') || '';
+                let flipkartLink = btn.getAttribute('data-flipkart') || '';
+                let meeshoLink = btn.getAttribute('data-meesho') || '';
+
+                btn.setAttribute('data-product', name);
+                btn.setAttribute('data-setup', 'true');
                 btn.innerText = 'Add to Cart';
-                btn.setAttribute('onclick', `addToCartAuto('${name}', '${price}')`);
+                btn.style.cssText = 'background:#ff9900;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;width:100%';
+                btn.setAttribute('onclick', `addToCartAuto('${name}', '${price}', '${stock}')`);
+
+                let linksHTML = '<div class="external-links">';
+                if(amazonLink) linksHTML += `<a href="${amazonLink}" target="_blank" style="background:#232F3E">Buy on Amazon</a>`;
+                if(flipkartLink) linksHTML += `<a href="${flipkartLink}" target="_blank" style="background:#2874F0">Buy on Flipkart</a>`;
+                if(meeshoLink) linksHTML += `<a href="${meeshoLink}" target="_blank" style="background:#F43397">Buy on Meesho</a>`;
+                linksHTML += '</div>';
+
+                if(amazonLink || flipkartLink || meeshoLink) {
+                    btn.insertAdjacentHTML('afterend', linksHTML + '<a href="https://www.amazon.in/amazonprime" target="_blank" class="prime-link">👑 Join Amazon Prime for Free Delivery</a>');
+                }
+
+                updateProductButton(name, price, stock);
             }
         });
     }
 
-    // Page लोड होते ही सब सेट कर दो
     if(document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', autoSetupButtons);
     } else {
         autoSetupButtons();
     }
-    
+
     updateCartCount();
 })();
