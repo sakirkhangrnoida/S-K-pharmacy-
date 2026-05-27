@@ -180,16 +180,41 @@ document.body.classList.toggle("dark-mode");
 }
 
 // ========== AMAZON STYLE CART SYSTEM START ==========
+
+// 👇👇👇 यहाँ अपने सारे प्रोडक्ट के लिंक + COD डाल दे 👇👇👇
+const PRODUCT_LINKS = {
+    "Kesh King Ayurvedic Oil": {
+        stock: 10,
+        cod: true, // COD है या नहीं
+        amazon: "https://share.google/nrshbLeq9nIC6AGDN",
+        flipkart: "", 
+        meesho: "https://www.meesho.com/s/p/c7vcmm"
+    },
+    "Himalaya Hair Zone Solution": {
+        stock: 25,
+        cod: true, // Flipkart वाले स्क्रीनशॉट में COD है
+        amazon: "",
+        flipkart: "https://dl.flipkart.com/dl/himalaya-hair-zone-solution/p/itm089a2160a028e?pid=AYDGBPYVGERKGMFV",
+        meesho: ""
+    },
+    "Mamaearth Onion Hair Oil": {
+        stock: 15,
+        cod: false, // COD नहीं है इसपे
+        amazon: "https://amazon.in/xxx",
+        flipkart: "https://flipkart.com/xxx",
+        meesho: "https://meesho.com/xxx"
+    }
+};
+// 👆👆👆 बस इतना ही अपडेट करना है आगे 👆👆
+
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-// Cart Icon बनाओ
 let cartIcon = document.createElement('div');
 cartIcon.id = 'cartIcon';
 cartIcon.innerHTML = '🛒';
 cartIcon.style.cssText = 'position:fixed;top:15px;left:60px;background:#25D366;color:white;padding:10px 14px;border-radius:50px;cursor:pointer;font-size:16px;z-index:999;box-shadow:0 4px 8px rgba(0,0,0,0.2);display:flex;align-items:center;gap:5px';
 document.body.appendChild(cartIcon);
 
-// Cart Modal बनाओ
 let cartModal = document.createElement('div');
 cartModal.id = 'cartModal';
 cartModal.style.display = 'none';
@@ -201,6 +226,12 @@ cartModal.innerHTML = `
         <div id="cartItems"></div>
         <div style="border-top:2px solid #eee;margin-top:15px;padding-top:15px">
             <h3>Total: ₹<span id="cartTotal">0</span></h3>
+            <div style="margin:10px 0">
+                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                    <input type="checkbox" id="codCheckbox" style="width:18px;height:18px">
+                    <span>Cash on Delivery</span>
+                </label>
+            </div>
             <button onclick="checkout()" style="width:100%;background:#25D366;color:white;padding:12px;border:none;border-radius:5px;font-size:16px;cursor:pointer;margin-top:10px;font-weight:bold">Checkout on WhatsApp</button>
         </div>
     </div>
@@ -211,17 +242,14 @@ cartModal.innerHTML = `
 `;
 document.body.appendChild(cartModal);
 
-// Cart Icon क्लिक
 cartIcon.onclick = function() {
     showCart();
-    document.querySelector('#cartModal .modal').style.display = 'block';
+    document.querySelector('#cartModal.modal').style.display = 'block';
 };
 
-// Cart दिखाओ
 function showCart() {
     let itemsDiv = document.getElementById('cartItems');
     let total = 0;
-    
     if(cart.length === 0) {
         itemsDiv.innerHTML = '<p style="text-align:center;color:#888;padding:20px">Your cart is empty</p>';
     } else {
@@ -233,6 +261,7 @@ function showCart() {
                 <div style="flex:1">
                     <div style="font-weight:bold">${item.name}</div>
                     <div style="color:#E47911">₹${item.price} x ${item.quantity}</div>
+                    ${item.cod? '<div style="color:#388E3C;font-size:12px;font-weight:bold">✓ COD Available</div>' : ''}
                 </div>
                 <button onclick="removeFromCart('${item.name}')" style="background:#ff4444;color:white;border:none;padding:5px 10px;border-radius:3px;cursor:pointer">Remove</button>
             </div>
@@ -242,19 +271,16 @@ function showCart() {
     document.getElementById('cartTotal').textContent = total;
 }
 
-// Cart बंद करो
 function closeCart() {
-    document.querySelector('#cartModal .modal').style.display = 'none';
+    document.querySelector('#cartModal.modal').style.display = 'none';
 }
 
-// Cart Icon अपडेट
 function updateCartIcon() {
     let count = cart.reduce((sum, item) => sum + item.quantity, 0);
     cartIcon.innerHTML = `🛒 <span style="background:#E47911;border-radius:50%;padding:2px 6px;font-size:12px">${count}</span>`;
 }
 
-// Add to Cart - सभी लिंक के साथ
-function addToCart(name, price, stock, image, amazon, flipkart, meesho) {
+function addToCart(name, price, stock, image, amazon, flipkart, meesho, cod) {
     let item = cart.find(i => i.name === name);
     if(item) {
         if(item.quantity < stock) item.quantity++;
@@ -263,14 +289,13 @@ function addToCart(name, price, stock, image, amazon, flipkart, meesho) {
             return;
         }
     } else {
-        cart.push({name, price, stock, image, amazon, flipkart, meesho, quantity: 1});
+        cart.push({name, price, stock, image, amazon, flipkart, meesho, cod, quantity: 1});
     }
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartIcon();
     showButtons(name);
 }
 
-// Quantity बढ़ाओ
 function increaseQuantity(productName) {
     let item = cart.find(i => i.name === productName);
     if(item && item.quantity < item.stock) {
@@ -284,13 +309,12 @@ function increaseQuantity(productName) {
     }
 }
 
-// Quantity घटाओ
 function decreaseQuantity(productName) {
     let item = cart.find(i => i.name === productName);
     if(item) {
         item.quantity--;
         if(item.quantity === 0) {
-            cart = cart.filter(i => i.name !== productName);
+            cart = cart.filter(i => i.name!== productName);
             resetButton(productName);
         } else {
             showButtons(productName);
@@ -301,30 +325,30 @@ function decreaseQuantity(productName) {
     }
 }
 
-// Cart से हटाओ
 function removeFromCart(productName) {
-    cart = cart.filter(i => i.name !== productName);
+    cart = cart.filter(i => i.name!== productName);
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartIcon();
     showCart();
     resetButton(productName);
 }
 
-// Amazon स्टाइल बटन दिखाओ - सभी लिंक के साथ
 function showButtons(productName) {
     let item = cart.find(i => i.name === productName);
     if(!item) return;
     
-    let amazonBtn = item.amazon ? `<a href="${item.amazon}" target="_blank" style="background:#FF9900;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Amazon</a>` : '';
-    let primeBtn = item.amazon ? `<a href="https://www.amazon.in/prime" target="_blank" style="background:#00A8E1;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Join Prime</a>` : '';
-    let flipkartBtn = item.flipkart ? `<a href="${item.flipkart}" target="_blank" style="background:#2874F0;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Flipkart</a>` : '';
-    let meeshoBtn = item.meesho ? `<a href="${item.meesho}" target="_blank" style="background:#F43397;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Meesho</a>` : '';
+    let codBadge = item.cod? `<span style="background:#388E3C;color:white;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:bold">COD</span>` : '';
+    let amazonBtn = item.amazon? `<a href="${item.amazon}" target="_blank" style="background:#FF9900;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Amazon</a>` : '';
+    let primeBtn = item.amazon? `<a href="https://www.amazon.in/prime" target="_blank" style="background:#00A8E1;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Join Prime</a>` : '';
+    let flipkartBtn = item.flipkart? `<a href="${item.flipkart}" target="_blank" style="background:#2874F0;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Flipkart</a>` : '';
+    let meeshoBtn = item.meesho? `<a href="${item.meesho}" target="_blank" style="background:#F43397;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Meesho</a>` : '';
     
     let html = `
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px;border:2px solid #FF9900;border-radius:8px;background:#FFF9E6;flex-wrap:wrap">
             <button onclick="decreaseQuantity('${productName}')" style="background:#E47911;color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer">🗑️</button>
             <span style="font-weight:bold">${item.quantity} in cart</span>
             <button onclick="increaseQuantity('${productName}')" style="background:#E47911;color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer">+</button>
+            ${codBadge}
             ${amazonBtn}
             ${primeBtn}
             ${flipkartBtn}
@@ -339,42 +363,39 @@ function showButtons(productName) {
     });
 }
 
-// वापस Add to Cart बटन लाओ
 function resetButton(productName) {
     location.reload();
 }
 
-// Checkout WhatsApp
 function checkout() {
     if(cart.length === 0) {
         alert('Cart is empty!');
         return;
     }
+    let isCOD = document.getElementById('codCheckbox').checked;
     let message = 'Hello S K Pharmacy! I want to order:\n\n';
     let total = 0;
     cart.forEach(item => {
         message += `${item.name} x ${item.quantity} = ₹${item.price * item.quantity}\n`;
+        if(item.cod) message += `COD Available\n`;
         total += item.price * item.quantity;
     });
-    message += `\nTotal: ₹${total}\n\nPlease confirm my order.`;
+    message += `\nTotal: ₹${total}\n`;
+    message += `Payment: ${isCOD? 'Cash on Delivery' : 'Online Payment'}\n\nPlease confirm my order.`;
     window.open(`https://wa.me/919117812690?text=${encodeURIComponent(message)}`, '_blank');
 }
 
-// Auto Setup - सभी data-attributes पढ़ेगा
 function autoSetupButtons() {
     document.querySelectorAll('button').forEach(btn => {
         if(btn.textContent.includes('Add to Cart') || btn.textContent.includes('Buy Now')) {
-            let name = btn.parentElement.querySelector('h3, h4, .product-name')?.textContent || 'Product';
-            let price = parseInt(btn.parentElement.querySelector('.price, .product-price')?.textContent.replace(/[^0-9]/g, '')) || 0;
-            let stock = parseInt(btn.getAttribute('data-stock')) || 999;
+            let name = btn.parentElement.querySelector('h3, h4,.product-name')?.textContent.trim() || 'Product';
+            let price = parseInt(btn.parentElement.querySelector('.price,.product-price')?.textContent.replace(/[^0-9]/g, '')) || 0;
             let image = btn.parentElement.querySelector('img')?.src || '';
             
-            let amazon = btn.getAttribute('data-amazon') || '';
-            let flipkart = btn.getAttribute('data-flipkart') || '';
-            let meesho = btn.getAttribute('data-meesho') || '';
+            let productData = PRODUCT_LINKS[name] || {stock: 999, amazon: '', flipkart: '', meesho: '', cod: false};
             
             let buttonHTML = `
-                <button onclick="addToCart('${name}', ${price}, ${stock}, '${image}', '${amazon}', '${flipkart}', '${meesho}')" 
+                <button onclick="addToCart('${name}', ${price}, ${productData.stock}, '${image}', '${productData.amazon}', '${productData.flipkart}', '${productData.meesho}', ${productData.cod})" 
                     style="width:100%;background:#FF9900;color:white;padding:10px;border:none;border-radius:5px;cursor:pointer;font-weight:bold">
                     🛒 Add to Cart
                 </button>
@@ -384,16 +405,12 @@ function autoSetupButtons() {
     });
 }
 
-// Page Load पर चलाओ
 window.onload = function() {
     updateCartIcon();
     autoSetupButtons();
-    
-    // पुराने cart items के लिए बटन दिखाओ
     cart.forEach(item => showButtons(item.name));
 };
 
-// Modal बाहर क्लिक पर बंद
 window.onclick = function(event) {
     if(event.target.classList.contains('modal')) {
         event.target.style.display = 'none';
