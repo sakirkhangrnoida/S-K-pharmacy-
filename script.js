@@ -187,13 +187,6 @@ if(countEl) {
     countEl.innerText = totalQty;
 }
 
-
-let originalAddToCart = window.addToCart;
-window.addToCart = function(name, price) {
-    if(originalAddToCart) originalAddToCart(name, price);
-    updateCartCountFix();
-}
-
 document.addEventListener('DOMContentLoaded', updateCartCountFix);
 updateCartCountFix();
 // ========== AMAZON STYLE CART BUTTON ==========
