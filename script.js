@@ -24,66 +24,26 @@ function openModal(type) {
     overlay.style.display = 'block';
     
     if(type === 'account') {
-        title.innerText = 'My Account';
-        showAccountDetails();
-        
-    } else if(type === 'edit-profile') {
-        title.innerText = 'Edit Profile';
-        showEditProfile();
-        
-    } else if(type === 'login') {
-        title.innerText = 'Login';
-        showLoginForm();
-        
-    } else if(type === 'password') {
-        title.innerText = 'Change Password';
-        showPasswordForm();
-        
-    } else if(type === 'address') {
-        title.innerText = 'Address';
-        showAddress();
-        
-    } else if(type === 'mobile') {
-        title.innerText = 'Mobile Number';
-        showMobileNumber();
-        
-    } else if(type === 'help') {
-        title.innerText = 'Help & Support';
-        content.innerHTML = `
-            <p><b>Email:</b> support@example.com</p>
-            <p><b>Phone:</b> +91 9999999999</p>
-            <p><b>Timing:</b> 9 AM - 6 PM</p>
-        `;
-        
+        title.innerText = '👤 My Account';
+        content.innerHTML = '<p><b>Welcome!</b></p><p><b>Mobile:</b> 9258751739</p><p><b>Email:</b> sakirkhangrnoida@gmail.com</p>';
+    
     } else if(type === 'location') {
-        title.innerText = 'Our Location';
-        content.innerHTML = `
-            <p><b>Address:</b> Greater Noida, UP</p>
-            <div style="margin-top:15px;">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224346.48129412968!2d77.06889969016521!3d28.52728034379184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5a43173357b%3A0x37ffce30c87cc03f!2sNoida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1670000000000!5m2!1sen!2sin" width="100%" height="200" style="border:0; border-radius:8px;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-        `;
+        title.innerText = '📍 Our Location';
+        content.innerHTML = '<p><b>S K Pharmacy</b><br>Greater Noida, UP<br>Home Delivery Available</p>';
         
     } else if(type === 'privacy') {
-        title.innerText = 'Privacy Policy';
-        content.innerHTML = `
-            <p>We respect your privacy. Your data is encrypted and secure.</p>
-            <p>We never share your personal information with third parties.</p>
-        `;
+        title.innerText = '🔒 Privacy Policy';
+        content.innerHTML = '<p>आपका डेटा 100% सुरक्षित है। हम किसी से शेयर नहीं करते।</p>';
         
     } else if(type === 'terms') {
-        title.innerText = 'Terms & Conditions';
-        content.innerHTML = `
-            <p>By using this service, you agree to our terms.</p>
-            <p>1. Don't misuse the platform</p>
-            <p>2. Keep your password safe</p>
-            <p>3. Service provided "as is"</p>
-        `;
-        
-    } else if(type === 'settings') {
-        title.innerText = 'Settings';
-        showSettings();
+        title.innerText = '📄 Terms & Conditions';
+        content.innerHTML = '<p>1. दवाइयाँ डॉक्टर की सलाह से लें<br>2. होम डिलीवरी 2-3 घंटे में</p>';
     }
+}
+
+function closeModal() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('settingsModal').style.display = 'none';
 }
 
 function closeModal() {
