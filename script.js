@@ -182,8 +182,11 @@ document.body.classList.toggle("dark-mode");
 function updateCartCountFix() {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     let countEl = document.getElementById('cartCount');
-    if(countEl) countEl.innerText = cart.length;
+if(countEl) {
+    let totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+    countEl.innerText = totalQty;
 }
+
 
 let originalAddToCart = window.addToCart;
 window.addToCart = function(name, price) {
@@ -193,3 +196,63 @@ window.addToCart = function(name, price) {
 
 document.addEventListener('DOMContentLoaded', updateCartCountFix);
 updateCartCountFix();
+// ========== AMAZON STYLE CART BUTTON ==========
+function updateProductButton(productName) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let item = cart.find(p => p.name === productName);
+    let allBtns = document.querySelectorAll('button');
+    
+    allBtns.forEach(btn => {
+        if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${productName}'`)) {
+            if(item) {
+                // Cart में है तो + - वाला बटन दिखा
+                btn.outerHTML = `
+                <div style="display:flex; border:2px solid #FFD814; border-radius:8px; overflow:hidden; width:140px;">
+                    <button onclick="removeFromCart('${productName}')" style="background:#fff; border:none; padding:8px 12px; cursor:pointer; font-size:18px;">🗑️</button>
+                    <div style="flex:1; background:#fff; text-align:center; padding:8px 0; font-weight:600;">${item.qty} in cart</div>
+                    <button onclick="addToCart('${productName}', ${item.price})" style="background:#fff; border:none; padding:8px 12px; cursor:pointer; font-size:18px;">+</button>
+                </div>`;
+            } else {
+                // Cart में नहीं है तो Add to Cart दिखा
+                btn.outerHTML = `<button onclick="addToCart('${productName}', ${btn.dataset.price})" style="background:#FFD814; border:none; padding:10px 20px; border-radius:8px; font-weight:600; cursor:pointer;">Add to Cart</button>`;
+            }
+        }
+    });
+}
+
+// Cart से कम करने का फंक्शन
+function removeFromCart(productName) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let item = cart.find(p => p.name === productName);
+    if(item) {
+        if(item.qty > 1) {
+            item.qty--;
+        } else {
+            cart = cart.filter(p => p.name !== productName);
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCountFix();
+        updateProductButton(productName);
+    }
+}
+
+// पुराना addToCart अपडेट करो
+let originalAddToCart2 = window.addToCart;
+window.addToCart = function(name, price) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let item = cart.find(p => p.name === name);
+    if(item) {
+        item.qty++;
+    } else {
+        cart.push({name: name, price: price, qty: 1});
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCountFix();
+    updateProductButton(name);
+}
+
+// पेज लोड पे सब बटन चेक करो
+document.addEventListener('DOMContentLoaded', function() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.forEach(item => updateProductButton(item.name));
+});
