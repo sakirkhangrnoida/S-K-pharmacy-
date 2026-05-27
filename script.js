@@ -189,7 +189,7 @@ const PRODUCT_LINKS = {
         price: 299,
         mrp: 349,
         desc: "Kesh King Ayurvedic Oil एक आयुर्वेदिक हेयर ऑयल है जो 21 जड़ी-बूटियों से बना है। यह बालों का झड़ना कम करता है, डैंड्रफ हटाता है और नए बाल उगाने में मदद करता है। 100ml की बोतल। रोज रात को लगाने से 1 महीने में रिजल्ट दिखता है।",
-        image: "images/kesh-king.jpg",
+        image: "kesh-king.jpg",
         amazon: "https://share.google/nrshbLeq9nIC6AGDN",
         flipkart: "",
         meesho: "https://www.meesho.com/s/p/c7vcmm"
@@ -200,7 +200,7 @@ const PRODUCT_LINKS = {
         price: 479,
         mrp: 550,
         desc: "Himalaya Hair Zone Solution में Minoxidil 5% है जो क्लिनिकली प्रूवन है बाल दोबारा उगाने के लिए। गंजेपन और पतले बालों के लिए बेस्ट। 60ml की बोतल, दिन में 2 बार लगाएं। 3-4 महीने में नए बाल आना शुरू। डॉक्टर द्वारा रिकमेंडेड।",
-        image: "images/himalaya-hair-zone.jpg",
+        image: "himalaya-hair-zone.jpg",
         amazon: "",
         flipkart: "https://dl.flipkart.com/dl/himalaya-hair-zone-solution/p/itm089a2160a028e?pid=AYDGBPYVGERKGMFV",
         meesho: ""
@@ -211,7 +211,7 @@ const PRODUCT_LINKS = {
         price: 399,
         mrp: 499,
         desc: "Mamaearth Onion Hair Oil प्याज के रस और रेडेंसिल से बना है। बालों का टूटना रोकता है और ग्रोथ बढ़ाता है। 100% नेचुरल, सल्फेट-पैराबेन फ्री। 250ml की बोतल। हफ्ते में 3 बार मसाज करें। डैंड्रफ और सफेद बालों में भी फायदेमंद।",
-        image: "images/mamaearth-onion.jpg",
+        image: "mamaearth-onion.jpg",
         amazon: "https://amazon.in/xxx",
         flipkart: "https://flipkart.com/xxx",
         meesho: "https://meesho.com/xxx"
@@ -222,7 +222,7 @@ const PRODUCT_LINKS = {
         price: 432,
         mrp: 485,
         desc: "Indulekha Bringha Oil भृंगराज, आंवला और नीम से बना आयुर्वेदिक तेल है। सेल्फी ब्रश के साथ आता है जिससे जड़ों तक तेल पहुंचता है। बाल काले, घने और मजबूत बनाता है। 100ml की बोतल। 4 महीने का कोर्स करने से गंजेपन में फायदा।",
-        image: "images/indulekha.jpg",
+        image: "indulekha.jpg",
         amazon: "",
         flipkart: "",
         meesho: ""
@@ -233,7 +233,7 @@ const PRODUCT_LINKS = {
         price: 349,
         mrp: 399,
         desc: "WOW Onion Black Seed Hair Oil प्याज, कलोंजी और 8 नेचुरल ऑयल का ब्लेंड है। बालों को जड़ से पोषण देता है। 200ml की बोतल। केमिकल फ्री, वीगन फॉर्मूला। डैमेज्ड बालों को रिपेयर करता है और शाइन लाता है। रोजाना इस्तेमाल के लिए सेफ।",
-        image: "images/wow-oil.jpg",
+        image: "wow-oil.jpg",
         amazon: "",
         flipkart: "",
         meesho: ""
