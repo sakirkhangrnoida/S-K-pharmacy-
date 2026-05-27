@@ -178,3 +178,18 @@ function toggleDarkMode(){
 document.body.classList.toggle("dark-mode");
 
 }
+// ========== काउंट ठीक करने का कोड ==========
+function updateCartCountFix() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let countEl = document.getElementById('cartCount');
+    if(countEl) countEl.innerText = cart.length;
+}
+
+let originalAddToCart = window.addToCart;
+window.addToCart = function(name, price) {
+    if(originalAddToCart) originalAddToCart(name, price);
+    updateCartCountFix();
+}
+
+document.addEventListener('DOMContentLoaded', updateCartCountFix);
+updateCartCountFix();
