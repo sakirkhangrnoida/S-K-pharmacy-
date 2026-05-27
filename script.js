@@ -179,42 +179,90 @@ document.body.classList.toggle("dark-mode");
 
 }
 
-// ========== AMAZON STYLE CART SYSTEM START ==========
+// ========== AMAZON STYLE CART SYSTEM + PRODUCT DETAIL START ==========
 
-// 👇👇👇 यहाँ अपने सारे प्रोडक्ट के लिंक + COD डाल दे 👇👇👇
+// 👇👇👇 यहाँ अपने सारे प्रोडक्ट के लिंक + फुल डिटेल डाल दे 👇👇👇
 const PRODUCT_LINKS = {
     "Kesh King Ayurvedic Oil": {
         stock: 10,
-        cod: true, // COD है या नहीं
+        cod: true,
+        price: 299,
+        mrp: 349,
+        desc: "Kesh King Ayurvedic Oil एक आयुर्वेदिक हेयर ऑयल है जो 21 जड़ी-बूटियों से बना है। यह बालों का झड़ना कम करता है, डैंड्रफ हटाता है और नए बाल उगाने में मदद करता है। 100ml की बोतल। रोज रात को लगाने से 1 महीने में रिजल्ट दिखता है।",
+        image: "images/kesh-king.jpg",
         amazon: "https://share.google/nrshbLeq9nIC6AGDN",
-        flipkart: "", 
+        flipkart: "",
         meesho: "https://www.meesho.com/s/p/c7vcmm"
     },
     "Himalaya Hair Zone Solution": {
         stock: 25,
-        cod: true, // Flipkart वाले स्क्रीनशॉट में COD है
+        cod: true,
+        price: 479,
+        mrp: 550,
+        desc: "Himalaya Hair Zone Solution में Minoxidil 5% है जो क्लिनिकली प्रूवन है बाल दोबारा उगाने के लिए। गंजेपन और पतले बालों के लिए बेस्ट। 60ml की बोतल, दिन में 2 बार लगाएं। 3-4 महीने में नए बाल आना शुरू। डॉक्टर द्वारा रिकमेंडेड।",
+        image: "images/himalaya-hair-zone.jpg",
         amazon: "",
         flipkart: "https://dl.flipkart.com/dl/himalaya-hair-zone-solution/p/itm089a2160a028e?pid=AYDGBPYVGERKGMFV",
         meesho: ""
     },
     "Mamaearth Onion Hair Oil": {
         stock: 15,
-        cod: false, // COD नहीं है इसपे
+        cod: false,
+        price: 399,
+        mrp: 499,
+        desc: "Mamaearth Onion Hair Oil प्याज के रस और रेडेंसिल से बना है। बालों का टूटना रोकता है और ग्रोथ बढ़ाता है। 100% नेचुरल, सल्फेट-पैराबेन फ्री। 250ml की बोतल। हफ्ते में 3 बार मसाज करें। डैंड्रफ और सफेद बालों में भी फायदेमंद।",
+        image: "images/mamaearth-onion.jpg",
         amazon: "https://amazon.in/xxx",
         flipkart: "https://flipkart.com/xxx",
         meesho: "https://meesho.com/xxx"
+    },
+    "Indulekha Bringha Oil": {
+        stock: 8,
+        cod: true,
+        price: 432,
+        mrp: 485,
+        desc: "Indulekha Bringha Oil भृंगराज, आंवला और नीम से बना आयुर्वेदिक तेल है। सेल्फी ब्रश के साथ आता है जिससे जड़ों तक तेल पहुंचता है। बाल काले, घने और मजबूत बनाता है। 100ml की बोतल। 4 महीने का कोर्स करने से गंजेपन में फायदा।",
+        image: "images/indulekha.jpg",
+        amazon: "",
+        flipkart: "",
+        meesho: ""
+    },
+    "WOW Skin Science Hair Oil": {
+        stock: 20,
+        cod: true,
+        price: 349,
+        mrp: 399,
+        desc: "WOW Onion Black Seed Hair Oil प्याज, कलोंजी और 8 नेचुरल ऑयल का ब्लेंड है। बालों को जड़ से पोषण देता है। 200ml की बोतल। केमिकल फ्री, वीगन फॉर्मूला। डैमेज्ड बालों को रिपेयर करता है और शाइन लाता है। रोजाना इस्तेमाल के लिए सेफ।",
+        image: "images/wow-oil.jpg",
+        amazon: "",
+        flipkart: "",
+        meesho: ""
     }
 };
-// 👆👆👆 बस इतना ही अपडेट करना है आगे 👆👆
+// 👆👆👆 नया प्रोडक्ट जोड़ना है तो ऊपर वाला फॉर्मेट कॉपी करके पेस्ट कर दे 👆👆
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+// Cart Icon
 let cartIcon = document.createElement('div');
 cartIcon.id = 'cartIcon';
 cartIcon.innerHTML = '🛒';
 cartIcon.style.cssText = 'position:fixed;top:15px;left:60px;background:#25D366;color:white;padding:10px 14px;border-radius:50px;cursor:pointer;font-size:16px;z-index:999;box-shadow:0 4px 8px rgba(0,0,0,0.2);display:flex;align-items:center;gap:5px';
 document.body.appendChild(cartIcon);
 
+// Product Detail Modal
+let productModal = document.createElement('div');
+productModal.id = 'productModal';
+productModal.innerHTML = `
+<div class="modal" style="display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.7);overflow:auto">
+    <div class="modal-content" style="background:#fff;margin:30px auto;padding:20px;border-radius:10px;width:90%;max-width:600px;position:relative">
+        <span onclick="closeProductModal()" style="position:absolute;top:10px;right:15px;font-size:28px;cursor:pointer;color:#aaa">&times;</span>
+        <div id="productDetailContent"></div>
+    </div>
+</div>`;
+document.body.appendChild(productModal);
+
+// Cart Modal
 let cartModal = document.createElement('div');
 cartModal.id = 'cartModal';
 cartModal.style.display = 'none';
@@ -238,6 +286,7 @@ cartModal.innerHTML = `
 </div>
 <style>
 @keyframes slideDown{from{transform:translateY(-50px);opacity:0}to{transform:translateY(0);opacity:1}}
+.product-card img,.product-card h3{cursor:pointer}
 </style>
 `;
 document.body.appendChild(cartModal);
@@ -246,6 +295,48 @@ cartIcon.onclick = function() {
     showCart();
     document.querySelector('#cartModal.modal').style.display = 'block';
 };
+
+function showProductDetail(name) {
+    let p = PRODUCT_LINKS[name];
+    if(!p) return;
+
+    let discount = Math.round((p.mrp - p.price) / p.mrp * 100);
+    let codBadge = p.cod? `<span style="background:#388E3C;color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:bold;margin-left:10px">COD Available</span>` : '';
+
+    let html = `
+        <div style="display:flex;gap:20px;flex-wrap:wrap">
+            <img src="${p.image}" style="width:250px;height:250px;object-fit:cover;border-radius:8px;border:1px solid #eee">
+            <div style="flex:1;min-width:250px">
+                <h2 style="margin:0 0 10px 0">${name} ${codBadge}</h2>
+                <div style="margin:10px 0">
+                    <span style="font-size:24px;font-weight:bold;color:#E47911">₹${p.price}</span>
+                    <span style="text-decoration:line-through;color:#888;margin-left:10px">₹${p.mrp}</span>
+                    <span style="color:#388E3C;margin-left:10px;font-weight:bold">${discount}% off</span>
+                </div>
+                <p style="color:#555;line-height:1.6;font-size:14px">${p.desc}</p>
+                <p style="color:${p.stock > 5? '#388E3C' : '#ff4444'};font-weight:bold;margin-top:15px">
+                    ${p.stock > 0? `Only ${p.stock} left in stock` : 'Out of Stock'}
+                </p>
+                <div id="modalAddToCartBtn" style="margin-top:20px"></div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('productDetailContent').innerHTML = html;
+    document.querySelector('#productModal.modal').style.display = 'block';
+
+    let modalBtn = `
+        <button onclick="addToCart('${name}', ${p.price}, ${p.stock}, '${p.image}', '${p.amazon}', '${p.flipkart}', '${p.meesho}', ${p.cod});closeProductModal()"
+            style="width:100%;background:#FF9900;color:white;padding:12px;border:none;border-radius:5px;cursor:pointer;font-weight:bold;font-size:16px">
+            🛒 Add to Cart
+        </button>
+    `;
+    document.getElementById('modalAddToCartBtn').innerHTML = modalBtn;
+}
+
+function closeProductModal() {
+    document.querySelector('#productModal.modal').style.display = 'none';
+}
 
 function showCart() {
     let itemsDiv = document.getElementById('cartItems');
@@ -336,13 +427,13 @@ function removeFromCart(productName) {
 function showButtons(productName) {
     let item = cart.find(i => i.name === productName);
     if(!item) return;
-    
+
     let codBadge = item.cod? `<span style="background:#388E3C;color:white;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:bold">COD</span>` : '';
     let amazonBtn = item.amazon? `<a href="${item.amazon}" target="_blank" style="background:#FF9900;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Amazon</a>` : '';
     let primeBtn = item.amazon? `<a href="https://www.amazon.in/prime" target="_blank" style="background:#00A8E1;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Join Prime</a>` : '';
     let flipkartBtn = item.flipkart? `<a href="${item.flipkart}" target="_blank" style="background:#2874F0;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Flipkart</a>` : '';
     let meeshoBtn = item.meesho? `<a href="${item.meesho}" target="_blank" style="background:#F43397;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Meesho</a>` : '';
-    
+
     let html = `
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px;border:2px solid #FF9900;border-radius:8px;background:#FFF9E6;flex-wrap:wrap">
             <button onclick="decreaseQuantity('${productName}')" style="background:#E47911;color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer">🗑️</button>
@@ -355,10 +446,12 @@ function showButtons(productName) {
             ${meeshoBtn}
         </div>
     `;
-    
-    document.querySelectorAll('button').forEach(btn => {
-        if(btn.onclick && btn.onclick.toString().includes(productName)) {
-            btn.outerHTML = html;
+
+    document.querySelectorAll('.product-card').forEach(card => {
+        let h3 = card.querySelector('h3');
+        if(h3 && h3.textContent.trim() === productName) {
+            let btn = card.querySelector('button');
+            if(btn) btn.outerHTML = html;
         }
     });
 }
@@ -386,16 +479,22 @@ function checkout() {
 }
 
 function autoSetupButtons() {
-    document.querySelectorAll('button').forEach(btn => {
-        if(btn.textContent.includes('Add to Cart') || btn.textContent.includes('Buy Now')) {
-            let name = btn.parentElement.querySelector('h3, h4,.product-name')?.textContent.trim() || 'Product';
-            let price = parseInt(btn.parentElement.querySelector('.price,.product-price')?.textContent.replace(/[^0-9]/g, '')) || 0;
-            let image = btn.parentElement.querySelector('img')?.src || '';
-            
-            let productData = PRODUCT_LINKS[name] || {stock: 999, amazon: '', flipkart: '', meesho: '', cod: false};
-            
+    document.querySelectorAll('.product-card').forEach(card => {
+        let h3 = card.querySelector('h3');
+        let img = card.querySelector('img');
+        let btn = card.querySelector('button');
+
+        if(h3 && btn && (btn.textContent.includes('Add to Cart') || btn.textContent.includes('Buy Now'))) {
+            let name = h3.textContent.trim();
+            let productData = PRODUCT_LINKS[name];
+
+            if(!productData) return;
+
+            if(img) img.onclick = () => showProductDetail(name);
+            if(h3) h3.onclick = () => showProductDetail(name);
+
             let buttonHTML = `
-                <button onclick="addToCart('${name}', ${price}, ${productData.stock}, '${image}', '${productData.amazon}', '${productData.flipkart}', '${productData.meesho}', ${productData.cod})" 
+                <button onclick="addToCart('${name}', ${productData.price}, ${productData.stock}, '${productData.image}', '${productData.amazon}', '${productData.flipkart}', '${productData.meesho}', ${productData.cod})"
                     style="width:100%;background:#FF9900;color:white;padding:10px;border:none;border-radius:5px;cursor:pointer;font-weight:bold">
                     🛒 Add to Cart
                 </button>
@@ -416,4 +515,4 @@ window.onclick = function(event) {
         event.target.style.display = 'none';
     }
 };
-// ========== AMAZON STYLE CART SYSTEM END ==========
+// ========== AMAZON STYLE CART SYSTEM + PRODUCT DETAIL END ==========
