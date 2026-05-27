@@ -178,211 +178,225 @@ function toggleDarkMode(){
 document.body.classList.toggle("dark-mode");
 
 }
-// ========= AUTO SHOPPING CART + AMAZON BUTTON - FIXED =========
-(function() {
-    // 1. Cart का HTML ऑटो बना दो
-    if (!document.getElementById('cartIcon')) {
-        let cartHTML = `
-        <div id="cartIcon" onclick="openCartAuto()">
-            🛒 <span id="cartCount">0</span>
+
+// ========== AMAZON STYLE CART SYSTEM START ==========
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+// Cart Icon बनाओ
+let cartIcon = document.createElement('div');
+cartIcon.id = 'cartIcon';
+cartIcon.innerHTML = '🛒';
+cartIcon.style.cssText = 'position:fixed;top:15px;left:60px;background:#25D366;color:white;padding:10px 14px;border-radius:50px;cursor:pointer;font-size:16px;z-index:999;box-shadow:0 4px 8px rgba(0,0,0,0.2);display:flex;align-items:center;gap:5px';
+document.body.appendChild(cartIcon);
+
+// Cart Modal बनाओ
+let cartModal = document.createElement('div');
+cartModal.id = 'cartModal';
+cartModal.style.display = 'none';
+cartModal.innerHTML = `
+<div class="modal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.7);overflow:auto">
+    <div class="modal-content" style="background:#fff;margin:50px auto;padding:20px;border-radius:10px;width:90%;max-width:500px;position:relative;animation:slideDown 0.3s">
+        <span onclick="closeCart()" style="position:absolute;top:10px;right:15px;font-size:28px;cursor:pointer;color:#aaa">&times;</span>
+        <h2>Your Cart</h2>
+        <div id="cartItems"></div>
+        <div style="border-top:2px solid #eee;margin-top:15px;padding-top:15px">
+            <h3>Total: ₹<span id="cartTotal">0</span></h3>
+            <button onclick="checkout()" style="width:100%;background:#25D366;color:white;padding:12px;border:none;border-radius:5px;font-size:16px;cursor:pointer;margin-top:10px;font-weight:bold">Checkout on WhatsApp</button>
         </div>
+    </div>
+</div>
+<style>
+@keyframes slideDown{from{transform:translateY(-50px);opacity:0}to{transform:translateY(0);opacity:1}}
+</style>
+`;
+document.body.appendChild(cartModal);
 
-        <div id="cartModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeCartAuto()">&times;</span>
-                <h2>Your Cart</h2>
-                <div id="cartItems"></div>
-                <div id="cartTotal">
-                    <h3>Total: ₹<span id="totalAmount">0</span></h3>
+// Cart Icon क्लिक
+cartIcon.onclick = function() {
+    showCart();
+    document.querySelector('#cartModal .modal').style.display = 'block';
+};
+
+// Cart दिखाओ
+function showCart() {
+    let itemsDiv = document.getElementById('cartItems');
+    let total = 0;
+    
+    if(cart.length === 0) {
+        itemsDiv.innerHTML = '<p style="text-align:center;color:#888;padding:20px">Your cart is empty</p>';
+    } else {
+        itemsDiv.innerHTML = cart.map(item => {
+            total += item.price * item.quantity;
+            return `
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid #eee">
+                <img src="${item.image}" style="width:60px;height:60px;object-fit:cover;border-radius:5px">
+                <div style="flex:1">
+                    <div style="font-weight:bold">${item.name}</div>
+                    <div style="color:#E47911">₹${item.price} x ${item.quantity}</div>
                 </div>
-                <button id="checkoutBtn" onclick="checkoutWhatsAppAuto()">Checkout on WhatsApp</button>
+                <button onclick="removeFromCart('${item.name}')" style="background:#ff4444;color:white;border:none;padding:5px 10px;border-radius:3px;cursor:pointer">Remove</button>
             </div>
-        </div>`;
-        document.body.insertAdjacentHTML('beforeend', cartHTML);
+            `;
+        }).join('');
     }
+    document.getElementById('cartTotal').textContent = total;
+}
 
-    // 2. Cart की CSS ऑटो डाल दो
-    let cartCSS = `
-    #cartIcon{position:fixed;top:20px;right:20px;background:#25D366;color:white;padding:12px 16px;border-radius:50px;cursor:pointer;font-size:18px;z-index:999;box-shadow:0 4px 8px rgba(0,0,0,0.2)}
-    #cartCount{background:red;border-radius:50%;padding:2px 6px;font-size:12px;margin-left:4px}
-   .modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5)}
-   .modal-content{background:#fff;margin:5% auto;padding:20px;border-radius:10px;width:90%;max-width:500px;position:relative}
-   .cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #ddd}
-   .cart-item button{background:red;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer}
-    #checkoutBtn{width:100%;padding:15px;background:#25D366;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;margin-top:10px}
-   .qty-controls{display:flex;border:2px solid #ff9900;border-radius:8px;overflow:hidden;height:40px;max-width:200px;margin-top:8px}
-   .qty-controls button{background:#ff9900;color:#fff;border:none;width:40px;font-size:20px;cursor:pointer}
-   .qty-controls div{flex:1;background:#fff;text-align:center;line-height:40px;font-weight:bold}
-   .external-links{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-   .external-links a{padding:8px 12px;border-radius:6px;text-decoration:none;font-size:13px;color:#fff}
-   .prime-link{display:block;margin-top:8px;color:#007185;font-size:13px;text-decoration:none}
-    `;
-    let styleSheet = document.createElement("style");
-    styleSheet.innerText = cartCSS;
-    document.head.appendChild(styleSheet);
+// Cart बंद करो
+function closeCart() {
+    document.querySelector('#cartModal .modal').style.display = 'none';
+}
 
-    // 3. Cart का दिमाग + Qty + Stock
-    let cart = JSON.parse(localStorage.getItem('cartAuto')) || [];
+// Cart Icon अपडेट
+function updateCartIcon() {
+    let count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartIcon.innerHTML = `🛒 <span style="background:#E47911;border-radius:50%;padding:2px 6px;font-size:12px">${count}</span>`;
+}
 
-    function updateCartCount() {
-        let totalQty = cart.reduce(function(sum, item) {
-            return sum + (item.qty || 1);
-        }, 0);
-        document.getElementById('cartCount').innerText = totalQty;
-    }
-
-    function updateProductButton(productName, price, stock) {
-        let item = cart.find(function(p) { return p.name === productName; });
-        let allBtns = document.querySelectorAll('[data-product="' + productName + '"]');
-
-        allBtns.forEach(function(btn) {
-            let container = btn.parentNode;
-            let existingQty = container.querySelector('.qty-controls');
-            if(existingQty) existingQty.remove();
-
-            if(item) {
-                btn.style.display = 'none';
-                let qtyDiv = document.createElement('div');
-                qtyDiv.className = 'qty-controls';
-                qtyDiv.innerHTML = '<button onclick="removeFromCartAuto(\'' + productName + '\')">🗑️</button><div>' + item.qty + ' in cart</div><button onclick="addToCartAuto(\'' + productName + '\', ' + price + ', ' + stock + ')">+</button>';
-                container.appendChild(qtyDiv);
-            } else {
-                btn.style.display = 'block';
-            }
-        });
-    }
-
-    window.addToCartAuto = function(name, price, stock) {
-        stock = parseInt(stock) || 999;
-        let item = cart.find(function(p) { return p.name === name; });
-
-        if(item) {
-            if(item.qty < stock) {
-                item.qty++;
-            } else {
-                alert('Sorry, only ' + stock + ' items in stock!');
-                return;
-            }
-        } else {
-            cart.push({name: name, price: parseInt(price), qty: 1, stock: stock});
-        }
-
-        localStorage.setItem('cartAuto', JSON.stringify(cart));
-        updateCartCount();
-        updateProductButton(name, price, stock);
-    }
-
-    window.removeFromCartAuto = function(productName) {
-        let item = cart.find(function(p) { return p.name === productName; });
-        if(item) {
-            if(item.qty > 1) {
-                item.qty--;
-            } else {
-                cart = cart.filter(function(p) { return p.name!== productName; });
-            }
-        }
-        localStorage.setItem('cartAuto', JSON.stringify(cart));
-        updateCartCount();
-        updateProductButton(productName, item? item.price : 0, item? item.stock : 999);
-    }
-
-    window.openCartAuto = function() {
-        let cartDiv = document.getElementById('cartItems');
-        cartDiv.innerHTML = '';
-        let total = 0;
-
-        if(cart.length === 0) {
-            cartDiv.innerHTML = '<p>Cart is empty</p>';
-        } else {
-            cart.forEach(function(item, index) {
-                total += item.price * item.qty;
-                cartDiv.innerHTML += '<div class="cart-item"><span>' + item.name + ' - ₹' + item.price + ' x ' + item.qty + '</span><button onclick="removeItemCompletely(' + index + ')">Remove</button></div>';
-            });
-        }
-
-        document.getElementById('totalAmount').innerText = total;
-        document.getElementById('cartModal').style.display = 'block';
-    }
-
-    window.closeCartAuto = function() {
-        document.getElementById('cartModal').style.display = 'none';
-    }
-
-    window.removeItemCompletely = function(index) {
-        let removedItem = cart[index];
-        cart.splice(index, 1);
-        localStorage.setItem('cartAuto', JSON.stringify(cart));
-        updateCartCount();
-        openCartAuto();
-        updateProductButton(removedItem.name, removedItem.price, removedItem.stock);
-    }
-
-    window.checkoutWhatsAppAuto = function() {
-        if(cart.length === 0) {
-            alert('Cart is empty!');
+// Add to Cart - सभी लिंक के साथ
+function addToCart(name, price, stock, image, amazon, flipkart, meesho) {
+    let item = cart.find(i => i.name === name);
+    if(item) {
+        if(item.quantity < stock) item.quantity++;
+        else {
+            alert(`Sorry! Only ${stock} items in stock`);
             return;
         }
-
-        let phone = "919258751739";
-        let message = `Hi S K Pharmacy!%0A%0AMy Order:%0A`;
-        let total = 0;
-
-        cart.forEach(function(item, i) {
-            message += `${i+1}. ${item.name} - ₹${item.price} x ${item.qty} = ₹${item.price * item.qty}%0A`;
-            total += item.price * item.qty;
-        });
-
-        message += `%0A*Total: ₹${total}*%0A%0APlease confirm my order.`;
-        window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
-
-        cart = [];
-        localStorage.removeItem('cartAuto');
-        updateCartCount();
-        closeCartAuto();
-        location.reload();
-    }
-
-    // 4. प्रोडक्ट कार्ड ऑटो सेटअप + Amazon/Flipkart/Meesho लिंक
-    function autoSetupButtons() {
-        document.querySelectorAll('.product-card,.card,.product').forEach(function(card) {
-            let nameEl = card.querySelector('h3, h4,.product-name,.product-title');
-            let priceEl = card.querySelector('.price,.product-price');
-            let btn = card.querySelector('button');
-
-            if(nameEl && priceEl && btn &&!btn.getAttribute('data-setup')) {
-                let name = nameEl.innerText.trim();
-                let price = priceEl.innerText.replace(/[^0-9]/g, '');
-                let stock = btn.getAttribute('data-stock') || 999;
-                let amazonLink = btn.getAttribute('data-amazon') || '';
-                let flipkartLink = btn.getAttribute('data-flipkart') || '';
-                let meeshoLink = btn.getAttribute('data-meesho') || '';
-
-                btn.setAttribute('data-product', name);
-                btn.setAttribute('data-setup', 'true');
-                btn.innerText = 'Add to Cart';
-                btn.style.cssText = 'background:#ff9900;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;width:100%';
-                btn.setAttribute('onclick', `addToCartAuto('${name}', '${price}', '${stock}')`);
-
-                let linksHTML = '<div class="external-links">';
-                if(amazonLink) linksHTML += `<a href="${amazonLink}" target="_blank" style="background:#232F3E">Buy on Amazon</a>`;
-                if(flipkartLink) linksHTML += `<a href="${flipkartLink}" target="_blank" style="background:#2874F0">Buy on Flipkart</a>`;
-                if(meeshoLink) linksHTML += `<a href="${meeshoLink}" target="_blank" style="background:#F43397">Buy on Meesho</a>`;
-                linksHTML += '</div>';
-
-                if(amazonLink || flipkartLink || meeshoLink) {
-                    btn.insertAdjacentHTML('afterend', linksHTML + '<a href="https://www.amazon.in/amazonprime" target="_blank" class="prime-link">👑 Join Amazon Prime for Free Delivery</a>');
-                }
-
-                updateProductButton(name, price, stock);
-            }
-        });
-    }
-
-    if(document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', autoSetupButtons);
     } else {
-        autoSetupButtons();
+        cart.push({name, price, stock, image, amazon, flipkart, meesho, quantity: 1});
     }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartIcon();
+    showButtons(name);
+}
 
-    updateCartCount();
-})();
+// Quantity बढ़ाओ
+function increaseQuantity(productName) {
+    let item = cart.find(i => i.name === productName);
+    if(item && item.quantity < item.stock) {
+        item.quantity++;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartIcon();
+        showButtons(productName);
+        showCart();
+    } else {
+        alert(`Sorry! Only ${item.stock} items in stock`);
+    }
+}
+
+// Quantity घटाओ
+function decreaseQuantity(productName) {
+    let item = cart.find(i => i.name === productName);
+    if(item) {
+        item.quantity--;
+        if(item.quantity === 0) {
+            cart = cart.filter(i => i.name !== productName);
+            resetButton(productName);
+        } else {
+            showButtons(productName);
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartIcon();
+        showCart();
+    }
+}
+
+// Cart से हटाओ
+function removeFromCart(productName) {
+    cart = cart.filter(i => i.name !== productName);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartIcon();
+    showCart();
+    resetButton(productName);
+}
+
+// Amazon स्टाइल बटन दिखाओ - सभी लिंक के साथ
+function showButtons(productName) {
+    let item = cart.find(i => i.name === productName);
+    if(!item) return;
+    
+    let amazonBtn = item.amazon ? `<a href="${item.amazon}" target="_blank" style="background:#FF9900;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Amazon</a>` : '';
+    let primeBtn = item.amazon ? `<a href="https://www.amazon.in/prime" target="_blank" style="background:#00A8E1;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Join Prime</a>` : '';
+    let flipkartBtn = item.flipkart ? `<a href="${item.flipkart}" target="_blank" style="background:#2874F0;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Flipkart</a>` : '';
+    let meeshoBtn = item.meesho ? `<a href="${item.meesho}" target="_blank" style="background:#F43397;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Meesho</a>` : '';
+    
+    let html = `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px;border:2px solid #FF9900;border-radius:8px;background:#FFF9E6;flex-wrap:wrap">
+            <button onclick="decreaseQuantity('${productName}')" style="background:#E47911;color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer">🗑️</button>
+            <span style="font-weight:bold">${item.quantity} in cart</span>
+            <button onclick="increaseQuantity('${productName}')" style="background:#E47911;color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer">+</button>
+            ${amazonBtn}
+            ${primeBtn}
+            ${flipkartBtn}
+            ${meeshoBtn}
+        </div>
+    `;
+    
+    document.querySelectorAll('button').forEach(btn => {
+        if(btn.onclick && btn.onclick.toString().includes(productName)) {
+            btn.outerHTML = html;
+        }
+    });
+}
+
+// वापस Add to Cart बटन लाओ
+function resetButton(productName) {
+    location.reload();
+}
+
+// Checkout WhatsApp
+function checkout() {
+    if(cart.length === 0) {
+        alert('Cart is empty!');
+        return;
+    }
+    let message = 'Hello S K Pharmacy! I want to order:\n\n';
+    let total = 0;
+    cart.forEach(item => {
+        message += `${item.name} x ${item.quantity} = ₹${item.price * item.quantity}\n`;
+        total += item.price * item.quantity;
+    });
+    message += `\nTotal: ₹${total}\n\nPlease confirm my order.`;
+    window.open(`https://wa.me/919117812690?text=${encodeURIComponent(message)}`, '_blank');
+}
+
+// Auto Setup - सभी data-attributes पढ़ेगा
+function autoSetupButtons() {
+    document.querySelectorAll('button').forEach(btn => {
+        if(btn.textContent.includes('Add to Cart') || btn.textContent.includes('Buy Now')) {
+            let name = btn.parentElement.querySelector('h3, h4, .product-name')?.textContent || 'Product';
+            let price = parseInt(btn.parentElement.querySelector('.price, .product-price')?.textContent.replace(/[^0-9]/g, '')) || 0;
+            let stock = parseInt(btn.getAttribute('data-stock')) || 999;
+            let image = btn.parentElement.querySelector('img')?.src || '';
+            
+            let amazon = btn.getAttribute('data-amazon') || '';
+            let flipkart = btn.getAttribute('data-flipkart') || '';
+            let meesho = btn.getAttribute('data-meesho') || '';
+            
+            let buttonHTML = `
+                <button onclick="addToCart('${name}', ${price}, ${stock}, '${image}', '${amazon}', '${flipkart}', '${meesho}')" 
+                    style="width:100%;background:#FF9900;color:white;padding:10px;border:none;border-radius:5px;cursor:pointer;font-weight:bold">
+                    🛒 Add to Cart
+                </button>
+            `;
+            btn.outerHTML = buttonHTML;
+        }
+    });
+}
+
+// Page Load पर चलाओ
+window.onload = function() {
+    updateCartIcon();
+    autoSetupButtons();
+    
+    // पुराने cart items के लिए बटन दिखाओ
+    cart.forEach(item => showButtons(item.name));
+};
+
+// Modal बाहर क्लिक पर बंद
+window.onclick = function(event) {
+    if(event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+    }
+};
+// ========== AMAZON STYLE CART SYSTEM END ==========
