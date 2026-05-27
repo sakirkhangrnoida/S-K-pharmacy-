@@ -178,74 +178,139 @@ function toggleDarkMode(){
 document.body.classList.toggle("dark-mode");
 
 }
-// ========== काउंट ठीक करने का कोड ==========
-function updateCartCountFix() {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let countEl = document.getElementById('cartCount');
-if(countEl) {
-    let totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
-    countEl.innerText = totalQty;
-}
+// ========== AUTO SHOPPING CART - बस पेस्ट कर दे ==========
+(function() {
+    // 1. Cart का HTML ऑटो बना दो
+    if (!document.getElementById('cartIcon')) {
+        let cartHTML = `
+        <div id="cartIcon" onclick="openCartAuto()">
+            🛒 <span id="cartCount">0</span>
+        </div>
+        
+        <div id="cartModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeCartAuto()">&times;</span>
+                <h2>Your Cart</h2>
+                <div id="cartItems"></div>
+                <div id="cartTotal">
+                    <h3>Total: ₹<span id="totalAmount">0</span></h3>
+                </div>
+                <button id="checkoutBtn" onclick="checkoutWhatsAppAuto()">Checkout on WhatsApp</button>
+            </div>
+        </div>`;
+        document.body.insertAdjacentHTML('beforeend', cartHTML);
+    }
 
-document.addEventListener('DOMContentLoaded', updateCartCountFix);
-updateCartCountFix();
-// ========== AMAZON STYLE CART BUTTON ==========
-function updateProductButton(productName) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let item = cart.find(p => p.name === productName);
-    let allBtns = document.querySelectorAll('button');
+    // 2. Cart की CSS ऑटो डाल दो
+    let cartCSS = `
+    #cartIcon{position:fixed;top:20px;right:20px;background:#25D366;color:white;padding:12px 16px;border-radius:50px;cursor:pointer;font-size:18px;z-index:999;box-shadow:0 4px 8px rgba(0,0,0,0.2)}
+    #cartCount{background:red;border-radius:50%;padding:2px 6px;font-size:12px;margin-left:4px}
+    #cartItems{max-height:300px;overflow-y:auto;margin:20px 0}
+    .cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #ddd}
+    .cart-item button{background:red;color:white;border:none;padding:5px 10px;border-radius:4px;cursor:pointer}
+    #checkoutBtn{width:100%;padding:15px;background:#25D366;color:white;border:none;border-radius:8px;font-size:16px;cursor:pointer;margin-top:10px}
+    `;
+    let styleSheet = document.createElement("style");
+    styleSheet.innerText = cartCSS;
+    document.head.appendChild(styleSheet);
+
+    // 3. Cart का दिमाग
+    let cart = JSON.parse(localStorage.getItem('cartAuto')) || [];
     
-    allBtns.forEach(btn => {
-        if(btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${productName}'`)) {
-            if(item) {
-                // Cart में है तो + - वाला बटन दिखा
-                btn.outerHTML = `
-                <div style="display:flex; border:2px solid #FFD814; border-radius:8px; overflow:hidden; width:140px;">
-                    <button onclick="removeFromCart('${productName}')" style="background:#fff; border:none; padding:8px 12px; cursor:pointer; font-size:18px;">🗑️</button>
-                    <div style="flex:1; background:#fff; text-align:center; padding:8px 0; font-weight:600;">${item.qty} in cart</div>
-                    <button onclick="addToCart('${productName}', ${item.price})" style="background:#fff; border:none; padding:8px 12px; cursor:pointer; font-size:18px;">+</button>
-                </div>`;
-            } else {
-                // Cart में नहीं है तो Add to Cart दिखा
-                btn.outerHTML = `<button onclick="addToCart('${productName}', ${btn.dataset.price})" style="background:#FFD814; border:none; padding:10px 20px; border-radius:8px; font-weight:600; cursor:pointer;">Add to Cart</button>`;
-            }
-        }
-    });
-}
+    function updateCartCount() {
+        document.getElementById('cartCount').innerText = cart.length;
+    }
 
-// Cart से कम करने का फंक्शन
-function removeFromCart(productName) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let item = cart.find(p => p.name === productName);
-    if(item) {
-        if(item.qty > 1) {
-            item.qty--;
+    window.addToCartAuto = function(name, price) {
+        cart.push({name: name, price: parseInt(price)});
+        localStorage.setItem('cartAuto', JSON.stringify(cart));
+        updateCartCount();
+        alert(name + ' added to cart!');
+    }
+
+    window.openCartAuto = function() {
+        let cartDiv = document.getElementById('cartItems');
+        cartDiv.innerHTML = '';
+        let total = 0;
+        
+        if(cart.length === 0) {
+            cartDiv.innerHTML = '<p>Cart is empty</p>';
         } else {
-            cart = cart.filter(p => p.name !== productName);
+            cart.forEach((item, index) => {
+                total += item.price;
+                cartDiv.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.name} - ₹${item.price}</span>
+                        <button onclick="removeFromCartAuto(${index})">Remove</button>
+                    </div>
+                `;
+            });
         }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartCountFix();
-        updateProductButton(productName);
+        
+        document.getElementById('totalAmount').innerText = total;
+        document.getElementById('cartModal').style.display = 'block';
     }
-}
 
-// पुराना addToCart अपडेट करो
-let originalAddToCart2 = window.addToCart;
-window.addToCart = function(name, price) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let item = cart.find(p => p.name === name);
-    if(item) {
-        item.qty++;
+    window.closeCartAuto = function() {
+        document.getElementById('cartModal').style.display = 'none';
+    }
+
+    window.removeFromCartAuto = function(index) {
+        cart.splice(index, 1);
+        localStorage.setItem('cartAuto', JSON.stringify(cart));
+        updateCartCount();
+        openCartAuto();
+    }
+
+    window.checkoutWhatsAppAuto = function() {
+        if(cart.length === 0) {
+            alert('Cart is empty!');
+            return;
+        }
+        
+        let phone = "919258751739"; // अपना नंबर डाल दे
+        let message = `Hi S K Pharmacy!%0A%0AMy Order:%0A`;
+        let total = 0;
+        
+        cart.forEach((item, i) => {
+            message += `${i+1}. ${item.name} - ₹${item.price}%0A`;
+            total += item.price;
+        });
+        
+        message += `%0A*Total: ₹${total}*%0A%0APlease confirm my order.`;
+        window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+        
+        cart = [];
+        localStorage.removeItem('cartAuto');
+        updateCartCount();
+        closeCartAuto();
+    }
+
+    // 4. सारे प्रोडक्ट कार्ड को ऑटो पकड़ो और बटन बदल दो
+    function autoSetupButtons() {
+        // तेरी साइट के हर प्रोडक्ट कार्ड को ढूंढो
+        document.querySelectorAll('.product-card, .card, .product').forEach(card => {
+            let nameEl = card.querySelector('h3, h4, .product-name, .product-title');
+            let priceEl = card.querySelector('.price, .product-price');
+            let btn = card.querySelector('button');
+            
+            if(nameEl && priceEl && btn) {
+                let name = nameEl.innerText.trim();
+                let price = priceEl.innerText.replace(/[^0-9]/g, ''); // सिर्फ नंबर निकालो
+                
+                // बटन का टेक्स्ट और काम बदल दो
+                btn.innerText = 'Add to Cart';
+                btn.setAttribute('onclick', `addToCartAuto('${name}', '${price}')`);
+            }
+        });
+    }
+
+    // Page लोड होते ही सब सेट कर दो
+    if(document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', autoSetupButtons);
     } else {
-        cart.push({name: name, price: price, qty: 1});
+        autoSetupButtons();
     }
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCountFix();
-    updateProductButton(name);
-}
-
-// पेज लोड पे सब बटन चेक करो
-document.addEventListener('DOMContentLoaded', function() {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.forEach(item => updateProductButton(item.name));
-});
+    
+    updateCartCount();
+})();
