@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glow & Lovely Facewash</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f5f5f5; 
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 400px;
+            cursor: pointer;
+        }
+        .product-card img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        .product-card h3 { 
+            margin: 15px 0 5px; 
+            color: #222; 
+            font-size: 22px;
+        }
+        .price { 
+            color: #E91E63; 
+            font-size: 26px; 
+            font-weight: bold; 
+            margin: 10px 0;
+        }
+        .mrp { 
+            text-decoration: line-through; 
+            color: #777; 
+            font-size: 16px; 
+            margin-left: 10px;
+        }
+
+        /* पॉपअप */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .close {
+            position: absolute;
+            right: 15px; top: 10px;
+            font-size: 30px;
+            font-weight: bold;
+            color: #555;
+            cursor: pointer;
+        }
+        .modal-img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .modal h2 { margin: 15px 0 5px; color: #E91E63; }
+        .modal ul { margin: 12px 0 12px 20px; text-align: left; }
+        .modal li { margin-bottom: 8px; line-height: 1.4; }
+        .btn-group { margin-top: 25px; display: flex; gap: 12px; }
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .buy-btn { background: #ff9f00; color: white; }
+        .cod-btn { background: #4CAF50; color: white; }
+        .cod-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 12px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 12px 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- प्रोडक्ट कार्ड -->
+    <div class="product-card" onclick="openModal()">
+        <img src="https://i.ibb.co/6R8YjLz/glow-lovely-facewash.jpg" alt="Glow & Lovely Facewash">
+        <h3>Glow & Lovely Bright Glow Facewash</h3>
+        <div class="price">₹165 <span class="mrp">₹199</span></div>
+        <p style="color: #555; font-size: 14px;">फोटो पे क्लिक करें पूरी जानकारी के लिए</p>
+    </div>
+
+    <!-- पॉपअप Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-img" src="https://i.ibb.co/6R8YjLz/glow-lovely-facewash.jpg" alt="">
+            <h2>Glow & Lovely Bright Glow Facewash</h2>
+            <div class="price">₹165 <span class="mrp">₹199</span></div>
+            <div class="cod-badge">✓ Cash on Delivery उपलब्ध है</div>
+            
+            <p><b>फायदे:</b></p>
+            <ul>
+                <li>3X Multi Vitamins के साथ जो त्वचा को पोषण दे</li>
+                <li>त्वचा को देता है नेचुरल ब्राइट ग्लो</li>
+                <li>डार्क स्पॉट्स और डलनेस कम करने में मदद करे</li>
+                <li>सभी स्किन टाइप के लिए सुरक्षित</li>
+                <li>100g की पैकिंग, 1 महीने तक चले</li>
+            </ul>
+            
+            <p><b>इस्तेमाल कैसे करें:</b></p>
+            <p>थोड़ा सा फेसवॉश लेकर गीले चेहरे पर लगाएं। हल्के हाथों से सर्कुलर मोशन में 1 मिनट मसाज करें। फिर साफ पानी से धो लें। बेहतरीन रिजल्ट के लिए दिन में 2 बार इस्तेमाल करें।</p>
+            
+            <div class="btn-group">
+                <button class="btn buy-btn" onclick="buyNow()">Buy Now</button>
+                <button class="btn cod-btn" onclick="orderCOD()">Cash on Delivery</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // पॉपअप खोलो
+        function openModal() {
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        // पॉपअप बंद करो
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        // Buy Now बटन
+        function buyNow() {
+            alert('आपने Glow & Lovely Facewash - ₹165 में Online Payment से खरीदा!');
+            // यहाँ पेमेंट लिंक लगा सकते हो: window.location.href = 'payment-link';
+        }
+
+        // COD बटन
+        function orderCOD() {
+            let msg = 'नमस्ते, मुझे Glow & Lovely Bright Glow Facewash ₹165 में COD पर चाहिए।';
+            window.open(`https://wa.me/919258751739?text=${encodeURIComponent(msg)}`);
+            // 919258751739 की जगह अपना WhatsApp नंबर डाल देना
+        }
+
+        // बाहर क्लिक करने पर modal बंद हो जाए
+        window.onclick = function(event) {
+            let modal = document.getElementById('productModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
