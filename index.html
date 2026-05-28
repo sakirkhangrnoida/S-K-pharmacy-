@@ -896,21 +896,31 @@ Order Now
       </div>
     </div>       
 <script>
-function checkPincode(product) {
-  var pincode = document.getElementById('pincode-' + product).value;
-  var result = document.getElementById('result-' + product);
-  
-  if(pincode.length !== 6) {
-    result.innerHTML = '❌ कृपया सही 6 अंकों का पिनकोड डालें';
-    result.style.color = 'red';
-    return;
+    
+  </script>
+
+  <!-- S K Pharmacy Banner -->
+  <div style="margin: 20px 15px;">
+    <img src="img/logo.jpg" style="width:100%; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1);" alt="S K Pharmacy - आपकी सेहत, हमारी ज़िम्मेदारी">
+  </div>
+
+  <script>
+  function checkPincode(product) {
+    var pincode = document.getElementById('pincode-' + product).value;
+    var result = document.getElementById('result-' + product);
+    
+    if(pincode.length !== 6) {
+      result.innerHTML = '❌ कृपया सही 6 अंकों का पिनकोड डालें';
+      result.style.color = 'red';
+      return;
+    }
+    
+    result.innerHTML = '✅ इस पिनकोड पर डिलीवरी उपलब्ध है';
+    result.style.color = 'green';
   }
-  
-  result.innerHTML = '✅ इस पिनकोड पर डिलीवरी उपलब्ध है';
-  result.style.color = 'green';
-}
-</script>
-  
+  </script>
+
+  <!-- ONLINE PAYMENT -->
     
 </div>
 
