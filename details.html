@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S K Pharmacy - Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    body { background: #f5f7fa; }
+    .navbar { background: #1b5e20; }
+    .detail-box { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .product-card { border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+    .price { color: #d32f2f; font-weight: bold; font-size: 20px; }
+    .old-price { text-decoration: line-through; color: #777; font-size: 16px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+    </div>
+  </nav>
+
+  <!-- Details -->
+  <div class="container mt-4 mb-5">
+    <div class="detail-box">
+      <div class="text-center mb-4">
+        <img src="img/logo.jpg" style="width:100%; max-width:600px; border-radius:12px;" alt="S K Pharmacy">
+      </div>
+      
+      <h2 class="text-center mb-2" style="color:#1b5e20;"><i class="fas fa-plus-circle"></i> S K PHARMACY</h2>
+      <h4 class="text-center text-muted mb-4">आपकी सेहत, हमारी ज़िम्मेदारी</h4>
+      
+      <hr>
+      
+      <!-- हमारी सेवाएं -->
+      <div class="row mt-4 mb-4">
+        <div class="col-md-6 mb-3">
+          <h5><i class="fas fa-capsules" style="color:#2e7d32;"></i> हमारी सेवाएं</h5>
+          <ul>
+            <li>सभी प्रकार की दवाईयाँ उपलब्ध</li>
+            <li>100% असली और गुणवत्तापूर्ण प्रोडक्ट</li>
+            <li>होम डिलीवरी उपलब्ध</li>
+            <li>Online ऑर्डर WhatsApp पर</li>
+          </ul>
+        </div>
+        
+        <div class="col-md-6 mb-3">
+          <h5><i class="fas fa-map-marker-alt" style="color:#2e7d32;"></i> पता व समय</h5>
+          <p><strong>पता:</strong> Dankaur, Greater Noida<br>Uttar Pradesh - 201310</p>
+          <p><strong>समय:</strong> सुबह 9:00 - रात 9:00 बजे<br>सोमवार से रविवार खुला</p>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- प्रोडक्ट लिस्ट -->
+      <h4 class="text-center mb-4" style="color:#1b5e20;"><i class="fas fa-star"></i> Best Selling Products</h4>
+      
+      <div class="row">
+        <!-- Product 1 -->
+        <div class="col-md-6">
+          <div class="product-card">
+            <h5><i class="fas fa-spa"></i> S K Pharmacy Herbal Hair Oil</h5>
+            <p class="text-muted">बालों का झड़ना रोके, डैंड्रफ खत्म करे, बालों को मजबूत बनाये</p>
+            <p><span class="price">₹249</span> <span class="old-price">₹350</span></p>
+            <a href="https://wa.me/917983006957?text=मुझे%20Herbal%20Hair%20Oil%20चाहिए%20₹249" class="btn btn-success btn-sm" target="_blank">
+              <i class="fab fa-whatsapp"></i> Order Now
+            </a>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="col-md-6">
+          <div class="product-card">
+            <h5><i class="fas fa-tablets"></i> S K Pharmacy Vitamin C Tablets</h5>
+            <p class="text-muted">इम्युनिटी बढ़ाये, त्वचा को ग्लो दे, थकान दूर करे</p>
+            <p><span class="price">₹299</span> <span class="old-price">₹450</span></p>
+            <a href="https://wa.me/917983006957?text=मुझे%20Vitamin%20C%20Tablets%20चाहिए%20₹299" class="btn btn-success btn-sm" target="_blank">
+              <i class="fab fa-whatsapp"></i> Order Now
+            </a>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="col-md-6">
+          <div class="product-card">
+            <h5><i class="fas fa-smile"></i> S K Pharmacy Skin Glow Face Cream</h5>
+            <p class="text-muted">चेहरे पर निखार लाये, दाग-धब्बे हटाये, मुलायम त्वचा</p>
+            <p><span class="price">₹199</span> <span class="old-price">₹299</span></p>
+            <a href="https://wa.me/917983006957?text=मुझे%20Skin%20Glow%20Cream%20चाहिए%20₹199" class="btn btn-success btn-sm" target="_blank">
+              <i class="fab fa-whatsapp"></i> Order Now
+            </a>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="col-md-6">
+          <div class="product-card">
+            <h5><i class="fas fa-heartbeat"></i> S K Pharmacy Digital BP Machine</h5>
+            <p class="text-muted">घर पर आसानी से BP चेक करें, डिजिटल डिस्प्ले, एक्यूरेट रीडिंग</p>
+            <p><span class="price">₹999</span> <span class="old-price">₹1499</span></p>
+            <a href="https://wa.me/917983006957?text=मुझे%20Digital%20BP%20Machine%20चाहिए%20₹999" class="btn btn-success btn-sm" target="_blank">
+              <i class="fab fa-whatsapp"></i> Order Now
+            </a>
+          </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="col-md-6">
+          <div class="product-card">
+            <h5><i class="fas fa-dumbbell"></i> S K Pharmacy Herbal Protein Powder</h5>
+            <p class="text-muted">मसल्स बनाये, एनर्जी बढ़ाये, 100% हर्बल, कोई साइड इफेक्ट नहीं</p>
+            <p><span class="price">₹599</span> <span class="old-price">₹899</span></p>
+            <a href="https://wa.me/917983006957?text=मुझे%20Herbal%20Protein%20Powder%20चाहिए%20₹599" class="btn btn-success btn-sm" target="_blank">
+              <i class="fab fa-whatsapp"></i> Order Now
+            </a>
+          </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="col-md-6">
+          <div class="product-card">
+            <h5><i class="fas fa-prescription-bottle"></i> सभी प्रकार की दवाईयाँ</h5>
+            <p class="text-muted">बुखार, सर्दी-जुकाम, शुगर, BP, पेट दर्द, विटामिन सभी उपलब्ध</p>
+            <p><span class="price">उचित दाम पर</span></p>
+            <a href="https://wa.me/917983006957?text=मुझे%20दवाई%20चाहिए" class="btn btn-success btn-sm" target="_blank">
+              <i class="fab fa-whatsapp"></i> Order Now
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Contact -->
+      <h5 class="text-center mb-3 mt-4"><i class="fas fa-phone" style="color:#2e7d32;"></i> ऑर्डर करने के लिए संपर्क करें</h5>
+      <div class="text-center">
+        <a href="https://wa.me/917983006957" class="btn btn-success btn-lg me-2 mb-2" target="_blank">
+          <i class="fab fa-whatsapp"></i> WhatsApp: 7983006957
+        </a>
+        <a href="tel:9258751739" class="btn btn-primary btn-lg mb-2">
+          <i class="fas fa-phone"></i> Call: 9258751739
+        </a>
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="index.html" class="btn btn-outline-success">
+          <i class="fas fa-home"></i> Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-3 text-center" style="background:#1b5e20; color:white;">
+    <p class="mb-0">© 2026 S K Pharmacy. All Rights Reserved. | Dankaur, Greater Noida</p>
+  </footer>
+
+</body>
+  </html>
