@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZIFI 50 Dry Syrup 30ml - ₹95 | S K Pharmacy</title>
     
-    <!-- WhatsApp Preview -->
+    <!-- WhatsApp Preview - ID FIXED -->
     <meta property="og:title" content="ZIFI 50 Dry Syrup 30ml - ₹95 Only | S K Pharmacy">
     <meta property="og:description" content="MRP ₹100 | Cefixime 50mg/5ml | COD Available | Same Day Delivery Gr. Noida">
     <meta property="og:image" content="https://sakirkhangrnoida.github.io/zifi-50-all.jpg">
@@ -88,7 +88,7 @@
         </div>
     </div>
 
-    <!-- All Fresh वाली लाइन - सब लिंक चालू -->
+    <!-- Category Bar - ID FIXED -->
     <div class="category-bar">
         <div class="container-fluid">
             <a href="https://sakirkhangrnoida.github.io/index.html"><i class="fa fa-bars"></i> All</a>
@@ -103,7 +103,7 @@
         </div>
     </div>
 
-    <!-- Breadcrumb -->
+    <!-- Breadcrumb - ID FIXED -->
     <div class="container-fluid bg-white py-2">
         <div class="breadcrumb mb-0">
             <a href="https://sakirkhangrnoida.github.io/index.html">Home</a> > 
@@ -248,7 +248,7 @@
     <script>
         let cartItems = 0;
 
-        // Search चालू
+        // Search - ID FIXED
         function searchProduct() {
             let query = document.getElementById('searchBox').value;
             if(query) {
@@ -258,7 +258,6 @@
             }
         }
 
-        // Cart चालू
         function addToCart() {
             let qty = parseInt(document.getElementById('quantity').value);
             cartItems += qty;
@@ -270,21 +269,19 @@
             alert('Cart में ' + cartItems + ' आइटम हैं\nTotal: ₹' + (95 * cartItems) + '\nCheckout के लिए WhatsApp करें');
         }
 
-        // Buy Now चालू
         function buyNow() {
             let qty = document.getElementById('quantity').value;
             let msg = 'Hi S K Pharmacy,%0A%0A*BUY NOW*%0AProduct: ZIFI 50 Dry Syrup 30ml%0AQty: ' + qty + '%0ATotal: ₹' + (95 * qty) + '%0A%0AName:%0AAddress:%0APhone:';
             window.open('https://wa.me/919258751739?text=' + msg, '_blank');
         }
 
-        // WhatsApp Order चालू
         function orderWhatsApp() {
             let qty = document.getElementById('quantity').value;
-            let msg = 'Namaste S K Pharmacy,%0A%0AMujhe ZIFI 50 Dry Syrup order karni hai%0AQty: ' + qty + '%0APrice: ₹' + (95 * qty) + '%0A%0AName:%0AAddress:%0APhone:';
+            let msg = 'Namaste S K Pharmacy,%0A%0AMujhe ZIFI 50 Dry Syrup order karni hai%0AQty: ' + qty + '%0APrice: ₹' + (95 * qty) + '%0A%0AName:%0AAddress:%0APhone:%0A%0ALink: https://sakirkhangrnoida.github.io/zifi-50-dry-syrup.html';
             window.open('https://wa.me/919258751739?text=' + msg, '_blank');
         }
 
-        // Share चालू
+        // Share - ID FIXED
         function shareProduct() {
             if (navigator.share) {
                 navigator.share({
@@ -297,10 +294,10 @@
             }
         }
 
-        // 3 Dots के फंक्शन चालू
+        // Copy Link - ID FIXED
         function copyLink() {
             navigator.clipboard.writeText('https://sakirkhangrnoida.github.io/zifi-50-dry-syrup.html');
-            alert('Link Copied! ✅\nWhatsApp पर Paste करें');
+            alert('Link Copied! ✅\nWhatsApp पर Paste करें\n\nhttps://sakirkhangrnoida.github.io/zifi-50-dry-syrup.html');
         }
 
         function reportProduct() {
@@ -308,18 +305,16 @@
             if(reason) alert('रिपोर्ट सबमिट हो गई। हम 24 घंटे में जांच करेंगे।');
         }
 
-        // Search in Page
         function searchInPage() {
             let text = prompt('पेज में क्या सर्च करना है?');
             if(text) window.find(text);
         }
 
-        // Wishlist चालू
+        // Wishlist - ID FIXED
         function addToWishlist() {
             alert('Added to Wish List! ❤️\nYour Wish List: https://sakirkhangrnoida.github.io/wishlist.html');
         }
 
-        // Review चालू
         function addComment() {
             const name = document.getElementById('userName').value || 'Customer';
             const comment = document.getElementById('commentBox').value;
