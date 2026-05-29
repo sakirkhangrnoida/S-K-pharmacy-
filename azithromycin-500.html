@@ -15,31 +15,27 @@
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar bg-primary sticky-top">
         <div class="container">
             <a class="navbar-brand text-white" href="https://sakirkhangrnoida.github.io/index.html"><i class="fa fa-arrow-left"></i> Back to Home</a>
         </div>
     </nav>
 
-    <!-- Product Details -->
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-6 mb-3">
-                <img src="https://placehold.co/500x500?text=Azithromycin+500mg" class="img-fluid rounded shadow" alt="Azithromycin 500">
+                <img src="azithromycin-500.jpg" class="img-fluid rounded shadow" alt="Azithromycin 500">
             </div>
             <div class="col-md-6">
                 <h2>Azithromycin 500mg - 3 Tabs</h2>
-                <h4 class="text-success">₹75 <del class="text-muted fs-6">₹120</del> <span class="badge bg-danger">17% OFF</span></h4>
+                <h4 class="text-success">₹75 <del class="text-muted fs-6">₹125</del> <span class="badge bg-danger">17% OFF</span></h4>
                 <p><strong>उपयोग:</strong> बैक्टीरियल इन्फेक्शन, गले का इन्फेक्शन, टाइफाइड में डॉक्टर की सलाह से।</p>
                 <div class="alert alert-danger py-2"><small><strong>जरूरी:</strong> यह एंटीबायोटिक दवा है। डॉक्टर के पर्चे के बिना न खरीदें। स्व-दवा खतरनाक हो सकती है।</small></div>
                 
-                <!-- Like Button -->
                 <button class="btn btn-outline-danger mb-3 like-btn" id="likeBtn" onclick="likeProduct()">
                     <i class="far fa-heart"></i> Like <span id="likeCount">128</span>
                 </button>
                 
-                <!-- Order Buttons - दोनों WhatsApp नंबर सही -->
                 <div class="d-grid gap-2">
                     <a href="https://wa.me/919258751739?text=Namaste,%20mujhe%20Azithromycin%20500%20-%203%20Tabs%20order%20karni%20hai" class="btn whatsapp-btn btn-lg text-white">
                         <i class="fab fa-whatsapp"></i> WhatsApp: 9258751739
@@ -50,14 +46,10 @@
                     <a href="tel:+919258751739" class="btn btn-primary btn-lg">
                         <i class="fa fa-phone"></i> Call: 9258751739
                     </a>
-                    <a href="tel:+917983006957" class="btn btn-primary btn-lg">
-                        <i class="fa fa-phone"></i> Call: 7983006957
-                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Comment Box -->
         <div class="mt-5">
             <h4><i class="fa fa-comments"></i> Customer Reviews</h4>
             <div class="card">
@@ -75,7 +67,6 @@
         </div>
     </div>
 
-    <!-- Footer - सारे लिंक सही ID के साथ -->
     <footer class="bg-light mt-5 py-4 border-top">
         <div class="container text-center footer-links">
             <a href="https://sakirkhangrnoida.github.io/about.html">About Us</a> |
@@ -88,7 +79,6 @@
     </footer>
 
 <script>
-// Like Button - चालू है
 let liked = false;
 let count = 128;
 function likeProduct() {
@@ -106,7 +96,6 @@ function likeProduct() {
     }
 }
 
-// Comment Box - चालू है
 function addComment() {
     const name = document.getElementById('userName').value || 'Customer';
     const comment = document.getElementById('commentBox').value;
