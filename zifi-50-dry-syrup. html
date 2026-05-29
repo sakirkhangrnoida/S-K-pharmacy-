@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIFI 50 Dry Syrup 30ml - ₹95 | S K Pharmacy</title>
+    
+    <!-- WhatsApp Preview -->
+    <meta property="og:title" content="ZIFI 50 Dry Syrup 30ml - ₹95 Only | S K Pharmacy">
+    <meta property="og:description" content="MRP ₹100 | Cefixime 50mg/5ml | COD Available | Same Day Delivery Gr. Noida">
+    <meta property="og:image" content="https://sakirkhangrnoida.github.io/zifi-50-all.jpg">
+    <meta property="og:url" content="https://sakirkhangrnoida.github.io/zifi-50-dry-syrup.html">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #f3f3f3; }
+        .top-bar { background: #131921; color: white; padding: 8px 0; font-size: 13px; }
+        .search-bar { background: #232f3e; padding: 10px 0; }
+        .search-input { border-radius: 4px 0 0 4px; border: none; }
+        .search-btn { background: #febd69; border-radius: 0 4px 4px 0; border: none; }
+        .category-bar { background: #232f3e; color: white; padding: 8px 0; font-size: 14px; overflow-x: auto; white-space: nowrap; }
+        .category-bar a { color: white; margin-right: 15px; text-decoration: none; }
+        .category-bar a:hover { border: 1px solid white; padding: 4px; }
+        .product-container { background: white; margin-top: 15px; }
+        .price-big { font-size: 28px; color: #B12704; }
+        .mrp { color: #565959; font-size: 14px; }
+        .discount { color: #CC0C39; font-size: 14px; }
+        .buy-box { border: 1px solid #ddd; border-radius: 8px; padding: 15px; }
+        .btn-cart { background: #FFD814; border: none; border-radius: 20px; }
+        .btn-buy { background: #FFA41C; border: none; border-radius: 20px; }
+        .btn-whatsapp { background: #25D366; border: none; border-radius: 20px; color: white; }
+        .share-icon { cursor: pointer; }
+        .three-dots { cursor: pointer; }
+        .breadcrumb { font-size: 12px; color: #565959; }
+        .breadcrumb a { color: #007185; text-decoration: none; }
+        .schedule-h { background: #CC0C39; color: white; padding: 10px; font-weight: bold; }
+        .dropdown-menu { font-size: 13px; }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between">
+                <div><i class="fa fa-map-marker-alt"></i> Deliver to Gr. Noida 201301</div>
+                <div>
+                    <!-- Hello Sign In Dropdown - चालू -->
+                    <div class="dropdown d-inline">
+                        <span class="me-3 dropdown-toggle" data-bs-toggle="dropdown" style="cursor: pointer;">Hello, Sign in</span>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="alert('Sign In Page जल्द आएगा')"><i class="fa fa-user"></i> Your Account</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="alert('Orders Page जल्द आएगा')"><i class="fa fa-box"></i> Your Orders</a></li>
+                            <li><a class="dropdown-item" href="https://sakirkhangrnoida.github.io/wishlist.html"><i class="fa fa-heart"></i> Your Wish List</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="https://wa.me/919258751739"><i class="fab fa-whatsapp"></i> Customer Service</a></li>
+                        </ul>
+                    </div>
+                    <span onclick="viewCart()" style="cursor: pointer;"><i class="fa fa-shopping-cart"></i> Cart <span class="badge bg-warning text-dark" id="cartCount">0</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Bar + 3 Dots + Share -->
+    <div class="search-bar">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center">
+                <h4 class="text-white me-3 mb-0">S K Pharmacy</h4>
+                <div class="input-group flex-grow-1">
+                    <button class="btn btn-light dropdown-toggle" type="button" style="border-radius: 4px 0 0 4px; font-size: 12px;">All</button>
+                    <input type="text" class="form-control search-input" placeholder="Search S K Pharmacy" id="searchBox">
+                    <button class="btn search-btn px-3" onclick="searchProduct()"><i class="fa fa-search"></i></button>
+                </div>
+                <div class="ms-3 text-white">
+                    <i class="fa fa-share-alt share-icon me-3" onclick="shareProduct()"></i>
+                    <!-- 3 Dots Dropdown - चालू -->
+                    <div class="dropdown d-inline">
+                        <i class="fa fa-ellipsis-v three-dots" data-bs-toggle="dropdown"></i>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="copyLink()"><i class="fa fa-link"></i> Copy Link</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="shareProduct()"><i class="fa fa-share"></i> Share</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="reportProduct()"><i class="fa fa-flag"></i> Report this product</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="https://wa.me/919258751739"><i class="fa fa-headset"></i> Help & Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Fresh वाली लाइन - सब लिंक चालू -->
+    <div class="category-bar">
+        <div class="container-fluid">
+            <a href="https://sakirkhangrnoida.github.io/index.html"><i class="fa fa-bars"></i> All</a>
+            <a href="https://sakirkhangrnoida.github.io/fresh.html">Fresh</a>
+            <a href="https://sakirkhangrnoida.github.io/amazon-pay.html">Amazon Pay</a>
+            <a href="https://sakirkhangrnoida.github.io/sell.html">Sell</a>
+            <a href="https://sakirkhangrnoida.github.io/gift-card.html">Gift Cards</a>
+            <a href="https://sakirkhangrnoida.github.io/buy-again.html">Buy Again</a>
+            <a href="https://sakirkhangrnoida.github.io/health-personal-care.html">Health & Personal Care</a>
+            <a href="https://sakirkhangrnoida.github.io/medicine.html">Medicine</a>
+            <a href="https://sakirkhangrnoida.github.io/paediatric.html">Paediatric</a>
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="container-fluid bg-white py-2">
+        <div class="breadcrumb mb-0">
+            <a href="https://sakirkhangrnoida.github.io/index.html">Home</a> > 
+            <a href="https://sakirkhangrnoida.github.io/medicine.html">Medicine</a> > 
+            <a href="https://sakirkhangrnoida.github.io/antibiotics.html">Antibiotics</a> > 
+            <span>ZIFI 50 Dry Syrup</span>
+        </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="container-fluid">
+        <div class="product-container p-3">
+            <div class="row">
+                <!-- Left - Image -->
+                <div class="col-md-4">
+                    <div class="border rounded p-3" style="background: white;">
+                        <img src="zifi-50-all.jpg" class="img-fluid" alt="ZIFI 50 Dry Syrup All Sides" style="width: 100%; background: white;">
+                    </div>
+                    <div class="text-center mt-2">
+                        <small class="text-muted">All sides view - Front, Back, MRP, Instructions</small>
+                    </div>
+                </div>
+
+                <!-- Middle - Details -->
+                <div class="col-md-5">
+                    <h4>ZIFI 50 Dry Syrup - 30ml | Cefixime Oral Suspension IP 50mg/5ml</h4>
+                    <div class="small">
+                        <span class="text-primary">Brand: FDC Limited</span> | 
+                        <a href="#" class="text-primary" onclick="searchInPage()">Search this page</a>
+                    </div>
+                    <div class="my-2">
+                        <span class="text-warning">
+                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-alt"></i>
+                        </span>
+                        <a href="#reviews" class="text-primary ms-2">96 ratings</a>
+                    </div>
+                    <div class="badge bg-danger mb-2">S K Pharmacy's Choice</div>
+                    <div class="text-success small">300+ bought in past month</div>
+                    <hr>
+                    
+                    <div>
+                        <span class="discount">-5%</span>
+                        <span class="price-big">₹95</span>
+                    </div>
+                    <div class="mrp">M.R.P.: <del>₹100</del></div>
+                    <div class="small">Inclusive of all taxes</div>
+                    <div class="small text-success">You Save: ₹5 (5%)</div>
+                    
+                    <div class="mt-3">
+                        <img src="https://m.media-amazon.com/images/G/31/marketing/fba/fba-badge_18px._CB485936079_.png" width="70">
+                        <span class="small ms-1">S K Pharmacy Fulfilled</span>
+                    </div>
+
+                    <hr>
+                    <div class="schedule-h small rounded">
+                        SCHEDULE H1 PRESCRIPTION DRUG - CAUTION<br>
+                        - It is dangerous to take this preparation except in accordance with medical advice<br>
+                        - Not to be sold by retail without the prescription of a Registered Medical Practitioner
+                    </div>
+
+                    <hr>
+                    <div class="row text-center small">
+                        <div class="col-3"><i class="fa fa-truck fa-2x text-primary"></i><br>Same Day<br>Delivery</div>
+                        <div class="col-3"><i class="fa fa-money-bill fa-2x text-primary"></i><br>COD<br>Available</div>
+                        <div class="col-3"><i class="fa fa-undo fa-2x text-primary"></i><br>7 Days<br>Returnable</div>
+                        <div class="col-3"><i class="fa fa-baby fa-2x text-primary"></i><br>For<br>Paediatric</div>
+                    </div>
+
+                    <hr>
+                    <h6>About this item</h6>
+                    <ul class="small">
+                        <li><strong>Composition:</strong> Cefixime IP 50mg/5ml + Sterile Water 25ml</li>
+                        <li><strong>Pack:</strong> 15g Powder for 30ml suspension</li>
+                        <li><strong>Use:</strong> Bacterial infections - Typhoid, Throat infection</li>
+                        <li><strong>Dosage:</strong> As directed by Physician only</li>
+                        <li><strong>Storage:</strong> Below 25°C. After mixing, refrigerate & use within 7 days</li>
+                        <li><strong>Mfg:</strong> 03-2026 | <strong>Exp:</strong> 08/2027</li>
+                        <li><strong>Mfg by:</strong> FDC Limited, Baddi, H.P.</li>
+                    </ul>
+                </div>
+
+                <!-- Right - Buy Box -->
+                <div class="col-md-3">
+                    <div class="buy-box">
+                        <div class="price-big">₹95</div>
+                        <div class="small text-primary"><i class="fa fa-map-marker-alt"></i> Delivery to Gr. Noida 201301</div>
+                        <div class="text-success small mt-2"><strong>In Stock</strong></div>
+                        <div class="small">Ships from <strong>S K Pharmacy</strong></div>
+                        
+                        <div class="mt-3">
+                            <label class="small">Quantity:</label>
+                            <select class="form-select form-select-sm" id="quantity">
+                                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-3">
+                            <button class="btn btn-cart" onclick="addToCart()"><i class="fa fa-cart-plus"></i> Add to Cart</button>
+                            <button class="btn btn-buy" onclick="buyNow()"><i class="fa fa-bolt"></i> Buy Now - COD</button>
+                            <button class="btn btn-whatsapp" onclick="orderWhatsApp()"><i class="fab fa-whatsapp"></i> Order on WhatsApp</button>
+                        </div>
+
+                        <div class="small mt-3"><i class="fa fa-lock"></i> Secure transaction<br><i class="fa fa-file-prescription"></i> Prescription Required</div>
+                        <hr>
+                        <button class="btn btn-outline-secondary btn-sm w-100" onclick="addToWishlist()"><i class="fa fa-heart"></i> Add to Wish List</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="product-container p-3 mt-3" id="reviews">
+            <h5>Customer Reviews</h5>
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>4.3 <i class="fa fa-star text-warning"></i></h2>
+                    <div class="small text-muted">96 global ratings</div>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" id="userName" class="form-control mb-2" placeholder="आपका नाम">
+                    <textarea id="commentBox" class="form-control mb-2" rows="2" placeholder="अपना रिव्यू लिखें..."></textarea>
+                    <button class="btn btn-warning btn-sm" onclick="addComment()">Post Review</button>
+                    <hr>
+                    <div id="commentList">
+                        <div class="border-bottom py-2"><strong>Amit G.</strong> <span class="text-warning"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span><br>Doctor ne prescribe ki thi. Genuine product, same day mil gayi.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-white mt-4 py-4 border-top">
+        <div class="container text-center small">
+            <a href="https://sakirkhangrnoida.github.io/about.html" class="text-primary me-3">About Us</a>
+            <a href="https://sakirkhangrnoida.github.io/contact.html" class="text-primary me-3">Contact</a>
+            <a href="https://sakirkhangrnoida.github.io/privacy.html" class="text-primary me-3">Privacy Policy</a>
+            <a href="https://sakirkhangrnoida.github.io/refund.html" class="text-primary">Refund Policy</a>
+            <p class="mt-3 mb-0 text-muted">© 2026 S K Pharmacy, Gr. Noida | Licensed Pharmacy | WhatsApp: 9258751739</p>
+        </div>
+    </footer>
+
+<script>
+let cartItems = 0;
+
+// Search चालू
+function searchProduct() {
+    let query = document.getElementById('searchBox').value;
+    if(query) {
+        window.location.href = 'https://sakirkhangrnoida.github.io/search.html?q=' + encodeURIComponent(query);
+    } else {
+        alert('कुछ सर्च करें');
+    }
+}
+
+// Cart चालू
+function addToCart() {
+    let qty = parseInt(document.getElementById('quantity').value);
+    cartItems += qty;
+    document.getElementById('cartCount').innerText = cartItems;
+    alert(qty + ' x ZIFI 50 Added to Cart!\nTotal: ₹' + (95 * qty));
+}
+
+function viewCart() {
+    alert('Cart में ' + cartItems + ' आइटम हैं\nTotal: ₹' + (95 * cartItems) + '\nCheckout के लिए WhatsApp करें');
+}
+
+// Buy Now चालू
+function buyNow() {
+    let qty = document.getElementById('quantity').value;
+    let msg = `Hi S K Pharmacy!%0A%0A*BUY NOW*%0AProduct: ZIFI 50 Dry Syrup 30ml%0AQty: ${qty}%0ATotal: ₹${95 * qty}%0APayment: COD%0A%0APrescription: [Upload करें]%0A%0ALink: https://sakirkhangrnoida.github.io/zifi-50-dry-syrup.html`;
+    window.open('https://wa.me/919258751739?text=' + msg, '_blank');
+}
+
+// WhatsApp Order चालू
+function orderWhatsApp() {
+    let qty = document.getElementById('quantity').value;
+    let msg = `Namaste S K Pharmacy,%0A%0AMujhe ZIFI 50 Dry Syrup order karni hai%0AQty: ${qty}%0APrice: ₹${95 * qty}%0A%0ALink: https://sakirkhangrnoida.github.io/zifi-50-dry-syrup.html%0A%0ACOD Available`;
+    window.open('https://wa.me/919258751739?text=' + msg, '_blank');
+}
+
+// Share चालू
+function shareProduct() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'ZIFI 50 Dry Syrup - ₹95',
+            text: 'MRP ₹100 | COD Available | Same Day Delivery',
+            url: 'https://sakirkhangrnoida.github.io/zifi-50-dry-syrup.html'
+        });
+    } else {
+        copyLink();
+    }
+}
+
+// 3 Dots के फंक्शन चालू
+function copyLink() {
+    navigator.clipboard.writeText('https://sakirkhangrnoida.github.io/zifi-50-dry-syrup.html');
+    alert('Link Copied! ✅\nWhatsApp पर Paste करें');
+}
+
+function reportProduct() {
+    let reason = prompt('इस प्रोडक्ट में क्या समस्या है?');
+    if(reason) alert('रिपोर्ट सबमिट हो गई। हम 24 घंटे में जांच करेंगे।');
+}
+
+// Search in Page
+function searchInPage() {
+    let text = prompt('पेज में क्या सर्च करना है?');
+    if(text) window.find(text);
+}
+
+// Wishlist चालू
+function addToWishlist() {
+    alert('Added to Wish List! ❤️\nYour Wish List: https://sakirkhangrnoida.github.io/wishlist.html');
+}
+
+// Review चालू
+function addComment() {
+    const name = document.getElementById('userName').value || 'Customer';
+    const comment = document.getElementById('commentBox').value;
+    if(comment.trim() === '') {
+        alert('कृपया रिव्यू लिखें');
+        return;
+    }
+    const commentList = document.getElementById('commentList');
+    const newComment = document.createElement('div');
+    newComment.className = 'border-bottom py-2';
+    newComment.innerHTML = '<strong>' + name + ':</strong> <span class="text-warning"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span><br>' + comment;
+    commentList.prepend(newComment);
+    document.getElementById('commentBox').value = '';
+    document.getElementById('userName').value = '';
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
