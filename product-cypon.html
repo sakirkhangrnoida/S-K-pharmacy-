@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cypon H Plus Syrup & Drops - S K Pharmacy</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:Arial,sans-serif;background:#E3E6E6}
+        .news-ticker{background:#CC0C39;color:white;padding:5px 0;font-size:13px;white-space:nowrap;overflow:hidden}
+        .news-ticker span{display:inline-block;padding-left:100%;animation:ticker 15s linear infinite}
+        @keyframes ticker{0%{transform:translate(0,0)}100%{transform:translate(-100%,0)}}
+        .header{background:#131921;color:white;padding:10px 15px}
+        .header-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+        .logo{font-weight:bold;font-size:18px;flex:1}
+        .account{font-size:12px;text-align:right;cursor:pointer}
+        .account-name{font-weight:bold;font-size:13px}
+        .search-bar{display:flex;background:white;border-radius:5px;overflow:hidden}
+        .search-bar input{flex:1;border:none;padding:8px;outline:none}
+        .search-bar button{background:#FEBD69;border:none;padding:8px 12px;cursor:pointer}
+        .category{background:#232F3E;color:white;padding:8px 15px;display:flex;gap:15px;overflow-x:auto;font-size:14px;position:relative}
+        .category span{cursor:pointer;white-space:nowrap}
+        .dot-menu{font-size:20px;margin-left:auto;cursor:pointer}
+        .container{background:white;margin:8px;padding:15px;border-radius:8px}
+        .offer-box{background:#F7F7F7;border:1px solid #ddd;border-radius:8px;padding:10px;margin:10px 0}
+        .offer-item{font-size:13px;margin:5px 0;display:flex;gap:8px}
+        .delivery-box{background:#F0F2F2;border-radius:8px;padding:12px;margin:10px 0;font-size:13px}
+        .prime-badge{background:#00A8E1;color:white;padding:2px 6px;border-radius:3px;font-size:11px;font-weight:bold}
+    </style>
+</head>
+<body>
+    <!-- चलती हुई News Line ऊपर -->
+    <div class="news-ticker">
+        <span>🔥 Cypon H Plus Syrup ₹150 Only | Free Delivery Noida में 2 घंटे | COD Available | 100% Genuine | बच्चों की भूख बढ़ाए 🔥</span>
+    </div>
+
+    <!-- Header with Search + Account -->
+    <div class="header">
+        <div class="header-top">
+            <span onclick="location.href='index.html'" style="font-size:24px;cursor:pointer">←</span>
+            <span class="logo">S K Pharmacy</span>
+            <div class="account" onclick="loginUser()">
+                <div id="helloText">Hello, Sign in</div>
+                <div class="account-name" id="accountName">Account & Lists ▼</div>
+            </div>
+            <span style="font-size:20px;cursor:pointer">🛒<sup id="cartCount">0</sup></span>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search S K Pharmacy" onkeyup="searchProduct(event)">
+            <button onclick="searchProduct()">🔍</button>
+        </div>
+    </div>
+
+    <!-- Category Strip + 3 Dot -->
+    <div class="category">
+        <span onclick="location.href='index.html'">All</span>
+        <span onclick="filterCat('Syrup')">Syrup</span>
+        <span onclick="filterCat('Drops')">Drops</span>
+        <span onclick="filterCat('Baby Care')">Baby Care</span>
+        <span onclick="filterCat('Vitamin')">Vitamin</span>
+        <span class="dot-menu" onclick="toggleMenu()">⋮</span>
+    </div>
+
+    <!-- 3 Dot Dropdown -->
+    <div id="dotMenu" style="display:none;position:absolute;right:15px;top:140px;background:white;border:1px solid #ddd;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:100;width:200px;">
+        <div onclick="shareProduct()" style="padding:12px 20px;cursor:pointer;border-bottom:1px solid #eee;">🔗 Get Link</div>
+        <div onclick="location.href='index.html'" style="padding:12px 20px;cursor:pointer;border-bottom:1px solid #eee;">🏠 Home</div>
+        <div onclick="loginUser()" style="padding:12px 20px;cursor:pointer;border-bottom:1px solid #eee;">👤 Your Account</div>
+        <div onclick="alert('Prime Coming Soon')" style="padding:12px 20px;cursor:pointer;border-bottom:1px solid #eee;">⭐ Prime</div>
+        <div onclick="callNow()" style="padding:12px 20px;cursor:pointer;">📞 Contact Us</div>
+    </div>
+
+    <!-- Product Container -->
+    <div class="container">
+        <!-- Product Image -->
+        <div style="text-align:center;margin-bottom:15px;position:relative;">
+            <img id="mainImg" src="cypon-syrup.jpg" alt="Cypon" style="max-width:250px;height:250px;object-fit:contain;">
+            <span class="prime-badge" style="position:absolute;top:10px;left:10px;">#1 Best Seller</span>
+        </div>
+
+        <!-- Title -->
+        <h1 style="font-size:18px;margin:10px 0;">Cypon H Plus Syrup / Drops - Appetite Stimulant for Kids & Adults</h1>
+        <p style="color:#007185;font-size:14px;margin:5px 0;">Brand: Alkem Laboratories</p>
+        <div style="display:flex;align-items:center;gap:5px;font-size:13px;">
+            <span style="color:#FFA41C;">★★★★☆</span>
+            <span style="color:#007185;">4.1 | 1,847 ratings</span>
+        </div>
+
+        <!-- Limited Offer -->
+        <div style="background:#CC0C39;color:white;padding:5px 10px;border-radius:4px;font-size:12px;display:inline-block;margin:10px 0;">
+            Limited time deal
+        </div>
+
+        <!-- Product Type -->
+        <div style="margin:15px 0;">
+            <p style="font-weight:bold;margin-bottom:8px;">Size:</p>
+            <label style="border:2px solid #007185;padding:8px 12px;border-radius:8px;margin-right:8px;cursor:pointer;display:inline-block;margin-bottom:8px;">
+                <input type="radio" name="type" value="Syrup" data-price="150" data-mrp="150" data-img="cypon-syrup.jpg" checked onchange="updateProduct()"> 
+                <span>Syrup 200ml</span>
+            </label>
+            <label style="border:1px solid #ddd;padding:8px 12px;border-radius:8px;cursor:pointer;display:inline-block;margin-bottom:8px;">
+                <input type="radio" name="type" value="Drops" data-price="105" data-mrp="105" data-img="cypon-drops.jpg" onchange="updateProduct()"> 
+                <span>Drops 15ml</span>
+            </label>
+        </div>
+
+        <!-- Price -->
+        <div style="margin-bottom:10px;">
+            <span style="background:#CC0C39;color:white;padding:2px 6px;font-size:12px;border-radius:3px;">-17%</span>
+            <span style="color:#565959;text-decoration:line-through;font-size:14px;margin-left:5px;">M.R.P: ₹<span id="mrp">150</span></span>
+            <p style="color:#B12704;font-size:28px;font-weight:bold;margin:5px 0;">₹<span id="price">150</span></p>
+        </div>
+
+        <!-- Stock Status -->
+        <div style="font-size:14px;margin-bottom:10px;">
+            <span id="stockStatus" style="color:#007600;font-weight:bold;">✓ In Stock</span>
+            <span id="stockStatus2" style="color:#CC0C39;display:none;font-weight:bold;">✗ Currently Unavailable</span>
+        </div>
+
+        <!-- Delivery -->
+        <div class="delivery-box">
+            <p style="font-weight:bold;margin-bottom:8px;">🚚 FREE delivery <span style="color:#007600;">Tomorrow, 25 Oct</span></p>
+            <p style="margin:4px 0;">⚡ <b>Fastest delivery:</b> Today in 2 Hours - Noida Only</p>
+            <p style="margin:4px 0;">📍 Deliver to <span style="color:#007185;cursor:pointer;" onclick="changePin()">Noida 201301</span></p>
+        </div>
+
+        <!-- Qty -->
+        <div style="margin:15px 0;display:flex;align-items:center;gap:10px;">
+            <p style="font-weight:bold;">Qty:</p>
+            <select id="qty" onchange="updatePrice()" style="padding:5px;border:1px solid #ddd;border-radius:5px;">
+                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+            </select>
+        </div>
+
+        <!-- Buttons -->
+        <button onclick="orderWhatsApp()" style="background:#FFD814;border:1px solid #FCD200;padding:12px;width:100%;border-radius:20px;font-size:15px;margin:5px 0;cursor:pointer;">
+            Buy Now - Cash on Delivery
+        </button>
+        
+        <button onclick="addToCart()" style="background:#FFA41C;border:1px solid #FF8F00;padding:12px;width:100%;border-radius:20px;font-size:15px;margin:5px 0;cursor:pointer;">
+            Add to Cart
+        </button>
+
+        <!-- Offers -->
+        <div class="offer-box">
+            <p style="font-weight:bold;margin-bottom:8px;">🎁 Offers & Cashback</p>
+            <div class="offer-item">
+                <span>💳</span><span><b>Bank Offer:</b> 10% cashback on Paytm UPI</span>
+            </div>
+            <div class="offer-item">
+                <span>💰</span><span><b>Cashback Offer:</b> Get ₹20 back on orders above ₹200</span>
+            </div>
+            <div class="offer-item">
+                <span>💵</span><span><b>Pay on Delivery:</b> COD Available</span>
+            </div>
+            <div class="offer-item">
+                <span>↩️</span><span><b>Easy Returns:</b> 7 Days Return Policy</span>
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div style="margin-top:20px;border-top:1px solid #ddd;padding-top:15px;">
+            <h3 style="margin-bottom:10px;">Product Details</h3>
+            <table style="width:100%;font-size:13px;">
+                <tr><td style="padding:5px 0;color:#565959;">Brand</td><td>Alkem Laboratories</td></tr>
+                <tr><td style="padding:5px 0;color:#565959;">Item Form</td><td>Syrup / Drops</td></tr>
+                <tr><td style="padding:5px 0;color:#565959;">Use for</td><td>Appetite Stimulant, Weight Gain</td></tr>
+                <tr><td style="padding:5px 0;color:#565959;">Age Range</td><td>Kids & Adults</td></tr>
+                <tr><td style="padding:5px 0;color:#565959;">Composition</td><td>Cyproheptadine + Tricholine Citrate</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="background:#232F3E;color:white;text-align:center;padding:15px;margin-top:10px;font-size:13px;">
+        <div style="margin-bottom:10px;">
+            <span onclick="location.href='about.html'" style="margin:0 10px;cursor:pointer;">About</span>
+            <span onclick="location.href='contact.html'" style="margin:0 10px;cursor:pointer;">Contact</span>
+            <span onclick="location.href='privacy.html'" style="margin:0 10px;cursor:pointer;">Privacy</span>
+            <span onclick="location.href='refund.html'" style="margin:0 10px;cursor:pointer;">Refund Policy</span>
+        </div>
+        © 2026 S K Pharmacy, Noida
+    </div>
+
+<script>
+let currentPrice = 150;
+let currentType = 'Syrup 200ml';
+let cartCount = 0;
+
+// Login System
+function loginUser() {
+    let name = localStorage.getItem('userName');
+    if(!name) {
+        name = prompt('Enter Your Name:');
+        if(name) {
+            localStorage.setItem('userName', name);
+            updateAccount();
+        }
+    } else {
+        if(confirm('Logout करना है?')) {
+            localStorage.removeItem('userName');
+            updateAccount();
+        }
+    }
+}
+
+function updateAccount() {
+    let name = localStorage.getItem('userName');
+    if(name) {
+        document.getElementById('helloText').innerText = `Hello, ${name}`;
+        document.getElementById('accountName').innerText = `${name}'s Account ▼`;
+    } else {
+        document.getElementById('helloText').innerText = 'Hello, Sign in';
+        document.getElementById('accountName').innerText = 'Account & Lists ▼';
+    }
+}
+updateAccount();
+
+function updateProduct() {
+    let selected = document.querySelector('input[name="type"]:checked');
+    currentPrice = selected.dataset.price;
+    currentType = selected.value + ' ' + (selected.value === 'Syrup' ? '200ml' : '15ml');
+    document.getElementById('mainImg').src = selected.dataset.img;
+    document.getElementById('mrp').innerText = selected.dataset.mrp;
+    updatePrice();
+    
+    // Stock Check - Drops कभी-कभी Unavailable
+    if(selected.value === 'Drops' && Math.random() > 0.7) {
+        document.getElementById('stockStatus').style.display = 'none';
+        document.getElementById('stockStatus2').style.display = 'block';
+    } else {
+        document.getElementById('stockStatus').style.display = 'block';
+        document.getElementById('stockStatus2').style.display = 'none';
+    }
+}
+
+function updatePrice() {
+    let qty = document.getElementById('qty').value;
+    let total = currentPrice * qty;
+    document.getElementById('price').innerText = total;
+}
+
+function orderWhatsApp() {
+    let qty = document.getElementById('qty').value;
+    let total = currentPrice * qty;
+    let name = localStorage.getItem('userName') || 'Customer';
+    let msg = `*🔔 NEW ORDER - S K Pharmacy*%0A%0A*Customer:* ${name}%0A*Product:* Cypon H Plus ${currentType}%0A*Qty:* ${qty}%0A*Total:* ₹${total}%0A*Payment:* COD%0A%0A*Address भेजें:*%0AName: %0AFull Address: %0APin: %0APhone: %0A%0A*Fast Delivery Tomorrow*`;
+    window.open(`https://wa.me/919258751739?text=${msg}`, '_blank');
+}
+
+function addToCart() {
+    cartCount++;
+    document.getElementById('cartCount').innerText = cartCount;
+    alert('Added to Cart ✅');
+}
+
+function shareProduct() {
+    navigator.clipboard.writeText(window.location.href);
+    alert('Link Copied ✅ Get Link Success');
+}
+
+function callNow() {
+    window.location.href = 'tel:9258751739';
+}
+
+function toggleMenu() {
+    let menu = document.getElementById('dotMenu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+
+function searchProduct(e) {
+    if(e && e.key !== 'Enter' && e.type !== 'click') return;
+    let query = document.getElementById('searchInput').value.toLowerCase();
+    if(query.includes('rb') || query.includes('tone')) {
+        location.href = 'product-rbtone.html';
+    } else if(query.includes('cypon')) {
+        location.href = 'product-cypon.html';
+    } else {
+        alert('Product not found');
+    }
+}
+
+function filterCat(cat) {
+    alert(cat + ' Category - Coming Soon');
+}
+
+function changePin() {
+    let pin = prompt('Enter Pin Code:', '201301');
+    if(pin) alert('Delivery available at ' + pin);
+}
+
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('#dotMenu') && !e.target.classList.contains('dot-menu')) {
+        document.getElementById('dotMenu').style.display = 'none';
+    }
+});
+</script>
+</body>
+</html>
