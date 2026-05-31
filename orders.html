@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Orders - S K Pharmacy</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#EAEDED}
+.header{background:#131921;color:white;padding:12px;text-align:center;font-size:18px;font-weight:bold}
+.card{background:white;margin:10px;padding:15px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.order-id{color:#007185;font-weight:bold;font-size:14px}
+.product-name{font-size:16px;margin:8px 0;font-weight:bold}
+.price{color:#B12704;font-size:18px}
+.date{color:#565959;font-size:13px}
+.track-line{margin:20px 0;position:relative}
+.track-steps{display:flex;justify-content:space-between;position:relative;margin-bottom:30px}
+.track-steps::before{content:'';position:absolute;top:15px;left:0;right:0;height:4px;background:#DDD;z-index:1}
+.track-progress{position:absolute;top:15px;left:0;height:4px;background:#007600;z-index:2;transition:0.5s}
+.step{text-align:center;position:relative;z-index:3;flex:1}
+.step-circle{width:30px;height:30px;border-radius:50%;background:#DDD;margin:0 auto 5px;border:3px solid white;box-shadow:0 0 0 2px #DDD}
+.step.active.step-circle{background:#007600;box-shadow:0 0 0 2px #007600}
+.step.done.step-circle{background:#007600;box-shadow:0 0 0 2px #007600}
+.step-label{font-size:11px;color:#565959}
+.step.active.step-label{color:#007600;font-weight:bold}
+.step.done.step-label{color:#007600}
+.btn{background:#FFD814;border:0;padding:10px 20px;border-radius:20px;font-size:14px;margin:5px;cursor:pointer}
+.btn2{background:#EAEDED;border:1px solid #D5D9D9}
+.back{text-align:center;padding:15px}
+.back a{color:#007185;text-decoration:none}
+.empty{text-align:center;padding:40px;color:#565959}
+</style>
+</head>
+<body>
+
+<div class="header">📦 My Orders - S K Pharmacy</div>
+<div id="orderList"></div>
+
+<div class="back">
+    <a href="index.html">← Back to Home</a> |
+    <a href="https://wa.me/919258751739">Contact: 9258751739</a>
+</div>
+
+<script>
+// Page Load पर सभी Orders दिखा दो
+window.onload = function(){
+    showOrders();
+}
+
+function showOrders(){
+    let orders = JSON.parse(localStorage.getItem('sk_orders') || '[]');
+    let html = '';
+
+    if(orders.length === 0){
+        html = '<div class="empty"><h3>No Orders Yet</h3><p>पहला Order करने के लिए Buy Now दबाएं</p><a href="index.html" class="btn">Shop Now</a></div>';
+    } else {
+        // Latest Order पहले दिखाओ
+        orders.reverse().forEach(order => {
+            html += createOrderCard(order);
+        });
+    }
+    document.getElementById('orderList').innerHTML = html;
+}
+
+function createOrderCard(order){
+    let progress = 20; // Default: Ordered
+    if(order.status === 'Packed') progress = 40;
+    if(order.status === 'Shipped') progress = 60;
+    if(order.status === 'Out for Delivery') progress = 80;
+    if(order.status === 'Delivered') progress = 100;
+
+    return `
+    <div class="card">
+        <div class="order-id">Order ID: #${order.id}</div>
+        <div class="product-name">${order.product}</div>
+        <div class="price">₹${order.price}</div>
+        <div class="date">Ordered on ${order.date}</div>
+
+        <div class="track-line">
+            <div class="track-progress" style="width:${progress}%"></div>
+            <div class="track-steps">
+                ${getStep('Ordered', order.status, order.date)}
+                ${getStep('Packed', order.status, '')}
+                ${getStep('Shipped', order.status, '')}
+                ${getStep('Out for Delivery', order.status, '')}
+                ${getStep('Delivered', order.status, '')}
+            </div>
+        </div>
+
+        <button class="btn" onclick="trackWhatsApp('${order.id}')">Track on WhatsApp</button>
+        <button class="btn btn2" onclick="buyAgain('${order.product}', ${order.price})">Buy Again</button>
+    </div>`;
+}
+
+function getStep(stepName, currentStatus, date){
+    let statusOrder = ['Ordered','Packed','Shipped','Out for Delivery','Delivered'];
+    let currentIndex = statusOrder.indexOf(currentStatus);
+    let stepIndex = statusOrder.indexOf(stepName);
+
+    let className = '';
+    if(stepIndex < currentIndex) className = 'done';
+    if(stepIndex === currentIndex) className = 'active';
+
+    return `
+    <div class="step ${className}">
+        <div class="step-circle"></div>
+        <div class="step-label">${stepName}<br>${date || ''}</div>
+    </div>`;
+}
+
+function trackWhatsApp(orderId){
+    let msg = `*Track Order*%0AOrder ID: ${orderId}%0A%0AHi, मेरे Order का Status बताएं`;
+    window.open(`https://wa.me/919258751739?text=${msg}`, '_blank');
+}
+
+function buyAgain(product, price){
+    let msg = `*Reorder*%0AProduct: ${product}%0APrice: ₹${price}%0A%0Aफिर से Order करना है`;
+    window.open(`https://wa.me/919258751739?text=${msg}`, '_blank');
+}
+</script>
+
+</body>
+</html>
