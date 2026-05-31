@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.B. Tone Syrup - S K Pharmacy</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+        .header{background:#131921;color:white;padding:10px;display:flex;justify-content:space-between;align-items:center}
+        .header-right span{margin-left:15px;cursor:pointer}
+        .container{display:flex;padding:15px;gap:20px;max-width:1200px;margin:auto}
+        .left{width:40%}
+        .right{width:60%}
+        .main-img{width:100%;border:1px solid #ddd;border-radius:8px}
+        .thumb{display:flex;gap:10px;margin-top:10px}
+        .thumb img{width:60px;border:1px solid #ddd;cursor:pointer;border-radius:4px}
+        .price{color:#B12704;font-size:28px;margin:10px 0}
+        .mrp{text-decoration:line-through;color:#565959;font-size:14px}
+        .btn{width:100%;padding:12px;border:none;border-radius:20px;margin:5px 0;font-size:16px;cursor:pointer}
+        .cart-btn{background:#FFD814}
+        .buy-btn{background:#FFA41C}
+        .actions{display:flex;gap:15px;margin:15px 0}
+        .actions span{cursor:pointer;font-size:14px;color:#007185}
+        .desc{margin-top:20px;line-height:1.6}
+        .comment-box{margin-top:20px;border-top:1px solid #ddd;padding-top:15px}
+        .comment-box input{width:70%;padding:8px}
+        .comment-box button{padding:8px 15px;background:#FFD814;border:none;cursor:pointer}
+        .footer{background:#232F3E;color:white;text-align:center;padding:20px;margin-top:30px}
+        .footer a{color:#DDD;margin:0 10px;text-decoration:none}
+        @media(max-width:768px){.container{flex-direction:column}.left,.right{width:100%}}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div onclick="location.href='index.html'">S K Pharmacy</div>
+        <div class="header-right">
+            <span id="userName" onclick="openModal('account')">Hello, Sign Up</span>
+            <span onclick="openModal('cart')">🛒<span id="cartCount">0</span></span>
+            <span>💰<span id="coinCount">0</span></span>
+        </div>
+    </div>
+
+    <!-- Product -->
+    <div class="container">
+        <div class="left">
+            <img id="mainImg" src="https://m.media-amazon.com/images/I/61+O6+9QYUL._SL1500_.jpg" class="main-img">
+            <div class="thumb">
+                <img src="https://m.media-amazon.com/images/I/61+O6+9QYUL._SL1500_.jpg" onclick="changeImg(this.src)">
+                <img src="https://m.media-amazon.com/images/I/61j7t8+1GZL._SL1500_.jpg" onclick="changeImg(this.src)">
+                <img src="https://m.media-amazon.com/images/I/61Z5+2QYQXL._SL1500_.jpg" onclick="changeImg(this.src)">
+            </div>
+        </div>
+
+        <div class="right">
+            <h2>R.B. Tone Syrup 200ml - Iron, Folic Acid & Vitamin B12 Tonic</h2>
+            <p>Brand: Medley</p>
+            <p>⭐ 4.2 | 1,245 ratings</p>
+            <hr style="margin:10px 0">
+            <p><span class="mrp">M.R.P: ₹180</span></p>
+            <p class="price">₹149 <span style="font-size:14px;color:#565959">(-17%)</span></p>
+            <p style="color:#007600">In stock</p>
+            <p>Sold by: S K Pharmacy</p>
+            
+            <button class="btn cart-btn" onclick="addToCart('R.B. Tone Syrup 200ml',149)">Add to Cart</button>
+            <button class="btn buy-btn" onclick="buyNow()">Buy Now</button>
+
+            <div class="actions">
+                <span onclick="likeProduct()">❤️ Like <span id="likeCount">0</span></span>
+                <span onclick="shareProduct()">🔗 Share</span>
+                <span onclick="callNow()">📞 Call: 9258751739</span>
+                <span onclick="callNow2()">📞 Call: 7983006957</span>
+            </div>
+
+            <div class="desc">
+                <h3>About this item</h3>
+                <ul>
+                    <li>Iron, Folic Acid, Vitamin B12 & Vitamin C Syrup</li>
+                    <li>Helps in formation of Red Blood Cells</li>
+                    <li>Useful in Iron Deficiency Anemia</li>
+                    <li>Dose: 10ml twice daily or as directed by physician</li>
+                </ul>
+            </div>
+
+            <div class="comment-box">
+                <h3>Customer Reviews</h3>
+                <div id="commentList"></div>
+                <input type="text" id="commentInput" placeholder="Write a review...">
+                <button onclick="addComment()">Post</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <a onclick="openModal('about')">About</a>
+        <a onclick="openModal('contact')">Contact</a>
+        <a onclick="openModal('privacy')">Privacy</a>
+        <a onclick="openModal('refund')">Refund Policy</a>
+        <p>© 2026 S K Pharmacy, Noida</p>
+    </div>
+
+    <!-- Modal Div -->
+    <div id="modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;z-index:999">
+        <div style="background:white;width:90%;max-width:400px;margin:50px auto;padding:20px;border-radius:8px;position:relative">
+            <span onclick="closeModal()" style="position:absolute;right:10px;top:5px;font-size:24px;cursor:pointer">×</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+<script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let likes = parseInt(localStorage.getItem('rbToneLikes')) || 0;
+    document.getElementById('likeCount').innerText = likes;
+
+    function changeImg(src){ document.getElementById('mainImg').src = src; }
+
+    function updateCartIcon(){
+        let count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cartCount').innerText = count;
+    }
+
+    function addToCart(name, price){
+        let item = cart.find(i => i.name === name);
+        if(item) item.quantity++;
+        else cart.push({name, price, quantity:1});
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartIcon();
+        alert('Added to Cart!');
+    }
+
+    function buyNow(){
+        addToCart('R.B. Tone Syrup 200ml',149);
+        openModal('cart');
+    }
+
+    function likeProduct(){
+        likes++;
+        localStorage.setItem('rbToneLikes', likes);
+        document.getElementById('likeCount').innerText = likes;
+    }
+
+    function shareProduct(){
+        if(navigator.share){
+            navigator.share({
+                title: 'R.B. Tone Syrup',
+                text: 'Buy R.B. Tone Syrup at S K Pharmacy',
+                url: window.location.href
+            });
+        } else {
+            navigator.clipboard.writeText(window.location.href);
+            alert('Link Copied!');
+        }
+    }
+
+    function callNow(){ window.location.href = 'tel:9258751739'; }
+    function callNow2(){ window.location.href = 'tel:7983006957'; }
+
+    function addComment(){
+        let text = document.getElementById('commentInput').value;
+        if(!text) return;
+        let comments = JSON.parse(localStorage.getItem('rbComments')) || [];
+        comments.push({text, date: new Date().toLocaleDateString()});
+        localStorage.setItem('rbComments', JSON.stringify(comments));
+        document.getElementById('commentInput').value = '';
+        showComments();
+    }
+
+    function showComments(){
+        let comments = JSON.parse(localStorage.getItem('rbComments')) || [];
+        document.getElementById('commentList').innerHTML = comments.map(c => 
+            `<p style="border-bottom:1px solid #eee;padding:8px 0"><b>User:</b> ${c.text} <small>(${c.date})</small></p>`
+        ).join('');
+    }
+
+    function openModal(type){
+        let content = '';
+        if(type=='about') content = '<h3>About S K Pharmacy</h3><p>We provide genuine medicines at best price in Noida.</p>';
+        if(type=='contact') content = '<h3>Contact Us</h3><p>Call: 9258751739, 7983006957<br>Email: skpharmacy@gmail.com</p>';
+        if(type=='privacy') content = '<h3>Privacy Policy</h3><p>Your data is safe with us.</p>';
+        if(type=='refund') content = '<h3>Refund Policy</h3><p>7 days easy return on unopened medicines.</p>';
+        if(type=='cart'){
+            content = '<h3>Your Cart</h3>' + cart.map(i => 
+                `<p>${i.name} - ₹${i.price} x ${i.quantity}</p>`
+            ).join('') + `<h4>Total: ₹${cart.reduce((s,i)=>s+i.price*i.quantity,0)}</h4>`;
+        }
+        if(type=='account') content = '<h3>Sign Up</h3><input placeholder="Name"><br><br><input placeholder="Mobile"><br><br><button onclick="alert(\'Login Success\')">Submit</button>';
+        
+        document.getElementById('modalContent').innerHTML = content;
+        document.getElementById('modal').style.display = 'block';
+    }
+
+    function closeModal(){ document.getElementById('modal').style.display = 'none'; }
+
+    function loadCoins() {
+        let coins = localStorage.getItem('sk_coins') || 0;
+        document.getElementById('coinCount').innerText = coins;
+    }
+
+    window.onload = function(){
+        updateCartIcon();
+        loadCoins();
+        showComments();
+    }
+</script>
+</body>
+</html>
