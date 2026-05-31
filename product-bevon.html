@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bevon Suspension 200ml - Multivitamin Syrup | S K Pharmacy</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#EAEDED}
+.header{background:#131921;color:white;padding:10px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:20px;font-weight:bold}
+.dots{font-size:24px;cursor:pointer}
+.menu{position:fixed;top:0;right:-250px;width:250px;height:100%;background:white;box-shadow:-2px 0 5px rgba(0,0,0,0.3);transition:0.3s;z-index:999}
+.menu.active{right:0}
+.menu a{display:block;padding:15px;border-bottom:1px solid #ddd;color:#111;text-decoration:none}
+.ticker{background:#232F3E;color:white;padding:6px;font-size:12px;white-space:nowrap;overflow:hidden}
+.ticker span{display:inline-block;animation:scroll 15s linear infinite}
+@keyframes scroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+.category{background:white;padding:8px;overflow-x:auto;white-space:nowrap;font-size:13px}
+.category span{margin-right:15px;color:#007185}
+.card{background:white;margin:8px;padding:12px;border-radius:8px}
+.price{color:#B12704;font-size:24px}
+.mrp{color:#565959;text-decoration:line-through;font-size:14px}
+.discount{color:#CC0C39;font-size:14px}
+.stock{color:#007600;font-size:16px;margin:8px 0}
+.delivery{background:#F0F2;padding:8px;border-radius:6px;font-size:14px}
+.btn{background:#FFD814;border:0;padding:12px;width:100%;border-radius:20px;font-size:16px;margin:8px 0}
+.btn2{background:#FFA41C}
+.offer{border:1px solid #ddd;padding:8px;border-radius:6px;margin:8px 0;font-size:13px}
+.signin{background:#F7F8FA;padding:10px;font-size:13px;border-bottom:1px solid #ddd}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="logo">amazon.in</div>
+    <div class="dots" onclick="toggleMenu()">⋮</div>
+</div>
+
+<!-- 3 Dot Menu -->
+<div class="menu" id="menu">
+    <a href="#" onclick="shareProduct()">Share</a>
+    <a href="#" onclick="copyLink()">Get Link</a>
+    <a href="index.html">Home</a>
+    <a href="#" onclick="toggleMenu()">Close</a>
+</div>
+
+<!-- News Ticker -->
+<div class="ticker"><span>Free Delivery on orders above ₹499 | Cashback Offers Available | S K Pharmacy Noida</span></div>
+
+<!-- Hello Sign In -->
+<div class="signin">Hello, Sign in to see personalized recommendations</div>
+
+<!-- Category Strip -->
+<div class="category">
+    <span>Multivitamin</span><span>Immunity</span><span>Weight Gain</span><span>Diabetes</span><span>Child Care</span>
+</div>
+
+<!-- Product Card -->
+<div class="card">
+    <img src="bevon.jpg" alt="Bevon Suspension 200ml" style="width:100%;max-width:300px;display:block;margin:auto;">
+    
+    <h2 style="font-size:18px;margin:10px 0;">Bevon Suspension 200ml - Multivitamin & Antioxidant Syrup</h2>
+    
+    <div class="price">₹220 <span class="mrp">M.R.P: ₹250</span> <span class="discount">14% off</span></div>
+    
+    <div class="stock">In Stock</div>
+    
+    <div class="delivery">
+        <b>FREE delivery Tomorrow, 2 Oct</b><br>
+        Or fastest delivery Today by 9 pm. Order within 3 hrs 20 mins.
+    </div>
+
+    <div class="offer"><b>Bank Offer:</b> 10% Instant Discount on SBI Credit Card</div>
+    <div class="offer"><b>Cashback:</b> Get ₹15 back on UPI Payment</div>
+    <div class="offer"><b>Partner Offer:</b> Buy 2 Get 5% Extra Off</div>
+
+    <button class="btn" onclick="buyNow()">Buy Now</button>
+    <button class="btn btn2" onclick="addCart()">Add to Cart</button>
+</div>
+
+<!-- Footer with About Contact Privacy Refund -->
+<div style="background:#232F3E;color:white;text-align:center;padding:15px;margin-top:10px;font-size:13px;">
+    <div style="margin-bottom:10px;">
+        <a href="about.html" style="color:white;margin:0 10px;text-decoration:none;">About</a>
+        <a href="contact.html" style="color:white;margin:0 10px;text-decoration:none;">Contact</a>
+        <a href="privacy.html" style="color:white;margin:0 10px;text-decoration:none;">Privacy</a>
+        <a href="refund.html" style="color:white;margin:0 10px;text-decoration:none;">Refund Policy</a>
+    </div>
+    © 2026 S K Pharmacy, Noida
+</div>
+
+<script>
+function toggleMenu(){
+    document.getElementById('menu').classList.toggle('active');
+}
+function shareProduct(){
+    if(navigator.share){
+        navigator.share({title:'Bevon Suspension',url:window.location.href})
+    } else {
+        alert('Share: ' + window.location.href);
+    }
+    toggleMenu();
+}
+function copyLink(){
+    navigator.clipboard.writeText(window.location.href);
+    alert('Link Copied: ' + window.location.href);
+    toggleMenu();
+}
+function buyNow(){
+    let msg = `*New Order - S K Pharmacy*%0A%0A*Product:* Bevon Suspension 200ml%0A*Price:* ₹159%0A*Qty:* 1%0A*Total:* ₹159%0A%0A*Customer Details:*%0AName:%0AAddress:%0APincode:%0APhone:`;
+    window.open('https://wa.me/919211575333?text='+msg,'_blank');
+}
+function addCart(){
+    alert('Added to Cart: Bevon Suspension 200ml');
+}
+</script>
+
+</body>
+</html>
