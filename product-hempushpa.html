@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hempushpa Tonic 200ml - Women's Health Tonic | S K Pharmacy</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#EAEDED}
+.header{background:#131921;color:white;padding:10px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:20px;font-weight:bold}
+.dots{font-size:24px;cursor:pointer}
+.menu{position:fixed;top:0;right:-250px;width:250px;height:100%;background:white;box-shadow:-2px 0 5px rgba(0,0,0,0.3);transition:0.3s;z-index:999}
+.menu.active{right:0}
+.menu a{display:block;padding:15px;border-bottom:1px solid #ddd;color:#111;text-decoration:none}
+.ticker{background:#232F3E;color:white;padding:6px;font-size:12px;white-space:nowrap;overflow:hidden}
+.ticker span{display:inline-block;animation:scroll 15s linear infinite}
+@keyframes scroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+.category{background:white;padding:8px;overflow-x:auto;white-space:nowrap;font-size:13px}
+.category span{margin-right:15px;color:#007185}
+.card{background:white;margin:10px;padding:12px;border-radius:8px}
+.price{color:#B12704;font-size:24px}
+.mrp{color:#565959;text-decoration:line-through;font-size:14px}
+.discount{color:#CC0C39;font-size:14px}
+.stock{color:#007600;font-size:16px;margin:8px 0}
+.delivery{background:#F0F2F2;padding:8px;border-radius:6px;font-size:14px}
+.btn{background:#FFD814;border:0;padding:12px;width:100%;border-radius:20px;font-size:16px;margin:8px 0}
+.btn2{background:#FFA41C}
+.offer{border:1px solid #ddd;padding:8px;border-radius:6px;margin:8px 0;font-size:13px}
+.signin{background:#F7F8FA;padding:10px;font-size:13px;border-bottom:1px solid #ddd}
+.like-btn{background:#fff;border:1px solid #ddd;padding:8px 15px;border-radius:20px;margin:5px;cursor:pointer}
+.like-btn.liked{background:#FFE4E1;border-color:#FF6B6B;color:#FF6B6B}
+.coin{background:linear-gradient(45deg,#FFD700,#FFA500);color:#000;padding:8px;border-radius:8px;margin:10px 0;text-align:center;font-weight:bold}
+.comment-box{margin-top:15px}
+.comment-box input,.comment-box textarea{width:100%;padding:8px;margin:5px 0;border:1px solid #ddd;border-radius:4px;box-sizing:border-box}
+.comment{background:#F7F8FA;padding:10px;margin:8px 0;border-radius:6px;font-size:13px}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="logo">S K Pharmacy</div>
+    <div class="dots" onclick="toggleMenu()">⋮</div>
+</div>
+
+<!-- 3 Dot Menu -->
+<div class="menu" id="menu">
+    <a href="#" onclick="shareProduct()">Share</a>
+    <a href="#" onclick="copyLink()">Get Link</a>
+    <a href="index.html">Home</a>
+    <a href="#" onclick="toggleMenu()">Close</a>
+</div>
+
+<!-- News Ticker -->
+<div class="ticker"><span>Free Delivery on orders above ₹499 | Cashback Offers Available | S K Pharmacy Noida</span></div>
+
+<!-- Hello Sign In -->
+<div class="signin">Hello, Sign in to see personalized recommendations</div>
+
+<!-- Category Strip -->
+<div class="category">
+    <span>Women Care</span><span>Ayurvedic</span><span>Tonic</span><span>Immunity</span><span>Vitamins</span>
+</div>
+
+<!-- Product Card -->
+<div class="card">
+    <img src="hempushpa.jpg" alt="Hempushpa Tonic 200ml" style="width:100%;max-width:300px;display:block;margin:auto;">
+    
+    <h2 style="font-size:18px;margin:10px 0;">Hempushpa Tonic 200ml - 90 Years Trusted Ayurvedic Women Tonic</h2>
+    
+    <div class="price">₹290 <span class="mrp">M.R.P: ₹350</span> <span class="discount">8% off</span></div>
+    
+    <div class="stock">In Stock</div>
+    
+    <div class="delivery">
+        <b>FREE delivery Tomorrow, 2 Oct</b><br>
+        Or fastest delivery Today by 9 pm. Order within 3 hrs 20 mins.
+    </div>
+
+    <div class="coin">🎉 Buy Now & Get 10 S K Coins = ₹10 Cashback</div>
+    
+    <div class="offer"><b>Bank Offer:</b> 10% Instant Discount on SBI Credit Card</div>
+    <div class="offer"><b>Cashback:</b> Get ₹10 back on UPI Payment</div>
+    <div class="offer"><b>Partner Offer:</b> Buy 2 Get 5% Extra Off</div>
+    
+    <button class="btn" onclick="buyNow()">Buy Now</button>
+    <button class="btn btn2" onclick="addCart()">Add to Cart</button>
+    <button class="btn" onclick="notifyMe()" style="background:#EAEDED;color:#0F1111;border:1px solid #D5D9D9;">🔔 Notify Me About Offers</button>
+
+    <!-- Like Button -->
+    <div style="margin:15px 0;">
+        <button class="like-btn" onclick="likeProduct()" id="likeBtn">❤️ Like <span id="likeCount">124</span></button>
+        <button class="like-btn" onclick="showShare()">📤 Share</button>
+    </div>
+
+    <!-- Product Details -->
+    <h3>About this item</h3>
+    <ul style="font-size:14px;line-height:1.6">
+        <li><b>Brand:</b> Rajvaidya Hempushpa</li>
+        <li><b>Benefits:</b> Women's Health, Hormonal Balance, Energy, Immunity</li>
+        <li><b>Key Ingredients:</b> Ashok Chhal, Lodhra, Shatavari, Amla</li>
+        <li><b>Dosage:</b> 2 teaspoonful twice daily or as directed by physician</li>
+        <li><b>Pack Size:</b> 200ml + 24 Hempushpa Tablets Free</li>
+        <li><b>100% Ayurvedic:</b> No Side Effects, 90 Years Trusted</li>
+    </ul>
+
+    <!-- Comment Section -->
+    <div class="comment-box">
+        <h3>Customer Reviews & Comments</h3>
+        <input type="text" id="userName" placeholder="Your Name">
+        <textarea id="userComment" rows="3" placeholder="Write your review..."></textarea>
+        <button class="btn" onclick="addComment()" style="margin:5px 0;">Post Comment</button>
+        
+        <div id="commentList">
+            <div class="comment"><b>Ritu Sharma:</b> बहुत अच्छा टॉनिक है। 2 महीने से ले रही हूँ, कमजोरी दूर हुई ⭐⭐⭐⭐⭐</div>
+            <div class="comment"><b>Pooja:</b> Periods की problem में आराम मिला। Thanks S K Pharmacy ⭐⭐⭐⭐</div>
+        </div>
+    </div>
+</div>
+
+<script>
+let likes = 124;
+let liked = false;
+
+function toggleMenu(){
+    document.getElementById('menu').classList.toggle('active');
+}
+
+function shareProduct(){
+    if(navigator.share){
+        navigator.share({
+            title:'Hempushpa Tonic - S K Pharmacy',
+            text:'90 Years Trusted Ayurvedic Women Tonic ₹165 Only',
+            url:window.location.href
+        });
+    } else {
+        copyLink();
+        alert('Link Copied! Share on WhatsApp');
+    }
+}
+
+function copyLink(){
+    navigator.clipboard.writeText(window.location.href);
+    alert('Product Link Copied!');
+}
+
+function buyNow(){
+    let msg = `*Order Details*%0AProduct: Hempushpa Tonic 200ml%0APrice: ₹165%0AQty: 1%0A%0AName: %0AAddress: %0APincode: `;
+    window.open(`https://wa.me/919258751739?text=${msg}`, '_blank');
+}
+
+function addCart(){
+    alert('Hempushpa Tonic Added to Cart! Buy Now दबाकर Order करें');
+}
+
+function notifyMe(){
+    if(Notification.permission === "granted"){
+        new Notification("S K Pharmacy", {body: "Hempushpa Tonic पर नई Offer आने पर सूचित करेंगे!"});
+    } else if(Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+            if(permission === "granted"){
+                new Notification("S K Pharmacy", {body: "Notification On कर दिया गया!"});
+            }
+        });
+    } else {
+        alert("Browser में Notification Block है। Settings से Allow करें।");
+    }
+}
+
+function likeProduct(){
+    if(!liked){
+        likes++;
+        liked = true;
+        document.getElementById('likeBtn').classList.add('liked');
+        document.getElementById('likeBtn').innerHTML = '❤️ Liked <span id="likeCount">'+likes+'</span>';
+    } else {
+        likes--;
+        liked = false;
+        document.getElementById('likeBtn').classList.remove('liked');
+        document.getElementById('likeBtn').innerHTML = '❤️ Like <span id="likeCount">'+likes+'</span>';
+    }
+}
+
+function showShare(){
+    shareProduct();
+}
+
+function addComment(){
+    let name = document.getElementById('userName').value;
+    let comment = document.getElementById('userComment').value;
+    if(name.trim() === '' || comment.trim() === ''){
+        alert('Please enter Name and Comment');
+        return;
+    }
+    let newComment = `<div class="comment"><b>${name}:</b> ${comment}</div>`;
+    document.getElementById('commentList').innerHTML = newComment + document.getElementById('commentList').innerHTML;
+    document.getElementById('userName').value = '';
+    document.getElementById('userComment').value = '';
+    alert('Thank you! Your review is posted');
+}
+</script>
+
+</body>
+</html>
