@@ -310,7 +310,7 @@ width:85%;
 </style>
 
 <script>
-// RUFUS AI CHAT - सिर्फ ये 2 Function डालो, DarkMode वाला मत डालना
+// RUFUS AI - GENERAL PURPOSE SMART CHATBOT
 function toggleChat() {
   let chat = document.getElementById('chatWindow');
   chat.style.display = chat.style.display === 'none' ? 'flex' : 'none';
@@ -325,17 +325,66 @@ function sendChat() {
   chatBox.innerHTML += `<div style="background:#667eea;color:white;padding:8px;border-radius:8px;margin:5px 0;text-align:right">${msg}</div>`;
   
   setTimeout(() => {
-    let reply = "Rufus AI: " + msg + " के लिए Product Section देखें।";
-    if(msg.toLowerCase().includes('medicine')) reply = "Rufus AI: Medicine Products उपलब्ध हैं। WhatsApp करें।";
-    if(msg.toLowerCase().includes('hair')) reply = "Rufus AI: Hair Care के लिए Menu में देखें।";
-    if(msg.toLowerCase().includes('hi') || msg.toLowerCase().includes('hello')) reply = "Rufus AI: Namaste! कैसे मदद करूं?";
+    let reply = "";
+    let text = msg.toLowerCase();
+    
+    // 1. Greetings
+    if(text.includes('hi') || text.includes('hello') || text.includes('namaste') || text.includes('hey')) {
+      reply = "Rufus AI: Namaste! 🙏 मैं Rufus हूं, S K Pharmacy का AI Assistant। आप मुझसे Products, Location, Delivery, या कोई भी सवाल पूछ सकते हैं।";
+    }
+    
+    // 2. Location / Address
+    else if(text.includes('kahan') || text.includes('address') || text.includes('location') || text.includes('पता')) {
+      reply = "Rufus AI: S K Pharmacy Greater Noida में है। Exact Location के लिए WhatsApp पर 'Location' लिखकर भेजें, हम Map भेज देंगे।";
+    }
+    
+    // 3. Medicine Info - General Only
+    else if(text.includes('medicine') || text.includes('dawa') || text.includes('tablet') || text.includes('काम आती')) {
+      reply = "Rufus AI: हमारे पास Fever, Cold, Diabetes, Pain Relief की Medicine हैं। किसी दवा के Use के लिए Product पर Click करें या Doctor से सलाह लें। मैं General Info दे सकता हूं, Diagnosis नहीं।";
+    }
+    
+    // 4. Medical Reports / Ultrasound / बीमारी - SAFETY REPLY
+    else if(text.includes('report') || text.includes('ultrasound') || text.includes('x-ray') || text.includes('बीमारी') || text.includes('diagnos')) {
+      reply = "Rufus AI: मैं Medical Reports या Ultrasound नहीं पढ़ सकता भाई। ये काम सिर्फ Certified Doctor कर सकते हैं। सही Diagnosis के लिए कृपया नजदीकी Doctor या Hospital जाएं। आपकी Health सबसे Important है।";
+    }
+    
+    // 5. Delivery / Order
+    else if(text.includes('delivery') || text.includes('कब') || text.includes('time') || text.includes('order')) {
+      reply = "Rufus AI: Same Day Delivery है Greater Noida में। Order के लिए Product के नीचे 'WhatsApp' Button दबाएं। 2-4 घंटे में Delivery हो जाएगी।";
+    }
+    
+    // 6. Price
+    else if(text.includes('price') || text.includes('daam') || text.includes('rate') || text.includes('cost')) {
+      reply = "Rufus AI: हर Product पर Price लिखा है। Discount भी चल रहा है। कोई Specific Product का Rate जानना है तो नाम बताओ।";
+    }
+    
+    // 7. Hair Care / Other Categories  
+    else if(text.includes('hair') || text.includes('baal') || text.includes('skin') || text.includes('cream')) {
+      reply = "Rufus AI: Hair Care और Skin Care Products उपलब्ध हैं - Shampoo, Oil, Serum, Cream। Menu में Category Filter करके देखें।";
+    }
+    
+    // 8. Contact
+    else if(text.includes('contact') || text.includes('number') || text.includes('phone') || text.includes('whatsapp')) {
+      reply = "Rufus AI: WhatsApp पर Order/Query के लिए Product Card पर Click करें। या 'Contact' Page देखें। हम 9 AM - 9 PM Available हैं।";
+    }
+    
+    // 9. General Questions - Non Medical
+    else if(text.includes('time') || text.includes('खुला') || text.includes('band') || text.includes('timing')) {
+      reply = "Rufus AI: S K Pharmacy सुबह 9 बजे से रात 9 बजे तक खुली रहती है। Sunday भी Open। Online Order 24x7 कर सकते हैं।";
+    }
+    
+    // 10. Default Smart Reply
+    else {
+      reply = "Rufus AI: मैं समझ गया। आप Products, Location, Delivery, Timings के बारे में पूछ सकते हैं। Medical सलाह के लिए Doctor से मिलें। और कुछ पूछना है?";
+    }
     
     chatBox.innerHTML += `<div style="background:#f0f0f0;padding:8px;border-radius:8px;margin:5px 0">${reply}</div>`;
     chatBox.scrollTop = chatBox.scrollHeight;
-  }, 500);
+  }, 600);
   
   input.value = '';
 }
+
 </script>    
 </head>
 
@@ -1690,9 +1739,8 @@ color:white !important;
     <p style="margin-top:12px;">© 2026 S K Pharmacy. All Rights Reserved.</p>
 </footer>
 <!-- RUFUS AI CHAT -->
-<button onclick="toggleChat()" style="position:fixed;bottom:140px;right:15px;width:60px;height:60px;border:none;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);color:white;font-size:24px;cursor:pointer;z-index:9999"><i class="fas fa-robot"></i></button>
-
-<div id="chatWindow" style="display:none;position:fixed;bottom:210px;right:15px;width:320px;height:400px;background:white;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.3);z-index:10000;flex-direction:column">
+<button onclick="toggleChat()" style="position:fixed;bottom:210px;right:15px;width:60px;height:60px;border:none;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);color:white;font-size:24px;cursor:pointer;z-index:9999;box-shadow:0 4px 15px rgba(102,126,234,0.4)"><i class="fas fa-robot"></i></button>
+<div id="chatWindow" style="display:none;position:fixed;bottom:280px;right:15px;width:320px;height:400px;background:white;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.3);z-index:10000;flex-direction:column">
   <div style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px;border-radius:10px 10px 0 0;font-weight:bold">🤖 Rufus AI <span onclick="toggleChat()" style="float:right;cursor:pointer">×</span></div>
   <div id="chatMessages" style="flex:1;padding:10px;overflow-y:auto"><div style="background:#f0f0f0;padding:8px;border-radius:8px;margin:5px 0">Hi! Main Rufus AI हूं. Medicine पूछो?</div></div>
   <div style="display:flex;padding:10px;border-top:1px solid #ddd"><input type="text" id="chatInput" placeholder="Ask..." onkeypress="if(event.key==='Enter')sendChat()" style="flex:1;padding:8px;border:1px solid #ddd;border-radius:20px"><button onclick="sendChat()" style="background:#667eea;color:white;border:none;padding:8px 15px;border-radius:20px;margin-left:5px">Send</button></div>
