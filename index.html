@@ -5,8 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>S K Pharmacy - Dr. Sakir Khan</title>
-
+<title>S K Pharmacy All - Fast Easy Shop | AI Assistant | Prime Deals</title>
 <!-- GOOGLE ANALYTICS -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JHBYCVBM02"></script>
 
@@ -31,7 +30,7 @@ j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
 f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KJ8Q28D6');
 </script>
-
+<script src="https://js.stripe.com/v3/"></script>
 <!-- ADSENSE -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3497742039075939" crossorigin="anonymous"></script>
 
@@ -310,6 +309,34 @@ width:85%;
 
 </style>
 
+<script>
+// RUFUS AI CHAT - सिर्फ ये 2 Function डालो, DarkMode वाला मत डालना
+function toggleChat() {
+  let chat = document.getElementById('chatWindow');
+  chat.style.display = chat.style.display === 'none' ? 'flex' : 'none';
+}
+
+function sendChat() {
+  let input = document.getElementById('chatInput');
+  let msg = input.value.trim();
+  if (!msg) return;
+  
+  let chatBox = document.getElementById('chatMessages');
+  chatBox.innerHTML += `<div style="background:#667eea;color:white;padding:8px;border-radius:8px;margin:5px 0;text-align:right">${msg}</div>`;
+  
+  setTimeout(() => {
+    let reply = "Rufus AI: " + msg + " के लिए Product Section देखें।";
+    if(msg.toLowerCase().includes('medicine')) reply = "Rufus AI: Medicine Products उपलब्ध हैं। WhatsApp करें।";
+    if(msg.toLowerCase().includes('hair')) reply = "Rufus AI: Hair Care के लिए Menu में देखें।";
+    if(msg.toLowerCase().includes('hi') || msg.toLowerCase().includes('hello')) reply = "Rufus AI: Namaste! कैसे मदद करूं?";
+    
+    chatBox.innerHTML += `<div style="background:#f0f0f0;padding:8px;border-radius:8px;margin:5px 0">${reply}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }, 500);
+  
+  input.value = '';
+}
+</script>    
 </head>
 
 <body>
@@ -1662,7 +1689,14 @@ color:white !important;
     <a href="refund.html" style="color:#fff; margin:0 10px; text-decoration:none;">Refund Policy</a>
     <p style="margin-top:12px;">© 2026 S K Pharmacy. All Rights Reserved.</p>
 </footer>
-  
+<!-- RUFUS AI CHAT -->
+<button onclick="toggleChat()" style="position:fixed;bottom:140px;right:15px;width:60px;height:60px;border:none;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);color:white;font-size:24px;cursor:pointer;z-index:9999"><i class="fas fa-robot"></i></button>
+
+<div id="chatWindow" style="display:none;position:fixed;bottom:210px;right:15px;width:320px;height:400px;background:white;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.3);z-index:10000;flex-direction:column">
+  <div style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:12px;border-radius:10px 10px 0 0;font-weight:bold">🤖 Rufus AI <span onclick="toggleChat()" style="float:right;cursor:pointer">×</span></div>
+  <div id="chatMessages" style="flex:1;padding:10px;overflow-y:auto"><div style="background:#f0f0f0;padding:8px;border-radius:8px;margin:5px 0">Hi! Main Rufus AI हूं. Medicine पूछो?</div></div>
+  <div style="display:flex;padding:10px;border-top:1px solid #ddd"><input type="text" id="chatInput" placeholder="Ask..." onkeypress="if(event.key==='Enter')sendChat()" style="flex:1;padding:8px;border:1px solid #ddd;border-radius:20px"><button onclick="sendChat()" style="background:#667eea;color:white;border:none;padding:8px 15px;border-radius:20px;margin-left:5px">Send</button></div>
+</div>  
 
 </body>
 </html>
