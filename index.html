@@ -1745,6 +1745,70 @@ color:white !important;
   <div id="chatMessages" style="flex:1;padding:10px;overflow-y:auto"><div style="background:#f0f0f0;padding:8px;border-radius:8px;margin:5px 0">Hi! Main Rufus AI हूं. Medicine पूछो?</div></div>
   <div style="display:flex;padding:10px;border-top:1px solid #ddd"><input type="text" id="chatInput" placeholder="Ask..." onkeypress="if(event.key==='Enter')sendChat()" style="flex:1;padding:8px;border:1px solid #ddd;border-radius:20px"><button onclick="sendChat()" style="background:#667eea;color:white;border:none;padding:8px 15px;border-radius:20px;margin-left:5px">Send</button></div>
 </div>  
+<!-- Google Sheet + Search Script START -->
+<script>
+const SHEET_ID = '1slLe3z5JtNfCV1B7aYP9kn7ojYwK2aJ8AS_k6FKCiy8'; 
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+const WA_NUMBER = '917983006957';
 
+const PRODUCT_CONTAINER_ID = 'sk-product-list'; 
+const SEARCH_INPUT_ID = 'searchInput'; 
+
+let allProducts = []; 
+
+function addOldProducts() {
+    const container = document.getElementById(PRODUCT_CONTAINER_ID);
+    if(!container) return;
+    const oldCards = container.children;
+    for (let card of oldCards) {
+        let name = card.querySelector('h4, h5, .card-title')?.innerText || '';
+        if(name) allProducts.push({ element: card, name: name.toLowerCase() });
+    }
+}
+
+fetch(SHEET_URL).then(r => r.text()).then(csv => {
+    addOldProducts();
+    let rows = csv.split('\n').slice(1);
+    let list = document.getElementById(PRODUCT_CONTAINER_ID);
+    if(!list) return;
+    
+    rows.forEach(row => {
+        if(!row.trim()) return;
+        let [name, mrp, price, image, use, company] = row.split(',').map(c => c.replace(/"/g,'').trim());
+        
+        if(name) {
+            let cardHTML = `
+            <div class="col-md-6 col-lg-4 mb-4 product-card">
+                <div class="card h-100 shadow-sm">
+                    <img src="${image || 'https://via.placeholder.com/300'}" class="card-img-top" style="height:200px; object-fit:contain; padding:10px;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">${name}</h5>
+                        <p class="card-text text-muted">${company || ''}</p>
+                        <p class="card-text">
+                            <span style="text-decoration:line-through; color:grey;">₹${mrp}</span>
+                            <span style="font-size:1.2rem; color:green; font-weight:bold;"> ₹${price}</span>
+                        </p>
+                        <a href="https://wa.me/${WA_NUMBER}?text=Order%20${encodeURIComponent(name)}" target="_blank" class="btn btn-success w-100 mb-2">Order Now</a>
+                        <button onclick='alert("Use: ${use}")' class="btn btn-warning w-100">View Details</button>
+                    </div>
+                </div>
+            </div>`;
+            list.insertAdjacentHTML('beforeend', cardHTML);
+            allProducts.push({ element: list.lastElementChild, name: name.toLowerCase() });
+        }
+    });
+});
+
+const searchBox = document.getElementById(SEARCH_INPUT_ID);
+if(searchBox){
+    searchBox.addEventListener('input', function(e) {
+        let searchText = e.target.value.toLowerCase();
+        allProducts.forEach(p => {
+            p.element.style.display = p.name.includes(searchText) ? '' : 'none';
+        });
+    });
+}
+</script>
+<!-- Google Sheet + Search Script END -->
 </body>
 </html>
