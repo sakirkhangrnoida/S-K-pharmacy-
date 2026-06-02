@@ -14,36 +14,25 @@ function closeSidebar() {
 // ========== MODAL FUNCTIONS ==========
 function openModal(type) {
     closeSidebar();
-    
     let modal = document.getElementById('settingsModal');
     let overlay = document.getElementById('overlay');
     let title = document.getElementById('modalTitle');
     let content = document.getElementById('modalContent');
-    
     modal.style.display = 'block';
     overlay.style.display = 'block';
-    
     if(type === 'account') {
         title.innerText = '👤 My Account';
         content.innerHTML = '<p><b>Welcome!</b></p><p><b>Mobile:</b> 9258751739</p><p><b>Email:</b> sakirkhangrnoida@gmail.com</p>';
-    
     } else if(type === 'location') {
         title.innerText = '📍 Our Location';
         content.innerHTML = '<p><b>S K Pharmacy</b><br>Greater Noida, UP<br>Home Delivery Available</p>';
-        
     } else if(type === 'privacy') {
         title.innerText = '🔒 Privacy Policy';
         content.innerHTML = '<p>आपका डेटा 100% सुरक्षित है। हम किसी से शेयर नहीं करते।</p>';
-        
     } else if(type === 'terms') {
         title.innerText = '📄 Terms & Conditions';
         content.innerHTML = '<p>1. दवाइयाँ डॉक्टर की सलाह से लें<br>2. होम डिलीवरी 2-3 घंटे में</p>';
     }
-}
-
-function closeModal() {
-    document.getElementById('overlay').style.display = 'none';
-    document.getElementById('settingsModal').style.display = 'none';
 }
 
 function closeModal() {
@@ -91,7 +80,6 @@ function showEditProfile() {
     try {
         user = JSON.parse(localStorage.getItem('userData')) || {};
     } catch(e) {}
-    
     content.innerHTML = `
         <input type="text" id="editName" placeholder="Name" value="${user.name || ''}" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
         <input type="email" id="editEmail" placeholder="Email" value="${user.email || ''}" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
@@ -168,80 +156,95 @@ function showSettings() {
     `;
 }
 
-// Overlay click = close all
 document.getElementById('overlay').onclick = function() {
     closeSidebar();
     closeModal();
-        }
-function toggleDarkMode(){
-
-document.body.classList.toggle("dark-mode");
-
 }
 
-// ========== AMAZON STYLE CART SYSTEM + PRODUCT DETAIL START ==========
+function toggleDarkMode(){
+    document.body.classList.toggle("dark-mode");
+}
 
-// 👇👇👇 यहाँ अपने सारे प्रोडक्ट के लिंक + फुल डिटेल डाल दे 👇👇👇
+// ========== PRODUCTS + SEARCH + CART SYSTEM ==========
 const PRODUCT_LINKS = {
     "Kesh King Ayurvedic Oil": {
-        stock: 10,
-        cod: true,
-        price: 299,
-        mrp: 349,
-        desc: "Kesh King Ayurvedic Oil एक आयुर्वेदिक हेयर ऑयल है जो 21 जड़ी-बूटियों से बना है। यह बालों का झड़ना कम करता है, डैंड्रफ हटाता है और नए बाल उगाने में मदद करता है। 100ml की बोतल। रोज रात को लगाने से 1 महीने में रिजल्ट दिखता है।",
-        image: "kesh-king.jpg",
-        amazon: "https://share.google/nrshbLeq9nIC6AGDN",
-        flipkart: "",
-        meesho: "https://www.meesho.com/s/p/c7vcmm"
+        stock: 10, cod: true, price: 299, mrp: 349,
+        desc: "Kesh King Ayurvedic Oil एक आयुर्वेदिक हेयर ऑयल है जो 21 जड़ी-बूटियों से बना है। यह बालों का झड़ना कम करता है, डैंड्रफ हटाता है और नए बाल उगाने में मदद करता है। 100ml की बोतल।",
+        image: "kesh-king.jpg", amazon: "https://share.google/nrshbLeq9nIC6AGDN", flipkart: "", meesho: "https://www.meesho.com/s/p/c7vcmm"
     },
     "Himalaya Hair Zone Solution": {
-        stock: 25,
-        cod: true,
-        price: 479,
-        mrp: 550,
-        desc: "Himalaya Hair Zone Solution में Minoxidil 5% है जो क्लिनिकली प्रूवन है बाल दोबारा उगाने के लिए। गंजेपन और पतले बालों के लिए बेस्ट। 60ml की बोतल, दिन में 2 बार लगाएं। 3-4 महीने में नए बाल आना शुरू। डॉक्टर द्वारा रिकमेंडेड।",
-        image: "himalaya-hair-zone.jpg",
-        amazon: "",
-        flipkart: "https://dl.flipkart.com/dl/himalaya-hair-zone-solution/p/itm089a2160a028e?pid=AYDGBPYVGERKGMFV",
-        meesho: ""
+        stock: 25, cod: true, price: 479, mrp: 550,
+        desc: "Himalaya Hair Zone Solution में Minoxidil 5% है जो क्लिनिकली प्रूवन है बाल दोबारा उगाने के लिए। गंजेपन और पतले बालों के लिए बेस्ट। 60ml की बोतल।",
+        image: "himalaya-hair-zone.jpg", amazon: "", flipkart: "https://dl.flipkart.com/dl/himalaya-hair-zone-solution/p/itm089a2160a028e?pid=AYDGBPYVGERKGMFV", meesho: ""
     },
     "Mamaearth Onion Hair Oil": {
-        stock: 15,
-        cod: false,
-        price: 399,
-        mrp: 499,
-        desc: "Mamaearth Onion Hair Oil प्याज के रस और रेडेंसिल से बना है। बालों का टूटना रोकता है और ग्रोथ बढ़ाता है। 100% नेचुरल, सल्फेट-पैराबेन फ्री। 250ml की बोतल। हफ्ते में 3 बार मसाज करें। डैंड्रफ और सफेद बालों में भी फायदेमंद।",
-        image: "mamaearth-onion.jpg",
-        amazon: "https://amazon.in/xxx",
-        flipkart: "https://flipkart.com/xxx",
-        meesho: "https://meesho.com/xxx"
+        stock: 15, cod: false, price: 399, mrp: 499,
+        desc: "Mamaearth Onion Hair Oil प्याज के रस और रेडेंसिल से बना है। बालों का टूटना रोकता है और ग्रोथ बढ़ाता है। 100% नेचुरल, सल्फेट-पैराबेन फ्री। 250ml की बोतल।",
+        image: "mamaearth-onion.jpg", amazon: "https://amazon.in/xxx", flipkart: "https://flipkart.com/xxx", meesho: "https://meesho.com/xxx"
     },
     "Indulekha Bringha Oil": {
-        stock: 8,
-        cod: true,
-        price: 432,
-        mrp: 485,
-        desc: "Indulekha Bringha Oil भृंगराज, आंवला और नीम से बना आयुर्वेदिक तेल है। सेल्फी ब्रश के साथ आता है जिससे जड़ों तक तेल पहुंचता है। बाल काले, घने और मजबूत बनाता है। 100ml की बोतल। 4 महीने का कोर्स करने से गंजेपन में फायदा।",
-        image: "indulekha.jpg",
-        amazon: "",
-        flipkart: "",
-        meesho: ""
+        stock: 8, cod: true, price: 432, mrp: 485,
+        desc: "Indulekha Bringha Oil भृंगराज, आंवला और नीम से बना आयुर्वेदिक तेल है। सेल्फी ब्रश के साथ आता है। बाल काले, घने और मजबूत बनाता है। 100ml की बोतल।",
+        image: "indulekha.jpg", amazon: "", flipkart: "", meesho: ""
     },
     "WOW Skin Science Hair Oil": {
-        stock: 20,
-        cod: true,
-        price: 349,
-        mrp: 399,
-        desc: "WOW Onion Black Seed Hair Oil प्याज, कलोंजी और 8 नेचुरल ऑयल का ब्लेंड है। बालों को जड़ से पोषण देता है। 200ml की बोतल। केमिकल फ्री, वीगन फॉर्मूला। डैमेज्ड बालों को रिपेयर करता है और शाइन लाता है। रोजाना इस्तेमाल के लिए सेफ।",
-        image: "wow-oil.jpg",
-        amazon: "",
-        flipkart: "",
-        meesho: ""
+        stock: 20, cod: true, price: 349, mrp: 399,
+        desc: "WOW Onion Black Seed Hair Oil प्याज, कलोंजी और 8 नेचुरल ऑयल का ब्लेंड है। बालों को जड़ से पोषण देता है। 200ml की बोतल। केमिकल फ्री।",
+        image: "wow-oil.jpg", amazon: "", flipkart: "", meesho: ""
+    },
+    "crocin 650": {
+        stock: 50, cod: true, price: 25, mrp: 30,
+        desc: "Crocin 650 बुखार और दर्द में तुरंत आराम। Paracetamol 650mg। 15 Tablets। डॉक्टर की सलाह से लें।",
+        image: "https://i.ibb.co/0j1XqGp/crocin.jpg", amazon: "", flipkart: "", meesho: ""
     }
 };
-// 👆👆👆 नया प्रोडक्ट जोड़ना है तो ऊपर वाला फॉर्मेट कॉपी करके पेस्ट कर दे 👆👆
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
+// ========== SEARCH + DISPLAY PRODUCTS - myInput वाला ==========
+document.addEventListener('DOMContentLoaded', function() {
+    let allProducts = Object.keys(PRODUCT_LINKS);
+    displayProducts(allProducts);
+    updateCartIcon();
+
+    // यहाँ myInput Use किया है तेरे लिए
+    let searchInput = document.getElementById('myInput');
+    if(searchInput) {
+        searchInput.addEventListener('input', function() {
+            let searchText = searchInput.value.toLowerCase().trim();
+            let filteredProducts = allProducts.filter(name => {
+                return name.toLowerCase().includes(searchText);
+            });
+            displayProducts(filteredProducts);
+        });
+    }
+});
+
+function displayProducts(productArray) {
+    let productContainer = document.getElementById('productContainer');
+    if(!productContainer) return;
+
+    if(productArray.length === 0) {
+        productContainer.innerHTML = '<p style="text-align:center; padding:20px;">No products found</p>';
+        return;
+    }
+
+    productContainer.innerHTML = productArray.map(name => {
+        let p = PRODUCT_LINKS[name];
+        let discount = Math.round((p.mrp - p.price) / p.mrp * 100);
+        return `
+        <div class="product-card" onclick="showProductDetail('${name}')" style="border:1px solid #eee; padding:15px; border-radius:8px; cursor:pointer; margin:10px; width:200px; display:inline-block; vertical-align:top;">
+            <img src="${p.image}" style="width:100%; height:180px; object-fit:cover; border-radius:5px;">
+            <h3 style="margin:10px 0 5px 0; font-size:16px;">${name}</h3>
+            <div>
+                <span style="font-size:18px; font-weight:bold; color:#E47911;">₹${p.price}</span>
+                <span style="text-decoration:line-through; color:#888; margin-left:8px; font-size:14px;">₹${p.mrp}</span>
+                <span style="color:#388E3C; margin-left:8px; font-weight:bold; font-size:14px;">${discount}% off</span>
+            </div>
+            ${p.cod? '<div style="color:#388E3C; font-size:12px; font-weight:bold; margin-top:5px;">✓ COD Available</div>' : ''}
+        </div>
+        `;
+    }).join('');
+}
 
 // Cart Icon
 let cartIcon = document.createElement('div');
@@ -384,36 +387,6 @@ function addToCart(name, price, stock, image, amazon, flipkart, meesho, cod) {
     }
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartIcon();
-    showButtons(name);
-}
-
-function increaseQuantity(productName) {
-    let item = cart.find(i => i.name === productName);
-    if(item && item.quantity < item.stock) {
-        item.quantity++;
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartIcon();
-        showButtons(productName);
-        showCart();
-    } else {
-        alert(`Sorry! Only ${item.stock} items in stock`);
-    }
-}
-
-function decreaseQuantity(productName) {
-    let item = cart.find(i => i.name === productName);
-    if(item) {
-        item.quantity--;
-        if(item.quantity === 0) {
-            cart = cart.filter(i => i.name!== productName);
-            resetButton(productName);
-        } else {
-            showButtons(productName);
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartIcon();
-        showCart();
-    }
 }
 
 function removeFromCart(productName) {
@@ -421,43 +394,6 @@ function removeFromCart(productName) {
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartIcon();
     showCart();
-    resetButton(productName);
-}
-
-function showButtons(productName) {
-    let item = cart.find(i => i.name === productName);
-    if(!item) return;
-
-    let codBadge = item.cod? `<span style="background:#388E3C;color:white;padding:6px 10px;border-radius:4px;font-size:12px;font-weight:bold">COD</span>` : '';
-    let amazonBtn = item.amazon? `<a href="${item.amazon}" target="_blank" style="background:#FF9900;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Amazon</a>` : '';
-    let primeBtn = item.amazon? `<a href="https://www.amazon.in/prime" target="_blank" style="background:#00A8E1;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Join Prime</a>` : '';
-    let flipkartBtn = item.flipkart? `<a href="${item.flipkart}" target="_blank" style="background:#2874F0;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Flipkart</a>` : '';
-    let meeshoBtn = item.meesho? `<a href="${item.meesho}" target="_blank" style="background:#F43397;color:white;padding:6px 10px;border-radius:4px;text-decoration:none;font-size:12px">Meesho</a>` : '';
-
-    let html = `
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px;border:2px solid #FF9900;border-radius:8px;background:#FFF9E6;flex-wrap:wrap">
-            <button onclick="decreaseQuantity('${productName}')" style="background:#E47911;color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer">🗑️</button>
-            <span style="font-weight:bold">${item.quantity} in cart</span>
-            <button onclick="increaseQuantity('${productName}')" style="background:#E47911;color:white;border:none;width:30px;height:30px;border-radius:50%;font-size:18px;cursor:pointer">+</button>
-            ${codBadge}
-            ${amazonBtn}
-            ${primeBtn}
-            ${flipkartBtn}
-            ${meeshoBtn}
-        </div>
-    `;
-
-    document.querySelectorAll('.product-card').forEach(card => {
-        let h3 = card.querySelector('h3');
-        if(h3 && h3.textContent.trim() === productName) {
-            let btn = card.querySelector('button');
-            if(btn) btn.outerHTML = html;
-        }
-    });
-}
-
-function resetButton(productName) {
-    location.reload();
 }
 
 function checkout() {
@@ -465,54 +401,16 @@ function checkout() {
         alert('Cart is empty!');
         return;
     }
-    let isCOD = document.getElementById('codCheckbox').checked;
-    let message = 'Hello S K Pharmacy! I want to order:\n\n';
+    let message = 'Hello! I want to order:\n\n';
     let total = 0;
     cart.forEach(item => {
         message += `${item.name} x ${item.quantity} = ₹${item.price * item.quantity}\n`;
-        if(item.cod) message += `COD Available\n`;
         total += item.price * item.quantity;
     });
-    message += `\nTotal: ₹${total}\n`;
-    message += `Payment: ${isCOD? 'Cash on Delivery' : 'Online Payment'}\n\nPlease confirm my order.`;
-    window.open(`https://wa.me/919117812690?text=${encodeURIComponent(message)}`, '_blank');
-}
+    message += `\nTotal: ₹${total}`;
+    let cod = document.getElementById('codCheckbox').checked;
+    if(cod) message += '\nPayment: Cash on Delivery';
 
-function autoSetupButtons() {
-    document.querySelectorAll('.product-card').forEach(card => {
-        let h3 = card.querySelector('h3');
-        let img = card.querySelector('img');
-        let btn = card.querySelector('button');
-
-        if(h3 && btn && (btn.textContent.includes('Add to Cart') || btn.textContent.includes('Buy Now'))) {
-            let name = h3.textContent.trim();
-            let productData = PRODUCT_LINKS[name];
-
-            if(!productData) return;
-
-            if(img) img.onclick = () => showProductDetail(name);
-            if(h3) h3.onclick = () => showProductDetail(name);
-
-            let buttonHTML = `
-                <button onclick="addToCart('${name}', ${productData.price}, ${productData.stock}, '${productData.image}', '${productData.amazon}', '${productData.flipkart}', '${productData.meesho}', ${productData.cod})"
-                    style="width:100%;background:#FF9900;color:white;padding:10px;border:none;border-radius:5px;cursor:pointer;font-weight:bold">
-                    🛒 Add to Cart
-                </button>
-            `;
-            btn.outerHTML = buttonHTML;
+    let whatsappURL = `https://wa.me/919258751739?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, '_blank');
         }
-    });
-}
-
-window.onload = function() {
-    updateCartIcon();
-    autoSetupButtons();
-    cart.forEach(item => showButtons(item.name));
-};
-
-window.onclick = function(event) {
-    if(event.target.classList.contains('modal')) {
-        event.target.style.display = 'none';
-    }
-};
-// ========== AMAZON STYLE CART SYSTEM + PRODUCT DETAIL END ==========
