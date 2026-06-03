@@ -414,3 +414,18 @@ function checkout() {
     let whatsappURL = `https://wa.me/919258751739?text=${encodeURIComponent(message)}`;
     window.open(whatsappURL, '_blank');
         }
+function filterProducts() {
+  let input = document.getElementById('myInput');
+  let filter = input.value.toUpperCase();
+  let productCards = document.querySelectorAll('.product-card,.card,.product');
+  
+  for (let i = 0; i < productCards.length; i++) {
+    let card = productCards[i];
+    let txtValue = card.textContent || card.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      card.style.display = "";
+    } else {
+      card.style.display = "none";
+    }
+  }
+}
