@@ -10,7 +10,6 @@ function closeSidebar() {
     document.getElementById('overlay').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
-
 // ========== MODAL FUNCTIONS ==========
 function openModal(type) {
     closeSidebar();
