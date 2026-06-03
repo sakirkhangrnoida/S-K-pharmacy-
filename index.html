@@ -1710,6 +1710,40 @@ color:white !important;
   <div id="chatMessages" style="flex:1;padding:10px;overflow-y:auto"><div style="background:#f0f0f0;padding:8px;border-radius:8px;margin:5px 0">Hi! Main Rufus AI हूं. Medicine पूछो?</div></div>
   <div style="display:flex;padding:10px;border-top:1px solid #ddd"><input type="text" id="chatInput" placeholder="Ask..." onkeypress="if(event.key==='Enter')sendChat()" style="flex:1;padding:8px;border:1px solid #ddd;border-radius:20px"><button onclick="sendChat()" style="background:#667eea;color:white;border:none;padding:8px 15px;border-radius:20px;margin-left:5px">Send</button></div>
 </div>  
-   
+<!-- DEBUG TOOL - Problem Pakadne Ke Liye -->
+<div id="debug-panel" style="position:fixed;bottom:10px;right:10px;background:red;color:white;padding:10px;z-index:9999;font-size:12px;border-radius:5px;display:none;">
+  <b>Error:</b> <span id="error-msg"></span>
+</div>
+
+<script>
+// 1. Slow Image Pakdega
+window.addEventListener('load', function() {
+  let loadTime = performance.now();
+  if(loadTime > 3000) {
+    document.getElementById('debug-panel').style.display = 'block';
+    document.getElementById('error-msg').innerText = 'Site Slow Hai: ' + Math.round(loadTime/1000) + 's lagi. Images compress karo.';
+  }
+});
+
+// 2. JS Error Pakdega
+window.onerror = function(msg, url, line) {
+  document.getElementById('debug-panel').style.display = 'block';
+  document.getElementById('error-msg').innerText = 'JS Error: ' + msg + ' Line: ' + line;
+  return false;
+};
+
+// 3. 3 Dot Menu Problem Check
+setTimeout(function() {
+  let menuBtn = document.querySelector('.menu-toggle, #menu-btn, .hamburger');
+  if(menuBtn) {
+    let styles = window.getComputedStyle(menuBtn);
+    if(styles.display === 'none') {
+      document.getElementById('debug-panel').style.display = 'block';
+      document.getElementById('error-msg').innerText = '3 Dot Menu Mobile Par Hide Hai. CSS Check Karo.';
+    }
+  }
+}, 2000);
+</script>
+    
 </body>
 </html>
