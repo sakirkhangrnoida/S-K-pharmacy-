@@ -412,7 +412,11 @@ function addComment(name) {
   localStorage.setItem('comments', JSON.stringify(comments));
   showProductDetail(name);
 }
-
+function openModal(title, content) {
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalContent').innerHTML = content;
+  document.getElementById('myModal').style.display = 'block';
+}
 // ========== PRODUCT DETAIL MODAL ==========
 function showProductDetail(name) {
   let p = PRODUCT_LINKS[name];
