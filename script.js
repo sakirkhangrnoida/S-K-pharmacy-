@@ -12,7 +12,7 @@ function closeSidebar() {
 }
 // ========== MODAL FUNCTIONS ==========
 function openModal(type) {
-    closesidebar();
+    closeSidebar();
     let modal = document.getElementById('settingsModal');
     let overlay = document.getElementById('overlay');
     let title = document.getElementById('modalTitle');
