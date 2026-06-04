@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+9<!DOCTYPE html>
 <html lang="hi">
 <head>
 
@@ -396,10 +396,10 @@ function sendChat() {
         <h1 style="color: #fff; margin: 0; font-size: 18px;">S K Pharmacy</h1>
     </div>
     <div>
-        <button onclick="openSidebar()" style="background: none; border: none; color: white; font-size: 28px; cursor: pointer;">⋮</button>
+        <button onclick="opensidebar()" style="background: none; border: none; color: white; font-size: 28px; cursor: pointer;">⋮</button>
     </div>
 </header>
-<!-- Amazon जैसा Side Menu -->
+<!-- Amazon जैसा side Menu -->
 <div id="sidebar" style="position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: white; z-index: 9999; overflow-y: auto; transition: 0.3s;">
     <div style="background: #232f3e; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
         <strong style="font-size: 16px;">👤 Hello, Sign In</strong>
@@ -437,7 +437,7 @@ function sendChat() {
         <a href="tel:7983006957" style="display: block; padding: 10px 20px; cursor: pointer; color: #333; text-decoration: none;">📞 7983006957</a>
         <a href="mailto:sakirkhangrnoida@gmail.com" style="display: block; padding: 10px 20px; cursor: pointer; color: #333; text-decoration: none;">📧 sakirkhangrnoida@gmail.com</a>
     </div>
-</div> <!-- Sidebar का div यहाँ बंद होगा -->
+</div> <!-- sidebar का div यहाँ बंद होगा -->
 
 <!-- Modal के लिए Overlay - ये जरूरी है -->
 <div id="overlay" onclick="closeModal()" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;"></div>
@@ -1730,6 +1730,30 @@ body, html {
   <b>Error:</b> <span id="error-msg"></span>
 </div>
 <script>
+ function opensidebar() {
+  document.getElementById("sidebar").style.left = "0px";
+}
+
+function closesidebar() {
+  document.getElementById("sidebar").style.left = "-300px";
+}
+
+// search Function - Product ढूंढने के लिए
+function filterProducts() {
+  var input, filter, cards, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  cards = document.getElementsByClassName("cat-item");
+  for (i = 0; i < cards.length; i++) {
+    txtValue = cards[i].textContent || cards[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      cards[i].style.display = "";
+    } else {
+      cards[i].style.display = "none";
+    }
+  }
+    }
+    
 // 1. Slow Image Pakdega
 window.addEventListener('load', function() {
   let loadTime = performance.now();
