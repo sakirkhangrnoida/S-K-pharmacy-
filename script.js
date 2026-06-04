@@ -162,7 +162,7 @@ function openSidebar() {
     `;
     document.body.appendChild(sidebar);
   }
-
+sidebar = document.getElementById('sidebar');
   let overlay = document.getElementById('overlay');
   if (!overlay) {
     overlay = document.createElement('div');
