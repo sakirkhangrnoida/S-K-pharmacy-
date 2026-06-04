@@ -176,6 +176,166 @@ function openThreeDotMenu() {
   document.getElementById('settingsModal').style.display = 'block';
   document.getElementById('overlay').style.display = 'block';
 }
+// ========== PRODUCT CARD CLICK - पूरी जानकारी + सभी ऑप्शन ==========
+function showProductDetail(name) {
+  let p = PRODUCT_LINKS[name];
+  if(!p) return;
+
+  let discount = p.mrp? Math.round((p.mrp - p.price) / p.mrp * 100) : 0;
+  let productComments = comments[name] || [];
+  let likeCount = likes[name] || 0;
+  let userLiked = currentUser && likes[name + '_' + currentUser.phone];
+
+  // पुराना Modal हटाओ
+  let oldModal = document.getElementById('productModal');
+  if(oldModal) oldModal.remove();
+
+  let modal = document.createElement('div');
+  modal.id = 'productModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1001;display:flex;justify-content:center;align-items:start;overflow-y:auto;padding:20px 0;';
+
+  modal.innerHTML = `
+    <div style="background:white;max-width:500px;width:95%;border-radius:10px;overflow:hidden;margin:auto;">
+      <div style="position:relative;">
+        <img src="${p.image}" onerror="this.src='https://via.placeholder.com/500x300?text=No+Image'" style="width:100%;height:300px;object-fit:contain;background:#f7f7f7;">
+        <button onclick="closeProductModal()" style="position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.6);color:white;border:none;width:35px;height:35px;border-radius:50%;cursor:pointer;font-size:18px;">✕</button>
+        ${p.bestseller? `<div style="position:absolute;top:10px;left:10px;background:#FF6F00;color:white;padding:4px 10px;border-radius:3px;font-size:12px;font-weight:bold;">🔥 BESTSELLER</div>` : ''}
+      </div>
+
+      <div style="padding:15px;max-height:70vh;overflow-y:auto;">
+        <h2 style="margin:0 0 8px 0;font-size:20px;">${name}</h2>
+
+        <div style="margin-bottom:12px;">
+          <span style="font-size:28px;font-weight:bold;color:#B12704;">₹${p.price}</span>
+          ${p.mrp? `<span style="text-decoration:line-through;color:#565959;margin-left:10px;font-size:16px;">₹${p.mrp}</span>` : ''}
+          ${discount > 0? `<span style="background:#CC0C39;color:white;padding:3px 8px;border-radius:3px;margin-left:10px;font-size:13px;">${discount}% OFF</span>` : ''}
+        </div>
+
+        <div style="background:#F0F2F2;padding:12px;border-radius:8px;margin-bottom:12px;font-size:14px;">
+          <div style="margin-bottom:6px;">🚚 <b>FREE Delivery</b> to ${STORE_ADDRESS}</div>
+          <div style="margin-bottom:6px;">📦 <b>Stock:</b> <span style="color:${p.stock > 5? '#007600' : '#CC0C39'};font-weight:bold;">${p.stock > 0? `${p.stock} available` : 'Out of Stock'}</span></div>
+          ${p.cod? `<div>💰 <b>Cash on Delivery</b> Available</div>` : ''}
+          <div style="margin-top:6px;">⏰ <b>Delivery:</b> 2-3 Days</div>
+        </div>
+
+        <p style="color:#0F1111;margin-bottom:15px;font-size:14px;line-height:1.6;">${p.desc || 'No description available'}</p>
+
+        <button onclick="addToCart('${name}')" ${p.stock <= 0? 'disabled' : ''} style="width:100%;background:${p.stock <= 0? '#AAB7B8' : '#FFD814'};color:#0F1111;border:none;padding:13px;border-radius:20px;font-weight:bold;cursor:${p.stock <= 0? 'not-allowed' : 'pointer'};margin-bottom:10px;font-size:15px;box-shadow:0 2px 5px rgba(15,17,17,.15);">
+          ${p.stock <= 0? 'Out of Stock' : '🛒 Add to Cart'}
+        </button>
+
+        <button onclick="buyNow('${name}')" ${p.stock <= 0? 'disabled' : ''} style="width:100%;background:${p.stock <= 0? '#AAB7B8' : '#FFA41C'};color:#0F1111;border:none;padding:13px;border-radius:20px;font-weight:bold;cursor:${p.stock <= 0? 'not-allowed' : 'pointer'};margin-bottom:15px;font-size:15px;box-shadow:0 2px 5px rgba(15,17,17,.15);">
+          ${p.stock <= 0? 'Out of Stock' : '⚡ Buy Now'}
+        </button>
+
+        <div style="display:flex;gap:8px;margin-bottom:20px;border-top:1px solid #DDD;padding-top:15px;">
+          <button onclick="likeProduct('${name}')" style="flex:1;padding:10px;border:1px solid #D5D9D9;background:${userLiked? '#FFF3F3' : 'white'};border-radius:8px;cursor:pointer;font-size:13px;">
+            ${userLiked? '❤️' : '🤍'} Like (${likeCount})
+          </button>
+          <button onclick="shareProduct('${name}')" style="flex:1;padding:10px;border:1px solid #D5D9D9;background:white;border-radius:8px;cursor:pointer;font-size:13px;">
+            📤 Share
+          </button>
+          <button onclick="followStore()" style="flex:1;padding:10px;border:1px solid #D5D9D9;background:white;border-radius:8px;cursor:pointer;font-size:13px;">
+            ➕ Follow
+          </button>
+        </div>
+
+        ${p.amazon || p.flipkart || p.meesho? `
+        <div style="border-top:1px solid #DDD;padding-top:15px;margin-bottom:15px;">
+          <b style="font-size:14px;">Also available on:</b>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            ${p.amazon? `<a href="${p.amazon}" target="_blank" style="flex:1;background:#232F3E;color:white;text-align:center;padding:8px;border-radius:8px;text-decoration:none;font-size:12px;font-weight:bold;">Amazon</a>` : ''}
+            ${p.flipkart? `<a href="${p.flipkart}" target="_blank" style="flex:1;background:#2874F0;color:white;text-align:center;padding:8px;border-radius:8px;text-decoration:none;font-size:12px;font-weight:bold;">Flipkart</a>` : ''}
+            ${p.meesho? `<a href="${p.meesho}" target="_blank" style="flex:1;background:#F43397;color:white;text-align:center;padding:8px;border-radius:8px;text-decoration:none;font-size:12px;font-weight:bold;">Meesho</a>` : ''}
+          </div>
+        </div>` : ''}
+
+        <div style="border-top:1px solid #DDD;padding-top:15px;">
+          <h3 style="margin:0 0 12px 0;font-size:16px;">💬 Customer Reviews (${productComments.length})</h3>
+          <div style="margin-bottom:12px;">
+            <textarea id="commentText" placeholder="${currentUser? 'Write your review...' : 'Login to write review'}" ${!currentUser? 'disabled' : ''} style="width:100%;padding:10px;border:1px solid #D5D9D9;border-radius:8px;height:70px;font-size:14px;resize:none;box-sizing:border-box;"></textarea>
+            <button onclick="addComment('${name}')" ${!currentUser? 'disabled' : ''} style="background:#FFD814;color:#0F1111;border:none;padding:8px 20px;border-radius:20px;margin-top:8px;cursor:${!currentUser? 'not-allowed' : 'pointer'};font-weight:bold;">Post Review</button>
+            ${!currentUser? '<p style="font-size:12px;color:#CC0C39;margin-top:5px;">Please login to post review</p>' : ''}
+          </div>
+          <div id="commentsList">
+            ${productComments.length === 0? '<p style="color:#565959;font-size:14px;text-align:center;padding:20px;">No reviews yet. Be the first!</p>' :
+            productComments.map(c => `
+              <div style="background:#F7F8F8;padding:12px;border-radius:8px;margin-bottom:10px;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+                  <b style="font-size:14px;">👤 ${c.user}</b>
+                  <span style="color:#565959;font-size:11px;">${c.time}</span>
+                </div>
+                <p style="margin:0;font-size:14px;color:#0F1111;">${c.text}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function closeProductModal() {
+  let modal = document.getElementById('productModal');
+  if(modal) modal.remove();
+}
+
+// ========== BUY NOW ==========
+function buyNow(name) {
+  addToCart(name);
+  showCart();
+  document.getElementById('cartModal').style.display = 'block';
+  closeProductModal();
+}
+
+// ========== LIKE + SHARE + COMMENT + FOLLOW ==========
+function likeProduct(name) {
+  if(!currentUser) { alert('Login करके Like करें'); showLoginModal(); return; }
+  const userKey = name + '_' + currentUser.phone;
+  if(likes[userKey]) {
+    delete likes[userKey];
+    likes[name] = Math.max(0, (likes[name] || 1) - 1);
+  } else {
+    likes[userKey] = true;
+    likes[name] = (likes[name] || 0) + 1;
+  }
+  localStorage.setItem('likes', JSON.stringify(likes));
+  closeProductModal();
+  showProductDetail(name);
+  showToast('❤️ Liked!');
+}
+
+function shareProduct(name) {
+  const url = window.location.href.split('?')[0] + '?product=' + encodeURIComponent(name);
+  const text = `*${name}* - Only ₹${PRODUCT_LINKS[name].price} on S K Pharmacy!%0A🚚 FREE Delivery to ${STORE_ADDRESS}%0A📞 Order: ${STORE_PHONE}`;
+  if(navigator.share) {
+    navigator.share({title: name, text: text, url: url});
+  } else {
+    window.open(`https://wa.me/?text=${encodeURIComponent(text + '%0A' + url)}`, '_blank');
+  }
+}
+
+function followStore() {
+  if(!currentUser) { alert('Login करके Follow करें'); showLoginModal(); return; }
+  showToast('✅ Thanks for following S K Pharmacy!');
+}
+
+function addComment(name) {
+  if(!currentUser) { alert('Login करके Comment करें'); showLoginModal(); return; }
+  const text = document.getElementById('commentText').value.trim();
+  if(!text) return alert('Review लिखें');
+  if(!comments[name]) comments[name] = [];
+  comments[name].unshift({
+    user: currentUser.name,
+    text: text,
+    time: new Date().toLocaleString('en-IN', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})
+  });
+  localStorage.setItem('comments', JSON.stringify(comments));
+  closeProductModal();
+  showProductDetail(name);
+  showToast('✅ Review Posted!');
+}
 // ========== PRODUCT DISPLAY WITH SEARCH SORT ==========
 function displayProducts(productArray) {
   let productContainer = document.getElementById('productContainer');
