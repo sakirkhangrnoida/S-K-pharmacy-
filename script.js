@@ -1,18 +1,18 @@
 // ========== SIDEBAR FUNCTIONS ==========
-function openSidebar() {
+function opensidebar() {
     document.getElementById('sidebar').style.left = '0px';
     document.getElementById('overlay').style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
 
-function closeSidebar() {
+function closesidebar() {
     document.getElementById('sidebar').style.left = '-300px';
     document.getElementById('overlay').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
 // ========== MODAL FUNCTIONS ==========
 function openModal(type) {
-    closeSidebar();
+    closesidebar();
     let modal = document.getElementById('settingsModal');
     let overlay = document.getElementById('overlay');
     let title = document.getElementById('modalTitle');
