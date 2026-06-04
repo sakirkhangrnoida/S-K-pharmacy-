@@ -1,430 +1,491 @@
-// ========== SIDEBAR FUNCTIONS ==========
-function openSidebar() {
-    document.getElementById('sidebar').style.left = '0px';
-    document.getElementById('overlay').style.display = 'block';
-    document.body.style.overflow = 'hidden';
+// ========== SK PHARMACY - FULL AMAZON TYPE ==========
+let PRODUCT_LINKS = {};
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+let orders = JSON.parse(localStorage.getItem('orders')) || [];
+let comments = JSON.parse(localStorage.getItem('comments')) || {};
+let likes = JSON.parse(localStorage.getItem('likes')) || {};
+
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1CG0ALO22DalxaktdD0ZuNYGSkUiMc5P4lb2fDwWYrS0/export?format=csv';
+const STORE_PHONE = '919258751739';
+const STORE_PHONE2 = '917983006957';
+const STORE_ADDRESS = 'सिलापुर, दनकौर, ग्रेटर नोएडा, उत्तर प्रदेश - 203201';
+
+// ========== GOOGLE SHEET LOAD ==========
+async function loadProductsFromSheet() {
+  try {
+    const res = await fetch(SHEET_CSV_URL);
+    const csv = await res.text();
+    const rows = csv.split('\n').slice(1);
+    PRODUCT_LINKS = {};
+    rows.forEach(row => {
+      if(!row.trim()) return;
+      const c = row.split(',');
+      const name = c[0]?.trim();
+      if(!name) return;
+      PRODUCT_LINKS[name] = {
+        stock: parseInt(c[1]) || 0,
+        cod: c[2]?.trim().toUpperCase() === 'TRUE',
+        price: parseInt(c[3]) || 0,
+        mrp: parseInt(c[4]) || 0,
+        desc: c[5]?.trim() || '',
+        image: c[6]?.trim() || '',
+        amazon: c[7]?.trim() || '',
+        flipkart: c[8]?.trim() || '',
+        meesho: c[9]?.trim() || '',
+        category: c[10]?.trim() || 'General',
+        bestseller: c[11]?.trim().toUpperCase() === 'TRUE'
+      };
+    });
+    displayProducts(Object.keys(PRODUCT_LINKS));
+    showLiveNotification();
+  } catch(e) {
+    document.getElementById('productContainer').innerHTML = `<div style="color:red;text-align:center;padding:20px;"><h3>Products Load नहीं हुए</h3><p>Sheet को Publish to web करो</p></div>`;
+  }
 }
 
-function closeSidebar() {
-    document.getElementById('sidebar').style.left = '-300px';
-    document.getElementById('overlay').style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-// ========== MODAL FUNCTIONS ==========
-function openModal(type) {
-    closeSidebar();
-    let modal = document.getElementById('settingsModal');
-    let overlay = document.getElementById('overlay');
-    let title = document.getElementById('modalTitle');
-    let content = document.getElementById('modalContent');
-    modal.style.display = 'block';
-    overlay.style.display = 'block';
-    if(type === 'account') {
-        title.innerText = '👤 My Account';
-        content.innerHTML = '<p><b>Welcome!</b></p><p><b>Mobile:</b> 9258751739</p><p><b>Email:</b> sakirkhangrnoida@gmail.com</p>';
-    } else if(type === 'location') {
-        title.innerText = '📍 Our Location';
-        content.innerHTML = '<p><b>S K Pharmacy</b><br>Greater Noida, UP<br>Home Delivery Available</p>';
-    } else if(type === 'privacy') {
-        title.innerText = '🔒 Privacy Policy';
-        content.innerHTML = '<p>आपका डेटा 100% सुरक्षित है। हम किसी से शेयर नहीं करते।</p>';
-    } else if(type === 'terms') {
-        title.innerText = '📄 Terms & Conditions';
-        content.innerHTML = '<p>1. दवाइयाँ डॉक्टर की सलाह से लें<br>2. होम डिलीवरी 2-3 घंटे में</p>';
-    }
+// ========== LIVE NOTIFICATION ==========
+function showLiveNotification() {
+  const names = ['Rahul', 'Priya', 'Amit', 'Neha', 'Vikas'];
+  const products = Object.keys(PRODUCT_LINKS);
+  if(products.length === 0) return;
+
+  setInterval(() => {
+    const name = names[Math.floor(Math.random() * names.length)];
+    const product = products[Math.floor(Math.random() * products.length)];
+    const notif = document.createElement('div');
+    notif.style.cssText = 'position:fixed;bottom:20px;left:20px;background:white;padding:10px 15px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:9999;font-size:14px;animation:slideIn 0.5s;';
+    notif.innerHTML = `🔥 <b>${name}</b> ने ${product} खरीदा अभी`;
+    document.body.appendChild(notif);
+    setTimeout(() => notif.remove(), 4000);
+  }, 8000);
 }
 
-function closeModal() {
-    document.getElementById('settingsModal').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
-    document.body.style.overflow = 'auto';
+// ========== LOGIN / SIGNUP SYSTEM ==========
+function showLoginModal() {
+  closeSidebar();
+  document.getElementById('modalTitle').innerText = '👤 Login / Sign Up';
+  document.getElementById('modalContent').innerHTML = `
+    <div id="loginForm">
+      <input type="tel" id="loginPhone" placeholder="Mobile Number" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:5px;">
+      <input type="password" id="loginPass" placeholder="Password" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:5px;">
+      <button onclick="loginUser()" style="width:100%;background:#FF9900;color:white;padding:12px;border:none;border-radius:5px;font-weight:bold;margin-top:10px;">Login</button>
+      <p style="text-align:center;margin:15px 0;">New User? <a href="#" onclick="showSignupForm()" style="color:#0066c0;">Create Account</a></p>
+    </div>
+    <div id="signupForm" style="display:none;">
+      <input type="text" id="signupName" placeholder="Full Name" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:5px;">
+      <input type="tel" id="signupPhone" placeholder="Mobile Number" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:5px;">
+      <input type="password" id="signupPass" placeholder="Password" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:5px;">
+      <input type="text" id="signupAddress" placeholder="Address, Silapur Dankaur" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:5px;">
+      <input type="text" id="signupPin" placeholder="Pincode 203201" style="width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:5px;">
+      <button onclick="signupUser()" style="width:100%;background:#FF9900;color:white;padding:12px;border:none;border-radius:5px;font-weight:bold;margin-top:10px;">Sign Up</button>
+      <p style="text-align:center;margin:15px 0;">Already have account? <a href="#" onclick="showLoginForm()" style="color:#0066c0;">Login</a></p>
+    </div>
+  `;
+  document.getElementById('settingsModal').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
 }
 
-// ========== ACCOUNT RELATED FUNCTIONS ==========
-function showAccountDetails() {
-    let content = document.getElementById('modalContent');
-    try {
-        let userData = localStorage.getItem('userData');
-        if(userData) {
-            let user = JSON.parse(userData);
-            content.innerHTML = `
-                <div style="text-align:center; margin-bottom:20px;">
-                    <img src="https://ui-avatars.com/api/?name=${user.name || 'User'}&background=random" style="width:80px; height:80px; border-radius:50%;">
-                    <h3 style="margin:10px 0 5px 0;">${user.name || 'User'}</h3>
-                    <p style="color:#666; margin:0;">${user.email || 'No email'}</p>
-                </div>
-                <div style="background:#f8f9fa; padding:15px; border-radius:8px; line-height:1.8;">
-                    <p><b>Name:</b> ${user.name || 'Not set'}</p>
-                    <p><b>Email:</b> ${user.email || 'Not set'}</p>
-                    <p><b>Mobile:</b> ${user.mobile || 'Not added'}</p>
-                    <p><b>Address:</b> ${user.address || 'Not added'}</p>
-                    <p><b>Pin Code:</b> ${user.pincode || 'Not added'}</p>
-                </div>
-                <button onclick="openModal('edit-profile')" style="width:100%; margin-top:15px; padding:12px; background:#007bff; color:white; border:none; border-radius:8px; cursor:pointer;">Edit Profile</button>
-            `;
-        } else {
-            content.innerHTML = `
-                <p style="text-align:center; color:#666;">You are not logged in.</p>
-                <button onclick="openModal('login')" style="width:100%; margin-top:15px; padding:12px; background:#28a745; color:white; border:none; border-radius:8px; cursor:pointer;">Login Now</button>
-            `;
-        }
-    } catch(e) {
-        content.innerHTML = '<p style="text-align:center; color:red;">Error loading data.</p>';
-    }
-}
-
-function showEditProfile() {
-    let content = document.getElementById('modalContent');
-    let user = {};
-    try {
-        user = JSON.parse(localStorage.getItem('userData')) || {};
-    } catch(e) {}
-    content.innerHTML = `
-        <input type="text" id="editName" placeholder="Name" value="${user.name || ''}" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
-        <input type="email" id="editEmail" placeholder="Email" value="${user.email || ''}" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
-        <input type="tel" id="editMobile" placeholder="Mobile" value="${user.mobile || ''}" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
-        <textarea id="editAddress" placeholder="Address" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px; height:60px;">${user.address || ''}</textarea>
-        <input type="text" id="editPincode" placeholder="Pin Code" value="${user.pincode || ''}" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
-        <button onclick="saveProfile()" style="width:100%; margin-top:15px; padding:12px; background:#007bff; color:white; border:none; border-radius:8px; cursor:pointer;">Save Changes</button>
-    `;
-}
-
-function saveProfile() {
-    let user = {
-        name: document.getElementById('editName').value,
-        email: document.getElementById('editEmail').value,
-        mobile: document.getElementById('editMobile').value,
-        address: document.getElementById('editAddress').value,
-        pincode: document.getElementById('editPincode').value
-    };
-    localStorage.setItem('userData', JSON.stringify(user));
-    alert('Profile Updated!');
-    openModal('account');
+function showSignupForm() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('signupForm').style.display = 'block';
 }
 
 function showLoginForm() {
-    let content = document.getElementById('modalContent');
-    content.innerHTML = `
-        <input type="email" id="loginEmail" placeholder="Email" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
-        <input type="password" id="loginPassword" placeholder="Password" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
-        <button onclick="doLogin()" style="width:100%; margin-top:15px; padding:12px; background:#28a745; color:white; border:none; border-radius:8px; cursor:pointer;">Login</button>
-    `;
+  document.getElementById('signupForm').style.display = 'none';
+  document.getElementById('loginForm').style.display = 'block';
 }
 
-function doLogin() {
-    let email = document.getElementById('loginEmail').value;
-    let user = { name: 'Demo User', email: email, mobile: '', address: '', pincode: '' };
-    localStorage.setItem('userData', JSON.stringify(user));
-    alert('Login Successful!');
-    openModal('account');
+function signupUser() {
+  const user = {
+    name: document.getElementById('signupName').value,
+    phone: document.getElementById('signupPhone').value,
+    pass: document.getElementById('signupPass').value,
+    address: document.getElementById('signupAddress').value,
+    pin: document.getElementById('signupPin').value
+  };
+  if(!user.name ||!user.phone ||!user.pass) return alert('सभी Fields भरें');
+  localStorage.setItem('user_' + user.phone, JSON.stringify(user));
+  currentUser = user;
+  localStorage.setItem('currentUser', JSON.stringify(user));
+  alert('Account Created! Welcome ' + user.name);
+  closeModal();
+  updateAccountUI();
 }
 
-function showPasswordForm() {
-    let content = document.getElementById('modalContent');
-    content.innerHTML = `
-        <input type="password" placeholder="Old Password" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
-        <input type="password" placeholder="New Password" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
-        <input type="password" placeholder="Confirm Password" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
-        <button onclick="alert('Password Changed!')" style="width:100%; margin-top:15px; padding:12px; background:#007bff; color:white; border:none; border-radius:8px; cursor:pointer;">Update Password</button>
-    `;
-}
-
-function showAddress() {
-    let user = JSON.parse(localStorage.getItem('userData') || '{}');
-    document.getElementById('modalContent').innerHTML = `
-        <p><b>Saved Address:</b></p>
-        <p>${user.address || 'No address added'}</p>
-        <p><b>Pin Code:</b> ${user.pincode || 'Not set'}</p>
-        <button onclick="openModal('edit-profile')" style="width:100%; margin-top:15px; padding:12px; background:#007bff; color:white; border:none; border-radius:8px; cursor:pointer;">Edit Address</button>
-    `;
-}
-
-function showMobileNumber() {
-    let user = JSON.parse(localStorage.getItem('userData') || '{}');
-    document.getElementById('modalContent').innerHTML = `
-        <p><b>Mobile Number:</b> ${user.mobile || 'Not added'}</p>
-        <button onclick="openModal('edit-profile')" style="width:100%; margin-top:15px; padding:12px; background:#007bff; color:white; border:none; border-radius:8px; cursor:pointer;">Update Number</button>
-    `;
-}
-
-function showSettings() {
-    document.getElementById('modalContent').innerHTML = `
-        <div onclick="openModal('password')" style="padding:12px; border-bottom:1px solid #eee; cursor:pointer;">🔒 Change Password</div>
-        <div onclick="openModal('edit-profile')" style="padding:12px; border-bottom:1px solid #eee; cursor:pointer;">✏️ Edit Profile</div>
-        <div onclick="alert('Logged Out!'); localStorage.removeItem('userData'); closeModal();" style="padding:12px; color:red; cursor:pointer;">🚪 Logout</div>
-    `;
-}
-
-document.getElementById('overlay').onclick = function() {
-    closeSidebar();
+function loginUser() {
+  const phone = document.getElementById('loginPhone').value;
+  const pass = document.getElementById('loginPass').value;
+  const user = JSON.parse(localStorage.getItem('user_' + phone));
+  if(user && user.pass === pass) {
+    currentUser = user;
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    alert('Welcome Back ' + user.name);
     closeModal();
+    updateAccountUI();
+  } else {
+    alert('Wrong Mobile or Password');
+  }
 }
 
-function toggleDarkMode(){
-    document.body.classList.toggle("dark-mode");
+function logoutUser() {
+  currentUser = null;
+  localStorage.removeItem('currentUser');
+  updateAccountUI();
+  closeSidebar();
 }
 
-// ========== PRODUCTS + SEARCH + CART SYSTEM ==========
-const PRODUCT_LINKS = {
-    "Kesh King Ayurvedic Oil": {
-        stock: 10, cod: true, price: 299, mrp: 349,
-        desc: "Kesh King Ayurvedic Oil एक आयुर्वेदिक हेयर ऑयल है जो 21 जड़ी-बूटियों से बना है। यह बालों का झड़ना कम करता है, डैंड्रफ हटाता है और नए बाल उगाने में मदद करता है। 100ml की बोतल।",
-        image: "kesh-king.jpg", amazon: "https://share.google/nrshbLeq9nIC6AGDN", flipkart: "", meesho: "https://www.meesho.com/s/p/c7vcmm"
-    },
-    "Himalaya Hair Zone Solution": {
-        stock: 25, cod: true, price: 479, mrp: 550,
-        desc: "Himalaya Hair Zone Solution में Minoxidil 5% है जो क्लिनिकली प्रूवन है बाल दोबारा उगाने के लिए। गंजेपन और पतले बालों के लिए बेस्ट। 60ml की बोतल।",
-        image: "himalaya-hair-zone.jpg", amazon: "", flipkart: "https://dl.flipkart.com/dl/himalaya-hair-zone-solution/p/itm089a2160a028e?pid=AYDGBPYVGERKGMFV", meesho: ""
-    },
-    "Mamaearth Onion Hair Oil": {
-        stock: 15, cod: false, price: 399, mrp: 499,
-        desc: "Mamaearth Onion Hair Oil प्याज के रस और रेडेंसिल से बना है। बालों का टूटना रोकता है और ग्रोथ बढ़ाता है। 100% नेचुरल, सल्फेट-पैराबेन फ्री। 250ml की बोतल।",
-        image: "mamaearth-onion.jpg", amazon: "https://amazon.in/xxx", flipkart: "https://flipkart.com/xxx", meesho: "https://meesho.com/xxx"
-    },
-    "Indulekha Bringha Oil": {
-        stock: 8, cod: true, price: 432, mrp: 485,
-        desc: "Indulekha Bringha Oil भृंगराज, आंवला और नीम से बना आयुर्वेदिक तेल है। सेल्फी ब्रश के साथ आता है। बाल काले, घने और मजबूत बनाता है। 100ml की बोतल।",
-        image: "indulekha.jpg", amazon: "", flipkart: "", meesho: ""
-    },
-    "WOW Skin Science Hair Oil": {
-        stock: 20, cod: true, price: 349, mrp: 399,
-        desc: "WOW Onion Black Seed Hair Oil प्याज, कलोंजी और 8 नेचुरल ऑयल का ब्लेंड है। बालों को जड़ से पोषण देता है। 200ml की बोतल। केमिकल फ्री।",
-        image: "wow-oil.jpg", amazon: "", flipkart: "", meesho: ""
-    },
-    "crocin 650": {
-        stock: 50, cod: true, price: 25, mrp: 30,
-        desc: "Crocin 650 बुखार और दर्द में तुरंत आराम। Paracetamol 650mg। 15 Tablets। डॉक्टर की सलाह से लें।",
-        image: "https://i.ibb.co/0j1XqGp/crocin.jpg", amazon: "", flipkart: "", meesho: ""
-    }
-};
+function updateAccountUI() {
+  const accountBtn = document.getElementById('accountBtn');
+  if(accountBtn) {
+    accountBtn.innerText = currentUser? `Hi, ${currentUser.name.split(' ')[0]}` : 'Hello, Sign In';
+  }
+}
 
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-// ========== SEARCH + DISPLAY PRODUCTS - myInput वाला ==========
-document.addEventListener('DOMContentLoaded', function() {
-    let allProducts = Object.keys(PRODUCT_LINKS);
-    displayProducts(allProducts);
-    updateCartIcon();
+// ========== SIDEBAR + 3 DOT MENU ==========
+function openSidebar() {
+  document.getElementById('sidebar').style.left = '0px';
+  document.getElementById('overlay').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  updateAccountUI();
+}
 
-    // यहाँ myInput Use किया है तेरे लिए
-    let searchInput = document.getElementById('myInput');
-    if(searchInput) {
-        searchInput.addEventListener('input', function() {
-            let searchText = searchInput.value.toLowerCase().trim();
-            let filteredProducts = allProducts.filter(name => {
-                return name.toLowerCase().includes(searchText);
-            });
-            displayProducts(filteredProducts);
-        });
-    }
-});
+function closeSidebar() {
+  document.getElementById('sidebar').style.left = '-300px';
+  document.getElementById('overlay').style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
 
+function openThreeDotMenu() {
+  closeSidebar();
+  document.getElementById('modalTitle').innerText = '⚙️ Menu';
+  document.getElementById('modalContent').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button onclick="filterProducts('bestseller')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">🔥 Bestsellers</button>
+      <button onclick="filterProducts('new')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">🆕 New Releases</button>
+      <button onclick="filterProducts('health')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">💊 Health</button>
+      <button onclick="filterProducts('beauty')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">💄 Beauty</button>
+      <button onclick="filterProducts('household')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">🏠 Household</button>
+      <button onclick="showOrders()" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">📦 My Orders</button>
+      <button onclick="showModalContent('about')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">ℹ️ About Us</button>
+      <button onclick="showModalContent('contact')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">📞 Contact</button>
+      <button onclick="showModalContent('privacy')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">🔒 Privacy Policy</button>
+      <button onclick="showModalContent('refund')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">💰 Refund Policy</button>
+    </div>
+  `;
+  document.getElementById('settingsModal').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
+}
+// ========== PRODUCT DISPLAY WITH SEARCH SORT ==========
 function displayProducts(productArray) {
-    let productContainer = document.getElementById('productContainer');
-    if(!productContainer) return;
+  let productContainer = document.getElementById('productContainer');
+  if(!productContainer) return;
 
-    if(productArray.length === 0) {
-        productContainer.innerHTML = '<p style="text-align:center; padding:20px;">No products found</p>';
-        return;
-    }
+  // Search के बाद मिला Product ऊपर आएगा
+  const searchText = document.getElementById('myInput')?.value.toLowerCase() || '';
+  if(searchText) {
+    productArray.sort((a, b) => {
+      const aMatch = a.toLowerCase().includes(searchText);
+      const bMatch = b.toLowerCase().includes(searchText);
+      return bMatch - aMatch;
+    });
+  }
 
-    productContainer.innerHTML = productArray.map(name => {
-        let p = PRODUCT_LINKS[name];
-        let discount = Math.round((p.mrp - p.price) / p.mrp * 100);
-        return `
-        <div class="product-card" onclick="showProductDetail('${name}')" style="border:1px solid #eee; padding:15px; border-radius:8px; cursor:pointer; margin:10px; width:200px; display:inline-block; vertical-align:top;">
-            <img src="${p.image}" style="width:100%; height:180px; object-fit:cover; border-radius:5px;">
-            <h3 style="margin:10px 0 5px 0; font-size:16px;">${name}</h3>
-            <div>
-                <span style="font-size:18px; font-weight:bold; color:#E47911;">₹${p.price}</span>
-                <span style="text-decoration:line-through; color:#888; margin-left:8px; font-size:14px;">₹${p.mrp}</span>
-                <span style="color:#388E3C; margin-left:8px; font-weight:bold; font-size:14px;">${discount}% off</span>
-            </div>
-            ${p.cod? '<div style="color:#388E3C; font-size:12px; font-weight:bold; margin-top:5px;">✓ COD Available</div>' : ''}
+  if(productArray.length === 0) {
+    productContainer.innerHTML = `<p style="text-align:center; padding:20px;">No products found</p>`;
+    return;
+  }
+
+  productContainer.innerHTML = productArray.map(name => {
+    let p = PRODUCT_LINKS[name];
+    if(!p) return '';
+    let discount = p.mrp? Math.round((p.mrp - p.price) / p.mrp * 100) : 0;
+    let likeCount = likes[name] || 0;
+    let commentCount = comments[name]?.length || 0;
+
+    return `
+      <div class="product-card" style="border:1px solid #eee; padding:15px; border-radius:8px; margin:10px; width:200px; display:inline-block; vertical-align:top;">
+        <img src="${p.image}" onclick="showProductDetail('${name}')" onerror="this.src='https://via.placeholder.com/200x180?text=No+Image'" style="width:100%; height:180px; object-fit:cover; border-radius:5px; cursor:pointer;">
+        <h3 onclick="showProductDetail('${name}')" style="margin:10px 0 5px 0; font-size:16px; cursor:pointer;">${name}</h3>
+        <div>
+          <span style="font-size:18px; font-weight:bold; color:#E47911;">₹${p.price}</span>
+          ${p.mrp? `<span style="text-decoration:line-through; color:#888; margin-left:8px; font-size:14px;">₹${p.mrp}</span>` : ''}
+          ${discount > 0? `<span style="color:#388E3C; margin-left:8px; font-weight:bold; font-size:14px;">${discount}% off</span>` : ''}
         </div>
-        `;
-    }).join('');
+        ${p.bestseller? `<div style="background:#FF6F00;color:white;font-size:10px;padding:2px 6px;border-radius:3px;display:inline-block;margin-top:5px;">BESTSELLER</div>` : ''}
+        ${p.cod? `<div style="color:#388E3C; font-size:12px; font-weight:bold; margin-top:5px;">✓ COD Available</div>` : ''}
+        <div style="color:${p.stock > 5? '#388E3C' : '#ff4444'}; font-size:12px; margin-top:5px;">${p.stock > 0? `Stock: ${p.stock}` : 'Out of Stock'}</div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px;border-top:1px solid #eee;padding-top:10px;">
+          <button onclick="likeProduct('${name}')" style="background:none;border:none;cursor:pointer;font-size:12px;">❤️ ${likeCount}</button>
+          <button onclick="showProductDetail('${name}')" style="background:none;border:none;cursor:pointer;font-size:12px;">💬 ${commentCount}</button>
+          <button onclick="shareProduct('${name}')" style="background:none;border:none;cursor:pointer;font-size:12px;">📤 Share</button>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
-// Cart Icon
-let cartIcon = document.createElement('div');
-cartIcon.id = 'cartIcon';
-cartIcon.innerHTML = '🛒';
-cartIcon.style.cssText = 'position:fixed;top:15px;left:60px;background:#25D366;color:white;padding:10px 14px;border-radius:50px;cursor:pointer;font-size:16px;z-index:999;box-shadow:0 4px 8px rgba(0,0,0,0.2);display:flex;align-items:center;gap:5px';
-document.body.appendChild(cartIcon);
+// ========== LIKE + SHARE + COMMENT ==========
+function likeProduct(name) {
+  if(!currentUser) return alert('Login करके Like करें');
+  likes[name] = (likes[name] || 0) + 1;
+  localStorage.setItem('likes', JSON.stringify(likes));
+  displayProducts(Object.keys(PRODUCT_LINKS));
+}
 
-// Product Detail Modal
-let productModal = document.createElement('div');
-productModal.id = 'productModal';
-productModal.innerHTML = `
-<div class="modal" style="display:none;position:fixed;z-index:10000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.7);overflow:auto">
-    <div class="modal-content" style="background:#fff;margin:30px auto;padding:20px;border-radius:10px;width:90%;max-width:600px;position:relative">
-        <span onclick="closeProductModal()" style="position:absolute;top:10px;right:15px;font-size:28px;cursor:pointer;color:#aaa">&times;</span>
-        <div id="productDetailContent"></div>
-    </div>
-</div>`;
-document.body.appendChild(productModal);
+function shareProduct(name) {
+  const url = window.location.href + '?product=' + encodeURIComponent(name);
+  const text = `Check this on S K Pharmacy: ${name} - ₹${PRODUCT_LINKS[name].price}`;
+  if(navigator.share) {
+    navigator.share({title: name, text: text, url: url});
+  } else {
+    window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
+  }
+}
 
-// Cart Modal
-let cartModal = document.createElement('div');
-cartModal.id = 'cartModal';
-cartModal.style.display = 'none';
-cartModal.innerHTML = `
-<div class="modal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.7);overflow:auto">
-    <div class="modal-content" style="background:#fff;margin:50px auto;padding:20px;border-radius:10px;width:90%;max-width:500px;position:relative;animation:slideDown 0.3s">
-        <span onclick="closeCart()" style="position:absolute;top:10px;right:15px;font-size:28px;cursor:pointer;color:#aaa">&times;</span>
-        <h2>Your Cart</h2>
-        <div id="cartItems"></div>
-        <div style="border-top:2px solid #eee;margin-top:15px;padding-top:15px">
-            <h3>Total: ₹<span id="cartTotal">0</span></h3>
-            <div style="margin:10px 0">
-                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
-                    <input type="checkbox" id="codCheckbox" style="width:18px;height:18px">
-                    <span>Cash on Delivery</span>
-                </label>
-            </div>
-            <button onclick="checkout()" style="width:100%;background:#25D366;color:white;padding:12px;border:none;border-radius:5px;font-size:16px;cursor:pointer;margin-top:10px;font-weight:bold">Checkout on WhatsApp</button>
-        </div>
-    </div>
-</div>
-<style>
-@keyframes slideDown{from{transform:translateY(-50px);opacity:0}to{transform:translateY(0);opacity:1}}
-.product-card img,.product-card h3{cursor:pointer}
-</style>
-`;
-document.body.appendChild(cartModal);
+function addComment(name) {
+  if(!currentUser) return alert('Login करके Comment करें');
+  const text = document.getElementById('commentText').value;
+  if(!text.trim()) return;
+  if(!comments[name]) comments[name] = [];
+  comments[name].push({user: currentUser.name, text: text, time: new Date().toLocaleString()});
+  localStorage.setItem('comments', JSON.stringify(comments));
+  showProductDetail(name);
+}
 
-cartIcon.onclick = function() {
-    showCart();
-    document.querySelector('#cartModal.modal').style.display = 'block';
-};
-
+// ========== PRODUCT DETAIL MODAL ==========
 function showProductDetail(name) {
-    let p = PRODUCT_LINKS[name];
-    if(!p) return;
+  let p = PRODUCT_LINKS[name];
+  if(!p) return;
+  let discount = p.mrp? Math.round((p.mrp - p.price) / p.mrp * 100) : 0;
+  let productComments = comments[name] || [];
 
-    let discount = Math.round((p.mrp - p.price) / p.mrp * 100);
-    let codBadge = p.cod? `<span style="background:#388E3C;color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:bold;margin-left:10px">COD Available</span>` : '';
-
-    let html = `
-        <div style="display:flex;gap:20px;flex-wrap:wrap">
-            <img src="${p.image}" style="width:250px;height:250px;object-fit:cover;border-radius:8px;border:1px solid #eee">
-            <div style="flex:1;min-width:250px">
-                <h2 style="margin:0 0 10px 0">${name} ${codBadge}</h2>
-                <div style="margin:10px 0">
-                    <span style="font-size:24px;font-weight:bold;color:#E47911">₹${p.price}</span>
-                    <span style="text-decoration:line-through;color:#888;margin-left:10px">₹${p.mrp}</span>
-                    <span style="color:#388E3C;margin-left:10px;font-weight:bold">${discount}% off</span>
-                </div>
-                <p style="color:#555;line-height:1.6;font-size:14px">${p.desc}</p>
-                <p style="color:${p.stock > 5? '#388E3C' : '#ff4444'};font-weight:bold;margin-top:15px">
-                    ${p.stock > 0? `Only ${p.stock} left in stock` : 'Out of Stock'}
-                </p>
-                <div id="modalAddToCartBtn" style="margin-top:20px"></div>
-            </div>
+  let modal = document.createElement('div');
+  modal.id = 'productModal';
+  modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1001;display:flex;justify-content:center;align-items:center;overflow-y:auto;';
+  modal.innerHTML = `
+    <div style="background:white;max-width:450px;width:90%;border-radius:10px;overflow:hidden;margin:20px;">
+      <div style="position:relative;">
+        <img src="${p.image}" onerror="this.src='https://via.placeholder.com/450x300?text=No+Image'" style="width:100%;height:250px;object-fit:cover;">
+        <button onclick="closeProductModal()" style="position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.5);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;">✕</button>
+      </div>
+      <div style="padding:15px;max-height:60vh;overflow-y:auto;">
+        <h2 style="margin:0 0 10px 0;">${name}</h2>
+        <div style="margin-bottom:10px;">
+          <span style="font-size:24px;font-weight:bold;color:#E47911;">₹${p.price}</span>
+          ${p.mrp? `<span style="text-decoration:line-through;color:#888;margin-left:10px;">₹${p.mrp}</span>` : ''}
+          ${discount > 0? `<span style="background:#388E3C;color:white;padding:2px 6px;border-radius:3px;margin-left:10px;font-size:12px;">${discount}% OFF</span>` : ''}
         </div>
-    `;
+        <div style="background:#FFF3CD;padding:8px;border-radius:5px;margin-bottom:10px;font-size:14px;">🚚 Delivery: FREE | ${STORE_ADDRESS}</div>
+        ${p.cod? `<div style="color:#388E3C;font-weight:bold;margin-bottom:10px;">✓ Cash on Delivery Available</div>` : ''}
+        <div style="color:${p.stock > 5? '#388E3C' : '#ff4444'};margin-bottom:15px;">${p.stock > 0? `Only ${p.stock} left in stock` : 'Out of Stock'}</div>
+        <p style="color:#666;margin-bottom:15px;font-size:14px;">${p.desc}</p>
+        <button onclick="addToCart('${name}')" ${p.stock <= 0? 'disabled' : ''} style="width:100%;background:${p.stock <= 0? '#ccc' : '#FF9F00'};color:white;border:none;padding:12px;border-radius:5px;font-weight:bold;cursor:${p.stock <= 0? 'not-allowed' : 'pointer'};margin-bottom:10px;">${p.stock <= 0? 'Out of Stock' : 'Add to Cart'}</button>
 
-    document.getElementById('productDetailContent').innerHTML = html;
-    document.querySelector('#productModal.modal').style.display = 'block';
+        <div style="display:flex;gap:10px;margin-bottom:15px;">
+          <button onclick="likeProduct('${name}')" style="flex:1;padding:8px;border:1px solid #ddd;background:white;border-radius:5px;">❤️ Like</button>
+          <button onclick="shareProduct('${name}')" style="flex:1;padding:8px;border:1px solid #ddd;background:white;border-radius:5px;">📤 Share</button>
+        </div>
 
-    let modalBtn = `
-        <button onclick="addToCart('${name}', ${p.price}, ${p.stock}, '${p.image}', '${p.amazon}', '${p.flipkart}', '${p.meesho}', ${p.cod});closeProductModal()"
-            style="width:100%;background:#FF9900;color:white;padding:12px;border:none;border-radius:5px;cursor:pointer;font-weight:bold;font-size:16px">
-            🛒 Add to Cart
-        </button>
-    `;
-    document.getElementById('modalAddToCartBtn').innerHTML = modalBtn;
+        <h3 style="margin:15px 0 10px 0;font-size:16px;">💬 Comments (${productComments.length})</h3>
+        <div style="margin-bottom:10px;">
+          <textarea id="commentText" placeholder="Write a comment..." style="width:100%;padding:8px;border:1px solid #ddd;border-radius:5px;height:60px;"></textarea>
+          <button onclick="addComment('${name}')" style="background:#2874F0;color:white;border:none;padding:8px 15px;border-radius:5px;margin-top:5px;cursor:pointer;">Post Comment</button>
+        </div>
+        <div id="commentsList">
+          ${productComments.map(c => `<div style="background:#f7f7f7;padding:8px;border-radius:5px;margin-bottom:8px;"><b>${c.user}</b> <span style="color:#888;font-size:11px;">${c.time}</span><br>${c.text}</div>`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
 }
 
 function closeProductModal() {
-    document.querySelector('#productModal.modal').style.display = 'none';
-}
-
-function showCart() {
-    let itemsDiv = document.getElementById('cartItems');
-    let total = 0;
-    if(cart.length === 0) {
-        itemsDiv.innerHTML = '<p style="text-align:center;color:#888;padding:20px">Your cart is empty</p>';
-    } else {
-        itemsDiv.innerHTML = cart.map(item => {
-            total += item.price * item.quantity;
-            return `
-            <div style="display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid #eee">
-                <img src="${item.image}" style="width:60px;height:60px;object-fit:cover;border-radius:5px">
-                <div style="flex:1">
-                    <div style="font-weight:bold">${item.name}</div>
-                    <div style="color:#E47911">₹${item.price} x ${item.quantity}</div>
-                    ${item.cod? '<div style="color:#388E3C;font-size:12px;font-weight:bold">✓ COD Available</div>' : ''}
-                </div>
-                <button onclick="removeFromCart('${item.name}')" style="background:#ff4444;color:white;border:none;padding:5px 10px;border-radius:3px;cursor:pointer">Remove</button>
-            </div>
-            `;
-        }).join('');
-    }
-    document.getElementById('cartTotal').textContent = total;
-}
-
-function closeCart() {
-    document.querySelector('#cartModal.modal').style.display = 'none';
+  let modal = document.getElementById('productModal');
+  if(modal) modal.remove();
+      }
+// ========== CART SYSTEM ==========
+function addToCart(name) {
+  if(!currentUser) return alert('Login करके Add to Cart करें');
+  let p = PRODUCT_LINKS[name];
+  if(!p || p.stock <= 0) return;
+  let item = cart.find(i => i.name === name);
+  if(item) {
+    if(item.qty < p.stock) item.qty++;
+  } else {
+    cart.push({name: name, price: p.price, qty: 1});
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartIcon();
+  closeProductModal();
+  alert(`${name} added to cart!`);
 }
 
 function updateCartIcon() {
-    let count = cart.reduce((sum, item) => sum + item.quantity, 0);
-    cartIcon.innerHTML = `🛒 <span style="background:#E47911;border-radius:50%;padding:2px 6px;font-size:12px">${count}</span>`;
+  let total = cart.reduce((sum, item) => sum + item.qty, 0);
+  let countEl = document.getElementById('cart-count');
+  if(countEl) countEl.innerText = total;
 }
 
-function addToCart(name, price, stock, image, amazon, flipkart, meesho, cod) {
-    let item = cart.find(i => i.name === name);
-    if(item) {
-        if(item.quantity < stock) item.quantity++;
-        else {
-            alert(`Sorry! Only ${stock} items in stock`);
-            return;
-        }
-    } else {
-        cart.push({name, price, stock, image, amazon, flipkart, meesho, cod, quantity: 1});
-    }
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartIcon();
-}
-
-function removeFromCart(productName) {
-    cart = cart.filter(i => i.name!== productName);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartIcon();
-    showCart();
-}
-
-function checkout() {
-    if(cart.length === 0) {
-        alert('Cart is empty!');
-        return;
-    }
-    let message = 'Hello! I want to order:\n\n';
-    let total = 0;
-    cart.forEach(item => {
-        message += `${item.name} x ${item.quantity} = ₹${item.price * item.quantity}\n`;
-        total += item.price * item.quantity;
-    });
-    message += `\nTotal: ₹${total}`;
-    let cod = document.getElementById('codCheckbox').checked;
-    if(cod) message += '\nPayment: Cash on Delivery';
-
-    let whatsappURL = `https://wa.me/919258751739?text=${encodeURIComponent(message)}`;
-    window.open(whatsappURL, '_blank');
-        }
-function filterProducts() {
-  let input = document.getElementById('myInput');
-  let filter = input.value.toUpperCase();
-  let productCards = document.querySelectorAll('.product-card,.card,.product');
-  
-  for (let i = 0; i < productCards.length; i++) {
-    let card = productCards[i];
-    let txtValue = card.textContent || card.innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      card.style.display = "";
-    } else {
-      card.style.display = "none";
-    }
+function showCart() {
+  let itemsDiv = document.getElementById('cartItems');
+  let totalDiv = document.getElementById('cartTotal');
+  if(cart.length === 0) {
+    itemsDiv.innerHTML = '<p style="text-align:center;padding:20px;">Cart is empty</p>';
+    totalDiv.innerHTML = '';
+    return;
   }
+  let total = 0;
+  itemsDiv.innerHTML = cart.map(item => {
+    total += item.price * item.qty;
+    return `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #eee;">
+        <div><div style="font-weight:bold;">${item.name}</div><div style="color:#666;font-size:14px;">₹${item.price} x ${item.qty}</div></div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <button onclick="updateQty('${item.name}', -1)" style="width:25px;height:25px;border:1px solid #ddd;background:white;cursor:pointer;">-</button>
+          <span>${item.qty}</span>
+          <button onclick="updateQty('${item.name}', 1)" style="width:25px;height:25px;border:1px solid #ddd;background:white;cursor:pointer;">+</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  totalDiv.innerHTML = `<div style="text-align:right;font-size:18px;font-weight:bold;padding:15px;">Total: ₹${total}</div>`;
 }
+
+function updateQty(name, change) {
+  let item = cart.find(i => i.name === name);
+  if(!item) return;
+  let p = PRODUCT_LINKS[name];
+  item.qty += change;
+  if(item.qty <= 0) cart = cart.filter(i => i.name!== name);
+  else if(item.qty > p.stock) item.qty = p.stock;
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartIcon();
+  showCart();
+}
+
+function closeCart() {
+  document.getElementById('cartModal').style.display = 'none';
+}
+
+// ========== CHECKOUT + ORDER TRACK ==========
+function checkout() {
+  if(cart.length === 0) return;
+  if(!currentUser) return alert('Login करके Order करें');
+
+  const orderId = 'SK' + Date.now();
+  const order = {
+    id: orderId,
+    user: currentUser.name,
+    phone: currentUser.phone,
+    address: currentUser.address,
+    items: [...cart],
+    total: cart.reduce((sum, i) => sum + i.price * i.qty, 0),
+    status: 'Order Placed',
+    time: new Date().toLocaleString()
+  };
+  orders.push(order);
+  localStorage.setItem('orders', JSON.stringify(orders));
+
+  let msg = `🛒 *New Order ${orderId}*%0A%0A`;
+  cart.forEach(item => { msg += `${item.name} - ₹${item.price} x ${item.qty}%0A`; });
+  msg += `%0A*Total: ₹${order.total}*%0A%0AName: ${currentUser.name}%0AAddress: ${currentUser.address}%0APin: ${currentUser.pin}%0APhone: ${currentUser.phone}`;
+
+  window.open(`https://wa.me/${STORE_PHONE}?text=${msg}`, '_blank');
+  cart = [];
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartIcon();
+  closeCart();
+  alert('Order Placed! Track in My Orders');
+}
+
+function showOrders() {
+  closeModal();
+  const userOrders = orders.filter(o => o.phone === currentUser?.phone);
+  document.getElementById('modalTitle').innerText = '📦 My Orders';
+  document.getElementById('modalContent').innerHTML = userOrders.length === 0? '<p>No orders yet</p>' : userOrders.map(o => `
+    <div style="border:1px solid #ddd;padding:10px;border-radius:5px;margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;"><b>Order ${o.id}</b><span style="color:#388E3C;font-size:12px;">${o.status}</span></div>
+      <div style="font-size:12px;color:#666;margin:5px 0;">${o.time}</div>
+      ${o.items.map(i => `<div style="font-size:14px;">${i.name} x ${i.qty}</div>`).join('')}
+      <div style="text-align:right;font-weight:bold;margin-top:5px;">Total: ₹${o.total}</div>
+    </div>
+  `).join('');
+  document.getElementById('settingsModal').style.display = 'block';
+}
+
+// ========== FILTERS ==========
+function filterProducts(type) {
+  closeModal();
+  let filtered = Object.keys(PRODUCT_LINKS);
+  if(type === 'bestseller') filtered = filtered.filter(n => PRODUCT_LINKS[n].bestseller);
+  else if(type === 'new') filtered = filtered.slice(-10);
+  else if(type!== 'all') filtered = filtered.filter(n => PRODUCT_LINKS[n].category.toLowerCase().includes(type));
+  displayProducts(filtered);
+}
+
+// ========== STATIC PAGES ==========
+function showModalContent(type) {
+  closeModal();
+  let title = '', content = '';
+  if(type === 'about') {
+    title = 'ℹ️ About S K Pharmacy';
+    content = `<p><b>S K Pharmacy</b> - आपकी Health का साथी</p><p>📍 ${STORE_ADDRESS}</p><p>📞 ${STORE_PHONE}, ${STORE_PHONE2}</p><p>हम 100% Genuine Medicines Home Delivery करते हैं।</p>`;
+  } else if(type === 'contact') {
+    title = '📞 Contact Us';
+    content = `<p><b>Phone:</b> ${STORE_PHONE}<br><b>WhatsApp:</b> ${STORE_PHONE2}</p><p><b>Address:</b> ${STORE_ADDRESS}</p><p><b>Time:</b> 9 AM - 9 PM Daily</p>`;
+  } else if(type === 'privacy') {
+    title = '🔒 Privacy Policy';
+    content = `<p>हम आपकी Privacy का सम्मान करते हैं। आपका Data Safe है और Third Party से Share नहीं किया जाता।</p>`;
+  } else if(type === 'refund') {
+    title = '💰 Refund Policy';
+    content = `<p>1. Damaged/Expired Product पर 7 दिन में Full Refund</p><p>2. Wrong Medicine पर 100% Refund</p><p>3. WhatsApp पर Order ID भेजें: ${STORE_PHONE}</p>`;
+  }
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalContent').innerHTML = content;
+  document.getElementById('settingsModal').style.display = 'block';
+}
+
+// ========== PAGE LOAD ==========
+document.addEventListener('DOMContentLoaded', function() {
+  // Delivery Banner ऊपर
+  const banner = document.createElement('div');
+  banner.style.cssText = 'background:#232F3E;color:white;text-align:center;padding:8px;font-size:14px;';
+  banner.innerHTML = `🚚 FREE Delivery in ${STORE_ADDRESS} | 📞 Call: ${STORE_PHONE}`;
+  document.body.prepend(banner);
+
+  // Cart Icon
+  let cartIcon = document.createElement('div');
+  cartIcon.id = 'cartIcon';
+  cartIcon.innerHTML = '🛒 <span id="cart-count">0</span>';
+  cartIcon.style.cssText = 'position:fixed;top:55px;left:60px;background:#25D366;color:white;padding:10px 14px;border-radius:50px;cursor:pointer;font-size:16px;z-index:999;box-shadow:0 4px 8px rgba(0,0,0,0.2);display:flex;align-items:center;gap:5px;';
+  document.body.appendChild(cartIcon);
+  cartIcon.onclick = function() { showCart(); document.getElementById('cartModal').style.display = 'block'; };
+
+  // 3-Dot Menu
+  let threeDot = document.createElement('div');
+  threeDot.innerHTML = '⋮';
+  threeDot.style.cssText = 'position:fixed;top:55px;right:15px;background:#232F3E;color:white;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;z-index:999;';
+  threeDot.onclick = openThreeDotMenu;
+  document.body.appendChild(threeDot);
+
+  loadProductsFromSheet();
+  updateCartIcon();
+  updateAccountUI();
+
+  // Search - Type करते ही ऊपर आए
+  let searchInput = document.getElementById('myInput');
+  if(searchInput) {
+    searchInput.addEventListener('input', function() {
+      let searchText = searchInput.value.toLowerCase().trim();
+      let filtered = Object.keys(PRODUCT_LINKS).filter(name => name.toLowerCase().includes(searchText));
+      displayProducts(filtered);
+    });
+  }
+});
+
+function closeModal() {
+  document.getElementById('settingsModal').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+                          }
