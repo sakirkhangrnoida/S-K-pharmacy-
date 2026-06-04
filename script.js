@@ -177,6 +177,13 @@ function openSidebar() {
   document.body.style.overflow = 'hidden';
 }
 
+function closeSidebar() {
+  let sidebar = document.getElementById('sidebar');
+  let overlay = document.getElementById('overlay');
+  if (sidebar) sidebar.style.right = '-300px';
+  if (overlay) overlay.style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
 function openThreeDotMenu() {
   closeSidebar();
   document.getElementById('modalTitle').innerText = '⚙️ Menu';
@@ -647,13 +654,6 @@ document.addEventListener('DOMContentLoaded', function() {
   cartIcon.style.cssText = 'position:fixed;top:55px;left:60px;background:#25D366;color:white;padding:10px 14px;border-radius:50px;cursor:pointer;font-size:16px;z-index:999;box-shadow:0 4px 8px rgba(0,0,0,0.2);display:flex;align-items:center;gap:5px;';
   document.body.appendChild(cartIcon);
   cartIcon.onclick = function() { showCart(); document.getElementById('cartModal').style.display = 'block'; };
-
-  // 3-Dot Menu
-  let threeDot = document.createElement('div');
-  threeDot.innerHTML = '⋮';
-  threeDot.style.cssText = 'position:fixed;top:55px;right:15px;background:#232F3E;color:white;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;z-index:999;';
-  threeDot.onclick = openThreeDotMenu;
-  document.body.appendChild(threeDot);
 
   loadProductsFromSheet();
   updateCartIcon();
