@@ -1,14 +1,12 @@
-9<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>S K Pharmacy All - Fast Easy Shop | AI Assistant | Prime Deals</title>
+
 <!-- GOOGLE ANALYTICS -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JHBYCVBM02"></script>
-
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
@@ -19,62 +17,68 @@ gtag('config', 'G-JHBYCVBM02');
 <!-- GOOGLE TAG MANAGER -->
 <script>
 (function(w,d,s,l,i){
-w[l]=w[l]||[];
-w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});
-var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),
-dl=l!='dataLayer'?'&l='+l:'';
-j.async=true;
-j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-f.parentNode.insertBefore(j,f);
+w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KJ8Q28D6');
 </script>
+
 <script src="https://js.stripe.com/v3/"></script>
+
 <!-- ADSENSE -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3497742039075939" crossorigin="anonymous"></script>
 
 <meta name="google-site-verification" content="4-4UD91YkjvRP15UHdDKRAlNLMZ_VDnd8edfcVagnSo"/>
-<meta name="description" content="S K Pharmacy - डॉ. साकिर खान। यहाँ बेहतरीन स्किनケア, बेबी केयर और दवाइयों की जानकारी और प्रोडक्ट्स उपलब्ध हैं। ऑनलाइन आर्डर करें।">
+<meta name="description" content="S K Pharmacy - डॉ. साकिर खान। यहाँ बेहतरीन स्किनकेयर, बेबी केयर और दवाइयों की जानकारी और प्रोडक्ट्स उपलब्ध हैं। ऑनलाइन आर्डर करें।">
     
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-
 body{
 margin:0;
 font-family:Arial,sans-serif;
 background:#f4f7f6;
 padding-bottom:100px;
-text-align:center;
 }
-
-/* NEWS LINE */
 
 .ticker{
 background:#ff9800;
 color:black;
 padding:10px;
-font-black:bold;
+font-weight:bold;
 font-size:15px;
- }
+text-align:center;
+}
     
-/* HEADERS */
 .header{
-background:#1a1e23;
+background:#1976d2;
 color:white;
-padding:25px 15px;
-    }
-
-.logo{
-width:140px;
-height:140px;
-border-radius:50%;
-border:4px solid orange;
-object-fit:cover;
+padding:10px 15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+z-index:100;
 }
 
-/* SOCIAL */
+.cart-icon{
+position:relative;
+cursor:pointer;
+font-size:24px;
+}
+
+#cart-count{
+position:absolute;
+top:-8px;
+right:-8px;
+background:red;
+color:white;
+border-radius:50%;
+padding:2px 6px;
+font-size:12px;
+font-weight:bold;
+}
 
 .social-links{
 display:flex;
@@ -94,19 +98,9 @@ font-weight:bold;
 color:white;
 }
 
-.insta{
-background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);
-}
-
-.fb{
-background:#1877f2;
-}
-
-.map{
-background:#4285F4;
-}
-
-/* SEARCH */
+.insta{background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);}
+.fb{background:#1877f2;}
+.map{background:#4285F4;}
 
 .search-box{
 background:white;
@@ -126,8 +120,6 @@ font-size:16px;
 box-sizing:border-box;
 }
 
-/* CATEGORY */
-
 .categories{
 display:flex;
 justify-content:space-around;
@@ -143,6 +135,7 @@ text-decoration:none;
 color:#333;
 font-size:13px;
 font-weight:bold;
+text-align:center;
 }
 
 .icon-circle{
@@ -157,8 +150,6 @@ margin:auto;
 margin-bottom:8px;
 font-size:24px;
 }
-
-/* AUTO PRODUCT */
 
 .auto-slider{
 overflow:hidden;
@@ -182,24 +173,12 @@ background:#fff;
 padding:10px;
 border-radius:12px;
 border:1px solid #eee;
+text-align:center;
 }
 
-.slider-item img{
-width:100%;
-height:140px;
-object-fit:contain;
-}
-
-.slider-item h4{
-font-size:15px;
-color:#333;
-}
-
-.slider-item p{
-color:#ff5722;
-font-weight:bold;
-}
-
+.slider-item img{width:100%;height:140px;object-fit:contain;}
+.slider-item h4{font-size:15px;color:#333;}
+.slider-item p{color:#ff5722;font-weight:bold;}
 .slider-item a{
 display:inline-block;
 background:#25D366;
@@ -211,895 +190,512 @@ font-size:13px;
 }
 
 @keyframes scroll{
-0%{
-transform:translateX(0);
+0%{transform:translateX(0);}
+100%{transform:translateX(-50%);}
 }
-100%{
-transform:translateX(-50%);
-}
-}
-
-/* PRODUCTS */
 
 .section-title{
 font-size:24px;
 font-weight:bold;
 margin-top:20px;
 color:#1a1e23;
+text-align:center;
 }
 
 .product-grid{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:15px;
 padding:15px;
 }
 
 .product-card{
 background:white;
-width:100%;
-max-width:300px;
 padding:15px;
 border-radius:15px;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
+text-align:center;
+position:relative;
 }
 
-.product-card img {
-    width: 100%!important;
-    height: 180px!important;
-    object-fit: contain!important;
-    background: #f8f8f8!important;
-    padding: 10px!important;
-    border-radius: 8px!important;
-    box-sizing: border-box!important;
-    }
-
-.product-title{
-font-size:18px;
-font-weight:bold;
-margin-top:10px;
+.product-card img{
+width:100%;
+height:180px;
+object-fit:contain;
+background:#f8f8f8;
+padding:10px;
+border-radius:8px;
+box-sizing:border-box;
 }
 
-.product-subtitle{
-font-size:13px;
-color:#666;
-margin-top:5px;
-}
+.product-title{font-size:16px;font-weight:bold;margin-top:10px;}
+.product-subtitle{font-size:13px;color:#666;margin-top:5px;}
+.price{margin-top:10px;}
+.old-price{text-decoration:line-through;color:#888;margin-right:8px;}
+.new-price{color:#d9534f;font-size:18px;font-weight:bold;}
 
-.price{
-margin-top:10px;
-}
-
-.old-price{
-text-decoration:line-through;
-color:#888;
-margin-right:8px;
-}
-
-.new-price{
-color:#d9534f;
-font-size:20px;
-font-weight:bold;
-}
-
-.buy-btn{
-display:inline-block;
-margin-top:15px;
-background:#25D366;
-color:white;
-padding:12px 18px;
-border-radius:30px;
+.buy-btn,.details-btn{
+display:block;
+margin-top:8px;
+padding:10px;
+border-radius:8px;
 text-decoration:none;
 font-weight:bold;
-width:85%;
-}
-
-.details-btn{
-display:inline-block;
-margin-top:10px;
-background:#ff9800;
 color:white;
-padding:10px 18px;
-border-radius:25px;
-text-decoration:none;
-font-weight:bold;
-width:85%;
 }
+.buy-btn{background:#25D366;}
+.details-btn{background:#ff9800;}
+.amazon-btn{background:#232f3e;}
 
+.badge{position:absolute;background:#d32f2f;color:white;padding:4px 8px;border-radius:4px;font-size:12px;margin:8px;top:0;left:0;}
 </style>
-
-<script>
-// RUFUS AI - GENERAL PURPOSE SMART CHATBOT
-function toggleChat() {
-  let chat = document.getElementById('chatWindow');
-  chat.style.display = chat.style.display === 'none' ? 'flex' : 'none';
-}
-
-function sendChat() {
-  let input = document.getElementById('chatInput');
-  let msg = input.value.trim();
-  if (!msg) return;
-  
-  let chatBox = document.getElementById('chatMessages');
-  chatBox.innerHTML += `<div style="background:#667eea;color:white;padding:8px;border-radius:8px;margin:5px 0;text-align:right">${msg}</div>`;
-  
-  setTimeout(() => {
-    let reply = "";
-    let text = msg.toLowerCase();
-    
-    // 1. Greetings
-    if(text.includes('hi') || text.includes('hello') || text.includes('namaste') || text.includes('hey')) {
-      reply = "Rufus AI: Namaste! 🙏 मैं Rufus हूं, S K Pharmacy का AI Assistant। आप मुझसे Products, Location, Delivery, या कोई भी सवाल पूछ सकते हैं।";
-    }
-    
-    // 2. Location / Address
-    else if(text.includes('kahan') || text.includes('address') || text.includes('location') || text.includes('पता')) {
-      reply = "Rufus AI: S K Pharmacy Greater Noida में है। Exact Location के लिए WhatsApp पर 'Location' लिखकर भेजें, हम Map भेज देंगे।";
-    }
-    
-    // 3. Medicine Info - General Only
-    else if(text.includes('medicine') || text.includes('dawa') || text.includes('tablet') || text.includes('काम आती')) {
-      reply = "Rufus AI: हमारे पास Fever, Cold, Diabetes, Pain Relief की Medicine हैं। किसी दवा के Use के लिए Product पर Click करें या Doctor से सलाह लें। मैं General Info दे सकता हूं, Diagnosis नहीं।";
-    }
-    
-    // 4. Medical Reports / Ultrasound / बीमारी - SAFETY REPLY
-    else if(text.includes('report') || text.includes('ultrasound') || text.includes('x-ray') || text.includes('बीमारी') || text.includes('diagnos')) {
-      reply = "Rufus AI: मैं Medical Reports या Ultrasound नहीं पढ़ सकता भाई। ये काम सिर्फ Certified Doctor कर सकते हैं। सही Diagnosis के लिए कृपया नजदीकी Doctor या Hospital जाएं। आपकी Health सबसे Important है।";
-    }
-    
-    // 5. Delivery / Order
-    else if(text.includes('delivery') || text.includes('कब') || text.includes('time') || text.includes('order')) {
-      reply = "Rufus AI: Same Day Delivery है Greater Noida में। Order के लिए Product के नीचे 'WhatsApp' Button दबाएं। 2-4 घंटे में Delivery हो जाएगी।";
-    }
-    
-    // 6. Price
-    else if(text.includes('price') || text.includes('daam') || text.includes('rate') || text.includes('cost')) {
-      reply = "Rufus AI: हर Product पर Price लिखा है। Discount भी चल रहा है। कोई Specific Product का Rate जानना है तो नाम बताओ।";
-    }
-    
-    // 7. Hair Care / Other Categories  
-    else if(text.includes('hair') || text.includes('baal') || text.includes('skin') || text.includes('cream')) {
-      reply = "Rufus AI: Hair Care और Skin Care Products उपलब्ध हैं - Shampoo, Oil, Serum, Cream। Menu में Category Filter करके देखें।";
-    }
-    
-    // 8. Contact
-    else if(text.includes('contact') || text.includes('number') || text.includes('phone') || text.includes('whatsapp')) {
-      reply = "Rufus AI: WhatsApp पर Order/Query के लिए Product Card पर Click करें। या 'Contact' Page देखें। हम 9 AM - 9 PM Available हैं।";
-    }
-    
-    // 9. General Questions - Non Medical
-    else if(text.includes('time') || text.includes('खुला') || text.includes('band') || text.includes('timing')) {
-      reply = "Rufus AI: S K Pharmacy सुबह 9 बजे से रात 9 बजे तक खुली रहती है। Sunday भी Open। Online Order 24x7 कर सकते हैं।";
-    }
-    
-    // 10. Default Smart Reply
-    else {
-      reply = "Rufus AI: मैं समझ गया। आप Products, Location, Delivery, Timings के बारे में पूछ सकते हैं। Medical सलाह के लिए Doctor से मिलें। और कुछ पूछना है?";
-    }
-    
-    chatBox.innerHTML += `<div style="background:#f0f0f0;padding:8px;border-radius:8px;margin:5px 0">${reply}</div>`;
-    chatBox.scrollTop = chatBox.scrollHeight;
-  }, 600);
-  
-  input.value = '';
-}
-
-</script>    
 </head>
 
 <body>
-  <header class="header" style="display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; background: #1976d2; padding: 10px 15px;">
+<header class="header">
+  <button onclick="openSidebar()" style="background:none;border:none;color:white;font-size:24px;">☰</button>
+  <h1 style="margin:0;font-size:20px;">S K Pharmacy</h1>
+  <div style="display:flex;gap:15px;align-items:center;">
+    <div class="cart-icon" onclick="openCart()">
+      🛒 <span id="cart-count">0</span>
+    </div>
+    <button onclick="openSidebar()" style="background:none;border:none;color:white;font-size:24px;">⋮</button>
+  </div>
+</header>
 
-<a href="medicines.html" class="cat-item">
-<div class="icon-circle" style="color:#ff4436;">
-<i class="fas fa-capsules"></i>
-</div>
-Medicines
-</a>
-
-<a href="skincare.html" class="cat-item">
-<div class="icon-circle" style="color:#4caf50;">
-<i class="fas fa-leaf"></i>
-</div>
-Skin Care
-</a>
-
-<a href="babycare.html" class="cat-item">
-<div class="icon-circle" style="color:#ffeb3b;">
-<i class="fas fa-baby"></i>
-</div>
-Baby Care
-</a>
-
-<a href="#health-info" class="cat-item">
-<div class="icon-circle" style="color:#e91e63;">
-<i class="fas fa-heart"></i>
-</div>
-Health
-</a>
-
+<div class="ticker">
+🚚 FREE Delivery in सिलापुर, बन्थरी, ग्रेटर नोएडा, उत्तर प्रदेश - 203201 | Call: 917983006957
 </div>
 
-<!-- AMAZON STYLE SLIDER -->
+<div class="social-links">
+  <a href="https://www.instagram.com/sakirkhangrnoida" target="_blank" class="insta"><i class="fab fa-instagram"></i> Instagram</a>
+  <a href="https://www.facebook.com/share/18kLQqxfc7/" target="_blank" class="fb"><i class="fab fa-facebook"></i> Facebook</a>
+  <a href="#" class="map"><i class="fas fa-map-marker-alt"></i> Location</a>
+</div>
+
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="Product Search करें...">
+</div>
+
+<div class="categories">
+  <a href="medicines.html" class="cat-item">
+    <div class="icon-circle" style="color:#ff4436;"><i class="fas fa-capsules"></i></div>
+    Medicines
+  </a>
+  <a href="skincare.html" class="cat-item">
+    <div class="icon-circle" style="color:#4caf50;"><i class="fas fa-leaf"></i></div>
+    Skin Care
+  </a>
+  <a href="babycare.html" class="cat-item">
+    <div class="icon-circle" style="color:#ffeb3b;"><i class="fas fa-baby"></i></div>
+    Baby Care
+  </a>
+  <a href="#health-info" class="cat-item">
+    <div class="icon-circle" style="color:#e91e63;"><i class="fas fa-heart"></i></div>
+    Health
+  </a>
+</div>
 
 <div class="auto-slider">
-
-<div class="slider-track">
-
-<div class="slider-item">
-<img src="24664.png" loading="lazy">
-<h4>Garnier AcnoFight</h4>
-<p>₹130</p>
-<a href="product1.html">View Details</a>
+  <div class="slider-track">
+    <div class="slider-item">
+      <img src="24664.png" loading="lazy">
+      <h4>Garnier AcnoFight</h4>
+      <p>₹130</p>
+      <a href="product1.html">View Details</a>
+    </div>
+    <div class="slider-item">
+      <img src="24662.png" loading="lazy">
+      <h4>Nivea Men</h4>
+      <p>₹150</p>
+      <a href="product2.html">View Details</a>
+    </div>
+    <div class="slider-item">
+      <img src="26113.png" loading="lazy">
+      <h4>Kesh Shine Oil</h4>
+      <p>₹199</p>
+      <a href="product3.html">View Details</a>
+    </div>
+    <div class="slider-item">
+      <img src="26111.png" loading="lazy">
+      <h4>Indulekha</h4>
+      <p>₹199</p>
+      <a href="product4.html">View Details</a>
+    </div>
+  </div>
 </div>
 
-<div class="slider-item">
-<img src="24662.png" loading="lazy">
-<h4>Nivea Men</h4>
-<p>₹150</p>
-<a href="product2.html">View Details</a>
-</div>
-
-<div class="slider-item">
-<img src="26113.png" loading="lazy">
-<h4>Kesh Shine Oil</h4>
-<p>₹199</p>
-<a href="product3.html">View Details</a>
-</div>
-
-<div class="slider-item">
-<img src="26111.png" loading="lazy">
-<h4>Indulekha</h4>
-<p>₹199</p>
-<a href="product4.html">View Details</a>
-</div>
-
-</div>
-
-</div>
-<!-- AUTO PRODUCT SLIDER -->
-
-<div style="
-background:white;
-margin:15px;
-padding:15px;
-border-radius:15px;
-overflow:hidden;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-">
-
-<h2 style="text-align:center;color:#ff5722;">
-🔥 Trending Products
-</h2>
-
-<marquee behavior="scroll" direction="left" scrollamount="6">
-
-<a href="product1.html" style="text-decoration:none;">
-
-<img src="24664.png"
-style="width:140px;height:140px;object-fit:contain;margin:10px;">
-
-</a>
-
-<a href="product2.html" style="text-decoration:none;">
-
-<img src="24662.png"
-style="width:140px;height:140px;object-fit:contain;margin:10px;">
-
-</a>
-
-<a href="product3.html" style="text-decoration:none;">
-
-<img src="26113.png"
-style="width:140px;height:140px;object-fit:contain;margin:10px;">
-
-</a>
-
-<a href="product4.html" style="text-decoration:none;">
-
-<img src="26111.png"
-style="width:140px;height:140px;object-fit:contain;margin:10px;">
-
-</a>
-
-</marquee>
-
-</div>
-    
-<h2 class="section-title">
-हमारे प्रमुख प्रोडक्ट्स
-</h2>
+<h2 class="section-title">हमारे प्रमुख प्रोडक्ट्स</h2>
 
 <div class="product-grid" id="sk-product-list">
 
-<div class="product-card">
-
-<img src="24664.png" class="product-image">
-
-<div class="product-title">
-Garnier Men AcnoFight
-</div>
-
-<div class="product-subtitle">
-Anti Pimple Face Wash
-</div>
-
-<div class="price">
-<span class="old-price">₹180</span>
-<span class="new-price">₹130</span>
-</div>
-
-  <div style="margin: 10px auto; text-align: center; width: 85%;">
-    <input type="text" id="pincode-input-1" placeholder="पिनकोड डालें" maxlength="6" style="width: 55%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; outline: none; vertical-align: middle;">
-    <button type="button" onclick="checkMyPincode('pincode-input-1', 'pincode-msg-1')" style="width: 38%; padding: 6px 0; background-color: #ff9800; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; vertical-align: middle;">चेक करें</button>
-    <div id="pincode-msg-1" style="font-size: 12px; margin-top: 5px; font-weight: bold;"></div>
-  </div>
-    
-    
-<a href="product1.html" class="details-btn">
-View Details
-</a>
-
-<a href="https://wa.me/917983006957?text=मुझे%20Garnier%20AcnoFight%20चाहिए" target="_blank" class="buy-btn">
-<i class="fab fa-whatsapp"></i>
-Order Now
-</a>
-
-</div>
-
-<!-- PRODUCT 2 -->
-
-<div class="product-card">
-
-<img src="24662.png" class="product-image">
-
-<div class="product-title">
-Nivea Men Charcoal
-</div>
-
-<div class="product-subtitle">
-Deep Clean Face Wash
-</div>
-
-<div class="price">
-<span class="old-price">₹210</span>
-<span class="new-price">₹150</span>
-</div>
-
-<a href="product2.html" class="details-btn">
-View Details
-</a>
-
-<a href="https://wa.me/917983006957?text=मुझे%20Nivea%20Men%20चाहिए" target="_blank" class="buy-btn">
-<i class="fab fa-whatsapp"></i>
-Order Now
-</a>
-
-</div>
-
-<!-- PRODUCT 3 -->
-
-<div class="product-card">
-
-<img src="26113.png" class="product-image">
-
-<div class="product-title">
-Kesh Shine Oil
-</div>
-
-<div class="product-subtitle">
-Ayurvedic Hair Oil
-</div>
-
-<div class="price">
-<span class="old-price">₹299</span>
-<span class="new-price">₹199</span>
-</div>
-
-<a href="product3.html" class="details-btn">
-View Details
-</a>
-
-<a href="https://wa.me/917983006957?text=मुझे%20Kesh%20Shine%20Oil%20चाहिए" target="_blank" class="buy-btn">
-<i class="fab fa-whatsapp"></i>
-Order Now
-</a>
-
-</div>
-
-<!-- PRODUCT 4 -->
-
-<div class="product-card">
-
-<img src="26111.png" class="product-image">
-
-<div class="product-title">
-Indulekha Bringha
-</div>
-
-<div class="product-subtitle">
-Hair Fall Control Shampoo
-</div>
-
-<div class="price">
-<span class="old-price">₹250</span>
-<span class="new-price">₹199</span>
-</div>
-
-<a href="product4.html" class="details-btn">
-View Details
-</a>
-
-<a href="https://wa.me/917983006957?text=मुझे%20Indulekha%20Shampoo%20चाहिए" target="_blank" class="buy-btn">
-<i class="fab fa-whatsapp"></i>
-Order Now
-</a>
-
-</div>
-<!-- PRODUCT 5: SESA - फिक्स्ड डिज़ाइन -->
-<div class="product-card" style="background: white; border-radius: 12px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; overflow: hidden;">
-
-  <a href="product5.html">
-    <img src="SESA.png" style="width: 100%; border-radius: 8px; margin-bottom: 10px; display: block;">
-  </a>
-
-  <div style="font-size: 18px; font-weight: bold; text-align: center; margin-bottom: 5px;">
-    SESA Ayurvedic Hair Oil
+  <!-- Product 1 -->
+  <div class="product-card">
+    <img src="24664.png">
+    <div class="product-title">Garnier Men AcnoFight</div>
+    <div class="product-subtitle">Anti Pimple Face Wash</div>
+    <div class="price">
+      <span class="old-price">₹180</span>
+      <span class="new-price">₹130</span>
+    </div>
+    <div style="margin:10px 0;">
+      <input type="text" id="pincode-input-1" placeholder="पिनकोड डालें" maxlength="6" style="width:55%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;">
+      <button onclick="checkMyPincode('pincode-input-1','pincode-msg-1')" style="width:38%;padding:6px;background:#ff9800;color:white;border:none;border-radius:4px;font-weight:bold;font-size:13px;">चेक करें</button>
+      <div id="pincode-msg-1" style="font-size:12px;margin-top:5px;font-weight:bold;"></div>
+    </div>
+    <a href="product1.html" class="details-btn">View Details</a>
+    <a href="https://wa.me/917983006957?text=मुझे%20Garnier%20AcnoFight%20चाहिए" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
   </div>
 
-  <div style="font-size: 14px; color: #666; text-align: center; margin-bottom: 10px;">
-    100% Natural | Hair Fall Control
+  <!-- Product 2 -->
+  <div class="product-card">
+    <img src="24662.png">
+    <div class="product-title">Nivea Men Charcoal</div>
+    <div class="product-subtitle">Deep Clean Face Wash</div>
+    <div class="price">
+      <span class="old-price">₹210</span>
+      <span class="new-price">₹150</span>
+    </div>
+    <a href="product2.html" class="details-btn">View Details</a>
+    <a href="https://wa.me/917983006957?text=मुझे%20Nivea%20Men%20चाहिए" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
   </div>
 
-  <div style="text-align: center; margin-bottom: 15px;">
-    <span style="font-size: 14px; color: #999; text-decoration: line-through; margin-right: 8px;">₹210</span>
-    <span style="font-size: 20px; font-weight: bold; color: #e63946;">₹200</span>
+  <!-- Product 3 -->
+  <div class="product-card">
+    <img src="26113.png">
+    <div class="product-title">Kesh Shine Oil</div>
+    <div class="product-subtitle">Ayurvedic Hair Oil</div>
+    <div class="price">
+      <span class="old-price">₹299</span>
+      <span class="new-price">₹199</span>
+    </div>
+    <a href="product3.html" class="details-btn">View Details</a>
+    <a href="https://wa.me/917983006957?text=मुझे%20Kesh%20Shine%20Oil%20चाहिए" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
   </div>
 
-    <div class="product-card">
-    <img src="kesh-king.jpg">
-    <div class="product-title">Kesh King Ayurvedic Oil</div>
-    <p class="price">₹299</p>
-    <button>Add to Cart</button>
-</div>
-
-<div class="product-card">
-    <img src="himalaya-hair-zone.jpg">
-    <div class="product-title">Himalaya Hair Zone Solution</div>
-    <p class="price">₹479</p>
-    <button>Add to Cart</button>
-</div>
-
-<div class="product-card">
-    <img src="mamaearth-onion.jpg">
-    <div class="product-title">Mamaearth Onion Hair Oil</div>
-    <p class="price">₹399</p>
-    <button>Add to Cart</button>
-</div>
-
-<div class="product-card">
-    <img src="indulekha.jpg">
-    <div class="product-title">Indulekha Bringha Oil</div>
-    <p class="price">₹432</p>
-    <button>Add to Cart</button>
-</div>
-
-<div class="product-card">
-    <img src="wow-oil.jpg">
-    <div class="product-title">WOW Skin Science Hair Oil</div>
-    <p class="price">₹349</p>
-    <button>Add to Cart</button>
-</div>
-        <!-- Product: Dabur Amla Hair Oil -->
-    <div class="col-6 col-md-4 col-lg-3">
-      <div class="product-card">
-        <a href="dabur-amla-hair-oil.html">
-          <img src="dabur-amla.jpg" alt="Dabur Amla Hair Oil 300ml">
-        </a>
-        <div class="product-title">Dabur Amla Hair Oil 300ml</div>
-        <p class="price">₹180 <del>₹220</del></p>
-        
-        <a href="dabur-amla-hair-oil.html" class="btn btn-warning" style="background:#ff9800; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          View Details
-        </a>
-        
-        <a href="https://wa.me/919258751739?text=मुझे%20ये%20प्रोडक्ट%20चाहिए:%20Dabur%20Amla%20Hair%20Oil%20₹180%0Ahttps://grnoida.github.io/dabur-amla-hair-oil.html" 
-           style="background:#25D366; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;" target="_blank">
-          <i class="fab fa-whatsapp"></i> Order on WhatsApp
-        </a>
-        
-        <a href="https://share.google/h0FT5rasKXvBEy9Ko" target="_blank" 
-           style="background:#232f3e; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          <i class="fab fa-amazon"></i> Buy on Amazon
-        </a>
-      </div>
+  <!-- Product 4 -->
+  <div class="product-card">
+    <img src="26111.png">
+    <div class="product-title">Indulekha Bringha</div>
+    <div class="product-subtitle">Hair Fall Control Shampoo</div>
+    <div class="price">
+      <span class="old-price">₹250</span>
+      <span class="new-price">₹199</span>
     </div>
-  
-        <!-- Product: SESA Hair Oil -->
-    <div class="col-6 col-md-4 col-lg-3">
-      <div class="product-card">
-        <a href="product5.html">
-          <img src="sesa-oil.jpg" alt="SESA Hair Oil">
-        </a>
-        <div class="product-title">SESA Hair Oil</div>
-        <p class="price">290</p>
-  <div style="margin-bottom: 12px;">
-    <input type="number" id="pincode-sesa" placeholder="डिलीवरी पिनकोड जांचें" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 8px; box-sizing: border-box; text-align: center;">
-    <button onclick="checkPincode('sesa')" style="width: 100%; background: #ff9800; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px;">चेक करें</button>
-    <p id="result-sesa" style="font-size: 13px; margin: 8px 0 0 0; text-align: center; font-weight: bold;"></p>
+    <a href="product4.html" class="details-btn">View Details</a>
+    <a href="https://wa.me/917983006957?text=मुझे%20Indulekha%20Shampoo%20चाहिए" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
+  </div>
+      <!-- Dolo 650 -->
+  <div class="product-card">
+    <a href="dolo-650.html">
+      <img src="dolo-650.jpg" alt="Dolo 650 Tablet 15 Strip">
+    </a>
+    <div class="product-title">Dolo 650mg - 150 Tabs</div>
+    <div class="price">
+      <span class="new-price">₹350</span>
+      <span class="old-price">₹379</span>
+    </div>
+    <a href="dolo-650.html" class="details-btn">View Details</a>
+    <a href="https://wa.me/917983006957?text=मुझे%20ये%20चाहिए:%20Dolo%20650%20-%2015%20Tabs%20₹31%0Ahttps://grnoida.github.io/dolo-650.html" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
+    <a href="AMAZON_LINK_DOLO" target="_blank" class="buy-btn amazon-btn"><i class="fab fa-amazon"></i> Buy on Amazon</a>
   </div>
 
-  <a href="product5.html" style="background: #ff9800; color: white; padding: 12px; border-radius: 8px; text-decoration: none; display: block; text-align: center; font-weight: bold; margin-bottom: 8px;">
-    View Details
-  </a>
-
-  <a href="https://wa.me/917983006957?text=मुझे%20SESA%20Hair%20Oil%20चाहिए" target="_blank" style="background: #25D366; color: white; padding: 12px; border-radius: 8px; text-decoration: none; display: block; text-align: center; font-weight: bold; margin-bottom: 8px;">
-    <i class="fab fa-whatsapp"></i> Order Now
-  </a>
-
-  <a href="#" target="_blank" style="background: #232f3e; color: white; padding: 12px; border-radius: 8px; text-decoration: none; display: block; text-align: center; font-weight: bold;">
-    <i class="fab fa-amazon"></i> Buy on Amazon
-  </a>
-
-</div>
-
-     <!-- Product : Dolo 650 Tablet -->
-    <div class="col-6 col-md-4 col-lg-3">
-      <div class="product-card">
-        <a href="dolo-650.html">
-          <img src="dolo-650.jpg" alt="Dolo 650 Tablet 15 Strip">
-        </a>
-        <div class="product-title">Dolo 650mg - 150 Tabs</div>
-        <p class="price">₹350 <del>₹379</del></p>
-        
-        <a href="dolo-650.html" class="btn btn-warning" style="background:#ff9800; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          View Details
-        </a>
-        
-        <a href="https://wa.me/917983006957?text=मुझे%20ये%20चाहिए:%20Dolo%20650%20-%2015%20Tabs%20₹31%0Ahttps://grnoida.github.io/dolo-650.html" 
-           style="background:#25D366; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;" target="_blank">
-          <i class="fab fa-whatsapp"></i> Order Now
-        </a>
-        
-        <a href="AMAZON_LINK_DOLO" target="_blank" 
-           style="background:#232f3e; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          <i class="fab fa-amazon"></i> Buy on Amazon
-        </a>
-      </div>
+  <!-- Azithromycin -->
+  <div class="product-card">
+    <a href="azithromycin-500.html">
+      <img src="azithromycin-500.jpg" alt="Azithromycin 500mg">
+    </a>
+    <div class="product-title">Azithromycin 500 - 3 Tabs</div>
+    <div class="price">
+      <span class="new-price">₹75</span>
+      <span class="old-price">₹105</span>
     </div>
-
-    <!-- Product : Azithromycin 500 -->
-    <div class="col-6 col-md-4 col-lg-3">
-      <div class="product-card">
-        <a href="azithromycin-500.html">
-          <img src="azithromycin-500.jpg" alt="Azithromycin 500mg">
-        </a>
-        <div class="product-title">Azithromycin 500 - 3 Tabs</div>
-        <p class="price">₹75 <del>₹105</del></p>
-        
-        <a href="azithromycin-500.html" class="btn btn-warning" style="background:#ff9800; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          View Details
-        </a>
-        
-        <a href="https://wa.me/917983006957?text=मुझे%20ये%20चाहिए:%20Azithromycin%20500%20-%203%20Tabs%20₹58%0Ahttps://grnoida.github.io/azithromycin-500.html" 
-           style="background:#25D366; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;" target="_blank">
-          <i class="fab fa-whatsapp"></i> Order Now
-        </a>
-        
-        <a href="AMAZON_LINK_AZI" target="_blank" 
-           style="background:#232f3e; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          <i class="fab fa-amazon"></i> Buy on Amazon
-        </a>
-      </div>
-    </div>
-
-    <!-- Product : Cetirizine 10mg -->
-    <div class="col-6 col-md-4 col-lg-3">
-      <div class="product-card">
-        <a href="cetirizine-10.html">
-          <img src="cetirizine-10.jpg" alt="Cetirizine 10mg">
-        </a>
-        <div class="product-title">Cetirizine 10mg - 100 Tabs</div>
-        <p class="price">₹100 <del>₹125</del></p>
-        
-        <a href="cetirizine-10.html" class="btn btn-warning" style="background:#ff9800; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          View Details
-        </a>
-        
-        <a href="https://wa.me/917983006957?text=मुझे%20ये%20चाहिए:%20Cetirizine%2010mg%20-%2010%20Tabs%20₹19%0Ahttps://grnoida.github.io/cetirizine-10.html" 
-           style="background:#25D366; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;" target="_blank">
-          <i class="fab fa-whatsapp"></i> Order Now
-        </a>
-        
-        <a href="AMAZON_LINK_CETI" target="_blank" 
-           style="background:#232f3e; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          <i class="fab fa-amazon"></i> Buy on Amazon
-        </a>
-      </div>
-    </div>
-
-    <!-- Product : Pantoprazole 40 -->
-    <div class="col-6 col-md-4 col-lg-3">
-      <div class="product-card">
-        <a href="pantoprazole-40.html">
-          <img src="pantoprazole-40.jpg" alt="Pantoprazole 40mg">
-        </a>
-        <div class="product-title">Pantoprazole 40 - 15 Tabs</div>
-        <p class="price">₹100 <del>₹125</del></p>
-        
-        <a href="pantoprazole-40.html" class="btn btn-warning" style="background:#ff9800; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          View Details
-        </a>
-        
-        <a href="https://wa.me/917983006957?text=मुझे%20ये%20चाहिए:%20Pantoprazole%2040%20-%2015%20Tabs%20₹68%0Ahttps://grnoida.github.io/pantoprazole-40.html" 
-           style="background:#25D366; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;" target="_blank">
-          <i class="fab fa-whatsapp"></i> Order Now
-        </a>
-        
-        <a href="AMAZON_LINK_PANTO" target="_blank" 
-           style="background:#232f3e; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          <i class="fab fa-amazon"></i> Buy on Amazon
-        </a>
-      </div>
-    </div>
-
-    <!-- Product : Shelcal 500 -->
-    <div class="col-6 col-md-4 col-lg-3">
-      <div class="product-card">
-        <a href="shelcal-500.html">
-          <img src="shelcal-500.jpg" alt="Shelcal 500 Tablet">
-        </a>
-        <div class="product-title">Shelcal 500 Tablet</div>
-        <p class="price">₹110 <del>₹125</del></p>
-        
-        <a href="shelcal-500.html" class="btn btn-warning" style="background:#ff9800; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          View Details
-        </a>
-        
-        <a href="https://wa.me/917983006957?text=मुझे%20ये%20चाहिए:%20Shelcal%20500%20-%2015%20Tabs%20₹110%0Ahttps://grnoida.github.io/shelcal-500.html" 
-           style="background:#25D366; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;" target="_blank">
-          <i class="fab fa-whatsapp"></i> Order Now
-        </a>
-        
-        <a href="AMAZON_LINK_SHELCAL" target="_blank" 
-           style="background:#232f3e; color:white; padding:8px; border-radius:4px; text-decoration:none; display:block; margin:5px 0;">
-          <i class="fab fa-amazon"></i> Buy on Amazon
-        </a>
-      </div>
-    </div> 
-             <!-- Product : ZIFI 50 Dry Syrup -->
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="product-card">
-                <div class="badge bg-danger position-absolute m-2">5% OFF</div>
-                <a href="zifi-50-dry-syrup.html">
-                    <img src="zifi-50-all.jpg" alt="ZIFI 50 Dry Syrup">
-                </a>
-                <div class="product-title">ZIFI 50 - 30 ML DRY SYRUP</div>
-                <p class="price">₹95 <del>₹100</del></p>
-                
-                <a href="zifi-50-dry-syrup.html" class="btn btn-warning" style="width:100%; margin-bottom:5px;">
-                    View Details
-                </a>
-                
-                <a href="https://wa.me/919258751739?text=मुझे%20चाहिए%20ZIFI%2050%20Dry%20Syrup%0A%0ALink:%20https://sakirkhangrnoida.github.io/zifi-50-dry-syrup.html" 
-                   style="background:#25D366; color:white; padding:8px; border-radius:5px; text-decoration:none; display:block; text-align:center; margin-bottom:5px;">
-                    <i class="fab fa-whatsapp"></i> Order Now
-                </a>
-                
-                <a href="#" target="_blank"
-                   style="background:#232f3e; color:white; padding:8px; border-radius:5px; text-decoration:none; display:block; text-align:center;">
-                    <i class="fab fa-amazon"></i> Buy on Amazon
-                </a>
-            </div>
-        </div> 
-              
-<script>
-    
-  </script>
-<!-- Candiforce 200 Product Card - इसे बाकी कार्ड के साथ पेस्ट कर -->
-<div class="product-card" onclick="window.location.href='candiforce-200.html'" style="border: 1px solid #e3e3e3; border-radius: 12px; padding: 12px; text-align: center; cursor: pointer; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-  <img src="https://i.ibb.co/7X9z8Yf/candiforce-200.jpg" alt="Candiforce 200" style="width: 100%; height: 150px; object-fit: contain; margin-bottom: 8px;">
-  
-  <div style="font-size: 14px; color: #0F1111; margin-bottom: 4px; height: 40px; overflow: hidden;">Candiforce 200 Capsule</div>
-  <div style="font-size: 12px; color: #D13212; margin-bottom: 6px;">⚠️ Prescription Required</div>
-  
-  <div style="margin-bottom: 8px;">
-    <span style="font-size: 18px; color: #B12704; font-weight: bold;">₹250</span>
-    <span style="font-size: 13px; color: #565959; text-decoration: line-through; margin-left: 4px;">₹280</span>
+    <a href="azithromycin-500.html" class="details-btn">View Details</a>
+    <a href="https://wa.me/917983006957?text=मुझे%20ये%20चाहिए:%20Azithromycin%20500%20-%203%20Tabs%20₹58%0Ahttps://grnoida.github.io/azithromycin-500.html" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
+    <a href="AMAZON_LINK_AZI" target="_blank" class="buy-btn amazon-btn"><i class="fab fa-amazon"></i> Buy on Amazon</a>
   </div>
-  
-  <button style="background: #FFA41C; border: none; padding: 8px 20px; border-radius: 20px; font-size: 13px; width: 100%; cursor: pointer;">
-    View Details
-  </button>
+
+  <!-- Cetirizine -->
+  <div class="product-card">
+    <a href="cetirizine-10.html">
+      <img src="cetirizine-10.jpg" alt="Cetirizine 10mg">
+    </a>
+    <div class="product-title">Cetirizine 10mg - 100 Tabs</div>
+    <div class="price">
+      <span class="new-price">₹100</span>
+      <span class="old-price">₹125</span>
+    </div>
+    <a href="cetirizine-10.html" class="details-btn">View Details</a>
+    <a href="https://wa.me/917983006957?text=मुझे%20ये%20चाहिए:%20Cetirizine%2010mg%20-%2010%20Tabs%20₹19%0Ahttps://grnoida.github.io/cetirizine-10.html" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
+    <a href="AMAZON_LINK_CETI" target="_blank" class="buy-btn amazon-btn"><i class="fab fa-amazon"></i> Buy on Amazon</a>
+  </div>
+
+  <!-- Pantoprazole -->
+  <div class="product-card">
+    <a href="pantoprazole-40.html">
+      <img src="pantoprazole-40.jpg" alt="Pantoprazole 40mg">
+    </a>
+    <div class="product-title">Pantoprazole 40 - 15 Tabs</div>
+    <div class="price">
+      <span class="new-price">₹100</span>
+      <span class="old-price">₹125</span>
+    </div>
+    <a href="pantoprazole-40.html" class="details-btn">View Details</a>
+    <a href="https://wa.me/917983006957?text=मुझे%20ये%20चाहिए:%20Pantoprazole%2040%20-%2015%20Tabs%20₹68%0Ahttps://grnoida.github.io/pantoprazole-40.html" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
+    <a href="AMAZON_LINK_PANTO" target="_blank" class="buy-btn amazon-btn"><i class="fab fa-amazon"></i> Buy on Amazon</a>
+  </div>
+
+  <!-- Shelcal -->
+  <div class="product-card">
+    <a href="shelcal-500.html">
+      <img src="shelcal-500.jpg" alt="Shelcal 500 Tablet">
+    </a>
+    <div class="product-title">Shelcal 500 Tablet</div>
+    <div class="price">
+      <span class="new-price">₹110</span>
+      <span class="old-price">₹125</span>
+    </div>
+    <a href="shelcal-500.html" class="details-btn">View Details</a>
+    <a href="https://wa.me/917983006957?text=मुझे%20ये%20चाहिए:%20Shelcal%20500%20-%2015%20Tabs%20₹110%0Ahttps://grnoida.github.io/shelcal-500.html" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
+    <a href="AMAZON_LINK_SHELCAL" target="_blank" class="buy-btn amazon-btn"><i class="fab fa-amazon"></i> Buy on Amazon</a>
+  </div>
+
+  <!-- ZIFI 50 -->
+  <div class="product-card">
+    <div class="badge">5% OFF</div>
+    <a href="zifi-50-dry-syrup.html">
+      <img src="zifi-50-all.jpg" alt="ZIFI 50 Dry Syrup">
+    </a>
+    <div class="product-title">ZIFI 50 - 30 ML DRY SYRUP</div>
+    <div class="price">
+      <span class="new-price">₹95</span>
+      <span class="old-price">₹100</span>
+    </div>
+    <a href="zifi-50-dry-syrup.html" class="details-btn">View Details</a>
+    <a href="https://wa.me/919258751739?text=मुझे%20चाहिए%20ZIFI%2050%20Dry%20Syrup%0A%0ALink:%20https://sakirkhangrnoida.github.io/zifi-50-dry-syrup.html" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
+    <a href="#" target="_blank" class="buy-btn amazon-btn"><i class="fab fa-amazon"></i> Buy on Amazon</a>
+  </div>
+
+  <!-- Candiforce -->
+  <div class="product-card">
+    <img src="https://i.ibb.co/7X9z8Yf/candiforce-200.jpg" alt="Candiforce 200">
+    <div class="product-title">Candiforce 200 Capsule</div>
+    <div style="font-size:12px;color:#D13212;margin-bottom:6px;">⚠️ Prescription Required</div>
+    <div class="price">
+      <span class="new-price">₹250</span>
+      <span class="old-price">₹280</span>
+    </div>
+    <a href="candiforce-200.html" class="details-btn">View Details</a>
+  </div>
+
+  <!-- R.B. Tone -->
+  <div class="product-card">
+    <img src="rbtone.jpg">
+    <div class="product-title">R.B. Tone Syrup 200ml</div>
+    <div class="product-subtitle">Iron, Folic Acid & Vitamin B12 Tonic</div>
+    <div class="price">
+      <span class="new-price">₹220</span>
+      <span class="old-price">₹250</span>
+    </div>
+    <a href="product-rbtone.html" class="details-btn">View Details</a>
+  </div>
+
+  <!-- Cypon -->
+  <div class="product-card">
+    <a href="product-cypon.html">
+      <img src="cypon.jpg" alt="Cypon Syrup">
+    </a>
+    <div class="product-title">Cypon Syrup 200ml - Weight Gainer</div>
+    <div class="price">
+      <span class="new-price">₹139</span>
+      <span class="old-price">₹165</span>
+    </div>
+    <a href="product-cypon.html" class="details-btn">View Details</a>
+  </div>
+
+  <!-- Bevon -->
+  <div class="product-card">
+    <a href="product-bevon.html">
+      <img src="bevon.jpg" alt="Bevon Suspension">
+    </a>
+    <div class="product-title">Bevon Suspension 200ml - Multivitamin</div>
+    <div class="price">
+      <span class="new-price">₹220</span>
+      <span class="old-price">₹250</span>
+    </div>
+    <a href="product-bevon.html" class="details-btn">View Details</a>
+  </div>
+
+  <!-- Nurokind -->
+  <div class="product-card">
+    <a href="product-nurokind.html">
+      <img src="nurokind.jpg" alt="Nurokind Syrup">
+    </a>
+    <div class="product-title">Nurokind Syrup 200ml - Mecobalamin</div>
+    <div class="price">
+      <span class="new-price">₹149</span>
+      <span class="old-price">₹155</span>
+    </div>
+    <a href="product-nurokind.html" class="details-btn">View Details</a>
+  </div>
+
+  <!-- Hempushpa -->
+  <div class="product-card">
+    <a href="product-hempushpa.html">
+      <img src="hempushpa.jpg" alt="Hempushpa">
+    </a>
+    <div class="product-title">Hempushpa Tonic 200ml - Women Care</div>
+    <div class="price">
+      <span class="new-price">₹290</span>
+      <span class="old-price">₹350</span>
+    </div>
+    <a href="product-hempushpa.html" class="buy-btn">Buy Now</a>
+  </div>
+
+  <!-- Vasmol -->
+  <div class="product-card">
+    <a href="product-vasmol.html">
+      <img src="vasmol.jpg" alt="Vasmol Kesh Kala">
+    </a>
+    <div class="product-title">Vasmol 33 Kesh Kala Oil 100ml</div>
+    <div class="price">
+      <span class="new-price">₹70</span>
+      <span class="old-price">₹85</span>
+    </div>
+    <a href="product-vasmol.html" class="buy-btn">Buy Now</a>
+  </div>
+
+  <!-- Fogg -->
+  <div class="product-card">
+    <a href="product-fogg-impressio.html">
+      <img src="fogg.jpg" alt="Fogg Impressio">
+    </a>
+    <div class="product-title">Fogg Scent Impressio EDP 100ml</div>
+    <div class="price">
+      <span class="new-price">₹220</span>
+      <span class="old-price">₹299</span>
+    </div>
+    <a href="product-fogg-impressio.html" class="buy-btn">Buy Now</a>
+  </div>
+
 </div>
 
-   <!-- R.B. Tone Product Card Start -->
-<div style="margin: 20px 15px;">
-    <div style="border:1px solid #ddd; border-radius:12px; padding:15px; background:white;">
-        <img src="rbtone.jpg" style="width:100%; border-radius:8px;">
-        <div class="product-title" style="margin:10px 0 5px 0; font-size: 16px; font-weight: bold;">R.B. Tone Syrup 200ml</div>
-        <p style="color:#565959;font-size:13px;margin-bottom:8px;">Iron, Folic Acid & Vitamin B12 Tonic</p>
-        <div style="margin-bottom:8px;">
-            <span style="font-size:18px; color:#B12704; font-weight:bold;">₹220</span>
-            <span style="font-size:13px; color:#565959; text-decoration:line-through; margin-left:8px;">₹250</span>
-            <span style="color:#007600; font-size:13px; margin-left:8px;">17% off</span>
-        </div>
-        <button onclick="location.href='product-rbtone.html'" style="background:#FFA41C; border:none; padding:8px 20px; width:100%; border-radius:20px; font-weight:bold; cursor:pointer;">
-            View Details
-        </button>
-    </div>
-</div>
-<!-- R.B. Tone Product Card End -->
-  <!-- S K Pharmacy Banner -->
+<!-- S K Pharmacy Banner -->
 <div style="margin: 20px 15px;">
   <a href="details.html">
     <img src="img/logo.jpg" style="width:100%; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1); cursor:pointer;" alt="S K Pharmacy - आपकी सेहत, हमारी ज़िम्मेदारी">
   </a>
-  <div class="text-center mt-2">
-    <a href="details.html" class="btn btn-warning btn-sm" style="border-radius:20px;">
+  <div style="text-align:center;margin-top:10px;">
+    <a href="details.html" style="background:#FFA41C;color:black;padding:8px 20px;border-radius:20px;text-decoration:none;font-weight:bold;display:inline-block;">
       <i class="fas fa-info-circle"></i> View Details
     </a>
   </div>
 </div>
 
-   <!-- Cypon Syrup Product Card -->
-<div style="border:1px solid #ddd;padding:10px;margin:10px;background:white;border-radius:8px;">
-    <a href="product-cypon.html" style="text-decoration:none;color:black;">
-        <img src="cypon.jpg" alt="Cypon Syrup" style="width:100%;max-width:200px;display:block;margin:auto;">
-        <div class="product-title" style="font-size:16px;margin:10px 0; font-weight: bold;">Cypon Syrup 200ml - Weight Gainer</div>
-        <div style="color:#B12704;font-size:18px;font-weight:bold;">₹139</div>
-        <div style="color:#565959;font-size:13px;text-decoration:line-through;">M.R.P: ₹165</div>
-        <div style="color:#007600;font-size:13px;">Get it by Tomorrow</div>
-        <button style="background:#FFD814;border:0;padding:8px 20px;border-radius:20px;margin-top:8px;width:100%;">View Details</button>
-    </a>
-</div>  
-      <!-- Bevon Suspension Product Card -->
-<div style="border:1px solid #ddd;padding:10px;margin:10px;background:white;border-radius:8px;">
-    <a href="product-bevon.html" style="text-decoration:none;color:black;">
-        <img src="bevon.jpg" alt="Bevon Suspension" style="width:100%;max-width:200px;display:block;margin:auto;">
-        <h3 style="font-size:16px;margin:10px 0;">Bevon Suspension 200ml - Multivitamin</h3>
-        <div style="color:#B12704;font-size:18px;font-weight:bold;">₹220</div>
-        <div style="color:#565959;font-size:13px;text-decoration:line-through;">M.R.P: ₹250</div>
-        <div style="color:#007600;font-size:13px;">Get it by Tomorrow</div>
-        <button style="background:#FFD814;border:0;padding:8px 20px;border-radius:20px;margin-top:8px;width:100%;">View Details</button>
-    </a>
-</div>  
-     <!-- Nurokind Syrup Product Card -->
-<div style="border:1px solid #ddd;padding:10px;margin:10px;background:white;border-radius:8px;">
-    <a href="product-nurokind.html" style="text-decoration:none;color:black;">
-        <img src="nurokind.jpg" alt="Nurokind Syrup" style="width:100%;max-width:200px;display:block;margin:auto;">
-        <h3 style="font-size:16px;margin:10px 0;">Nurokind Syrup 200ml - Mecobalamin</h3>
-        <div style="color:#B12704;font-size:18px;font-weight:bold;">₹149</div>
-        <div style="color:#565959;font-size:13px;text-decoration:line-through;">M.R.P: ₹155</div>
-        <div style="color:#007600;font-size:13px;">Get it by Tomorrow</div>
-        <button style="background:#FFD814;border:0;padding:8px 20px;border-radius:20px;margin-top:8px;width:100%;">View Details</button>
-    </a>
-</div>
-
-    <!-- Hempushpa Tonic Product Card -->
-<div style="border:1px solid #ddd;padding:10px;margin:10px;background:white;border-radius:8px;">
-    <a href="product-hempushpa.html" style="text-decoration:none;color:black;">
-        <img src="hempushpa.jpg" alt="Hempushpa" style="width:100%;max-width:200px;display:block;margin:auto;">
-        <h3 style="font-size:16px;margin:10px 0;">Hempushpa Tonic 200ml - Women Care</h3>
-        <div style="color:#B12704;font-size:18px;font-weight:bold;">₹290</div>
-        <div style="color:#565959;font-size:13px;text-decoration:line-through;">M.R.P: ₹350</div>
-        <div style="color:#007600;font-size:13px;">Get it by Tomorrow</div>
-        <button style="background:#FFD814;border:0;padding:8px 20px;border-radius:20px;margin-top:8px;width:100%;">Buy Now</button>
-    </a>
-</div> 
-
-     <!-- Vasmol Kesh Kala Product Card -->
-<div style="border:1px solid #ddd;padding:10px;margin:10px;background:white;border-radius:8px;">
-    <a href="product-vasmol.html" style="text-decoration:none;color:black;">
-        <img src="vasmol.jpg" alt="Vasmol Kesh Kala" style="width:100%;max-width:200px;display:block;margin:auto;">
-        <h3 style="font-size:16px;margin:10px 0;">Vasmol 33 Kesh Kala Oil 100ml</h3>
-        <div style="color:#B12704;font-size:18px;font-weight:bold;">₹70</div>
-        <div style="color:#565959;font-size:13px;text-decoration:line-through;">M.R.P: ₹85</div>
-        <div style="color:#007600;font-size:13px;">18% off | Get it by Tomorrow</div>
-        <button style="background:#FFD814;border:0;padding:8px 20px;border-radius:20px;margin-top:8px;width:100%;">Buy Now</button>
-    </a>
-</div>  
-        <!-- Fogg Impressio Product Card -->
-<div style="border:1px solid #ddd;padding:10px;margin:10px;background:white;border-radius:8px;">
-    <a href="product-fogg-impressio.html" style="text-decoration:none;color:black;">
-        <img src="fogg.jpg" alt="Fogg Impressio" style="width:100%;max-width:200px;display:block;margin:auto;">
-        <h3 style="font-size:16px;margin:10px 0;">Fogg Scent Impressio EDP 100ml</h3>
-        <div style="color:#B12704;font-size:18px;font-weight:bold;">₹220</div>
-        <div style="color:#565959;font-size:13px;text-decoration:line-through;">M.R.P: ₹299</div>
-        <div style="color:#007600;font-size:13px;">26% off | Get it by Tomorrow</div>
-        <button style="background:#FFD814;border:0;padding:8px 20px;border-radius:20px;margin-top:8px;width:100%;">Buy Now</button>
-    </a>
-</div>
-    <!-- Blog Poster Section -->
+<!-- Blog Poster Section -->
 <div style="margin: 20px 15px;">
   <a href="blog-info.html">
     <img src="img/blog-poster.jpg" style="width:100%; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1); cursor:pointer;" alt="S K Pharmacy Blog Info">
   </a>
-  <div class="text-center mt-2">
-    <a href="blog-info.html" class="btn btn-info btn-sm" style="border-radius:20px;">
+  <div style="text-align:center;margin-top:10px;">
+    <a href="blog-info.html" style="background:#17a2b8;color:white;padding:8px 20px;border-radius:20px;text-decoration:none;font-weight:bold;display:inline-block;">
       <i class="fas fa-blog"></i> View Blog Details
     </a>
   </div>
-</div>    
-  <script>
-    
-  <!-- ONLINE PAYMENT -->
-    
 </div>
 
 <!-- ONLINE PAYMENT -->
-
-<div style="background:white;margin:20px 15px;padding:20px;border-radius:15px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
-
-<h3 style="color:#1a1e23;">
-💳 Online Payment
-</h3>
-
-<p style="color:#666;">
-UPI / PhonePe / Google Pay Accepted
-</p>
-
-<a href="upi://pay?pa=7983006957@ibl&pn=SK%20Pharmacy&cu=INR"
-style="display:inline-block;background:#2ea44f;color:white;padding:12px 25px;border-radius:25px;text-decoration:none;font-weight:bold;">
-Pay Now
-</a>
-
-</div>
-
-<a href="https://www.instagram.com/sakirkhangrnoida" target="_blank" style="background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);color:white;padding:8px 15px;border-radius:20px;text-decoration:none;font-weight:bold;margin:5px;display:inline-block;">
-📸 Instagram
-</a>
-
-<a href="https://www.facebook.com/share/18kLQqxfc7/" target="_blank" style="background:#1877F2;color:white;padding:8px 15px;border-radius:20px;text-decoration:none;font-weight:bold;margin:5px;display:inline-block;">
-👍 Facebook
-</a>
-
-<hr style="border:0;border-top:1px solid #333;margin:15px 0;">
-
-<p style="color:#ff9900;font-size:15px;font-weight:bold;">
-💬 अपने सवाल यहाँ पूछें
-</p>
-
-<div id="disqus_thread"></div>
-
+<div style="background:white;margin:20px 15px;padding:20px;border-radius:15px;box-shadow:0 4px 12px rgba(0,0,0,0.08);text-align:center;">
+  <h3 style="color:#1a1e23;">💳 Online Payment</h3>
+  <p style="color:#666;">UPI / PhonePe / Google Pay Accepted</p>
+  <a href="upi://pay?pa=7983006957@ibl&pn=SK%20Pharmacy&cu=INR" style="display:inline-block;background:#2ea44f;color:white;padding:12px 25px;border-radius:25px;text-decoration:none;font-weight:bold;">Pay Now</a>
 </div>
 
 <!-- HEALTH SECTION -->
-
 <div id="health-info" style="background:white;margin:20px 15px;padding:25px;border-radius:15px;text-align:left;box-shadow:0 4px 12px rgba(0,0,0,0.08);border-top:5px solid #ff5722;">
-
-<h2 style="color:#ff5722;text-align:center;">
-☀️ गर्मी में लू (Heat Stroke) से बचने के उपाय
-</h2>
-
-<p style="font-size:15px;color:#444;line-height:1.8;">
-
-गर्मियों के मौसम में तेज धूप, गर्म हवाएं और बढ़ता तापमान शरीर पर बुरा प्रभाव डाल सकता है।
-अधिक गर्मी के कारण शरीर में पानी की कमी, चक्कर आना, सिर दर्द, कमजोरी, उल्टी और लू जैसी गंभीर समस्याएं हो सकती हैं।
-
-</p>
-
-<ul style="padding-left:20px;line-height:2;color:#333;font-size:15px;">
-
-<li>✅ ज्यादा पानी पिएं और ORS का सेवन करें।</li>
-
-<li>✅ धूप में बाहर निकलने से बचें।</li>
-
-<li>✅ सूती और हल्के कपड़े पहनें।</li>
-
-<li>✅ बच्चों और बुजुर्गों का विशेष ध्यान रखें।</li>
-
-<li>✅ तरबूज, खीरा और नारियल पानी का सेवन करें।</li>
-
-<li>✅ कच्चे आम का पन्ना गर्मी में बहुत फायदेमंद होता है।</li>
-
-<li>✅ सिर ढककर बाहर जाएं।</li>
-
-<li>✅ ज्यादा तला-भुना भोजन कम खाएं।</li>
-
-</script>
-   <script src="script.js"></script>
-
+  <h2 style="color:#ff5722;text-align:center;">☀️ गर्मी में लू (Heat Stroke) से बचने के उपाय</h2>
+  <p style="font-size:15px;color:#444;line-height:1.8;">
+    गर्मियों के मौसम में तेज धूप, गर्म हवाएं और बढ़ता तापमान शरीर पर बुरा प्रभाव डाल सकता है।
+    अधिक गर्मी के कारण शरीर में पानी की कमी, चक्कर आना, सिर दर्द, कमजोरी, उल्टी और लू जैसी गंभीर समस्याएं हो सकती हैं।
+  </p>
+  <ul style="padding-left:20px;line-height:2;color:#333;font-size:15px;">
+    <li>✅ ज्यादा पानी पिएं और ORS का सेवन करें।</li>
+    <li>✅ धूप में बाहर निकलने से बचें।</li>
+    <li>✅ सूती और हल्के कपड़े पहनें।</li>
+    <li>✅ बच्चों और बुजुर्गों का विशेष ध्यान रखें।</li>
+    <li>✅ तरबूज, खीरा और नारियल पानी का सेवन करें।</li>
+    <li>✅ कच्चे आम का पन्ना गर्मी में बहुत फायदेमंद होता है।</li>
+    <li>✅ सिर ढककर बाहर जाएं।</li>
+    <li>✅ ज्यादा तला-भुना भोजन कम खाएं।</li>
+  </ul>
+</div>
+<!-- FOOTER START - Amazon Style -->
+<div style="background:#232f3e;color:white;margin-top:30px;">
+  
+  <!-- Back to Top -->
+  <div onclick="window.scrollTo({top: 0, behavior: 'smooth'})" style="background:#37475a;padding:15px;text-align:center;cursor:pointer;font-weight:bold;">
+    Back to top
+  </div>
+  
+  <!-- Main Footer Links -->
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding:30px 20px;border-bottom:1px solid #3a4553;">
+    
+    <div>
+      <h4 style="margin:0 0 10px 0;font-size:16px;">Get to Know Us</h4>
+      <a href="about.html" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">About Us</a>
+      <a href="contact.html" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">Contact Us</a>
+      <a href="#" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">Careers</a>
+    </div>
+    
+    <div>
+      <h4 style="margin:0 0 10px 0;font-size:16px;">Connect with Us</h4>
+      <a href="https://www.facebook.com/share/18kLQqxfc7/" target="_blank" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">Facebook</a>
+      <a href="https://www.instagram.com/sakirkhangrnoida" target="_blank" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">Instagram</a>
+      <a href="https://wa.me/917983006957" target="_blank" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">WhatsApp</a>
+    </div>
+    
+    <div>
+      <h4 style="margin:0 0 10px 0;font-size:16px;">Make Money with Us</h4>
+      <a href="#" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">Sell on S K Pharmacy</a>
+      <a href="#" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">Become an Affiliate</a>
+      <a href="#" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">Advertise Your Products</a>
+    </div>
+    
+    <div>
+      <h4 style="margin:0 0 10px 0;font-size:16px;">Let Us Help You</h4>
+      <a href="account.html" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">Your Account</a>
+      <a href="privacy.html" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">Returns Centre</a>
+      <a href="terms.html" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">100% Purchase Protection</a>
+      <a href="contact.html" style="color:#ddd;text-decoration:none;display:block;margin:8px 0;font-size:14px;">Help</a>
+    </div>
+    
+  </div>
+  
+  <!-- Logo + Language -->
+  <div style="padding:30px 20px;text-align:center;border-bottom:1px solid #3a4553;">
+    <img src="img/logo.jpg" style="width:80px;height:80px;border-radius:50%;margin-bottom:15px;" alt="S K Pharmacy">
+    <div style="display:flex;justify-content:center;gap:10px;">
+      <select style="background:#232f3e;color:white;border:1px solid #848688;padding:8px 12px;border-radius:4px;">
+        <option>🌐 English</option>
+        <option>🌐 हिन्दी</option>
+      </select>
+      <button style="background:#232f3e;color:white;border:1px solid #848688;padding:8px 12px;border-radius:4px;">🇮🇳 India</button>
+    </div>
+  </div>
+  
+  <!-- Copyright -->
+  <div style="background:#131a22;padding:20px;text-align:center;font-size:12px;color:#ddd;">
+    <div style="margin-bottom:10px;">
+      <a href="terms.html" style="color:#ddd;margin:0 10px;text-decoration:none;">Conditions of Use & Sale</a>
+      <a href="privacy.html" style="color:#ddd;margin:0 10px;text-decoration:none;">Privacy Notice</a>
+      <a href="#" style="color:#ddd;margin:0 10px;text-decoration:none;">Interest-Based Ads</a>
+    </div>
+    <div>© 2024-2026, S K Pharmacy, Inc. or its affiliates</div>
+  </div>
+  
+</div>
+<!-- FOOTER END -->
+<script src="script.js"></script>
 </body>
-</html>
+      </html>
+
