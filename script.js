@@ -1,11 +1,11 @@
 // ========== SIDEBAR FUNCTIONS ==========
-function opensidebar() {
+function openSidebar() {
     document.getElementById('sidebar').style.left = '0px';
     document.getElementById('overlay').style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
 
-function closesidebar() {
+function closeSidebar() {
     document.getElementById('sidebar').style.left = '-300px';
     document.getElementById('overlay').style.display = 'none';
     document.body.style.overflow = 'auto';
