@@ -142,18 +142,39 @@ function updateAccountUI() {
   }
 }
 
-// ========== SIDEBAR + 3 DOT MENU ==========
 function openSidebar() {
-  document.getElementById('sidebar').style.left = '0px';
-  document.getElementById('overlay').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-  updateAccountUI();
-}
+  let sidebar = document.getElementById('sidebar');
+  if (!sidebar) {
+    sidebar = document.createElement('div');
+    sidebar.id = 'sidebar';
+    sidebar.style.cssText = 'position:fixed;top:0;right:-300px;width:280px;height:100%;background:white;z-index:9999;transition:0.3s;box-shadow:-2px 0 10px rgba(0,0,0,0.3);padding:20px;overflow-y:auto;';
+    sidebar.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="margin:0;">Menu</h3>
+        <button onclick="closeSidebar()" style="background:none;border:none;font-size:28px;cursor:pointer;">×</button>
+      </div>
+      <a href="about.html" style="display:block;padding:15px 0;border-bottom:1px solid #eee;color:#333;text-decoration:none;font-weight:bold;">About Us</a>
+      <a href="contact.html" style="display:block;padding:15px 0;border-bottom:1px solid #eee;color:#333;text-decoration:none;font-weight:bold;">Contact Us</a>
+      <a href="privacy.html" style="display:block;padding:15px 0;border-bottom:1px solid #eee;color:#333;text-decoration:none;font-weight:bold;">Privacy Policy</a>
+      <a href="terms.html" style="display:block;padding:15px 0;border-bottom:1px solid #eee;color:#333;text-decoration:none;font-weight:bold;">Terms & Conditions</a>
+      <a href="refund.html" style="display:block;padding:15px 0;border-bottom:1px solid #eee;color:#333;text-decoration:none;font-weight:bold;">Refund Policy</a>
+      <a href="account.html" style="display:block;padding:15px 0;color:#333;text-decoration:none;font-weight:bold;">My Account</a>
+    `;
+    document.body.appendChild(sidebar);
+  }
 
-function closeSidebar() {
-  document.getElementById('sidebar').style.left = '-300px';
-  document.getElementById('overlay').style.display = 'none';
-  document.body.style.overflow = 'auto';
+  let overlay = document.getElementById('overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'overlay';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9998;display:none;';
+    overlay.onclick = closeSidebar;
+    document.body.appendChild(overlay);
+  }
+  
+  sidebar.style.right = '0px';
+  overlay.style.display = 'block';
+  document.body.style.overflow = 'hidden';
 }
 
 function openThreeDotMenu() {
