@@ -1,4 +1,4 @@
-// ========== SK PHARMACY - FULL AMAZON TYPE ==========
+9// ========== SK PHARMACY - FULL AMAZON TYPE ==========
 let PRODUCT_LINKS = {};
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
@@ -188,26 +188,7 @@ function closeSidebar() {
   if (overlay) overlay.style.display = 'none';
   document.body.style.overflow = 'auto';
 }
-function openThreeDotMenu() {
-  closeSidebar();
-  document.getElementById('modalTitle').innerText = '⚙️ Menu';
-  document.getElementById('modalContent').innerHTML = `
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button onclick="filterProducts('bestseller')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">🔥 Bestsellers</button>
-      <button onclick="filterProducts('new')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">🆕 New Releases</button>
-      <button onclick="filterProducts('health')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">💊 Health</button>
-      <button onclick="filterProducts('beauty')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">💄 Beauty</button>
-      <button onclick="filterProducts('household')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">🏠 Household</button>
-      <button onclick="showOrders()" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">📦 My Orders</button>
-      <button onclick="showModalContent('about')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">ℹ️ About Us</button>
-      <button onclick="showModalContent('contact')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">📞 Contact</button>
-      <button onclick="showModalContent('privacy')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">🔒 Privacy Policy</button>
-      <button onclick="showModalContent('refund')" style="padding:12px;text-align:left;background:#f7f7f7;border:none;border-radius:5px;">💰 Refund Policy</button>
-    </div>
-  `;
-  document.getElementById('settingsModal').style.display = 'block';
-  document.getElementById('overlay').style.display = 'block';
-}
+
 // ========== PRODUCT CARD CLICK - पूरी जानकारी + सभी ऑप्शन ==========
 function showProductDetail(name) {
   let p = PRODUCT_LINKS[name];
