@@ -674,3 +674,24 @@ function closeModal() {
   document.getElementById('settingsModal').style.display = 'none';
   document.getElementById('overlay').style.display = 'none';
                           }
+function showModalContent(type) {
+  let content = '';
+  if(type === 'about') content = '<p>SK Pharmacy Silapur Dankaur से दवाइयां मंगवाएं।</p>';
+  if(type === 'contact') content = '<p>Call: 919258751739<br>Address: Silapur Dankaur</p>';
+  if(type === 'privacy') content = '<p>आपका Data Safe है।</p>';
+  if(type === 'terms') content = '<p>Terms & Conditions यहाँ लिखो।</p>';
+  if(type === 'refund') content = '<p>Refund 7 दिन में।</p>';
+  
+  document.getElementById('modalTitle').innerText = type.toUpperCase();
+  document.getElementById('modalContent').innerHTML = content;
+  document.getElementById('settingsModal').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
+}
+
+function showOrders() {
+  if(!currentUser) return alert('Login करके Orders देखें');
+  document.getElementById('modalTitle').innerText = 'My Orders';
+  document.getElementById('modalContent').innerHTML = '<p>आपके Orders यहाँ दिखेंगे</p>';
+  document.getElementById('settingsModal').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
+}
