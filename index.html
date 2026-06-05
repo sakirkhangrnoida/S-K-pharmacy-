@@ -696,8 +696,24 @@ color:white;
   
 </div>
 <!-- FOOTER END -->
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
+ <!-- SIDEBAR START -->
+<div id="overlay" onclick="closeSidebar()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;z-index:1000"></div>
+
+<div id="sidebar" style="position:fixed;top:0;left:-300px;width:280px;height:100%;background:#232f3e;color:white;z-index:1001;transition:0.3s;overflow-y:auto">
+  <div style="padding:20px;border-bottom:1px solid #3a4553">
+    <button onclick="closeSidebar()" style="float:right;background:none;border:none;color:white;font-size:24px">×</button>
+    <h3>Login / Signup</h3>
+    <button onclick="alert('Login Coming Soon')" style="width:100%;padding:10px;background:#ff9900;border:none;border-radius:5px;margin-top:10px">Login</button>
+  </div>
+  
+  <div style="padding:20px">
+    <a onclick="showModalContent('about');closeSidebar()" style="color:white;display:block;padding:12px 0;text-decoration:none">About Us</a>
+    <a onclick="showModalContent('contact');closeSidebar()" style="color:white;display:block;padding:12px 0;text-decoration:none">Contact Us</a>
+    <a onclick="showModalContent('terms');closeSidebar()" style="color:white;display:block;padding:12px 0;text-decoration:none">Terms & Conditions</a>
+    <a onclick="showOrders();closeSidebar()" style="color:white;display:block;padding:12px 0;text-decoration:none">My Orders</a>
+  </div>
+</div>
+<!-- SIDEBAR END -->
+    <script src="script.js"></script>
 </body>
       </html>
-
