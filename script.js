@@ -576,20 +576,41 @@ function checkout() {
   closeCart();
   alert('Order Placed! Track in My Orders');
 }
+}// ======== STATIC PAGES ========
+function showModalContent(type) {
+  let content = '', title = '';
+  if(type === 'about') { title = 'About S K Pharmacy'; content = '<p><b>S K Pharmacy</b> - आपकी Health का साथी</p><p>📍 ${STORE_ADDRESS}</p><p>📞 ${STORE_PHONE}</p>'; }
+  if(type === 'contact') { title = 'Contact Us'; content = `<p><b>Phone:</b> ${STORE_PHONE}<br><b>WhatsApp:</b> ${STORE_PHONE2}</p><p><b>Address:</b> ${STORE_ADDRESS}</p>`; }
+  if(type === 'privacy') { title = 'Privacy Policy'; content = '<p>हम आपकी Privacy का सम्मान करते हैं। आपका Data Safe है और Third Party से Share नहीं किया जाता।</p>'; }
+  if(type === 'refund') { title = 'Refund Policy'; content = '<p>1. Damaged/Expired Product पर 7 दिन में Full Refund</p><p>2. Wrong Medicine पर 100% Refund</p>'; }
+  if(type === 'terms') { title = 'Terms & Conditions'; content = '<p>Terms यहाँ लिखें।</p>'; }
+  
+  let modal = document.getElementById('settingsModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'settingsModal';
+    modal.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:10px;z-index:1002;max-width:90%;width:400px;display:none;box-shadow:0 4px 20px rgba(0,0,0,0.3)';
+    modal.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><h3 id="modalTitle" style="margin:0"></h3><button onclick="closeModal()" style="background:none;border:none;font-size:24px;cursor:pointer">×</button></div><div id="modalContent"></div>`;
+    document.body.appendChild(modal);
+  }
+  
+  document.getElementById('modalTitle').innerText = title;
+  document.getElementById('modalContent').innerHTML = content;
+  modal.style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
+}
+
+function closeModal() {
+  let modal = document.getElementById('settingsModal');
+  if(modal) modal.style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+}
 
 function showOrders() {
-  closeModal();
-  const userOrders = orders.filter(o => o.phone === currentUser?.phone);
-  document.getElementById('modalTitle').innerText = '📦 My Orders';
-  document.getElementById('modalContent').innerHTML = userOrders.length === 0? '<p>No orders yet</p>' : userOrders.map(o => `
-    <div style="border:1px solid #ddd;padding:10px;border-radius:5px;margin-bottom:10px;">
-      <div style="display:flex;justify-content:space-between;"><b>Order ${o.id}</b><span style="color:#388E3C;font-size:12px;">${o.status}</span></div>
-      <div style="font-size:12px;color:#666;margin:5px 0;">${o.time}</div>
-      ${o.items.map(i => `<div style="font-size:14px;">${i.name} x ${i.qty}</div>`).join('')}
-      <div style="text-align:right;font-weight:bold;margin-top:5px;">Total: ₹${o.total}</div>
-    </div>
-  `).join('');
-  document.getElementById('settingsModal').style.display = 'block';
+  if(!localStorage.getItem('currentUser')) return alert('Login करके Orders देखें');
+  showModalContent('terms');
+  document.getElementById('modalTitle').innerText = 'My Orders';
+  document.getElementById('modalContent').innerHTML = '<p>आपके Orders यहाँ दिखेंगे</p>';
 }
 
 // ========== FILTERS ==========
@@ -600,29 +621,6 @@ function filterProducts(type) {
   else if(type === 'new') filtered = filtered.slice(-10);
   else if(type!== 'all') filtered = filtered.filter(n => PRODUCT_LINKS[n].category.toLowerCase().includes(type));
   displayProducts(filtered);
-}
-
-// ========== STATIC PAGES ==========
-function showModalContent(type) {
-  closeModal();
-  let title = '', content = '';
-  if(type === 'about') {
-    title = 'ℹ️ About S K Pharmacy';
-    content = `<p><b>S K Pharmacy</b> - आपकी Health का साथी</p><p>📍 ${STORE_ADDRESS}</p><p>📞 ${STORE_PHONE}, ${STORE_PHONE2}</p><p>हम 100% Genuine Medicines Home Delivery करते हैं।</p>`;
-  } else if(type === 'contact') {
-    title = '📞 Contact Us';
-    content = `<p><b>Phone:</b> ${STORE_PHONE}<br><b>WhatsApp:</b> ${STORE_PHONE2}</p><p><b>Address:</b> ${STORE_ADDRESS}</p><p><b>Time:</b> 9 AM - 9 PM Daily</p>`;
-  } else if(type === 'privacy') {
-    title = '🔒 Privacy Policy';
-    content = `<p>हम आपकी Privacy का सम्मान करते हैं। आपका Data Safe है और Third Party से Share नहीं किया जाता।</p>`;
-  } else if(type === 'refund') {
-    title = '💰 Refund Policy';
-    content = `<p>1. Damaged/Expired Product पर 7 दिन में Full Refund</p><p>2. Wrong Medicine पर 100% Refund</p><p>3. WhatsApp पर Order ID भेजें: ${STORE_PHONE}</p>`;
-  }
-  document.getElementById('modalTitle').innerText = title;
-  document.getElementById('modalContent').innerHTML = content;
-  document.getElementById('settingsModal').style.display = 'block';
-}
 
 // ========== PAGE LOAD ==========
 document.addEventListener('DOMContentLoaded', function() {
@@ -638,8 +636,9 @@ document.addEventListener('DOMContentLoaded', function() {
   cartIcon.innerHTML = '🛒 <span id="cart-count">0</span>';
   cartIcon.style.cssText = 'position:fixed;top:55px;left:60px;background:#25D366;color:white;padding:10px 14px;border-radius:50px;cursor:pointer;font-size:16px;z-index:999;box-shadow:0 4px 8px rgba(0,0,0,0.2);display:flex;align-items:center;gap:5px;';
   document.body.appendChild(cartIcon);
-  cartIcon.onclick = function() { showCart(); document.getElementById('cartModal').style.display = 'block'; };
-
+  cartIcon.onclick = function() { 
+  alert('Cart Feature Coming Soon'); 
+};
   loadProductsFromSheet();
   updateCartIcon();
   updateAccountUI();
@@ -655,31 +654,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-function closeModal() {
-  document.getElementById('settingsModal').style.display = 'none';
-  document.getElementById('overlay').style.display = 'none';
-                          }
-function showModalContent(type) {
-  let content = '';
-  if(type === 'about') content = '<p>SK Pharmacy Silapur Dankaur से दवाइयां मंगवाएं।</p>';
-  if(type === 'contact') content = '<p>Call: 919258751739<br>Address: Silapur Dankaur</p>';
-  if(type === 'privacy') content = '<p>आपका Data Safe है।</p>';
-  if(type === 'terms') content = '<p>Terms & Conditions यहाँ लिखो।</p>';
-  if(type === 'refund') content = '<p>Refund 7 दिन में।</p>';
-  
-  document.getElementById('modalTitle').innerText = type.toUpperCase();
-  document.getElementById('modalContent').innerHTML = content;
-  document.getElementById('settingsModal').style.display = 'block';
-  document.getElementById('overlay').style.display = 'block';
-}
 
-function showOrders() {
-  if(!currentUser) return alert('Login करके Orders देखें');
-  document.getElementById('modalTitle').innerText = 'My Orders';
-  document.getElementById('modalContent').innerHTML = '<p>आपके Orders यहाँ दिखेंगे</p>';
-  document.getElementById('settingsModal').style.display = 'block';
-  document.getElementById('overlay').style.display = 'block';
-}
 // ===== DEBUG MODE - ERROR DETECTOR =====
 function debugMode() {
   // 1. Global Error Catcher
