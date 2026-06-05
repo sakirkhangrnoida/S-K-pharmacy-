@@ -699,3 +699,60 @@ function showOrders() {
   document.getElementById('settingsModal').style.display = 'block';
   document.getElementById('overlay').style.display = 'block';
 }
+// ===== DEBUG MODE - ERROR DETECTOR =====
+function debugMode() {
+  // 1. Global Error Catcher
+  window.onerror = function(message, source, lineno, colno, error) {
+    let errorBox = document.getElementById('errorBox');
+    if (!errorBox) {
+      errorBox = document.createElement('div');
+      errorBox.id = 'errorBox';
+      errorBox.style.cssText = 'position:fixed;bottom:10px;right:10px;width:350px;max-height:400px;background:#ff4444;color:white;padding:15px;border-radius:8px;z-index:9999;font-size:12px;overflow:auto;box-shadow:0 4px 12px rgba(0,0,0,0.3)';
+      document.body.appendChild(errorBox);
+    }
+
+    errorBox.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <b>🚨 ERROR DETECTED</b>
+        <button onclick="document.getElementById('errorBox').remove()" style="background:none;border:none;color:white;font-size:20px;cursor:pointer">×</button>
+      </div>
+      <div><b>Message:</b> ${message}</div>
+      <div><b>File:</b> ${source.split('/').pop()}</div>
+      <div><b>Line:</b> ${lineno}</div>
+      <div><b>Column:</b> ${colno}</div>
+      <hr style="border:0;border-top:1px solid rgba(255,255,255,0.3);margin:8px 0">
+      <div style="font-size:11px;opacity:0.8">Screenshot लेकर भेज दे तो मैं Fix कर दूंगा</div>
+    `;
+    errorBox.style.display = 'block';
+    return true;
+  };
+
+  // 2. Console Log भी दिखाए
+  const oldLog = console.log;
+  console.log = function(...args) {
+    oldLog.apply(console, args);
+    showDebugToast('LOG: ' + args.join(' '), '#2196F3');
+  };
+
+  // 3. Missing Function Checker
+  setTimeout(() => {
+    const funcs = ['openSidebar', 'closeSidebar', 'updateAccountUI', 'showOrders', 'shareWebsite', 'showModalContent'];
+    let missing = funcs.filter(f => typeof window[f]!== 'function');
+    if (missing.length) {
+      showDebugToast('❌ Missing Functions: ' + missing.join(', '), '#ff4444');
+    } else {
+      showDebugToast('✅ All Functions Loaded', '#4CAF50');
+    }
+  }, 2000);
+}
+
+function showDebugToast(msg, color) {
+  let toast = document.createElement('div');
+  toast.style.cssText = `position:fixed;top:80px;right:10px;background:${color};color:white;padding:10px 15px;border-radius:6px;z-index:9998;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,0.2)`;
+  toast.innerText = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 4000);
+}
+
+// Debug Mode ON करो
+debugMode();
