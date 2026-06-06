@@ -43,6 +43,22 @@ async function loadProductsFromSheet() {
     document.getElementById('productContainer').innerHTML = `<div style="color:red;text-align:center;padding:20px;"><h3>Products Load नहीं हुए</h3><p>Sheet को Publish to web करो</p></div>`;
   }
 }
+// यह कोड script.js में सबसे ऊपर रखें
+function openSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) {
+        sidebar.style.display = 'block';
+    } else {
+        console.error("Sidebar element not found!");
+    }
+}
+
+function closeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) {
+        sidebar.style.display = 'none';
+    }
+}
 
 // ========== LIVE NOTIFICATION ==========
 function showLiveNotification() {
