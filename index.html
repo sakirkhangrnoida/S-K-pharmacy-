@@ -259,9 +259,15 @@ color:white;
     <div class="cart-icon" onclick="openCart()">
       🛒 <span id="cart-count">0</span>
     </div>
-    <button onclick="openSidebar()" style="background:none;border:none;color:white;font-size:24px;">⋮</button>
+    <!-- नया ये लगाओ -->
+<button onclick="showThreeDotMenu()" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;" title="Menu">⋮</button>
   </div>
 </header>
+
+<div id="topBarUser" style="background:#f5f5f5;padding:8px 15px;font-size:13px;text-align:right;"></div>
+<div id="newsTicker" style="background:#ff9800;color:black;padding:10px;"></div>
+
+<div class="ticker">⁷
 
 <div class="ticker">
   <marquee behavior="scroll" direction="left" scrollamount="6">
@@ -630,6 +636,10 @@ color:white;
     <li>✅ ज्यादा तला-भुना भोजन कम खाएं।</li>
   </ul>
 </div>
+    </div>
+<!-- Product Grid - Products यहीं दिखेंगे -->
+<div id="productGrid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:15px;"></div>
+
 <!-- FOOTER START - Amazon Style -->
 <div style="background:#232f3e;color:white;margin-top:30px;">
   
@@ -697,14 +707,14 @@ color:white;
 </div>
 <!-- FOOTER END -->
  <!-- SIDEBAR START -->
-<div id="overlay" onclick="closeSidebar()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;z-index:1000"></div>
-
+<div id="overlay" onclick="closeSidebar();closeModal();closeCart();" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;z-index:9998;"></div>
 <div id="sidebar" style="position:fixed;top:0;left:-300px;width:280px;height:100%;background:#232f3e;color:white;z-index:1001;transition:0.3s;overflow-y:auto">
   <div style="padding:20px;border-bottom:1px solid #3a4553">
     <button onclick="closeSidebar()" style="float:right;background:none;border:none;color:white;font-size:24px">×</button>
     <h3>Login / Signup</h3>
     <button onclick="alert('Login Coming Soon')" style="width:100%;padding:10px;background:#ff9900;border:none;border-radius:5px;margin-top:10px">Login</button>
   </div>
+    <div id="userSection"></div>
   
   <div style="padding:20px">
     <a onclick="showModalContent('about');closeSidebar()" style="color:white;display:block;padding:12px 0;text-decoration:none">About Us</a>
@@ -714,6 +724,19 @@ color:white;
   </div>
 </div>
 <!-- SIDEBAR END -->
+    <div id="settingsModal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;width:90%;max-width:500px;max-height:80vh;overflow-y:auto;border-radius:10px;z-index:9999;padding:20px;box-shadow:0 5px 25px rgba(0,0,0,0.3);">
+<button onclick="closeModal()" style="float:right;background:none;border:none;font-size:24px;cursor:pointer;">✕</button>
+<h3 id="modalTitle" style="margin:0 0 15px 0;"></h3>
+<div id="modalBody"></div>
+</div>
+
+<div id="cartSidebar" style="position:fixed;top:0;right:-350px;width:320px;height:100%;background:white;z-index:9999;transition:0.3s;overflow-y:auto;box-shadow:-2px 0 10px rgba(0,0,0,0.1);">
+<div style="padding:15px;border-bottom:1px solid #ddd;background:#232f3e;color:white;">
+<button onclick="closeCart()" style="float:right;background:none;border:none;font-size:24px;color:white;cursor:pointer;">✕</button>
+<h3 style="margin:0;">My Cart</h3>
+</div>
+<div id="cartBody" style="padding:15px;"></div>
+</div>
     <script src="script.js"></script>
 </body>
       </html>
