@@ -531,24 +531,64 @@ function renderAllProducts() {
   }).join('');
 }
 // ======== PRODUCT SEARCH ========
-document.getElementById('myinput').addEventListener('keyup', function() {
-  const filter = this.value.toLowerCase().trim();
-  const productNames = Object.keys(PRODUCT_LINKS);
-
-  if (filter === '') {
-    renderAllProducts();
+// ========== REAL SEARCH & FILTER FUNCTIONS ==========
+function searchProducts() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const cat = document.getElementById('searchCategory').value;
+  
+  if(query === '') {
+    showToast('कुछ लिखो Search करने के लिए');
     return;
   }
-
-  const filtered = productNames.filter(name => {
-    const p = PRODUCT_LINKS[name];
-    return name.toLowerCase().includes(filter) ||
-           p.desc.toLowerCase().includes(filter) ||
-           p.category.toLowerCase().includes(filter);
+  
+  // Products Filter करो
+  let filteredProducts = products.filter(p => {
+    const matchName = p.name.toLowerCase().includes(query);
+    const matchDesc = p.description.toLowerCase().includes(query);
+    const matchCat = cat === 'all' || p.category === cat;
+    return (matchName || matchDesc) && matchCat;
   });
+  
+  // Result दिखाओ
+  if(filteredProducts.length === 0) {
+    showToast('कोई Product नहीं मिला: ' + query);
+    renderProducts(products); // सब दिखा दे
+  } else {
+    showToast(filteredProducts.length + ' Products मिले');
+    renderProducts(filteredProducts);
+  }
+  
+  // Products वाले Section पे Scroll कर दे
+  document.getElementById('productsGrid').scrollIntoView({behavior: 'smooth'});
+}
 
-  renderFilteredProducts(filtered);
-});
+function filterCategory(cat) {
+  let filteredProducts;
+  
+  if(cat === 'deals') {
+    // 20% से ज्यादा Discount वाले Products
+    filteredProducts = products.filter(p => {
+      const discount = ((p.mrp - p.price) / p.mrp) * 100;
+      return discount >= 20;
+    });
+    showToast('Today\'s Deals: ' + filteredProducts.length + ' Products');
+  } 
+  else if(cat === 'all') {
+    filteredProducts = products;
+    showToast('All Products');
+  }
+  else {
+    // Category wise Filter
+    filteredProducts = products.filter(p => p.category === cat);
+    showToast(cat + ': ' + filteredProducts.length + ' Products');
+  }
+  
+  renderProducts(filteredProducts);
+  
+  // Products वाले Section पे Scroll कर दे
+  document.getElementById('productsGrid').scrollIntoView({behavior: 'smooth'});
+}
+// ========== END ==========
 
 function renderFilteredProducts(productNames) {
   const grid = document.getElementById('productGrid');
@@ -829,7 +869,7 @@ function showSitePrim() {
 
 function joinPrim() {
   if (!currentUser) {
-    alert('Prim Join करने के लिए Login करें');
+   // alert('Prim Join करने के लिए Login करें');
     showLogin();
     return;
   }
@@ -840,7 +880,7 @@ function joinPrim() {
 // ======== ALL FRES ACCOUNT ========
 function showAllFres() {
   if (!currentUser) {
-    alert('Account देखने के लिए Login करें');
+   // alert('Account देखने के लिए Login करें');
     showLogin();
     return;
   }
@@ -910,3 +950,5 @@ console.log('✅ S K PHARMACY - FULL AMAZON TYPE Script Loaded - 2000 Lines Comp
 console.log('✅ All Features Working: News Ticker, 3 Dot Menu, Live Orders, Site Prim, Maps, All Fres Account');
 console.log('✅ Store Email:', STORE_EMAIL);
 console.log('✅ Store Address:', STORE_ADDRESS);
+
+  
