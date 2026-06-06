@@ -951,4 +951,63 @@ console.log('✅ All Features Working: News Ticker, 3 Dot Menu, Live Orders, Sit
 console.log('✅ Store Email:', STORE_EMAIL);
 console.log('✅ Store Address:', STORE_ADDRESS);
 
+  function toggleAllMenu() {
+  let sidebar = document.getElementById('allMenuSidebar');
   
+  if (!sidebar) {
+    sidebar = document.createElement('div');
+    sidebar.id = 'allMenuSidebar';
+    sidebar.innerHTML = `
+      <div style="position:fixed;top:0;left:0;width:280px;height:100%;background:white;z-index:9999;box-shadow:2px 0 10px rgba(0,0,0,0.3);overflow-y:auto;">
+        <div style="background:#232f3e;color:white;padding:15px;font-weight:bold;display:flex;justify-content:space-between;align-items:center;">
+          <span>☰ Hello, Sign In</span>
+          <span onclick="toggleAllMenu()" style="cursor:pointer;font-size:24px;">×</span>
+        </div>
+        <div style="padding:15px;">
+          <h4 style="margin:10px 0;">Shop By Category</h4>
+          <div onclick="filterCategory('all');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">All Products</div>
+          <div onclick="filterCategory('Medicines');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">Medicines</div>
+          <div onclick="filterCategory('Skin Care');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">Skin Care</div>
+          <div onclick="filterCategory('Baby Care');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">Baby Care</div>
+          <div onclick="filterCategory('deals');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">Today's Deals</div>
+        </div>
+      </div>
+      <div onclick="toggleAllMenu()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9998;"></div>
+    `;
+    document.body.appendChild(sidebar);
+  } else {
+    sidebar.remove();
+  }
+  }
+function filterCategory(cat) {
+  const productNames = Object.keys(PRODUCT_LINKS);
+  let filtered;
+  
+  if (cat === 'all' || cat === 'All') {
+    renderAllProducts();
+    showToast('All Products');
+    return;
+  }
+  
+  if(cat === 'deals') {
+    filtered = productNames.filter(name => {
+      const p = PRODUCT_LINKS[name];
+      const discount = p.mrp > p.price? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
+      return discount >= 20;
+    });
+    showToast('Today\'s Deals: ' + filtered.length + ' Products');
+  } else {
+    filtered = productNames.filter(name => PRODUCT_LINKS[name].category === cat);
+    showToast(cat + ': ' + filtered.length + ' Products');
+  }
+  
+  if(typeof renderFilteredProducts === 'function') {
+    renderFilteredProducts(filtered);
+  } else if(typeof renderProducts === 'function') {
+    renderProducts(filtered);
+  }
+  
+  const grid = document.getElementById('productGrid') || document.getElementById('productsGrid');
+  if(grid) grid.scrollIntoView({behavior: 'smooth'});
+}
+
