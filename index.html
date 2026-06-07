@@ -285,12 +285,6 @@ color:white;
       🇮🇳 EN
     </div>
     
-    <!-- Account -->
-    <div onclick="toggleSidebar()" style="font-size:11px;line-height:12px;cursor:pointer;min-width:90px;">
-      <div id="topBarUser">Hello, Sign in</div>
-      <div style="font-weight:bold;font-size:13px;">Account & Lists ▼</div>
-    </div>
-    
     <!-- Returns & Orders -->
     <div onclick="showModal('orders')" style="font-size:11px;line-height:12px;cursor:pointer;min-width:55px;">
       <div>Returns</div>
@@ -742,24 +736,6 @@ color:white;
   
 </div>
 <!-- FOOTER END -->
- <!-- SIDEBAR START -->
-<div id="overlay" onclick="closeSidebar();closeModal();closeCart();" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;z-index:9998;"></div>
-<div id="sidebar" style="position:fixed;top:0;left:-300px;width:280px;height:100%;background:#232f3e;color:white;z-index:1001;transition:0.3s;overflow-y:auto">
-  <div style="padding:20px;border-bottom:1px solid #3a4553">
-    <button onclick="closeSidebar()" style="float:right;background:none;border:none;color:white;font-size:24px">×</button>
-    <h3>Login / Signup</h3>
-    <button onclick="alert('Login Coming Soon')" style="width:100%;padding:10px;background:#ff9900;border:none;border-radius:5px;margin-top:10px">Login</button>
-  </div>
-    <div id="userSection"></div>
-  
-  <div style="padding:20px">
-    <a onclick="showAboutUs();closeSidebar()" style="color:white;display:block;padding:10px 0;">About Us</a>
-<a onclick="showContactUs();closeSidebar()" style="color:white;display:block;padding:10px 0;">Contact Us</a>
-    <a onclick="showModalContent('terms');closeSidebar()" style="color:white;display:block;padding:12px 0;text-decoration:none">Terms & Conditions</a>
-    <a onclick="showOrders();closeSidebar()" style="color:white;display:block;padding:12px 0;text-decoration:none">My Orders</a>
-  </div>
-</div>
-<!-- SIDEBAR END -->
     <div id="settingsModal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;width:90%;max-width:500px;max-height:80vh;overflow-y:auto;border-radius:10px;z-index:9999;padding:20px;box-shadow:0 5px 25px rgba(0,0,0,0.3);">
 <button onclick="closeModal()" style="float:right;background:none;border:none;font-size:24px;cursor:pointer;">✕</button>
 <h3 id="modalTitle" style="margin:0 0 15px 0;"></h3>
