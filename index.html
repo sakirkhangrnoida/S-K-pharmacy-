@@ -304,13 +304,12 @@ color:white;
       <div style="font-size:11px;font-weight:bold;">Cart</div>
     </div>
     
-    <!-- 3 Dot Menu -->
-    <div onclick="showModal('menu')" style="cursor:pointer;font-size:20px;min-width:25px;">⋮</div>
-  </div>
+    
+    <div onclick="showThreeDotMenu()" style="cursor:pointer;font-size:20px;min-width:25px;">⋮</div>
   
   <!-- Line 2: Navigation Bar - सब असली काम करेगा -->
   <div style="background:#232f3e;padding:8px 10px;display:flex;gap:15px;font-size:13px;overflow-x:auto;white-space:nowrap;">
-    <span onclick="toggleSidebar()" style="cursor:pointer;font-weight:bold;">☰ All</span>
+    <span onclick="toggleAllMenu()" style="cursor:pointer;font-weight:bold;">☰ All</span>
     <span onclick="filterCategory('deals')" style="cursor:pointer;">Today's Deals</span>
     <span onclick="filterCategory('Medicines')" style="cursor:pointer;">Medicines</span>
     <span onclick="filterCategory('Skin Care')" style="cursor:pointer;">Skin Care</span>
