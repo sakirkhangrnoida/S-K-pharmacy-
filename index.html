@@ -253,48 +253,53 @@ color:white;
 
 <body>
 <!-- Amazon Style Header Start -->
-<div style="background:#131921;color:white;font-family:Arial,sans-serif;">
+<div style="background:#131921;color:white;">
+  
   <!-- Line 1: Main Header -->
-  <div style="display:flex;align-items:center;padding:8px 10px;gap:10px;">
-    
+  <div style="padding:8px 10px;display:flex;align-items:center;gap:12px;">
+
     <!-- Logo -->
-    <div onclick="location.reload()" style="cursor:pointer;font-weight:bold;font-size:18px;min-width:80px;">
+    <div onclick="location.reload()" style="cursor:pointer;font-weight:bold;white-space:nowrap;">
       S K <span style="color:#ff9900;">Pharmacy</span>
     </div>
-    
-    <!-- Deliver To - तेरा सही Address -->
-    <div style="font-size:11px;line-height:12px;min-width:90px;cursor:pointer;" onclick="showModal('location')">
+
+    <!-- Deliver To -->
+    <div style="font-size:11px;line-height:12px;min-width:90px;cursor:pointer;">
       <div style="color:#ccc;">Deliver to</div>
       <div style="font-weight:bold;font-size:13px;">📍 दनकौर 203201</div>
     </div>
-    
+
     <!-- Search Bar -->
     <div style="flex:1;display:flex;height:40px;min-width:150px;">
-      <select id="searchCategory" style="background:#e6e6e6;border:none;border-radius:4px 0 0 4px;padding:0 5px;font-size:12px;max-width:45px;">
+      <select id="searchCategory" style="background:#e6e6e6;border:none;border-radius:4px 0 0 4px;padding:0 8px;font-size:12px;">
         <option value="all">All</option>
         <option value="Medicines">Medicines</option>
         <option value="Skin Care">Skin Care</option>
         <option value="Baby Care">Baby Care</option>
       </select>
-      <input type="text" id="searchInput" placeholder="Search S K Pharmacy" style="flex:1;border:none;padding:0 8px;font-size:15px;" onkeypress="if(event.key==='Enter')searchProducts()">
+      <input type="text" id="searchInput" placeholder="Search S K Pharmacy" style="flex:1;border:none;padding:0 10px;font-size:14px;">
       <button onclick="searchProducts()" style="background:#febd69;border:none;border-radius:0 4px 4px 0;padding:0 12px;cursor:pointer;">🔍</button>
     </div>
-    
+
     <!-- Language -->
-    <div style="font-size:12px;font-weight:bold;cursor:pointer;min-width:35px;" onclick="showModal('language')">
+    <div style="font-size:12px;font-weight:bold;cursor:pointer;min-width:40px;text-align:center;">
       🇮🇳 EN
     </div>
-    
+
     <!-- Cart -->
-    <div onclick="toggleCart()" style="cursor:pointer;position:relative;min-width:40px;text-align:center;">
+    <div onclick="toggleCart()" style="cursor:pointer;position:relative;text-align:center;">
       <div style="font-size:22px;">🛒</div>
-      <span id="cartCount" style="position:absolute;top:-5px;right:5px;background:#f08804;color:#131921;border-radius:50%;width:18px;height:18px;font-size:12px;font-weight:bold;line-height:18px;">0</span>
+      <span id="cartCount" style="position:absolute;top:-5px;right:5px;background:orange;color:black;border-radius:50%;font-size:10px;padding:1px 5px;font-weight:bold;">0</span>
       <div style="font-size:11px;font-weight:bold;">Cart</div>
     </div>
-    
-    
-    <div onclick="showThreeDotMenu()" style="cursor:pointer;font-size:20px;min-width:25px;">⋮</div>
-  
+
+    <!-- 3 Dot Menu -->
+    <div onclick="showThreeDotMenu()" style="cursor:pointer;font-size:20px;padding:0 5px;">⋮</div>
+
+  </div>
+
+</div>
+<!-- Amazon Style Header End -->
   <!-- Line 2: Navigation Bar - सब असली काम करेगा -->
   <div style="background:#232f3e;padding:8px 10px;display:flex;gap:15px;font-size:13px;overflow-x:auto;white-space:nowrap;">
     <span onclick="toggleAllMenu()" style="cursor:pointer;font-weight:bold;">☰ All</span>
