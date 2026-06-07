@@ -774,22 +774,25 @@ function addComment(name) {
   }
 }
 
-// ======== 3 DOT MENU FUNCTIONS ========
 function showThreeDotMenu() {
-  const content = `
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button onclick="showAboutUs();closeModal();" style="padding:12px;text-align:left;background:#f5f5f5;border:none;border-radius:5px;cursor:pointer;">📋 About Us</button>
-      <button onclick="showContactUs();closeModal();" style="padding:12px;text-align:left;background:#f5f5f5;border:none;border-radius:5px;cursor:pointer;">📞 Contact Us</button>
-      <button onclick="showPrivacyPolicy();closeModal();" style="padding:12px;text-align:left;background:#f5f5f5;border:none;border-radius:5px;cursor:pointer;">🔒 Privacy Policy</button>
-      <button onclick="showRefundPolicy();closeModal();" style="padding:12px;text-align:left;background:#f5f5f5;border:none;border-radius:5px;cursor:pointer;">↩️ Refund Policy</button>
-      <button onclick="shareApp();closeModal();" style="padding:12px;text-align:left;background:#f5f5f5;border:none;border-radius:5px;cursor:pointer;">↗️ Share App</button>
-      <button onclick="showLiveOrders();closeModal();" style="padding:12px;text-align:left;background:#f5f5f5;border:none;border-radius:5px;cursor:pointer;">🔴 Live Orders</button>
-      <button onclick="showSitePrim();closeModal();" style="padding:12px;text-align:left;background:#f5f5f5;border:none;border-radius:5px;cursor:pointer;">⭐ Site Prim Join</button>
-      <button onclick="showAllFres();closeModal();" style="padding:12px;text-align:left;background:#f5f5f5;border:none;border-radius:5px;cursor:pointer;">👤 All Fres Account</button>
-      <button onclick="showSettings();closeModal();" style="padding:12px;text-align:left;background:#f5f5f5;border:none;border-radius:5px;cursor:pointer;">⚙️ Settings</button>
-    </div>
-  `;
-  showModalContent('Menu', content);
+  document.getElementById('threeDotModal').style.display = 'block';
+}
+
+function closeThreeDotMenu() {
+  document.getElementById('threeDotModal').style.display = 'none';
+}
+
+function shareApp() {
+  closeThreeDotMenu();
+  if (navigator.share) {
+    navigator.share({
+      title: 'S K Pharmacy',
+      text: 'Best Medicine Store',
+      url: window.location.href
+    });
+  } else {
+    window.open('https://wa.me/?text=' + encodeURIComponent(window.location.href), '_blank');
+  }
 }
 // ======== ABOUT US ========
 function showAboutUs() {
@@ -1018,3 +1021,134 @@ function showAccountMenu() {
   }
   showModalContent('My Account', `<div style="padding:20px;text-align:center;"><h3>${currentUser.email}</h3><button onclick="logoutUser();closeModal();">Logout</button></div>`);
 }
+// ======== FINAL COMPLETE CODE - सभी Button काम करेंगे ========
+
+// 1. Three Dot Menu
+function showThreeDotMenu() {
+  document.getElementById('threeDotModal').style.display = 'block';
+}
+function closeThreeDotMenu() {
+  document.getElementById('threeDotModal').style.display = 'none';
+}
+
+// 2. Customer Service / Contact Us
+function showContactUs() {
+  closeThreeDotMenu();
+  const content = `
+    <h2 style="text-align:center;">📞 Customer Service</h2>
+    <a href="https://wa.me/919258751739" style="display:block;background:#25D366;color:white;padding:12px;border-radius:8px;text-align:center;margin:10px 0;text-decoration:none;font-weight:bold;">💬 WhatsApp Chat</a>
+    <a href="tel:9258751739" style="display:block;background:#007bff;color:white;padding:12px;border-radius:8px;text-align:center;margin:10px 0;text-decoration:none;font-weight:bold;">📞 Call: 9258751739</a>
+    <div style="background:#f8f9fa;padding:12px;border-radius:8px;margin:10px 0;">
+      <b>📍 Address:</b><br>सिल्पुर गांव, सम्भोर, ग्रेटर नोएडा - 203201
+    </div>
+    <div style="background:#f8f9fa;padding:12px;border-radius:8px;margin:10px 0;">
+      <b>📧 Email:</b><br>support@sakirmedicos.com
+    </div>
+    <hr>
+    <h3>FAQ</h3>
+    <p><b>Q: Delivery Time?</b><br>A: Same Day in Noida/Greater Noida</p>
+    <p><b>Q: Order कैसे करें?</b><br>A: Product का नाम WhatsApp कर दें</p>
+  `;
+  showModalContent('Customer Service', content);
+}
+
+// 3. About Us
+function showAboutUs() {
+  closeThreeDotMenu();
+  const content = `
+    <h2>🏥 S K Pharmacy के बारे में</h2>
+    <p>हम 5 साल से Noida में दवाइयों की Home Delivery कर रहे हैं।</p>
+    <p><b>हमारी खासियत:</b></p>
+    <ul>
+      <li>100% Genuine Medicines</li>
+      <li>Same Day Delivery</li>
+      <li>24x7 WhatsApp Support</li>
+      <li>Doctor की सलाह पर दवा</li>
+    </ul>
+    <p><b>Owner:</b> Sakir Khan</p>
+  `;
+  showModalContent('About Us', content);
+}
+
+// 4. Health+ Prime
+function showSitePrim() {
+  closeThreeDotMenu();
+  const content = `
+    <h2 style="text-align:center;">⭐ Health+ Prime</h2>
+    <div style="background:#fff3cd;padding:15px;border-radius:8px;border:2px solid #ff9900;">
+      <h3>₹299/Year में पाएं:</h3>
+      <p>✅ सभी Orders पर Free Delivery</p>
+      <p>✅ 5% Extra Discount</p>
+      <p>✅ Free Doctor Consultation</p>
+      <p>✅ Priority Support</p>
+    </div>
+    <button onclick="alert('Payment Gateway जल्द आएगा। अभी WhatsApp करें')" style="width:100%;background:#ff9900;color:white;border:none;padding:14px;border-radius:8px;margin-top:15px;font-size:16px;font-weight:bold;">Join Now ₹299</button>
+  `;
+  showModalContent('Health+ Prime', content);
+}
+
+// 5. Sell With Us
+function showSellWithUs() {
+  closeThreeDotMenu();
+  const content = `
+    <h2>💼 Sell With Us</h2>
+    <p>अपना Product हमारी Website पर बेचें</p>
+    <p><b>Commission:</b> सिर्फ 5%</p>
+    <p><b>Payment:</b> Weekly Settlement</p>
+    <a href="https://wa.me/919258751739?text=मुझे%20Sell%20करना%20है" style="display:block;background:#28a745;color:white;padding:12px;border-radius:8px;text-align:center;margin:10px 0;text-decoration:none;font-weight:bold;">📝 Apply Now on WhatsApp</a>
+  `;
+  showModalContent('Sell With Us', content);
+}
+
+// 6. Medicines Filter
+function filterCategory(category) {
+  document.querySelectorAll('.product-card').forEach(card => {
+    if (category === 'all' || card.dataset.category === category) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  window.scrollTo({ top: 400, behavior: 'smooth' });
+}
+
+// 7. Search
+function searchProducts() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('.product-card').forEach(card => {
+    const name = card.dataset.name.toLowerCase();
+    card.style.display = name.includes(query) ? 'block' : 'none';
+  });
+}
+
+// 8. Modal Helper - ये सबसे जरूरी है
+function showModalContent(title, content) {
+  let oldModal = document.getElementById('mainModal');
+  if(oldModal) oldModal.remove();
+  
+  let modal = document.createElement('div');
+  modal.id = 'mainModal';
+  modal.innerHTML = `
+    <div onclick="closeMainModal()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9998;"></div>
+    <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;width:90%;max-width:400px;max-height:80vh;overflow:auto;border-radius:12px;padding:20px;z-index:9999;">
+      <div onclick="closeMainModal()" style="position:absolute;top:10px;right:15px;font-size:28px;cursor:pointer;font-weight:bold;">×</div>
+      ${content}
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+function closeMainModal() {
+  document.getElementById('mainModal').remove();
+}
+
+// 9. बाकी Functions - खाली है तो भी Error नहीं आएगा
+function showPrivacyPolicy(){ showModalContent('Privacy Policy','<p>हम आपका Data Safe रखते हैं।</p>'); }
+function showRefundPolicy(){ showModalContent('Refund Policy','<p>7 दिन में Return/Refund</p>'); }
+function showOrders(){ showModalContent('Live Orders','<p>WhatsApp पर Order Status पूछें</p>'); }
+function showAllFres(){ showModalContent('My Account','<p>Login जल्द आएगा</p>'); }
+function showSettings(){ showModalContent('Settings','<p>Notification Settings जल्द आएंगे</p>'); }
+function shareApp(){
+  closeThreeDotMenu();
+  if(navigator.share){ navigator.share({title:'S K Pharmacy',url:window.location.href}); }
+  else { window.open('https://wa.me/?text='+encodeURIComponent(window.location.href),'_blank'); }
+    }
