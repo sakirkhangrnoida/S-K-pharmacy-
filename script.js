@@ -924,6 +924,11 @@ function toggleAllMenu() {
           <span onclick="toggleAllMenu()" style="cursor:pointer;font-size:24px;">×</span>
         </div>
         <div style="padding:15px;">
+        <h4 style="margin:10px 0;">Hello, Sign In</h4>
+          <div onclick="showAllFres();toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;font-weight:bold;">👤 Your Account</div>
+          <div onclick="showOrders();toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">📦 Your Orders</div>
+          <div onclick="logoutUser();toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;color:red;">🚪 Logout</div>
+          <hr style="margin:10px 0;">
           <h4 style="margin:10px 0;">Shop By Category</h4>
           <div onclick="filterCategory('all');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">📦 All Products</div>
           <div onclick="filterCategory('Medicines');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">💊 Medicines</div>
@@ -1156,4 +1161,50 @@ function showModalContent(title, content) {
 function closeMainModal() {
   const modal = document.getElementById('mainModal');
   if(modal) modal.remove();
+}
+// 13. Login & Account Functions
+function showAllFres() {
+  let user = localStorage.getItem('sk_user');
+  if (!user) {
+    let email = prompt('Enter your Email to Login:');
+    if (email && email.includes('@')) {
+      localStorage.setItem('sk_user', email);
+      showToast('✅ Login Success: ' + email);
+      showAccountDetails(email);
+    } else {
+      showToast('❌ Enter valid Email');
+    }
+  } else {
+    showAccountDetails(user);
+  }
+}
+
+function showAccountDetails(email) {
+  showModalContent('👤 Your Account', `
+    <p><b>Email:</b> ${email}</p>
+    <p><b>Address:</b> 203201, Noida</p>
+    <p><b>Phone:</b> 9258751739</p>
+    <hr>
+    <p style="color:#888;font-size:14px;">Logout करने के लिए ≡ All Menu में जाएं</p>
+  `);
+}
+
+function showOrders() {
+  let user = localStorage.getItem('sk_user');
+  if (!user) {
+    showToast('⚠️ Please Login First');
+    showAllFres();
+  } else {
+    showModalContent('📦 Your Orders', `
+      <p>अभी कोई Order नहीं है</p>
+      <p>Medicines Order करने के लिए Add to Cart दबाएं</p>
+    `);
+  }
+}
+
+function logoutUser() {
+  localStorage.removeItem('sk_user');
+  showToast('✅ Logged Out Successfully');
+  toggleAllMenu();
+  setTimeout(() => location.reload(), 500);
 }
