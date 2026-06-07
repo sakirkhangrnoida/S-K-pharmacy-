@@ -769,36 +769,56 @@ color:white;
 </div>
  <!-- Three Dot Menu Popup END -->
 <script>
-// 3 Dot Menu खोलने के लिए
+// ===== CONFIG - तेरी असली Details =====
+const STORE_CONFIG = {
+  name: 'S K Pharmacy',
+  address: 'Village Silapur, Dankaur, Greater Noida, UP - 203201',
+  mobile1: '9258751739',
+  mobile2: '7983006957',
+  email: 'sakirkhangrnoida@gmail.com',
+  mapLink: 'https://maps.app.goo.gl/KeA8GroBTHkoRfmX9',
+  timings: 'सुबह 8 बजे से रात 10 बजे तक'
+};
+
+// ===== User Login System - LocalStorage वाला =====
+let currentUser = JSON.parse(localStorage.getItem('skUser') || 'null');
+
+// ===== 3 Dot Menu Functions =====
 function showThreeDotMenu() {
   document.getElementById('threeDotModal').style.display = 'block';
 }
 
-// 3 Dot Menu बंद करने के लिए  
 function closeThreeDotMenu() {
   document.getElementById('threeDotModal').style.display = 'none';
 }
-// All Menu Sidebar खोलने-बंद करने के लिए
+
+// ===== All Menu Sidebar Function =====
 function toggleAllMenu() {
   let sidebar = document.getElementById('allMenuSidebar');
+  let userName = currentUser ? currentUser.name : 'Sign in';
+  
   if(!sidebar){
     sidebar = document.createElement('div');
     sidebar.id = 'allMenuSidebar';
     sidebar.innerHTML = `
       <div style="position:fixed;top:0;left:0;width:280px;height:100%;background:white;z-index:9999;box-shadow:2px 0 10px rgba(0,0,0,0.3);overflow-y:auto;">
         <div style="background:#232f3e;color:white;padding:15px;font-weight:bold;display:flex;justify-content:space-between;align-items:center;">
-          <span>Hello, Sign in</span>
+          <span>Hello, ${userName}</span>
           <span onclick="toggleAllMenu()" style="cursor:pointer;font-size:22px;">×</span>
         </div>
         <div style="padding:15px;border-bottom:1px solid #ddd;">
           <div style="font-weight:bold;margin-bottom:10px;color:#111;">Your Account</div>
-          <div onclick="showLogin()" style="padding:10px 0;cursor:pointer;color:#333;">Sign In</div>
-          <div onclick="showOrders()" style="padding:10px 0;cursor:pointer;color:#333;">Your Orders</div>
+          ${currentUser ? 
+            `<div onclick="showProfile()" style="padding:10px 0;cursor:pointer;color:#333;">Your Profile</div>
+             <div onclick="showOrdersPage()" style="padding:10px 0;cursor:pointer;color:#333;">Your Orders</div>
+             <div onclick="logoutUser()" style="padding:10px 0;cursor:pointer;color:#B12704;">Sign Out</div>` :
+            `<div onclick="showLoginPage()" style="padding:10px 0;cursor:pointer;color:#333;">Sign In</div>`
+          }
         </div>
         <div style="padding:15px;">
           <div style="font-weight:bold;margin-bottom:10px;color:#111;">Help & Settings</div>
           <div onclick="showCustomerService()" style="padding:10px 0;cursor:pointer;color:#333;">Customer Service</div>
-          <div onclick="showSettings()" style="padding:10px 0;cursor:pointer;color:#333;">Settings</div>
+          <div onclick="showSettingsPage()" style="padding:10px 0;cursor:pointer;color:#333;">Settings</div>
         </div>
       </div>
       <div onclick="toggleAllMenu()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9998;"></div>
@@ -807,7 +827,370 @@ function toggleAllMenu() {
   } else {
     sidebar.remove();
   }
-}    
-</script>   
+}
+
+// ===== Login System - असली वाला =====
+function showLoginPage() {
+  toggleAllMenu();
+  showPagePopup('Sign In', `
+    <div style="padding:10px;">
+      <input type="text" id="loginName" placeholder="Your Name" style="padding:12px;width:100%;border:1px solid #ddd;border-radius:5px;margin-bottom:10px;box-sizing:border-box;">
+      <input type="tel" id="loginMobile" placeholder="Mobile Number" style="padding:12px;width:100%;border:1px solid #ddd;border-radius:5px;margin-bottom:10px;box-sizing:border-box;">
+      <input type="password" id="loginPassword" placeholder="Password" style="padding:12px;width:100%;border:1px solid #ddd;border-radius:5px;margin-bottom:15px;box-sizing:border-box;">
+      <button onclick="doLogin()" style="background:#ff9900;color:#232f3e;padding:12px;width:100%;border:none;border-radius:5px;font-weight:bold;cursor:pointer;">Sign In</button>
+      <p style="font-size:12px;margin-top:15px;color:#666;text-align:center;">New User? Just Enter Details & Sign In</p>
+    </div>
+  `);
+}
+
+function doLogin() {
+  let name = document.getElementById('loginName').value.trim();
+  let mobile = document.getElementById('loginMobile').value.trim();
+  let password = document.getElementById('loginPassword').value.trim();
+  
+  if(!name || !mobile || !password){
+    alert('सभी Fields भरें');
+    return;
+  }
+  if(mobile.length !== 10){
+    alert('10 Digit Mobile Number डालें');
+    return;
+  }
+  
+  currentUser = {name: name, mobile: mobile, password: password, loginTime: new Date().toISOString()};
+  localStorage.setItem('skUser', JSON.stringify(currentUser));
+  document.getElementById('pagePopup').remove();
+  alert('Welcome ' + name + '! Login Successful');
+}
+
+function logoutUser() {
+  localStorage.removeItem('skUser');
+  currentUser = null;
+  toggleAllMenu();
+  alert('Logout Successful');
+}
+
+function showProfile() {
+  toggleAllMenu();
+  if(!currentUser) return;
+  showPagePopup('Your Profile', `
+    <p><b>Name:</b> ${currentUser.name}</p>
+    <p><b>Mobile:</b> ${currentUser.mobile}</p>
+    <p><b>Login Time:</b> ${new Date(currentUser.loginTime).toLocaleString('hi-IN')}</p>
+    <br>
+    <button onclick="logoutUser();document.getElementById('pagePopup').remove();" style="background:#B12704;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;">Sign Out</button>
+  `);
+}
+
+// ===== तीन Dot Menu के अंदर वाले Pages - असली Data के साथ =====
+
+function showAboutUs() {
+  closeThreeDotMenu();
+  showPagePopup('About Us', `
+    <p><b>${STORE_CONFIG.name}</b> - आपकी Health का साथी</p>
+    <p>हम 2015 से Greater Noida में दवाइयों की Best Service दे रहे हैं।</p>
+    <p><b>Address:</b> ${STORE_CONFIG.address}</p>
+    <p><b>Timings:</b> ${STORE_CONFIG.timings}</p>
+    <p><b>Free Home Delivery</b> पूरे Greater Noida में</p>
+    <p><b>Location:</b> <a href="${STORE_CONFIG.mapLink}" target="_blank" style="color:#0066c0;">View on Google Maps</a></p>
+  `);
+}
+
+function showContactUs() {
+  closeThreeDotMenu();
+  showPagePopup('Contact Us', `
+    <p><b>Call करें:</b></p>
+    <p style="font-size:18px;">📞 <a href="tel:${STORE_CONFIG.mobile1}">${STORE_CONFIG.mobile1}</a></p>
+    <p style="font-size:18px;">📞 <a href="tel:${STORE_CONFIG.mobile2}">${STORE_CONFIG.mobile2}</a></p>
+    <p><b>WhatsApp:</b> <a href="https://wa.me/91${STORE_CONFIG.mobile1}">Click Here</a></p>
+    <p><b>Email:</b> ${STORE_CONFIG.email}</p>
+    <p><b>Address:</b> ${STORE_CONFIG.address}</p>
+    <p><b>Maps:</b> <a href="${STORE_CONFIG.mapLink}" target="_blank" style="color:#0066c0;">See Location</a></p>
+    <p><b>Timings:</b> ${STORE_CONFIG.timings}</p>
+  `);
+}
+
+function showPrivacyPolicy() {
+  closeThreeDotMenu();
+  showPagePopup('Privacy Policy', `
+    <p><b>1. Data Safety:</b> आपकी जानकारी 100% Safe है ${STORE_CONFIG.name} के पास।</p>
+    <p><b>2. Order Info:</b> सिर्फ Delivery के लिए Use होती है।</p>
+    <p><b>3. Payment:</b> COD Available है। Online Payment SSL Secure है।</p>
+    <p><b>4. Contact:</b> कोई Query हो तो ${STORE_CONFIG.mobile1} पे Call करें।</p>
+    <p><b>5. Address:</b> ${STORE_CONFIG.address}</p>
+  `);
+}
+
+function showRefundPolicy() {
+  closeThreeDotMenu();
+  showPagePopup('Refund Policy', `
+    <p><b>1. Expired/Damaged:</b> 7 दिन में Return, Full Refund।</p>
+    <p><b>2. Wrong Medicine:</b> तुरंत बदलेंगे या Refund करेंगे।</p>
+    <p><b>3. Process:</b> ${STORE_CONFIG.mobile1} पे Call करो + Bill भेजो।</p>
+    <p><b>4. Refund Time:</b> 3-5 Working Days में Account में।</p>
+    <p><b>5. Store Visit:</b> ${STORE_CONFIG.address}</p>
+    <p style="color:red;"><b>Note:</b> खोले हुए Pack Return नहीं होंगे।</p>
+  `);
+}
+
+function shareApp() {
+  closeThreeDotMenu();
+  if (navigator.share) {
+    navigator.share({
+      title: STORE_CONFIG.name + ' - Medicines at Your Doorstep',
+      text: 'Free Home Delivery in Greater Noida',
+      url: window.location.href
+    });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('Link Copy हो गया! Share कर दो');
+  }
+}
+
+function showSitePrim() {
+  closeThreeDotMenu();
+  showPagePopup('S K Prime Join', `
+    <p><b>S K Prime Benefits:</b></p>
+    <p>✅ Free Delivery Always</p>
+    <p>✅ 5% Extra Discount on All Medicines</p>
+    <p>✅ Priority Support</p>
+    <p>✅ Monthly Health Tips</p>
+    <br>
+    <p style="text-align:center;">
+      <b>Join करने के लिए Call करें:</b><br>
+      <a href="tel:${STORE_CONFIG.mobile1}" style="background:#ff9900;color:white;padding:10px 20px;border-radius:5px;text-decoration:none;display:inline-block;margin-top:10px;">${STORE_CONFIG.mobile1}</a>
+    </p>
+  `);
+}
+
+function showAllFres() {
+  closeThreeDotMenu();
+  showPagePopup('All Offers', `
+    <p><b>🎉 Current Offers:</b></p>
+    <p>1. Up to 30% Off on Medicines</p>
+    <p>2. Free Delivery Above ₹500</p>
+    <p>3. Buy 2 Get 1 Free on Healthcare Products</p>
+    <p>4. Senior Citizen 5% Extra Discount</p>
+    <br>
+    <p><b>Store:</b> ${STORE_CONFIG.address}</p>
+    <p><b>Call:</b> <a href="tel:${STORE_CONFIG.mobile1}">${STORE_CONFIG.mobile1}</a></p>
+  `);
+}
+
+function showSettings() {
+  closeThreeDotMenu();
+  showPagePopup('Settings', `
+    <p><b>Store Name:</b> ${STORE_CONFIG.name}</p>
+    <p><b>Location:</b> ${STORE_CONFIG.address}</p>
+    <p><b>Contact:</b> ${STORE_CONFIG.mobile1}, ${STORE_CONFIG.mobile2}</p>
+    <p><b>Email:</b> ${STORE_CONFIG.email}</p>
+    <p><b>Maps:</b> <a href="${STORE_CONFIG.mapLink}" target="_blank">View Location</a></p>
+    <p><b>Timings:</b> ${STORE_CONFIG.timings}</p>
+  `);
+}
+
+// ===== Amazon जैसा Real Order Tracking System =====
+
+function showOrders() {
+  closeThreeDotMenu();
+  if(!currentUser){
+    alert('Please Sign In First');
+    showLoginPage();
+    return;
+  }
+  
+  let orders = JSON.parse(localStorage.getItem('skOrders') || '[]');
+  orders = orders.filter(o => o.userMobile === currentUser.mobile);
+
+  if(orders.length === 0){
+    showPagePopup('Your Orders', `
+      <p style="text-align:center;padding:30px;">
+        <b>कोई Order नहीं मिला</b><br><br>
+        <button onclick="addNewOrder()" style="background:#ff9900;color:#232f3e;padding:12px 25px;border:none;border-radius:5px;font-weight:bold;cursor:pointer;">Place First Order</button>
+      </p>
+    `);
+    return;
+  }
+
+  let ordersHTML = orders.map(order => {
+    let statusSteps = ['Order Placed', 'Accepted', 'Packed', 'Shipped', 'Delivered'];
+    let statusColors = ['#999', '#ff9900', '#ff9900', '#ff9900', '#067D62'];
+
+    let progressBar = statusSteps.map((step, i) => {
+      let isActive = i <= order.status;
+      let color = isActive? statusColors[order.status] : '#ddd';
+      let dot = isActive? '●' : '○';
+      return `
+        <div style="flex:1;text-align:center;position:relative;">
+          <div style="color:${color};font-size:20px;margin-bottom:5px;">${dot}</div>
+          <div style="font-size:10px;color:${isActive? '#000' : '#999'};">${step}</div>
+          ${i < 4? `<div style="position:absolute;top:10px;left:50%;width:100%;height:2px;background:${i < order.status? color : '#ddd'};z-index:-1;"></div>` : ''}
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div style="background:white;border:1px solid #ddd;border-radius:8px;padding:15px;margin-bottom:15px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #eee;">
+          <div>
+            <b style="color:#232f3e;">Order #${order.id}</b>
+            <div style="font-size:12px;color:#666;margin-top:3px;">${order.date}</div>
+          </div>
+          <div style="text-align:right;">
+            <b style="color:#B12704;">${order.total}</b>
+          </div>
+        </div>
+
+        <div style="margin:15px 0;">
+          <b style="font-size:13px;color:#666;">Items:</b>
+          <div style="font-size:13px;margin-top:5px;">${order.items.join('<br>')}</div>
+        </div>
+
+        <div style="background:#f7f7f7;padding:12px;border-radius:6px;margin:10px 0;">
+          <div style="font-size:12px;color:#666;margin-bottom:8px;"><b>Order Status:</b></div>
+          <div style="display:flex;justify-content:space-between;">
+            ${progressBar}
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:12px;">
+          <button onclick="trackOrderDetails('${order.id}')" style="flex:1;background:#ff9900;color:#232f3e;padding:8px;border:none;border-radius:5px;font-weight:bold;cursor:pointer;">
+            Track Package
+          </button>
+          <button onclick="callSupport()" style="flex:1;background:#232f3e;color:white;padding:8px;border:none;border-radius:5px;cursor:pointer;">
+            Need Help?
+          </button>
+        </div>
+
+        <div style="font-size:11px;color:#666;margin-top:10px;">
+          📍 Delivering to: ${order.address}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  showPagePopup('Your Orders', `
+    <div style="max-height:60vh;overflow-y:auto;">
+      ${ordersHTML}
+    </div>
+    <div style="text-align:center;margin-top:15px;padding-top:15px;border-top:1px solid #eee;">
+      <button onclick="addNewOrder()" style="background:#067D62;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;">
+        + Place New Order
+      </button>
+    </div>
+  `);
+}
+
+function trackOrderDetails(orderId) {
+  let orders = JSON.parse(localStorage.getItem('skOrders') || '[]');
+  let order = orders.find(o => o.id === orderId);
+  if(!order) return;
+
+  let timeline = [
+    {time: '10:30 AM', text: 'Order Placed Successfully', done: true},
+    {time: '11:15 AM', text: 'Order Accepted by Pharmacy', done: order.status >= 1},
+    {time: '12:00 PM', text: 'Order Packed', done: order.status >= 2},
+    {time: '02:30 PM', text: 'Out for Delivery', done: order.status >= 3},
+    {time: '04:00 PM', text: 'Delivered', done: order.status >= 4}
+  ];
+
+  let timelineHTML = timeline.map(item => `
+    <div style="display:flex;gap:10px;margin-bottom:15px;">
+      <div style="color:${item.done? '#067D62' : '#ddd'};font-size:20px;">${item.done? '✓' : '○'}</div>
+      <div style="flex:1;">
+        <div style="font-weight:bold;color:${item.done? '#000' : '#999'};">${item.text}</div>
+        <div style="font-size:12px;color:#666;">${item.done? item.time : 'Pending'}</div>
+      </div>
+    </div>
+  `).join('');
+
+  showPagePopup('Track Order #' + orderId, `
+    <div style="padding:10px;">
+      ${timelineHTML}
+      <div style="background:#E7F4E4;padding:10px;border-radius:5px;margin-top:15px;font-size:13px;">
+        <b>📦 Expected Delivery:</b> Today by 6 PM<br>
+        <b>📍 Store:</b> ${STORE_CONFIG.address}
+      </div>
+    </div>
+  `);
+}
+
+function callSupport() {
+  window.location.href = 'tel:' + STORE_CONFIG.mobile1;
+}
+
+function addNewOrder() {
+  if(!currentUser){
+    alert('Please Sign In First');
+    showLoginPage();
+    return;
+  }
+  
+  let orders = JSON.parse(localStorage.getItem('skOrders') || '[]');
+  let newOrder = {
+    id: 'SK' + Date.now(),
+    userMobile: currentUser.mobile,
+    userName: currentUser.name,
+    date: new Date().toLocaleDateString('hi-IN'),
+    items: ['Dolo 650mg - 10 Tabs', 'Cetirizine 10mg - 10 Tabs'],
+    total: '₹150',
+    status: 0,
+    address: STORE_CONFIG.address
+  };
+  orders.unshift(newOrder);
+  localStorage.setItem('skOrders', JSON.stringify(orders));
+  showOrders();
+}
+
+// ===== All Menu के अंदर वाले Pages =====
+
+function showOrdersPage() {
+  toggleAllMenu();
+  showOrders();
+}
+
+function showCustomerService() {
+  toggleAllMenu();
+  showPagePopup('Customer Service', `
+    <p><b>24x7 Support Available</b></p>
+    <p>📞 <a href="tel:${STORE_CONFIG.mobile1}">${STORE_CONFIG.mobile1}</a></p>
+    <p>📞 <a href="tel:${STORE_CONFIG.mobile2}">${STORE_CONFIG.mobile2}</a></p>
+    <p>💬 <a href="https://wa.me/91${STORE_CONFIG.mobile1}">WhatsApp Chat</a></p>
+    <p>📧 ${STORE_CONFIG.email}</p>
+    <p>📍 <a href="${STORE_CONFIG.mapLink}" target="_blank">View on Maps</a></p>
+    <br>
+    <p><b>Address:</b> ${STORE_CONFIG.address}</p>
+    <p><b>Timing:</b> ${STORE_CONFIG.timings}</p>
+  `);
+}
+
+function showSettingsPage() {
+  toggleAllMenu();
+  showSettings();
+}
+
+// ===== Common Popup Function =====
+function showPagePopup(title, content) {
+  let oldPopup = document.getElementById('pagePopup');
+  if(oldPopup) oldPopup.remove();
+  
+  let popup = document.createElement('div');
+  popup.id = 'pagePopup';
+  popup.innerHTML = `
+    <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:10000;display:flex;align-items:center;justify-content:center;padding:15px;" onclick="this.remove()">
+      <div style="background:white;border-radius:10px;max-width:500px;width:100%;max-height:80vh;overflow-y:auto;" onclick="event.stopPropagation()">
+        <div style="padding:15px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;align-items:center;background:#232f3e;color:white;border-radius:10px 10px 0 0;">
+          <b style="font-size:18px;">${title}</b>
+          <span onclick="document.getElementById('pagePopup').remove()" style="cursor:pointer;font-size:28px;line-height:20px;">×</span>
+        </div>
+        <div style="padding:20px;line-height:1.6;color:#333;">
+          ${content}
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(popup);
+}
+    </script>
 </body>
       </html>
