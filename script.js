@@ -909,26 +909,29 @@ console.log('✅ S K PHARMACY - FULL AMAZON TYPE Script Loaded - 2000 Lines Comp
 console.log('✅ All Features Working: News Ticker, 3 Dot Menu, Live Orders, Site Prim, Maps, All Fres Account');
 console.log('✅ Store Email:', STORE_EMAIL);
 console.log('✅ Store Address:', STORE_ADDRESS);
+// ======== START: REPLACE FROM LINE 913 TO 1100 ========
 
-  function toggleAllMenu() {
+function toggleAllMenu() {
   let sidebar = document.getElementById('allMenuSidebar');
-  
+
   if (!sidebar) {
     sidebar = document.createElement('div');
     sidebar.id = 'allMenuSidebar';
     sidebar.innerHTML = `
       <div style="position:fixed;top:0;left:0;width:280px;height:100%;background:white;z-index:9999;box-shadow:2px 0 10px rgba(0,0,0,0.3);overflow-y:auto;">
         <div style="background:#232f3e;color:white;padding:15px;font-weight:bold;display:flex;justify-content:space-between;align-items:center;">
-          <span>☰ Hello, Sign In</span>
+          <span>≡ Hello, Sign In</span>
           <span onclick="toggleAllMenu()" style="cursor:pointer;font-size:24px;">×</span>
         </div>
         <div style="padding:15px;">
           <h4 style="margin:10px 0;">Shop By Category</h4>
-          <div onclick="filterCategory('all');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">All Products</div>
-          <div onclick="filterCategory('Medicines');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">Medicines</div>
-          <div onclick="filterCategory('Skin Care');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">Skin Care</div>
-          <div onclick="filterCategory('Baby Care');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">Baby Care</div>
-          <div onclick="filterCategory('deals');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">Today's Deals</div>
+          <div onclick="filterCategory('all');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">📦 All Products</div>
+          <div onclick="filterCategory('Medicines');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">💊 Medicines</div>
+          <div onclick="filterCategory('Skin Care');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">🧴 Skin Care</div>
+          <div onclick="filterCategory('Baby Care');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">🍼 Baby Care</div>
+          <div onclick="filterCategory('deals');toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">⚡ Today's Deals</div>
+          <div onclick="showSellFast();toggleAllMenu()" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;">🚀 Sell Fast</div>
+          <div onclick="showAccountList();toggleAllMenu()" style="padding:12px 0;cursor:pointer;">👥 Account List</div>
         </div>
       </div>
       <div onclick="toggleAllMenu()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9998;"></div>
@@ -937,17 +940,18 @@ console.log('✅ Store Address:', STORE_ADDRESS);
   } else {
     sidebar.remove();
   }
-  }
+}
+
 function filterCategory(cat) {
   const productNames = Object.keys(PRODUCT_LINKS);
   let filtered;
-  
+
   if (cat === 'all' || cat === 'All') {
     renderAllProducts();
     showToast('All Products');
     return;
   }
-  
+
   if(cat === 'deals') {
     filtered = productNames.filter(name => {
       const p = PRODUCT_LINKS[name];
@@ -959,14 +963,14 @@ function filterCategory(cat) {
     filtered = productNames.filter(name => PRODUCT_LINKS[name].category === cat);
     showToast(cat + ': ' + filtered.length + ' Products');
   }
-  
+
   if(typeof renderFilteredProducts === 'function') {
     renderFilteredProducts(filtered);
   } else if(typeof renderProducts === 'function') {
     renderProducts(filtered);
   }
-  
-  const grid = document.getElementById('productGrid') || document.getElementById('productsGrid');
+
+  const grid = document.getElementById('productGrid') || document.getElementById('productContainer');
   if(grid) grid.scrollIntoView({behavior: 'smooth'});
 }
 
@@ -975,8 +979,9 @@ function showAccountMenu() {
     showLogin();
     return;
   }
-  showModalContent('My Account', `<div style="padding:20px;text-align:center;"><h3>${currentUser.email}</h3><button onclick="logoutUser();closeModal();">Logout</button></div>`);
+  showAllFres();
 }
+
 // ======== FINAL COMPLETE CODE - सभी Button काम करेंगे ========
 
 // 1. Three Dot Menu
@@ -991,19 +996,11 @@ function closeThreeDotMenu() {
 function showContactUs() {
   closeThreeDotMenu();
   const content = `
-    <h2 style="text-align:center;">📞 Customer Service</h2>
+    <h2 style="text-align:center;margin-bottom:15px;">📞 Customer Service</h2>
     <a href="https://wa.me/919258751739" style="display:block;background:#25D366;color:white;padding:12px;border-radius:8px;text-align:center;margin:10px 0;text-decoration:none;font-weight:bold;">💬 WhatsApp Chat</a>
     <a href="tel:9258751739" style="display:block;background:#007bff;color:white;padding:12px;border-radius:8px;text-align:center;margin:10px 0;text-decoration:none;font-weight:bold;">📞 Call: 9258751739</a>
-    <div style="background:#f8f9fa;padding:12px;border-radius:8px;margin:10px 0;">
-      <b>📍 Address:</b><br>सिल्पुर गांव, सम्भोर, ग्रेटर नोएडा - 203201
-    </div>
-    <div style="background:#f8f9fa;padding:12px;border-radius:8px;margin:10px 0;">
-      <b>📧 Email:</b><br>support@sakirmedicos.com
-    </div>
-    <hr>
-    <h3>FAQ</h3>
-    <p><b>Q: Delivery Time?</b><br>A: Same Day in Noida/Greater Noida</p>
-    <p><b>Q: Order कैसे करें?</b><br>A: Product का नाम WhatsApp कर दें</p>
+    <div style="background:#f8f9fa;padding:12px;border-radius:8px;margin:10px 0;"><b>📍 Address:</b><br>सिल्पुर गांव, सम्भोर, ग्रेटर नोएडा - 203201</div>
+    <div style="background:#f8f9fa;padding:12px;border-radius:8px;margin:10px 0;"><b>📧 Email:</b><br>support@sakirmedicos.com</div>
   `;
   showModalContent('Customer Service', content);
 }
@@ -1013,7 +1010,7 @@ function showAboutUs() {
   closeThreeDotMenu();
   const content = `
     <h2>🏥 S K Pharmacy के बारे में</h2>
-    <p>हम 5 साल से Noida में दवाइयों की Home Delivery कर रहे हैं।</p>
+    <p>हम 5 साल से Noida में दवाइयों की Home Delivery कर रहे हैं</p>
     <p><b>हमारी खासियत:</b></p>
     <ul>
       <li>100% Genuine Medicines</li>
@@ -1031,80 +1028,132 @@ function showSitePrim() {
   closeThreeDotMenu();
   const content = `
     <h2 style="text-align:center;">⭐ Health+ Prime</h2>
-    <div style="background:#fff3cd;padding:15px;border-radius:8px;border:2px solid #ff9900;">
+    <div style="background:#fff3cd;padding:15px;border-radius:8px;">
       <h3>₹299/Year में पाएं:</h3>
       <p>✅ सभी Orders पर Free Delivery</p>
       <p>✅ 5% Extra Discount</p>
       <p>✅ Free Doctor Consultation</p>
       <p>✅ Priority Support</p>
     </div>
-    <button onclick="alert('Payment Gateway जल्द आएगा। अभी WhatsApp करें')" style="width:100%;background:#ff9900;color:white;border:none;padding:14px;border-radius:8px;margin-top:15px;font-size:16px;font-weight:bold;">Join Now ₹299</button>
+    <button onclick="alert('Payment Gateway जल्द आएगा। अभी WhatsApp करें')" style="width:100%;background:#ff9900;color:white;padding:12px;border:none;border-radius:8px;margin-top:15px;font-size:16px;font-weight:bold;cursor:pointer;">Join Now ₹299</button>
   `;
   showModalContent('Health+ Prime', content);
 }
 
-// 5. Sell With Us
-function showSellWithUs() {
+// 5. Live Orders - Amazon जैसी Tracking
+function showOrders() {
   closeThreeDotMenu();
   const content = `
-    <h2>💼 Sell With Us</h2>
-    <p>अपना Product हमारी Website पर बेचें</p>
-    <p><b>Commission:</b> सिर्फ 5%</p>
-    <p><b>Payment:</b> Weekly Settlement</p>
-    <a href="https://wa.me/919258751739?text=मुझे%20Sell%20करना%20है" style="display:block;background:#28a745;color:white;padding:12px;border-radius:8px;text-align:center;margin:10px 0;text-decoration:none;font-weight:bold;">📝 Apply Now on WhatsApp</a>
+    <h2 style="text-align:center;margin-bottom:20px;">🔴 Live Orders</h2>
+    <div style="background:#f8f9fa;padding:15px;border-radius:10px;margin-bottom:15px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><b>Order #SK1254</b><span style="color:green;font-weight:bold;">₹450</span></div>
+      <p style="margin:5px 0;font-size:14px;color:#666;">Kesh Shine Oil x 2</p>
+      <div style="margin:15px 0;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px;">
+          <span style="color:#28a745;font-weight:bold;">✓ Accepted</span>
+          <span style="color:#28a745;font-weight:bold;">✓ Packed</span>
+          <span style="color:#ffc107;font-weight:bold;">⟳ Out for Delivery</span>
+          <span style="color:#ccc;">Delivered</span>
+        </div>
+        <div style="height:4px;background:#eee;border-radius:2px;"><div style="width:75%;height:4px;background:#28a745;border-radius:2px;"></div></div>
+      </div>
+      <p style="font-size:13px;color:#28a745;"><b>Status:</b> आपका ऑर्डर रास्ते में है, आज शाम 7 बजे तक Delivery</p>
+    </div>
+    <div style="background:#f8f9fa;padding:15px;border-radius:10px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><b>Order #SK1253</b><span style="color:green;font-weight:bold;">₹199</span></div>
+      <p style="margin:5px 0;font-size:14px;color:#666;">Indulekha Oil x 1</p>
+      <div style="margin:15px 0;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px;">
+          <span style="color:#28a745;font-weight:bold;">✓ Accepted</span>
+          <span style="color:#28a745;font-weight:bold;">✓ Packed</span>
+          <span style="color:#28a745;font-weight:bold;">✓ Out for Delivery</span>
+          <span style="color:#28a745;font-weight:bold;">✓ Delivered</span>
+        </div>
+        <div style="height:4px;background:#eee;border-radius:2px;"><div style="width:100%;height:4px;background:#28a745;border-radius:2px;"></div></div>
+      </div>
+      <p style="font-size:13px;color:#28a745;"><b>Status:</b> Delivered - 11 June, 3:45 PM</p>
+    </div>
   `;
-  showModalContent('Sell With Us', content);
+  showModalContent('Live Orders', content);
 }
 
-// 6. Medicines Filter
-function filterCategory(category) {
-  document.querySelectorAll('.product-card').forEach(card => {
-    if (category === 'all' || card.dataset.category === category) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-  window.scrollTo({ top: 400, behavior: 'smooth' });
+// 6. My Account
+function showAllFres(){ 
+  closeThreeDotMenu();
+  showModalContent('My Account',`
+    <h2>👤 My Account</h2>
+    <div style="background:#e3f2fd;padding:15px;border-radius:8px;">
+      <p><b>Name:</b> Guest User</p>
+      <p><b>Mobile:</b> 9258751739</p>
+      <p><b>Address:</b> सिल्पुर गांव, ग्रेटर नोएडा</p>
+      <p><b>Total Orders:</b> 12</p>
+      <p><b>Total Saved:</b> ₹340</p>
+    </div>
+    <a href="https://wa.me/919258751739?text=Account%20Update" style="display:block;background:#007bff;color:white;padding:12px;border-radius:8px;text-align:center;margin-top:15px;text-decoration:none;">📝 Details Update करें</a>
+  `); 
 }
 
-// 7. Search
-function searchProducts() {
-  const query = document.getElementById('searchInput').value.toLowerCase();
-  document.querySelectorAll('.product-card').forEach(card => {
-    const name = card.dataset.name.toLowerCase();
-    card.style.display = name.includes(query) ? 'block' : 'none';
-  });
+// 7. Settings - नए Options के साथ
+function showSettings(){ 
+  closeThreeDotMenu();
+  const content = `
+    <h2>⚙️ Settings</h2>
+    <div onclick="showYourAccount()" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">👤 Your Account</div>
+    <div onclick="showTrending()" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">🔥 Trending</div>
+    <div onclick="showBestSeller()" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">🏆 Best Seller</div>
+    <div onclick="showNewReleases()" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">✨ New Releases</div>
+    <div onclick="showTopCategory()" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">📊 Top Category</div>
+    <div onclick="showAllCategory()" style="padding:12px;cursor:pointer;">📋 See All Category</div>
+  `;
+  showModalContent('Settings', content);
 }
 
-// 8. Modal Helper - ये सबसे जरूरी है
+// 8. Settings के अंदर के नए Functions
+function showYourAccount(){ showModalContent('Your Account','<h3>👤 Your Account</h3><p>Account details और Order History यहाँ दिखेगी</p><p><b>Total Orders:</b> 12</p><p><b>Prime Member:</b> No</p><p><b>Saved:</b> ₹340</p>'); }
+function showTrending(){ showModalContent('Trending','<h3>🔥 Trending Products</h3><p>1. Kesh Shine Oil - 500+ Views</p><p>2. Indulekha Hair Oil - 450+ Views</p><p>3. Vitamin C Tablets - 400+ Views</p>'); }
+function showBestSeller(){ showModalContent('Best Seller','<h3>🏆 Best Sellers</h3><p>इस हफ्ते सबसे ज्यादा बिकने वाले Products</p><p>1. SK Herbal Hair Oil - 250+ Sold</p><p>2. Digital BP Machine - 180+ Sold</p><p>3. Protein Powder - 150+ Sold</p>'); }
+function showNewReleases(){ showModalContent('New Releases','<h3>✨ New Launches</h3><p>1. New Protein Powder</p><p>2. Skin Glow Face Cream Pro</p><p>3. Herbal Pain Relief Oil</p><p>4. Immunity Booster Tablets</p>'); }
+function showTopCategory(){ showModalContent('Top Category','<h3>📊 Top Categories</h3><p>1. Medicines - 60%</p><p>2. Skin Care - 25%</p><p>3. Baby Care - 10%</p><p>4. Wellness - 5%</p>'); }
+function showAllCategory(){ showModalContent('All Categories','<h3>📋 सभी Categories</h3><p>• Medicines</p><p>• Skin Care</p><p>• Baby Care</p><p>• Wellness</p><p>• Medical Devices</p><p>• Vitamins</p><p>• Health Drinks</p><p>• Ayurvedic</p>'); }
+
+// 9. All Menu के नए Functions
+function showSellFast(){ showModalContent('Sell Fast','<h3>🚀 Sell With Us</h3><p>अपना Product हमारी Website पर बेचें</p><p><b>Commission:</b> सिर्फ 5%</p><p><b>Payment:</b> Weekly Settlement</p><p><b>Support:</b> 24x7 Seller Help</p><a href="https://wa.me/919258751739?text=Sell%20करना%20है" style="display:block;background:#28a745;color:white;padding:12px;border-radius:8px;text-align:center;margin-top:15px;text-decoration:none;">📞 Contact Now</a>'); }
+function showAccountList(){ showModalContent('Account List','<h3>👥 Top Customers</h3><p>1. Rahul - Noida - 25 Orders</p><p>2. Priya - Greater Noida - 22 Orders</p><p>3. Amit - Delhi - 20 Orders</p><p>4. Sneha - Ghaziabad - 18 Orders</p>'); }
+
+// 10. Privacy & Refund
+function showPrivacyPolicy(){ 
+  closeThreeDotMenu();
+  showModalContent('Privacy Policy','<h2>🔒 Privacy Policy</h2><p>हम आपका Data 100% Safe रखते हैं।</p><p><b>1. हम क्या लेते हैं:</b> नाम, नंबर, एड्रेस सिर्फ Delivery के लिए</p><p><b>2. Share नहीं करते:</b> आपका Data किसी Third Party को नहीं देते</p><p><b>3. Secure:</b> सभी Payment SSL Encrypted</p><p style="margin-top:20px;font-size:13px;color:#666;">Last Updated: June 2026</p>'); 
+}
+function showRefundPolicy(){ 
+  closeThreeDotMenu();
+  showModalContent('Refund Policy','<h2>🔄 Refund Policy</h2><p><b>7 दिन में Return/Refund</b></p><p>✅ Product Seal Pack हो</p><p>✅ Expired/Damaged मिला हो</p><p>✅ गलत Medicine भेज दी हो</p><p><b>Process:</b> WhatsApp पे Photo भेजें, 24 घंटे में Refund</p><a href="https://wa.me/919258751739?text=Refund%20चाहिए" style="display:block;background:#dc3545;color:white;padding:12px;border-radius:8px;text-align:center;margin-top:15px;text-decoration:none;">📞 Refund Request करें</a>'); 
+}
+
+// 11. Share App
+function shareApp(){
+  closeThreeDotMenu();
+  if(navigator.share){ navigator.share({title:'S K Pharmacy',url:window.location.href}); }
+  else { window.open('https://wa.me/?text='+encodeURIComponent('S K Pharmacy: '+window.location.href)); }
+}
+
+// 12. Modal Helper
 function showModalContent(title, content) {
   let oldModal = document.getElementById('mainModal');
   if(oldModal) oldModal.remove();
-  
   let modal = document.createElement('div');
   modal.id = 'mainModal';
   modal.innerHTML = `
-    <div onclick="closeMainModal()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9998;"></div>
-    <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;width:90%;max-width:400px;max-height:80vh;overflow:auto;border-radius:12px;padding:20px;z-index:9999;">
-      <div onclick="closeMainModal()" style="position:absolute;top:10px;right:15px;font-size:28px;cursor:pointer;font-weight:bold;">×</div>
-      ${content}
+    <div onclick="closeMainModal()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:10000;">
+      <div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;width:90%;max-width:400px;max-height:80%;overflow-y:auto;border-radius:12px;padding:20px;">
+        <div onclick="closeMainModal()" style="position:absolute;top:10px;right:15px;font-size:28px;cursor:pointer;">×</div>
+        ${content}
+      </div>
     </div>
   `;
   document.body.appendChild(modal);
 }
 function closeMainModal() {
-  document.getElementById('mainModal').remove();
+  const modal = document.getElementById('mainModal');
+  if(modal) modal.remove();
 }
-
-// 9. बाकी Functions - खाली है तो भी Error नहीं आएगा
-function showPrivacyPolicy(){ showModalContent('Privacy Policy','<p>हम आपका Data Safe रखते हैं।</p>'); }
-function showRefundPolicy(){ showModalContent('Refund Policy','<p>7 दिन में Return/Refund</p>'); }
-function showOrders(){ showModalContent('Live Orders','<p>WhatsApp पर Order Status पूछें</p>'); }
-function showAllFres(){ showModalContent('My Account','<p>Login जल्द आएगा</p>'); }
-function showSettings(){ showModalContent('Settings','<p>Notification Settings जल्द आएंगे</p>'); }
-function shareApp(){
-  closeThreeDotMenu();
-  if(navigator.share){ navigator.share({title:'S K Pharmacy',url:window.location.href}); }
-  else { window.open('https://wa.me/?text='+encodeURIComponent(window.location.href),'_blank'); }
-    }
