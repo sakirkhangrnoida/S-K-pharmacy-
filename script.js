@@ -1011,3 +1011,10 @@ function filterCategory(cat) {
   if(grid) grid.scrollIntoView({behavior: 'smooth'});
 }
 
+function showAccountMenu() {
+  if (!currentUser) {
+    showLogin();
+    return;
+  }
+  showModalContent('My Account', `<div style="padding:20px;text-align:center;"><h3>${currentUser.email}</h3><button onclick="logoutUser();closeModal();">Logout</button></div>`);
+}
