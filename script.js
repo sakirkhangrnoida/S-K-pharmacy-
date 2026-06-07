@@ -773,50 +773,6 @@ function addComment(name) {
     showProductDetails(name);
   }
 }
-
-function showThreeDotMenu() {
-  document.getElementById('threeDotModal').style.display = 'block';
-}
-
-function closeThreeDotMenu() {
-  document.getElementById('threeDotModal').style.display = 'none';
-}
-
-function shareApp() {
-  closeThreeDotMenu();
-  if (navigator.share) {
-    navigator.share({
-      title: 'S K Pharmacy',
-      text: 'Best Medicine Store',
-      url: window.location.href
-    });
-  } else {
-    window.open('https://wa.me/?text=' + encodeURIComponent(window.location.href), '_blank');
-  }
-}
-// ======== ABOUT US ========
-function showAboutUs() {
-  const content = `
-    <div style="text-align:center;">
-      <h2 style="color:#1976d2;">S K PHARMACY</h2>
-      <p style="font-weight:bold;">Full Amazon Type Medical Store</p>
-    </div>
-    <p><b>S K Pharmacy</b> एक भरोसेमंद Online Medical Store है।</p>
-    <p>हम Best Quality Medicines सबसे कम Price में देते हैं।</p>
-    <p><b>Founded:</b> 2024</p>
-    <p><b>Mission:</b> सबको सस्ती और अच्छी दवाई देना।</p>
-    <p><b>Address:</b> ${STORE_ADDRESS}</p>
-    <div style="margin-top:20px;">${getMapEmbed()}</div>
-  `;
-  showModalContent('About Us', content);
-}
-
-// ======== CONTACT US ========
-function showContactUs() {
-  const content = `
-    <p><b>📧 Email:</b> ${STORE_EMAIL}</p>
-    <p><b>📞 Phone 1:</b> +${STORE_PHONE}</p>
-    <p><b>📞 Phone 2:</b> +${STORE_PHONE2}</p>
     <p><b>📍 Address:</b> ${STORE_ADDRESS}</p>
     <p><b>⏰ Timing:</b> 9 AM - 9 PM (All Days)</p>
     <button onclick="window.open('https://wa.me/${STORE_PHONE2}','_blank')" style="width:100%;padding:12px;background:#25D366;color:white;border:none;border-radius:8px;margin-top:15px;">WhatsApp पे Message करें</button>
