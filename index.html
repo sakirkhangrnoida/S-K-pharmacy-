@@ -287,11 +287,11 @@ color:white;
     </div>
 
     <!-- Cart -->
-    <div onclick="toggleCart()" style="cursor:pointer;position:relative;text-align:center;">
-      <div style="font-size:22px;">🛒</div>
-      <span id="cartCount" style="position:absolute;top:-5px;right:5px;background:orange;color:black;border-radius:50%;font-size:10px;padding:1px 5px;font-weight:bold;">0</span>
-      <div style="font-size:11px;font-weight:bold;">Cart</div>
-    </div>
+<a href="checkout.html" style="text-decoration:none;color:white;cursor:pointer;position:relative;display:block">
+  <div style="font-size:22px;">🛒</div>
+  <span id="cartCount" style="position:absolute;top:-5px;right:-5px;background:#d32f2f;color:white;border-radius:10px;padding:2px 6px;font-size:10px;font-weight:bold">0</span>
+  <div style="font-size:11px;font-weight:bold;">Cart</div>
+</a>
 
     <!-- 3 Dot Menu -->
     <div onclick="showThreeDotMenu()" style="cursor:pointer;font-size:20px;padding:0 5px;">⋮</div>
@@ -810,7 +810,7 @@ function toggleAllMenu() {
           <div style="font-weight:bold;margin-bottom:10px;color:#111;">Your Account</div>
           ${currentUser ? 
             `<div onclick="showProfile()" style="padding:10px 0;cursor:pointer;color:#333;">Your Profile</div>
-             <div onclick="showOrdersPage()" style="padding:10px 0;cursor:pointer;color:#333;">Your Orders</div>
+             `<a href="settings.html" style="display:block;padding:10px 0;color:#111;text-decoration:none">Your Orders</a>
              <div onclick="logoutUser()" style="padding:10px 0;cursor:pointer;color:#B12704;">Sign Out</div>` :
             `<div onclick="showLoginPage()" style="padding:10px 0;cursor:pointer;color:#333;">Sign In</div>`
           }
@@ -818,7 +818,7 @@ function toggleAllMenu() {
         <div style="padding:15px;">
           <div style="font-weight:bold;margin-bottom:10px;color:#111;">Help & Settings</div>
           <div onclick="showCustomerService()" style="padding:10px 0;cursor:pointer;color:#333;">Customer Service</div>
-          <div onclick="showSettingsPage()" style="padding:10px 0;cursor:pointer;color:#333;">Settings</div>
+          `<a href="admin.html" style="display:block;padding:10px 0;color:red;text-decoration:none;font-weight:bold">Admin Panel</a>
         </div>
       </div>
       <div onclick="toggleAllMenu()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9998;"></div>
@@ -1191,6 +1191,24 @@ function showPagePopup(title, content) {
   `;
   document.body.appendChild(popup);
 }
-    </script>
+// ===== Add to Cart System =====
+function addToCart(name, price) {
+  let cart = JSON.parse(localStorage.getItem('grnoida_cart') || '[]');
+  let found = cart.find(item => item.name === name);
+  if(found){ found.qty += 1; } else { cart.push({name: name, price: price, qty: 1}); }
+  localStorage.setItem('grnoida_cart', JSON.stringify(cart));
+  updateCartCount();
+  alert(name + ' added to cart!');
+  location.href = 'checkout.html';
+}
+
+function updateCartCount(){
+  let cart = JSON.parse(localStorage.getItem('grnoida_cart') || '[]');
+  let count = cart.reduce((sum, item) => sum + item.qty, 0);
+  let el = document.getElementById('cartCount');
+  if(el) el.innerText = count;
+}
+updateCartCount();
+</script>
 </body>
       </html>
