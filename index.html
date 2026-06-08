@@ -1141,32 +1141,6 @@ function addNewOrder() {
   showOrders();
 }
 
-// ===== All Menu के अंदर वाले Pages =====
-
-function showOrdersPage() {
-  toggleAllMenu();
-  showOrders();
-}
-
-function showCustomerService() {
-  toggleAllMenu();
-  showPagePopup('Customer Service', `
-    <p><b>24x7 Support Available</b></p>
-    <p>📞 <a href="tel:${STORE_CONFIG.mobile1}">${STORE_CONFIG.mobile1}</a></p>
-    <p>📞 <a href="tel:${STORE_CONFIG.mobile2}">${STORE_CONFIG.mobile2}</a></p>
-    <p>💬 <a href="https://wa.me/91${STORE_CONFIG.mobile1}">WhatsApp Chat</a></p>
-    <p>📧 ${STORE_CONFIG.email}</p>
-    <p>📍 <a href="${STORE_CONFIG.mapLink}" target="_blank">View on Maps</a></p>
-    <br>
-    <p><b>Address:</b> ${STORE_CONFIG.address}</p>
-    <p><b>Timing:</b> ${STORE_CONFIG.timings}</p>
-  `);
-}
-
-function showSettingsPage() {
-  toggleAllMenu();
-  showSettings();
-}
 
 // ===== Common Popup Function =====
 function showPagePopup(title, content) {
