@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - S K Pharmacy</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #e3e6e6; font-family: Arial, sans-serif; }
+ .site-container { max-width: 1500px; margin: 0 auto; background: white; min-height: 100vh; display: flex; }
+    
+ .settings-menu { width: 280px; border-right: 1px solid #ddd; padding: 20px 0; }
+ .settings-menu h2 { padding: 0 20px 15px; font-size: 18px; border-bottom: 1px solid #ddd; }
+ .menu-item { padding: 14px 20px; cursor: pointer; font-size: 14px; border-left: 3px solid transparent; }
+ .menu-item:hover { background: #f7fafa; }
+ .menu-item.active { background: #f0f2f2; border-left: 3px solid #ff9900; font-weight: 600; }
+    
+ .settings-content { flex: 1; padding: 25px 40px; }
+ .content-box { display: none; }
+ .content-box.active { display: block; animation: fadeIn 0.3s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+ .content-box h1 { font-size: 28px; margin-bottom: 8px; }
+ .content-box h2 { font-size: 18px; margin: 25px 0 12px; }
+ .content-box p,.content-box li { font-size: 14px; line-height: 1.6; margin-bottom: 10px; }
+ .content-box ul,.content-box ol { padding-left: 25px; }
+    
+ .policy-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+ .policy-table th { background: #f0f2f2; padding: 12px; text-align: left; border: 1px solid #ddd; }
+ .policy-table td { padding: 12px; border: 1px solid #ddd; vertical-align: top; }
+    
+ .note { font-size: 12px; color: #565959; margin: 15px 0; padding: 12px; background: #f7fafa; border-left: 3px solid #007185; }
+ .back-home { display: inline-block; margin-bottom: 20px; color: #007185; text-decoration: none; font-size: 14px; }
+    
+    details { margin: 15px 0; }
+    summary { color: #007185; cursor: pointer; font-size: 14px; font-weight: 600; padding: 8px 0; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: '▶ '; font-size: 10px; }
+    details[open] summary::before { content: '▼ '; }
+    summary:hover { text-decoration: underline; }
+ .details-content { padding: 10px 0 10px 15px; border-left: 2px solid #ddd; margin-top: 8px; }
+    
+    @media (max-width: 768px) {
+   .site-container { flex-direction: column; }
+   .settings-menu { width: 100%; border-right: none; border-bottom: 1px solid #ddd; overflow-x: auto; white-space: nowrap; }
+   .menu-item { display: inline-block; border-left: none; border-bottom: 3px solid transparent; }
+   .menu-item.active { border-left: none; border-bottom: 3px solid #ff9900; }
+   .settings-content { padding: 20px 15px; }
+    }
+  </style>
+</head>
+<body>
+<div class="site-container">
+  
+  <div class="settings-menu">
+    <h2>Settings & Help</h2>
+    <div class="menu-item active" onclick="showTab(0)">📦 Your Orders</div>
+    <div class="menu-item" onclick="showTab(1)">🚚 Shipping Policy</div>
+    <div class="menu-item" onclick="showTab(2)">↩️ Returns & Refunds</div>
+    <div class="menu-item" onclick="showTab(3)">💰 Refund Status</div>
+    <div class="menu-item" onclick="showTab(4)">❌ Cancel Orders</div>
+    <div class="menu-item" onclick="showTab(5)">📞 Contact Us</div>
+    <div class="menu-item" onclick="showTab(6)">🔐 Account Settings</div>
+  </div>
+  
+  <div class="settings-content">
+    <a href="index.html" class="back-home">← Back to Home</a>
+    
+    <!-- 1. Your Orders -->
+    <div class="content-box active">
+      <h1>Your Orders</h1>
+      <p>Track, return, or buy things again.</p>
+      <h2>Recent Orders</h2>
+      <p>No orders yet. <a href="index.html" style="color:#007185;">Start shopping</a></p>
+      
+      <details>
+        <summary>How to Track Your Order</summary>
+        <div class="details-content">
+          <ol>
+            <li>Go to Your Orders page</li>
+            <li>Click "Track Package" button next to your order</li>
+            <li>See live location and estimated delivery date</li>
+            <li>You'll get SMS/WhatsApp updates on 9258751739</li>
+          </ol>
+        </div>
+      </details>
+    </div>
+    
+    <!-- 2. Shipping Policy -->
+    <div class="content-box">
+      <h1>Shipping Policy</h1>
+      <p>Delivery charges and timelines for S K Pharmacy orders.</p>
+      
+      <table class="policy-table">
+        <tr><th>Shipping Speed</th><th>Delivery Time</th><th>Charges</th></tr>
+        <tr><td>Standard Delivery</td><td>2-5 Working Days</td><td>Free* on ₹499+</td></tr>
+        <tr><td>Express Delivery</td><td>1-2 Working Days</td><td>₹49</td></tr>
+      </table>
+      <div class="note">*Orders below ₹499 have ₹40 delivery charge. COD extra ₹40 always.</div>
+      
+      <details>
+        <summary>View All Shipping Options & Rules</summary>
+        <div class="details-content">
+          <h2>All Shipping Methods</h2>
+          <table class="policy-table">
+            <tr><th>Method</th><th>Time</th><th>Cost</th></tr>
+            <tr><td>Same-Day Delivery</td><td>Within 24 Hours</td><td>₹99</td></tr>
+            <tr><td>Cash on Delivery</td><td>2-5 Days</td><td>₹40 Extra</td></tr>
+          </table>
+          <h2>Important Rules</h2>
+          <ul>
+            <li>We deliver to Greater Noida, Dankaur, Silapur daily 9 AM to 9 PM</li>
+            <li>3 delivery attempts will be made before return</li>
+            <li>Prescription medicines take 1 extra day for verification</li>
+            <li>For delivery help call: 9258751739</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+    
+    <!-- 3. Returns & Refunds -->
+    <div class="content-box">
+      <h1>Returns & Refunds Policy</h1>
+      <p>Last updated: 15 June 2026</p>
+      <p>Read our detailed return and refund guidelines below.</p>
+      
+      <details open>
+        <summary>General Return Guidelines</summary>
+        <div class="details-content">
+          <ol start="12">
+            <li>In case customers misuse return policy, S K Pharmacy reserves right to block accounts.</li>
+            <li>For faulty products, contact within 24 hours at <b>9258751739</b> for replacement.</li>
+            <li>Excessive returns may attract Return processing fees.</li>
+            <li>Wrong product sent? Call <b>7983006957</b> for free replacement + ₹50 wallet credit.</li>
+          </ol>
+          <div class="note">For return help WhatsApp us: 9258751739 or 7983006957</div>
+        </div>
+      </details>
+      
+      <details>
+        <summary>Return Policy Types Explained</summary>
+        <div class="details-content">
+          <table class="policy-table">
+            <tr><th>Policy</th><th>Defective Item</th><th>Damage/Wrong Item</th></tr>
+            <tr>
+              <td><b>7 Days Replacement</b></td>
+              <td>Contact us within 7 days</td>
+              <td>Free replacement if reported in 7 days</td>
+            </tr>
+            <tr>
+              <td><b>7 Days Refund</b></td>
+              <td>Return for full refund</td>
+              <td>Refund in 5-7 days after pickup</td>
+            </tr>
+            <tr>
+              <td><b>Non-Returnable</b></td>
+              <td>Only wrong/expired replaced in 24hrs</td>
+              <td>Contact 9258751739 within 24hrs with photo</td>
+            </tr>
+          </table>
+        </div>
+      </details>
+      
+      <details>
+        <summary>Medicine & Healthcare Return Windows</summary>
+        <div class="details-content">
+          <table class="policy-table">
+            <tr><th>Category</th><th>Return Policy</th></tr>
+            <tr><td>Prescription Medicines</td><td><b>Non-Returnable</b><br>Legal & safety reasons. Wrong/expired: 24hr replacement</td></tr>
+            <tr><td>OTC Medicines</td><td><b>7 Days Replacement</b><br>Seal must be intact. No refund, only replacement</td></tr>
+            <tr><td>Health Supplements</td><td><b>7 Days Returnable</b><br>Unopened seal required. 10% restocking fee</td></tr>
+            <tr><td>Medical Devices</td><td><b>10 Days Brand Replacement</b><br>BP Monitor, Thermometer covered by warranty</td></tr>
+            <tr><td>Ayurvedic Products</td><td><b>7 Days Returnable</b><br>Unopened only</td></tr>
+            <tr><td>Cosmetics</td><td><b>7 Days Returnable</b><br>Seal intact, unused condition</td></tr>
+          </table>
+        </div>
+      </details>
+      
+      <details>
+        <summary>How to Return an Item - Step by Step</summary>
+        <div class="details-content">
+          <ol>
+            <li>WhatsApp us on 9258751739 with Order ID</li>
+            <li>Select reason: Wrong Item / Damaged / Not Needed</li>
+            <li>We will schedule free pickup from Silapur, Dankaur</li>
+            <li>Pack item in original box with invoice</li>
+            <li>Hand over to delivery agent. Get pickup receipt</li>
+            <li>Refund processed in 5-7 days after QC check</li>
+          </ol>
+        </div>
+      </details>
+    </div>
+    
+    <!-- 4. Refund Status -->
+    <div class="content-box">
+      <h1>Check Refund Status</h1>
+      <p>Track your refund for returned or cancelled orders.</p>
+      
+      <h2>Refund Timeline</h2>
+      <ul>
+        <li><b>UPI/Card/Netbanking:</b> 5-7 working days</li>
+        <li><b>COD:</b> 5-7 days to bank via NEFT</li>
+        <li><b>S K Wallet:</b> Instant refund</li>
+      </ul>
+      
+      <details>
+        <summary>Detailed Refund Process & FAQs</summary>
+        <div class="details-content">
+          <h2>How Refund Works</h2>
+          <ol>
+            <li>Item picked up from your address</li>
+            <li>Quality check at warehouse - 24-48 hours</li>
+            <li>Refund initiated to original payment method</li>
+            <li>Bank takes 5-7 days to credit amount</li>
+          </ol>
+          <h2>Refund Not Received?</h2>
+          <p>Call 9258751739 or 7983006957 with Order ID. We'll track with bank and update you in 24 hours.</p>
+        </div>
+      </details>
+    </div>
+    
+    <!-- 5. Cancel Orders -->
+    <div class="content-box">
+      <h1>Cancel Items or Orders</h1>
+      <p>Cancel orders before they are shipped.</p>
+      
+      <h2>Quick Cancel</h2>
+      <ol>
+        <li>WhatsApp us on 9258751739 with Order ID</li>
+        <li>Tell us which items to cancel</li>
+        <li>We will confirm cancellation instantly</li>
+      </ol>
+      
+      <details>
+        <summary>Cancellation Rules & Refund Policy</summary>
+        <div class="details-content">
+          <ul>
+            <li><b>Before Shipped:</b> Full refund, no charges</li>
+            <li><b>After Shipped:</b> Cannot cancel. Return after delivery</li>
+            <li><b>Partial Cancel:</b> Cancel specific items from order</li>
+            <li><b>Refund Time:</b> 5-7 days for prepaid</li>
+          </ul>
+          <div class="note">For urgent cancellation call 9258751739</div>
+        </div>
+      </details>
+    </div>
+    
+    <!-- 6. Contact Us - UPDATED -->
+    <div class="content-box">
+      <h1>Contact S K Pharmacy</h1>
+      <p>We're here to help you 24x7</p>
+      
+      <h2>Call Us</h2>
+      <p><b>Customer Care Helpline:</b> 9258751739 <br> Available: 9 AM - 9 PM, All days</p>
+      <p><b>Alternate Number:</b> 7983006957</p>
+      
+      <details>
+        <summary>All Contact Methods & Address</summary>
+        <div class="details-content">
+          <h2>WhatsApp Support</h2>
+          <p><b>WhatsApp 1:</b> 9258751739 <br> <b>WhatsApp 2:</b> 7983006957 <br> Chat for instant help, order tracking, returns</p>
+          
+          <h2>Email Support</h2>
+          <p><b>Support Email:</b> sakirkhangrnoida@gmail.com <br> <b>Response Time:</b> Within 24 hours</p>
+          
+          <h2>Shop Address</h2>
+          <p><b>S K Pharmacy</b><br>
+          Village Silapur, Dankaur<br>
+          Greater Noida, Uttar Pradesh<br>
+          PIN Code - 203201</p>
+          
+          <h2>Working Hours</h2>
+          <p>Monday to Sunday: 9:00 AM - 9:00 PM<br>
+          <b>Note:</b> Online orders 24x7 accepted</p>
+          
+          <div class="note">
+            <b>Quick Help:</b> For urgent order issues, WhatsApp us on 9258751739 with your Order ID.
+          </div>
+        </div>
+      </details>
+    </div>
+    
+    <!-- 7. Account Settings -->
+    <div class="content-box">
+      <h1>Account Settings</h1>
+      <p>Manage your login, addresses and security.</p>
+      
+      <h2>Login & Security</h2>
+      <ul>
+        <li>Change Mobile Number: 9258751739</li>
+        <li>Update Password</li>
+        <li>Two-Step Verification</li>
+      </ul>
+      
+      <details>
+        <summary>All Account Options</summary>
+        <div class="details-content">
+          <h2>Your Addresses</h2>
+          <p>Default Address: Village Silapur, Dankaur, Greater Noida - 203201<br>
+          Add up to 10 delivery addresses for faster checkout.</p>
+          
+          <h2>Payment Options</h2>
+          <p>Save UPI, Cards, Netbanking. All data encrypted & 100% secure.</p>
+          
+          <h2>Notification Settings</h2>
+          <p>Manage SMS, WhatsApp alerts on 9258751739 for orders & offers.</p>
+          
+          <h2>Need Help?</h2>
+          <p>Email us: sakirkhangrnoida@gmail.com or WhatsApp: 7983006957</p>
+        </div>
+      </details>
+    </div>
+    
+  </div>
+</div>
+
+<script>
+function showTab(index) {
+  document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+  document.querySelectorAll('.content-box').forEach(box => box.classList.remove('active'));
+  
+  document.querySelectorAll('.menu-item')[index].classList.add('active');
+  document.querySelectorAll('.content-box')[index].classList.add('active');
+  
+  if(window.innerWidth < 768) {
+    document.querySelector('.settings-content').scrollIntoView({behavior: 'smooth'});
+  }
+}
+</script>
+
+</body>
+                </html>
