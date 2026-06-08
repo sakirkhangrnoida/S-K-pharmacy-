@@ -70,9 +70,36 @@
     <div class="content-box active">
       <h1>Your Orders</h1>
       <p>Track, return, or buy things again.</p>
-      <h2>Recent Orders</h2>
-      <p>No orders yet. <a href="index.html" style="color:#007185;">Start shopping</a></p>
-      
+  <h2>Recent Orders</h2>
+    
+      <!-- Live Order Tracking Box -->
+<div id="tracking" style="background:#fff;padding:20px;border-radius:8px;margin:15px 0;border:1px solid #ff9900;display:none">
+  <h3 style="margin-top:0;color:#232f3e">🔥 Your Live Order Status</h3>
+  <div id="orderDetails" style="margin-bottom:15px;font-size:14px;line-height:1.6"></div>
+  
+  <div style="display:flex;justify-content:space-between;position:relative;margin:25px 0">
+    <div style="position:absolute;top:15px;left:0;right:0;height:4px;background:#ddd;z-index:1"></div>
+    <div id="progress" style="position:absolute;top:15px;left:0;height:4px;background:#ff9900;z-index:2;width:0%;transition:0.5s"></div>
+    
+    <div style="text-align:center;z-index:3">
+      <div id="s1" style="width:30px;height:30px;background:#ddd;border-radius:50%;margin:auto;border:2px solid #fff"></div>
+      <small>Placed</small>
+    </div>
+    <div style="text-align:center;z-index:3">
+      <div id="s2" style="width:30px;height:30px;background:#ddd;border-radius:50%;margin:auto;border:2px solid #fff"></div>
+      <small>Packed</small>
+    </div>
+    <div style="text-align:center;z-index:3">
+      <div id="s3" style="width:30px;height:30px;background:#ddd;border-radius:50%;margin:auto;border:2px solid #fff"></div>
+      <small>Shipped</small>
+    </div>
+    <div style="text-align:center;z-index:3">
+      <div id="s4" style="width:30px;height:30px;background:#ddd;border-radius:50%;margin:auto;border:2px solid #fff"></div>
+      <small>Delivered</small>
+    </div>
+  </div>
+  <div id="currentStatus" style="text-align:center;font-weight:600;color:#007185"></div>
+</div>
       <details>
         <summary>How to Track Your Order</summary>
         <div class="details-content">
@@ -327,6 +354,48 @@ function showTab(index) {
   }
 }
 </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyD2EOywrcF8vJUXnsmF5PA3t3inW79UX8Y",
+    authDomain: "grnoida-store.firebaseapp.com",
+    databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "grnoida-store",
+    storageBucket: "grnoida-store.firebasestorage.app",
+    messagingSenderId: "665639961400",
+    appId: "1:665639961400:web:cb704b0209b910fc6a77cd"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  
+  const lastOrder = localStorage.getItem('grnoida_last_order');
+  if(lastOrder){
+    onValue(ref(db, 'orders/' + lastOrder), (snapshot) => {
+      const order = snapshot.val();
+      if(!order) return;
+      
+      document.getElementById('tracking').style.display = 'block';
+      document.getElementById('orderDetails').innerHTML = `
+        <b>Order ID:</b> ${order.orderId}<br>
+        <b>Name:</b> ${order.name} | <b>Mobile:</b> ${order.mobile}<br>
+        <b>Total:</b> ₹${order.total} | ${order.payment}<br>
+        <b>Address:</b> ${order.address}, ${order.pin}
+      `;
+      
+      const statusMap = {'Order Placed':1, 'Packed':2, 'Shipped':3, 'Delivered':4};
+      const step = statusMap[order.status] || 1;
+      
+      document.getElementById('progress').style.width = (step-1)*33.33 + '%';
+      document.getElementById('currentStatus').innerText = 'Current Status: ' + order.status;
+      
+      for(let i=1;i<=4;i++){
+        document.getElementById('s'+i).style.background = i<=step ? '#ff9900' : '#ddd';
+      }
+    });
+  }
+</script>
 </body>
                 </html>
