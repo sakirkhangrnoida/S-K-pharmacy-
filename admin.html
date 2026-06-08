@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - GRNoida</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{font-family:Arial;padding:10px;background:#f3f3f3}
+    .order{background:#fff;padding:15px;margin:10px 0;border-radius:8px;box-shadow:0 2px 5px #ccc}
+    button{padding:8px 12px;margin:4px;background:#232f3e;color:#fff;border:none;border-radius:4px;cursor:pointer}
+    .packed{background:#ff9900} .shipped{background:#007185} .delivered{background:#067d62}
+    h2{text-align:center}
+  </style>
+</head>
+<body>
+  <h2>GRNoida Orders</h2>
+  <div id="orders"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD2EOywrcF8vJUXnsmF5PA3t3inW79UX8Y",
+    authDomain: "grnoida-store.firebaseapp.com",
+    databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "grnoida-store",
+    storageBucket: "grnoida-store.firebasestorage.app",
+    messagingSenderId: "665639961400",
+    appId: "1:665639961400:web:cb704b0209b910fc6a77cd"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const ordersDiv = document.getElementById('orders');
+  
+  onValue(ref(db, 'orders'), (snapshot) => {
+    ordersDiv.innerHTML = '';
+    const data = snapshot.val();
+    if(!data){ ordersDiv.innerHTML = '<p>No Orders Yet</p>'; return; }
+    
+    Object.values(data).sort((a,b) => b.time - a.time).forEach(order => {
+      ordersDiv.innerHTML += `
+        <div class="order">
+          <b>${order.orderId}</b> - ₹${order.total} - ${order.payment}<br>
+          <b>${order.name}</b> | ${order.mobile}<br>
+          ${order.address}, ${order.pin}<br>
+          <b>Status: ${order.status}</b><br><br>
+          <button class="packed" onclick="updateStatus('${order.orderId}','Packed')">Packed</button>
+          <button class="shipped" onclick="updateStatus('${order.orderId}','Shipped')">Shipped</button>
+          <button class="delivered" onclick="updateStatus('${order.orderId}','Delivered')">Delivered</button>
+        </div>
+      `;
+    });
+  });
+
+  window.updateStatus = function(orderId, status) {
+    update(ref(db, 'orders/' + orderId), { status: status });
+  }
+</script>
+</body>
+</html>
