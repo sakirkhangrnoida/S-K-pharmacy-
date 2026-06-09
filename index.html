@@ -294,7 +294,7 @@ color:white;
 </a>
 
     <!-- 3 Dot Menu -->
-<div onclick="openSidebar()" style="cursor:pointer;font-size:24px;padding:0 5px;color:#000;font-weight:bold">⋮</div>
+<div onclick="openThreeDotMenu()" style="cursor:pointer;font-size:24px;padding:0 5px;color:#000;font-weight:bold">⋮</div>
 </div>
 <!-- Amazon Style Header End -->
   <!-- Line 2: Navigation Bar - सब असली काम करेगा -->
@@ -1149,22 +1149,52 @@ function updateCartCount(){
   if(el) el.innerText = count;
 }
 updateCartCount();
+// All Button के लिए
+function openSidebar() {
+    document.getElementById('sidebarTitle').innerText = 'All Categories';
+    document.getElementById('sidebarContent').innerHTML = `
+        <p onclick="showAllFres();closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🏷️ All Offers</p>
+        <p onclick="filterCategory('Medicines');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">💊 Medicines</p>
+        <p onclick="filterCategory('Skin Care');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🧴 Skin Care</p>
+        <p onclick="filterCategory('Baby Care');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🍼 Baby Care</p>
+        <p onclick="showOrders();closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📦 Your Orders</p>
+    `;
+    document.getElementById('sidebar').style.left = '0';
+    document.getElementById('overlay').style.display = 'block';
+}
 
+// 3 Dot Menu के लिए - Customer Service, Privacy, Terms सब
+function openThreeDotMenu() {
+    document.getElementById('sidebarTitle').innerText = 'Help & Settings';
+    document.getElementById('sidebarContent').innerHTML = `
+        <p onclick="showModal('contact');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📞 Customer Service</p>
+        <p onclick="showModal('privacy');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🔒 Privacy Policy</p>
+        <p onclick="showModal('terms');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📄 Terms & Conditions</p>
+        <p onclick="showModal('refund');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">💰 Refund Policy</p>
+        <p onclick="showSettings();closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">⚙️ Settings</p>
+        <p onclick="showModal('team');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">👥 Our Team</p>
+        <p onclick="shareWebsite();closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🔗 Share Website</p>
+        <p onclick="showLoginPage();closeSidebar()" style="padding:12px;cursor:pointer;">🔐 Sign In</p>
+    `;
+    document.getElementById('sidebar').style.left = '0';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+function closeSidebar() {
+    document.getElementById('sidebar').style.left = '-250px';
+    document.getElementById('overlay').style.display = 'none';
+}
 </script>
-<!-- Sidebar Menu -->
-<div id="sidebar" style="position:fixed;top:0;left:-250px;width:250px;height:100%;background:#fff;z-index:9999;transition:0.3s;box-shadow:2px 0 5px rgba(0,0,0,0.2);overflow-y:auto;">
+<!-- Sidebar Menu - Dynamic -->
+
+    <div id="sidebar" style="position:fixed;top:0;left:-250px;width:250px;height:100%;background:#fff;z-index:9999;transition:0.3s;box-shadow:2px 0 5px rgba(0,0,0,0.2);overflow-y:auto;">
     <div style="padding:15px;background:#232f3e;color:white;font-weight:bold;display:flex;justify-content:space-between;">
-        <span>Menu</span>
+        <span id="sidebarTitle">Menu</span>
         <span onclick="closeSidebar()" style="cursor:pointer;font-size:20px;">×</span>
     </div>
-    <div style="padding:10px;">
-        <p onclick="showAllFres();closeSidebar()" style="padding:10px;cursor:pointer;border-bottom:1px solid #eee;">All Offers</p>
-        <p onclick="showOrders();closeSidebar()" style="padding:10px;cursor:pointer;border-bottom:1px solid #eee;">Your Orders</p>
-        <p onclick="showSettings();closeSidebar()" style="padding:10px;cursor:pointer;border-bottom:1px solid #eee;">Settings</p>
-        <p onclick="showLoginPage();closeSidebar()" style="padding:10px;cursor:pointer;">Sign In</p>
+    <div id="sidebarContent" style="padding:10px;">
     </div>
 </div>
-
 <!-- Overlay -->
 <div id="overlay" onclick="closeSidebar()" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9998;"></div>
 </body>
