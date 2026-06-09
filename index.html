@@ -1168,22 +1168,21 @@ function openSidebar() {
 function openThreeDotMenu() {
     document.getElementById('sidebarTitle').innerText = 'Help & Settings';
     document.getElementById('sidebarContent').innerHTML = `
-        <p onclick="location.href='customer-service.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📞 Customer Service</p>
-        <p onclick="location.href='track-order.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🚚 Track Order</p>
-        <p onclick="location.href='privacy.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🔒 Privacy Policy</p>
-        <p onclick="location.href='terms.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📄 Terms & Conditions</p>
-        <p onclick="location.href='refund.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">💰 Return & Refund</p>
-        <p onclick="location.href='settings.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">⚙️ Settings</p>
-        <p onclick="location.href='team.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">👥 Our Team</p>
-        <p onclick="location.href='help.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">❓ Help & Support</p>
-        <p onclick="location.href='contact.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📧 Contact Us</p>
+        <p onclick="location.href='settings2.html#orders'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📦 Your Orders</p>
+        <p onclick="location.href='orders.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🚚 Track Order</p>
+        <p onclick="location.href='settings2.html#privacy'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🔒 Privacy Policy</p>
+        <p onclick="location.href='settings2.html#terms'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📄 Terms & Conditions</p>
+        <p onclick="location.href='settings2.html#returns'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">💰 Return & Refund</p>
+        <p onclick="location.href='settings2.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">⚙️ Settings</p>
+        <p onclick="location.href='settings2.html#team'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">👥 Our Team</p>
+        <p onclick="location.href='settings2.html#help'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">❓ Help & Support</p>
+        <p onclick="location.href='settings2.html#contact'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📧 Contact Us</p>
         <p onclick="shareWebsite();closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🔗 Share Website</p>
         <p onclick="location.href='login.html'" style="padding:12px;cursor:pointer;">🔐 Sign In</p>
     `;
     document.getElementById('sidebar').style.left = '0';
     document.getElementById('overlay').style.display = 'block';
 }
-
 function closeSidebar() {
     document.getElementById('sidebar').style.left = '-250px';
     document.getElementById('overlay').style.display = 'none';
