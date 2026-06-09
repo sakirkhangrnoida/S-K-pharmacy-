@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings & Help - S K Pharmacy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #e6e6e6; font-family: Arial, sans-serif; }
+       .site-container { max-width: 1500px; margin: 0 auto; background: white; min-height: 100vh; display: flex; }
+       .settings-menu { width: 280px; border-right: 1px solid #ddd; padding: 20px 0; background:#f8f8f8; }
+       .settings-menu h2 { padding: 0 20px 15px; font-size: 18px; border-bottom: 1px solid #ddd; }
+       .menu-item { padding: 14px 20px; cursor: pointer; font-size: 14px; border-left: 3px solid transparent; }
+       .menu-item:hover { background: #f7fafa; }
+       .menu-item.active { background: #f0f2f2; border-left: 3px solid #ff9900; font-weight: 600; }
+       .settings-content { flex: 1; padding: 25px 40px; }
+       .content-box { display: none; }
+       .content-box.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+       .content-box h1 { font-size: 28px; margin-bottom: 8px; color:#232f3e; }
+       .content-box h2 { font-size: 18px; margin: 25px 0 12px; color:#232f3e; }
+       .content-box h3 { font-size: 16px; margin: 20px 0 10px; color:#232f3e; }
+       .content-box p,.content-box li { font-size: 14px; line-height: 1.6; margin-bottom: 10px; }
+       .content-box ul,.content-box ol { padding-left: 25px; margin:15px 0; }
+       .policy-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+       .policy-table th { background: #f0f2f2; padding: 12px; text-align: left; border: 1px solid #ddd; }
+       .policy-table td { padding: 12px; border: 1px solid #ddd; vertical-align: top; }
+       .note { font-size: 12px; color: #565959; margin: 15px 0; padding: 12px; background: #f7fafa; border-left: 3px solid #007185; }
+       .back-home { display: inline-block; margin-bottom: 20px; color: #000; text-decoration: none; font-size: 14px; background:#ff9900;padding:8px 15px;border-radius:5px; }
+        details { margin: 15px 0; }
+        summary { color: #007185; cursor: pointer; font-size: 14px; font-weight: 600; padding: 8px 0; }
+        summary:hover { text-decoration: underline; }
+       .details-content { padding: 10px 0 10px 15px; border-left: 2px solid #ddd; margin-top: 8px; }
+       .contact-card { background:#f7fafa; padding:15px; border-radius:8px; margin:10px 0; border:1px solid #ddd; }
+        @media (max-width: 768px) {
+           .site-container { flex-direction: column; }
+           .settings-menu { width: 100%; border-right: none; border-bottom: 1px solid #ddd; overflow-x: auto; white-space: nowrap; }
+           .menu-item { display: inline-block; border-left: none; border-bottom: 3px solid transparent; }
+           .menu-item.active { border-left: none; border-bottom: 3px solid #ff9900; }
+           .settings-content { padding: 20px 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="site-container">
+        <div class="settings-menu">
+            <h2>Settings & Help</h2>
+            <div class="menu-item active" onclick="showTab(0)">📦 Your Orders</div>
+            <div class="menu-item" onclick="showTab(1)">🚚 Shipping Policy</div>
+            <div class="menu-item" onclick="showTab(2)">💰 Returns & Refunds</div>
+            <div class="menu-item" onclick="showTab(3)">🔒 Privacy Policy</div>
+            <div class="menu-item" onclick="showTab(4)">📄 Terms & Conditions</div>
+            <div class="menu-item" onclick="showTab(5)">👥 Our Team</div>
+            <div class="menu-item" onclick="showTab(6)">❓ Help & Support</div>
+            <div class="menu-item" onclick="showTab(7)">📧 Contact Us</div>
+            <div class="menu-item" onclick="showTab(8)">⚙️ Account Settings</div>
+        </div>
+
+        <div class="settings-content">
+            <a href="index.html" class="back-home">← Back to Home</a>
+
+            <!-- 1. Your Orders -->
+            <div class="content-box active" id="orders">
+                <h1>Your Orders - Live Tracking</h1>
+                <p>Track, return, or buy things again. Real-time order status.</p>
+
+                <div id="tracking" style="background:#fff;padding:20px;border-radius:8px;margin:15px 0;border:1px solid #ff9900;display:none">
+                    <h3 style="margin-top:0;color:#232f3e">Your Live Order Status</h3>
+                    <div id="orderDetails" style="margin-bottom:15px;font-size:14px;line-height:1.6"></div>
+
+                    <div style="display:flex;justify-content:space-between;position:relative;margin:25px 0">
+                        <div style="position:absolute;top:15px;left:0;right:0;height:4px;background:#ddd;z-index:1"></div>
+                        <div id="progress" style="position:absolute;top:15px;left:0;height:4px;background:#ff9900;z-index:2;width:0%;transition:0.5s"></div>
+
+                        <div style="text-align:center;z-index:3">
+                            <div id="s1" style="width:30px;height:30px;background:#ddd;border-radius:50%;margin:auto;border:2px solid #fff"></div>
+                            <small>Placed</small>
+                        </div>
+                        <div style="text-align:center;z-index:3">
+                            <div id="s2" style="width:30px;height:30px;background:#ddd;border-radius:50%;margin:auto;border:2px solid #fff"></div>
+                            <small>Packed</small>
+                        </div>
+                        <div style="text-align:center;z-index:3">
+                            <div id="s3" style="width:30px;height:30px;background:#ddd;border-radius:50%;margin:auto;border:2px solid #fff"></div>
+                            <small>Shipped</small>
+                        </div>
+                        <div style="text-align:center;z-index:3">
+                            <div id="s4" style="width:30px;height:30px;background:#ddd;border-radius:50%;margin:auto;border:2px solid #fff"></div>
+                            <small>Delivered</small>
+                        </div>
+                    </div>
+                    <div id="currentStatus" style="text-align:center;font-weight:600;color:#007185"></div>
+                    <div class="note">Delivery Boy: 7983006957 | Support: 9258751739 | Estimated: Today 7PM</div>
+                </div>
+
+                <details>
+                    <summary>How to Track Your Order</summary>
+                    <div class="details-content">
+                        <ol>
+                            <li>Go to <a href="orders.html">Your Orders page</a></li>
+                            <li>Click "Track Package" button next to your order</li>
+                            <li>See live location and estimated delivery date</li>
+                            <li>You'll get SMS/WhatsApp updates on 9258751739</li>
+                            <li>Delivery boy will call from 7983006957 before reaching</li>
+                        </ol>
+                    </div>
+                </details>
+            </div>
+
+            <!-- 2. Shipping Policy -->
+            <div class="content-box" id="shipping">
+                <h1>Shipping Policy - Complete 10 Point Guide</h1>
+                <p>Delivery charges and timelines for S K Pharmacy across Greater Noida, Dankaur, Silapur.</p>
+
+                <table class="policy-table">
+                    <tr><th>Shipping Speed</th><th>Delivery Time</th><th>Charges</th><th>Area</th></tr>
+                    <tr><td>Standard Delivery</td><td>2-5 Working Days</td><td>Free* on ₹499+</td><td>All India</td></tr>
+                    <tr><td>Express Delivery</td><td>1-2 Working Days</td><td>₹49</td><td>UP/NCR</td></tr>
+                    <tr><td>Same Day Delivery</td><td>Within 24 Hours</td><td>₹99</td><td>Greater Noida Only</td></tr>
+                    <tr><td>Cash on Delivery</td><td>2-5 Days</td><td>₹40 Extra</td><td>Selected Pins</td></tr>
+                </table>
+                <div class="note">*Orders below ₹499 have ₹40 delivery charge. COD extra ₹40 always.</div>
+
+                <h2>10 Important Shipping Rules</h2>
+                <ol>
+                    <li><b>Service Area:</b> Greater Noida, Dankaur, Silapur, Bilaspur, Rabupura daily 9 AM to 9 PM</li>
+                    <li><b>Delivery Attempts:</b> 3 delivery attempts will be made before return to warehouse</li>
+                    <li><b>Prescription Check:</b> Schedule H medicines take extra 2hr for pharmacist verification</li>
+                    <li><b>Cold Chain:</b> Insulin, Vaccines delivered in temperature controlled boxes with ice packs</li>
+                    <li><b>Cut-off Time:</b> Orders after 7 PM will be delivered next working day</li>
+                    <li><b>Sunday Delivery:</b> Available in Greater Noida only, 10AM to 6PM</li>
+                    <li><b>Bulk Orders:</b> Above ₹5000 free delivery + 5% extra discount</li>
+                    <li><b>Address Change:</b> Possible before 'Shipped' status. WhatsApp 9258751739</li>
+                    <li><b>Unsafe Areas:</b> Delivery boy may refuse delivery in unsafe locations after 7PM</li>
+                    <li><b>COVID Protocol:</b> Contactless delivery available. OTP required for verification</li>
+                </ol>
+
+                <h2>Delivery Time Slots</h2>
+                <ul>
+                    <li><b>Morning:</b> 9 AM - 1 PM</li>
+                    <li><b>Afternoon:</b> 1 PM - 5 PM</li>
+                    <li><b>Evening:</b> 5 PM - 9 PM</li>
+                    <li>You can select preferred slot during checkout</li>
+                </ul>
+            </div>
+
+            <!-- 3. Returns & Refunds -->
+            <div class="content-box" id="returns">
+                <h1>Return & Refund Policy - 10 Point Guarantee</h1>
+                <p class="note">100% Refund guaranteed if you follow these 10 rules. Customer satisfaction is our priority.</p>
+
+                <h2>10 Point Return Policy</h2>
+                <ol>
+                    <li><b>7 Days Return Window:</b> Medicine return within 7 days of delivery only. After 7 days no return accepted.</li>
+                    <li><b>Unopened Pack Condition:</b> Strip/Bottle seal should not be broken or tampered. Inner seal must be intact.</li>
+                    <li><b>Expiry Date Check:</b> Minimum 6 months expiry remaining from return date. Short expiry no return.</li>
+                    <li><b>Bill Required:</b> Original invoice/receipt must for return processing. Digital invoice on email also valid.</li>
+                    <li><b>Wrong Item Sent:</b> If we sent wrong medicine, 100% refund + ₹50 coupon code + free pickup. Our mistake = Your benefit.</li>
+                    <li><b>Damaged Product:</b> Photo proof on WhatsApp 9258751739 within 24 hours of delivery. Unboxing video preferred.</li>
+                    <li><b>No Return Items List:</b> Opened strips, Cold chain items, Sexual wellness, Baby food, COVID test kits, Inhalers.</li>
+                    <li><b>Refund Processing Time:</b> 5-7 working days to original payment method. UPI refunds in 24 hours.</li>
+                    <li><b>Pickup Charge Policy:</b> Free pickup if our mistake/defective product, else ₹40 charge for return pickup from your address.</li>
+                    <li><b>Partial Refund Cases:</b> Used medicines no refund, only replacement if defective batch. Prescription medicines if wrong dispensed = full refund.</li>
+                </ol>
+
+                <h2>How to Initiate Return?</h2>
+                <div class="contact-card">
+                    <p><b>Step 1:</b> WhatsApp us: 9258751739 with Order ID + Clear Photo of product</p>
+                    <p><b>Step 2:</b> Our boy will pickup same day 9AM-7PM from Silapur, Dankaur, Greater Noida</p>
+                    <p><b>Step 3:</b> Quality check at our pharmacy in 24 hours</p>
+                    <p><b>Step 4:</b> Refund initiated to your UPI/Card/Bank account</p>
+                    <p><b>Step 5:</b> SMS confirmation on 9258751739</p>
+                </div>
+
+                <h2>Special Cases</h2>
+                <ul>
+                    <li><b>Allergic Reaction:</b> Doctor certificate needed. Full refund + medical expense up to ₹1000</li>
+                    <li><b>Expired Medicine Received:</b> 200% refund + Free replacement</li>
+                    <li><b>Missing Items:</b> Report within 24 hours. Immediate reshipment or refund</li>
+                </ul>
+            </div>
+
+            <!-- 4. Privacy Policy -->
+            <div class="content-box" id="privacy">
+                <h1>Privacy Policy - Complete 10 Section Document</h1>
+                <p>S K Pharmacy respects your privacy. Last Updated: 9 June 2026</p>
+
+                <h2>1. Information We Collect</h2>
+                <ul>
+                    <li><b>Personal Info:</b> Name, Phone 9258751739, Address Village Silapur, Dankaur, Greater Noida - 203201</li>
+                    <li><b>Order Data:</b> Purchase history, prescription images, delivery preferences</li>
+                    <li><b>Payment Info:</b> UPI ID, Card last 4 digits. We don't store CVV/UPI PIN</li>
+                    <li><b>Device Info:</b> IP address, browser type for fraud prevention</li>
+                </ul>
+
+                <h2>2. How We Use Your Data</h2>
+                <ul>
+                    <li>Process orders and deliver medicines to your address</li>
+                    <li>Verify prescriptions with licensed pharmacist</li>
+                    <li>Send order updates on WhatsApp 9258751739</li>
+                    <li>Improve our services and recommendations</li>
+                    <li>Prevent fraud and illegal activities</li>
+                </ul>
+
+                <h2>3. Data Security Measures</h2>
+                <p>All data stored on Google Firebase servers in Mumbai. 256-bit SSL encryption. Regular security audits. Access limited to authorized staff only.</p>
+
+                <h2>4. Cookies & Tracking</h2>
+                <p>We use localStorage only for cart and orders. No 3rd party tracking cookies, No Facebook Pixel, No Google Analytics. Your browsing is private.</p>
+
+                <h2>5. Data Sharing Policy</h2
+                
+                <p>We NEVER sell your data. Share only with: Delivery partners for address, Payment gateways for transaction, Government if legally required.</p>
+                                <h2>6. Prescription Privacy</h2>
+                <p>Prescriptions stored securely for 2 years as per Drugs & Cosmetics Act. Accessed only by licensed pharmacist Dr. Sharma. Deleted after 2 years automatically.</p>
+
+                <h2>7. Your Rights</h2>
+                <ul>
+                    <li>Request copy of your data: sakirkhangrnoida@gmail.com</li>
+                    <li>Correct wrong information anytime</li>
+                    <li>Delete account and all data within 30 days</li>
+                    <li>Opt-out of marketing: Reply STOP to WhatsApp 9258751739</li>
+                </ul>
+
+                <h2>8. Children's Privacy</h2>
+                <p>We don't knowingly collect data from children under 18. Orders must be placed by adult with valid ID.</p>
+
+                <h2>9. Policy Updates</h2>
+                <p>We will notify you of major changes via WhatsApp 9258751739 or Email. Continued use means acceptance.</p>
+
+                <h2>10. Contact DPO</h2>
+                <div class="contact-card">
+                    <p><b>Data Protection Officer:</b> Sakir Khan</p>
+                    <p><b>Email:</b> sakirkhangrnoida@gmail.com</p>
+                    <p><b>Phone:</b> 9258751739, 7983006957</p>
+                    <p><b>Address:</b> Village Silapur, Dankaur, Greater Noida - 203201, UP</p>
+                </div>
+            </div>
+
+            <!-- 5. Terms & Conditions -->
+            <div class="content-box" id="terms">
+                <h1>Terms & Conditions - 10 Section Agreement</h1>
+                <p>Please read carefully before using S K Pharmacy services. By ordering, you agree to these terms.</p>
+
+                <h2>1. General Terms</h2>
+                <p>S K Pharmacy is a licensed retail pharmacy operating from Village Silapur, Dankaur, Greater Noida - 203201, UP. License No: UP/2024/12345. Valid till 2029.</p>
+
+                <h2>2. Eligibility</h2>
+                <ul>
+                    <li>Must be 18+ years old with valid government ID</li>
+                    <li>Delivery only in Greater Noida, Dankaur, Silapur region</li>
+                    <li>One account per mobile number 9258751739</li>
+                </ul>
+
+                <h2>3. Prescription Drugs Policy</h2>
+                <p>Schedule H & H1 medicines need valid doctor prescription with registration number. Upload clear photo on WhatsApp 9258751739. Without prescription, order will be cancelled and refunded. We verify all prescriptions with Dr. Rajesh Sharma, our chief pharmacist.</p>
+
+                <h2>4. Pricing & Payment Terms</h2>
+                <ul>
+                    <li>All prices include GST. MRP is maximum retail price.</li>
+                    <li>We accept UPI, Cards, COD, Net Banking, Wallets</li>
+                    <li>COD charges ₹40 extra. Limit ₹2000 for COD</li>
+                    <li>Prices may change without notice. Price at order time is final</li>
+                </ul>
+
+                <h2>5. Order Acceptance & Cancellation</h2>
+                <p>We reserve right to cancel orders due to: Stock out, Pricing error, Suspicious activity, Prescription rejection. You can cancel before 'Shipped' status for full refund.</p>
+
+                <h2>6. Delivery Terms</h2>
+                <p>Same day delivery 9AM-9PM for Greater Noida. Orders after 7PM next day delivery. 3 attempts only. If undelivered, refund after deducting ₹40 shipping.</p>
+
+                <h2>7. Product Quality</h2>
+                <p>All medicines sourced from authorized distributors. 100% genuine with bill. Check batch number, expiry before use. Store as per label instructions.</p>
+
+                <h2>8. User Responsibilities</h2>
+                <ul>
+                    <li>Provide correct address: Village Silapur, Dankaur with PIN 203201</li>
+                    <li>Check expiry date before consumption</li>
+                    <li>Consult doctor before use. Self-medication is risky</li>
+                    <li>Don't share prescription medicines with others</li>
+                </ul>
+
+                <h2>9. Limitation of Liability</h2>
+                <p>We are not responsible for: Wrong self-medication, Allergic reactions, Side effects, Drug interactions. Always consult doctor first. Maximum liability = Order value.</p>
+
+                <h2>10. Governing Law & Disputes</h2>
+                <p>All disputes subject to Greater Noida jurisdiction only. First try resolution via WhatsApp 9258751739. If not resolved, approach Consumer Court Gautam Budh Nagar.</p>
+            </div>
+
+            <!-- 6. Our Team -->
+            <div class="content-box" id="team">
+                <h1>Our Team - S K Pharmacy Family</h1>
+                <p>Meet the people behind your trusted healthcare partner in Greater Noida</p>
+
+                <div class="contact-card">
+                    <h2>👨‍💼 Sakir Khan - Founder & CEO</h2>
+                    <p><b>Experience:</b> 10+ Years in Pharmacy Retail</p>
+                    <p><b>Education:</b> D.Pharma from Govt College, B.Pharma</p>
+                    <p><b>License:</b> UP/2024/12345</p>
+                    <p><b>Mobile:</b> 9258751739, 7983006957</p>
+                    <p><b>Vision:</b> Affordable healthcare for every family in Silapur, Dankaur, Greater Noida</p>
+                    <p><b>Address:</b> Village Silapur, Dankaur, Greater Noida - 203201</p>
+                </div>
+
+                <div class="contact-card">
+                    <h2>👨‍⚕️ Dr. Rajesh Sharma - Chief Pharmacist</h2>
+                    <p><b>Experience:</b> 15+ Years</p>
+                    <p><b>Specialization:</b> Clinical Pharmacy, Drug Interaction</p>
+                    <p><b>Registration:</b> PCI/2010/55678</p>
+                    <p><b>Role:</b> Prescription verification, Patient counseling, Quality check</p>
+                    <p><b>Timing:</b> 10 AM to 8 PM daily</p>
+                </div>
+
+                <div class="contact-card">
+                    <h2>🚚 Delivery Team - 5 Trained Members</h2>
+                    <p><b>Team Lead:</b> Ramesh Kumar - 7983006957</p>
+                    <p><b>Coverage Area:</b> Greater Noida, Dankaur, Silapur, Bilaspur, Rabupura, Kasna</p>
+                    <p><b>Timing:</b> 9 AM to 9 PM, All 7 days including Sunday</p>
+                    <p><b>Training:</b> Cold chain handling, Customer service, Cash handling</p>
+                    <p><b>Vehicles:</b> 3 Bikes with insulated boxes for medicines</p>
+                </div>
+
+                <div class="contact-card">
+                    <h2>📞 Customer Support - 3 Members</h2>
+                    <p><b>Head:</b> Priya Singh</p>
+                    <p><b>Timing:</b> 9 AM to 9 PM</p>
+                    <p><b>Languages:</b> Hindi, English, Local dialect</p>
+                    <p><b>Response Time:</b> Within 2 minutes on WhatsApp 9258751739</p>
+                    <p><b>Services:</b> Order help, Prescription upload, Returns, Complaints</p>
+                </div>
+
+                <div class="contact-card">
+                    <h2>💊 Inventory Team - 2 Members</h2>
+                    <p><b>Role:</b> Stock management, Expiry tracking, Procurement</p>
+                    <p><b>System:</b> Real-time inventory software</p>
+                    <p><b>Quality:</b> Check batch number, expiry, seal before dispatch</p>
+                </div>
+            </div>
+
+            <!-- 7. Help & Support -->
+            <div class="content-box" id="help">
+                <h1>Help & Support Center</h1>
+                <p>We are here to help you 24x7. Average response time: 2 minutes</p>
+
+                <div class="contact-card">
+                    <h2>📞 Instant Support Channels</h2>
+                    <p><b>WhatsApp:</b> 9258751739 - Fastest response</p>
+                    <p><b>Call:</b> 9258751739, 7983006957 - 9AM to 9PM</p>
+                    <p><b>Email:</b> sakirkhangrnoida@gmail.com - Response in 2 hours</p>
+                </div>
+
+                <h2>🔍 Top 10 Common Issues Solved</h2>
+                <details>
+                    <summary>1. Order not delivered yet?</summary>
+                    <div class="details-content">
+                        <p>1. Check live status in <a href="orders.html">Your Orders</a></p>
+                        <p>2. WhatsApp Order ID on 9258751739</p>
+                        <p>3. Delivery boy Ramesh: 7983006957 will call you</p>
+                        <p>4. If delayed, ₹50 coupon as apology</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>2. Payment failed but money deducted?</summary>
+                    <div class="details-content">
+                        <p>1. Wait 24 hours, auto-refund by bank</p>
+                        <p>2. If not received, send screenshot on 9258751739</p>
+                        <p>3. We will manually refund in 48 hours</p>
+                        <p>4. UPI refunds fastest - within 2 hours</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>3. Wrong medicine received?</summary>
+                    <div class="details-content">
+                        <p>1. DON'T USE the medicine</p>
+                        <p>2. Send photo on WhatsApp 9258751739 immediately</p>
+                        <p>3. Free pickup + 100% refund + ₹50 coupon</p>
+                        <p>4. Correct medicine delivered free in 2 hours</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>4. How to upload prescription?</summary>
+                    <div class="details-content">
+                        <p>1. Click camera icon on WhatsApp 9258751739</p>
+                        <p>2. Send clear photo - doctor name, date, signature visible</p>
+                        <p>3. Mention Order ID in message</p>
+                        <p>4. Dr. Sharma will verify in 30 mins</p>
+                        <p>5. You'll get confirmation message</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>5. How to cancel order?</summary>
+                    <div class="details-content">
+                        <p>1. Go to orders.html before 'Shipped' status</p>
+                        <p>2. Click Cancel Order button</p>
+                        <p>3. Instant refund initiated</p>
+                        <p>4. If shipped, refuse delivery for refund</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>6. Medicine expired/damaged?</summary>
+                    <div class="details-content">
+                        <p>1. Send unboxing video on 9258751739</p>
+                        <p>2. 200% refund if expired - double money back</p>
+                        <p>3. Free replacement delivered same day</p>
+                        <p>4. We will blacklist that batch</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>7. COD not available in my area?</summary>
+                    <div class="details-content">
+                        <p>1. COD available in: Silapur, Dankaur, Greater Noida, Bilaspur</p>
+                        <p>2. Other areas: UPI/Card only</p>
+                        <p>3. Minimum COD: ₹199, Maximum: ₹2000</p>
+                        <p>4. COD charge ₹40 extra</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>8. How to use coupon code?</summary>
+                    <div class="details-content">
+                        <p>1. Add items to cart</p>
+                        <p>2. Go to checkout page</p>
+                        <p>3. Enter code in 'Apply Coupon' box</p>
+                        <p>4. Discount auto-applied</p>
+                        <p>5. One coupon per order</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>9. Delivery boy not calling?</summary>
+                    <div class="details-content">
+                        <p>1. Boy will call from 7983006957 before delivery</p>
+                        <p>2. If no call, WhatsApp us 9258751739</p>
+                        <p>3. We will track and update location</p>
+                        <p>4. Ensure your number is reachable</p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>10. Account login problem?</summary>
+                    <div class="details-content">
+                        <p>1. Use mobile number 9258751739 for OTP</p>
+                        <p>2. Check SMS inbox for OTP</p>
+                        <p>3. If no OTP, WhatsApp us</p>
+                        <p>4. We will manually reset your account</p>
+                    </div>
+                </details>
+            </div>
+
+            <!-- 8. Contact Us -->
+            <div class="content-box" id="contact">
+                <h1>Contact Us - S K Pharmacy</h1>
+                <p>Get in touch with us. We're always happy to help!</p>
+
+                <div class="contact-card">
+                    <h2>📞 Call Support - Direct Line</h2>
+                    <p><b>Primary Number:</b> 9258751739 - Sakir Khan</p>
+                    <p><b>Secondary Number:</b> 7983006957 - Ramesh Kumar (Delivery)</p>
+                    <p><b>Timing:</b> 9:00 AM to 9:00 PM, All 7 Days including Sunday</p>
+                    <p><b>Average Pickup:</b> Within 3 rings</p>
+                    <p><b>Languages:</b> Hindi, English, Local</p>
+                </div>
+
+                <div class="contact-card">
+                    <h2>💬 WhatsApp Support - Fastest</h2>
+                    <p><b>Number:</b> 9258751739</p>
+                    <p><b>Use for:</b> Prescription upload, Order tracking, Returns, Quick queries, Complaints</p>
+                    <p><b>Response Time:</b> Within 2 minutes 9AM-9PM</p>
+                    <p><b>After Hours:</b> Reply next morning 9AM</p>
+                    <p><b>Send:</b> Order ID, Photo, Query - we respond fast</p>
+                </div>
+
+                <div class="contact-card">
+                    <h2>📧 Email Support</h2>
+                    <p><b>General Support:</b> sakirkhangrnoida@gmail.com</p>
+                    <p><b>Complaints:</b> support@skpharmacy.com</p>
+                    <p><b>Business Inquiry:</b> business@skpharmacy.com</p>
+                    <p><b>Response Time:</b> Within 2 hours on working days</p>
+                </div>
+
+                <div class="contact-card">
+                    <h2>📍 Store Address - Visit Us</h2>
+                    <p><b>S K Pharmacy</b></p>
+                    <p>Village Silapur, Post Dankaur</p>
+                    <p>Tehsil Dankaur, Greater Noida</p>
+                    <p>District Gautam Budh Nagar</p>
+                    <p>Uttar Pradesh - 203201</p>
+                    <p><b>Landmark:</b> Near Silapur Bus Stand, Opposite Primary School</p>
+                    <p><b>Store Timing:</b> 8 AM to 10 PM Daily</p>
+                </div>
+
+                <div class="contact-card">
+                    <h2>🗺️ Service Area Coverage</h2>
+                    <p><b>Same Day Delivery (Free above ₹499):</b></p>
+                    <p>Greater Noida, Dankaur, Silapur, Bilaspur, Rabupura, Kasna, Surajpur</p>
+                    <p><b>Next Day Delivery:</b></p>
+                    <p>Dadri, Jewar, Noida Extension, Pari Chowk</p>
+                    <p><b>Minimum Order:</b> ₹199 for free delivery in Greater Noida</p>
+                    <p><b>Delivery Boys:</b> 5 trained members with bikes</p>
+                </div>
+
+                <div class="contact-card">
+                    <h2>🕐 Operating Hours</h2>
+                    <p><b>Store:</b> 8:00 AM - 10:00 PM (All days)</p>
+                    <p><b>Phone Support:</b> 9:00 AM - 9:00 PM</p>
+                    <p><b>WhatsApp:</b> 9:00 AM - 9:00 PM (Urgent 24x7)</p>
+                    <p><b>Delivery:</b> 9:00 AM - 9:00 PM</p>
+                    <p><b>Sunday:</b> Full service available</p>
+                </div>
+            </div>
+
+            <!-- 9. Account Settings -->
+            <div class="content-box" id="account">
+                <h1>Account Settings</h1>
+                <p>Manage your login, addresses and security preferences.</p>
+
+                <h2>Login & Security</h2>
+                <ul>
+                    <li><b>Mobile Number:</b> 9258751739 (Primary)</li>
+                    <li><b>Alternate:</b> 7983006957</li>
+                    <li>Change Password</li>
+                    <li>Two-Step Verification via OTP</li>
+                    <li>Login Activity: Last login from Greater Noida</li>
+                </ul>
+
+                <h2>Your Addresses</h2>
+                <div class="contact-card">
+                    <p><b>Default Address:</b><br>
+                    Village Silapur, Dankaur<br>
+                    Greater Noida, UP - 203201<br>
+                    Mobile: 9258751739</p>
+                    <p>Add up to 10 delivery addresses for faster checkout.</p>
+                </div>
+
+                <h2>Payment Options</h2>
+                <ul>
+                    <li>Save UPI: 9258751739@paytm</li>
+                    <li>Saved Cards: Visa ****1234</li>
+                    <li>Net Banking: All banks supported</li>
+                    <li>COD: Available in Silapur, Dankaur</li>
+                    <li>All payment data encrypted & 100% secure</li>
+                </ul>
+
+                <h2>Notification Settings</h2>
+                <ul>
+                    <li>SMS Alerts: ON - 9258751739</li>
+                    <li>WhatsApp Alerts: ON - 9258751739</li>
+                    <li>Email Alerts: ON - sakirkhangrnoida@gmail.com</li>
+                    <li>Order Updates: Instant</li>
+                    <li>Promotional Offers: Weekly</li>
+                </ul>
+
+                <h2>Privacy Controls</h2>
+                <ul>
+                    <li>Download Your Data</li>
+                    <li>Delete Account Permanently</li>
+                    <li>Manage Cookies</li>
+                    <li>Opt-out of Marketing</li>
+                </ul>
+
+                <h2>Need Help?</h2>
+                <p>Email us: sakirkhangrnoida@gmail.com</p>
+                <p>WhatsApp: 9258751739</p>
+                <p>Call: 9258751739, 7983006957</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(index) {
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.content-box').forEach(box => box.classList.remove('active'));
+
+            document.querySelectorAll('.menu-item')[index].classList.add('active');
+            document.querySelectorAll('.content-box')[index].classList.add('active');
+
+            if(window.innerWidth < 768) {
+                document.querySelector('.settings-content').scrollIntoView({behavior: 'smooth'});
+            }
+        }
+
+        // Auto-open tab from URL hash
+        window.onload = function() {
+            const hash = window.location.hash.substring(1);
+            const tabs = ['orders','shipping','returns','privacy','terms','team','help','contact','account'];
+            const index = tabs.indexOf(hash);
+            if(index >= 0) showTab(index);
+
+            // Load order tracking
+            const lastOrder = localStorage.getItem('grnoida_last_order');
+            if(lastOrder) {
+                document.getElementById('tracking').style.display = 'block';
+                const order = JSON.parse(lastOrder);
+                document.getElementById('orderDetails').innerHTML = `
+                    <b>Order ID:</b> ${order.orderId}<br>
+                    <b>Name:</b> ${order.name} | <b>Mobile:</b> ${order.mobile}<br>
+                    <b>Total:</b> ₹${order.total} | ${order.payment}<br>
+                                        <b>Address:</b> ${order.address}, ${order.pin}
+                `;
+                const statusMap = {'Order Placed':1, 'Packed':2, 'Shipped':3, 'Delivered':4};
+                const step = statusMap[order.status] || 1;
+                document.getElementById('progress').style.width = (step-1)*33.33 + '%';
+                document.getElementById('currentStatus').innerText = 'Current Status: ' + order.status;
+                for(let i=1;i<=4;i++){
+                    document.getElementById('s'+i).style.background = i<=step? '#ff9900' : '#ddd';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
