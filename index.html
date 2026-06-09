@@ -1149,32 +1149,36 @@ function updateCartCount(){
   if(el) el.innerText = count;
 }
 updateCartCount();
-// All Button के लिए
+// All Button के लिए - असली Category Filter
 function openSidebar() {
     document.getElementById('sidebarTitle').innerText = 'All Categories';
     document.getElementById('sidebarContent').innerHTML = `
         <p onclick="showAllFres();closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🏷️ All Offers</p>
-        <p onclick="filterCategory('Medicines');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">💊 Medicines</p>
-        <p onclick="filterCategory('Skin Care');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🧴 Skin Care</p>
-        <p onclick="filterCategory('Baby Care');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🍼 Baby Care</p>
-        <p onclick="showOrders();closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📦 Your Orders</p>
+        <p onclick="loadCategory('Medicines');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">💊 Medicines</p>
+        <p onclick="loadCategory('Skin Care');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🧴 Skin Care</p>
+        <p onclick="loadCategory('Baby Care');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🍼 Baby Care</p>
+        <p onclick="loadCategory('Health Care');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">❤️ Health Care</p>
+        <p onclick="location.href='orders.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📦 Your Orders</p>
     `;
     document.getElementById('sidebar').style.left = '0';
     document.getElementById('overlay').style.display = 'block';
 }
 
-// 3 Dot Menu के लिए - Customer Service, Privacy, Terms सब
+// 3 Dot Menu - कल वाली असली Files खुलेंगी
 function openThreeDotMenu() {
     document.getElementById('sidebarTitle').innerText = 'Help & Settings';
     document.getElementById('sidebarContent').innerHTML = `
-        <p onclick="showModal('contact');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📞 Customer Service</p>
-        <p onclick="showModal('privacy');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🔒 Privacy Policy</p>
-        <p onclick="showModal('terms');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📄 Terms & Conditions</p>
-        <p onclick="showModal('refund');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">💰 Refund Policy</p>
-        <p onclick="showSettings();closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">⚙️ Settings</p>
-        <p onclick="showModal('team');closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">👥 Our Team</p>
+        <p onclick="location.href='customer-service.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📞 Customer Service</p>
+        <p onclick="location.href='track-order.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🚚 Track Order</p>
+        <p onclick="location.href='privacy.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🔒 Privacy Policy</p>
+        <p onclick="location.href='terms.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📄 Terms & Conditions</p>
+        <p onclick="location.href='refund.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">💰 Return & Refund</p>
+        <p onclick="location.href='settings.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">⚙️ Settings</p>
+        <p onclick="location.href='team.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">👥 Our Team</p>
+        <p onclick="location.href='help.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">❓ Help & Support</p>
+        <p onclick="location.href='contact.html'" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">📧 Contact Us</p>
         <p onclick="shareWebsite();closeSidebar()" style="padding:12px;cursor:pointer;border-bottom:1px solid #eee;">🔗 Share Website</p>
-        <p onclick="showLoginPage();closeSidebar()" style="padding:12px;cursor:pointer;">🔐 Sign In</p>
+        <p onclick="location.href='login.html'" style="padding:12px;cursor:pointer;">🔐 Sign In</p>
     `;
     document.getElementById('sidebar').style.left = '0';
     document.getElementById('overlay').style.display = 'block';
@@ -1184,6 +1188,106 @@ function closeSidebar() {
     document.getElementById('sidebar').style.left = '-250px';
     document.getElementById('overlay').style.display = 'none';
 }
+
+function shareWebsite() {
+    if (navigator.share) {
+        navigator.share({
+            title: 'S K Pharmacy',
+            text: 'Best Medicines Online - Greater Noida',
+            url: window.location.href
+        });
+    } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link Copied: ' + window.location.href);
+    }
+}
+
+// Google Sheet से Category wise 10 Product Load करना
+function loadCategory(categoryName) {
+    document.getElementById('categoryTitle').innerText = categoryName;
+    document.getElementById('productGrid').innerHTML = '<p style="text-align:center;padding:20px">Loading Products...</p>';
+    
+    // अपनी Google Sheet ID यहां डाल दे
+    const sheetID = 'YOUR_SHEET_ID'; 
+    const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
+    
+    fetch(sheetURL)
+   .then(res => res.text())
+   .then(data => {
+        const json = JSON.parse(data.substr(47).slice(0, -2));
+        const rows = json.table.rows;
+        let html = '';
+        let count = 0;
+        
+        rows.forEach(row => {
+            let c = row.c;
+            let category = c[6]? c[6].v : ''; // Column G = Category
+            
+            if(category == categoryName && count < 10) {
+                let id = c[0]? c[0].v : '';
+                let name = c[1]? c[1].v : '';
+                let price = c[2]? c[2].v : '';
+                let mrp = c[3]? c[3].v : '';
+                let img = c[4]? c[4].v : '';
+                let desc = c[5]? c[5].v : 'No description available';
+                
+                html += `
+                <div onclick="showProductDetail('${id}','${name.replace(/'/g, "\\'")}','${price}','${mrp}','${img}','${desc.replace(/'/g, "\\'")}')" style="border:1px solid #ddd;border-radius:8px;padding:10px;margin:8px;background:#fff;cursor:pointer;">
+                    <img src="${img}" style="width:100%;height:150px;object-fit:contain">
+                    <h4 style="font-size:14px;margin:5px 0;height:35px;overflow:hidden">${name}</h4>
+                    <p style="margin:0"><b>₹${price}</b> <s style="color:#888;font-size:12px">₹${mrp}</s></p>
+                    <button onclick="event.stopPropagation();addToCart('${id}')" style="width:100%;background:#ff9900;border:none;padding:6px;border-radius:4px;margin-top:5px">Add to Cart</button>
+                </div>`;
+                count++;
+            }
+        });
+        
+        if(count == 0) html = '<p style="text-align:center;padding:20px">No Products Found in ' + categoryName + '</p>';
+        document.getElementById('productGrid').innerHTML = html;
+        window.scrollTo(0, 0);
+    });
+}
+
+// Product पे Click करने पे पूरी Detail खुलेगी
+function showProductDetail(id, name, price, mrp, img, desc) {
+    document.getElementById('sidebarTitle').innerText = 'Product Details';
+    document.getElementById('sidebarContent').innerHTML = `
+        <img src="${img}" style="width:100%;height:200px;object-fit:contain;background:#f5f5f5;border-radius:8px">
+        <h3 style="padding:10px 0;margin:5px 0;font-size:16px">${name}</h3>
+        <p style="margin:5px 0"><b style="font-size:22px;color:#B12704">₹${price}</b> 
+        <s style="color:#565959">₹${mrp}</s> 
+        <span style="color:#067D62">${Math.round((mrp-price)*100/mrp)}% off</span></p>
+        <button onclick="addToCart('${id}');closeSidebar()" style="width:100%;background:#FFD814;border:none;padding:12px;border-radius:8px;margin:10px 0;font-weight:bold">Add to Cart</button>
+        <button onclick="buyNow('${id}');closeSidebar()" style="width:100%;background:#FFA41C;border:none;padding:12px;border-radius:8px;margin-bottom:15px;font-weight:bold">Buy Now</button>
+        
+        <h4>About this item</h4>
+        <p style="font-size:14px;line-height:1.6;color:#333">${desc}</p>
+        
+        <h4 style="margin-top:20px">Product Details</h4>
+        <ul style="font-size:14px;line-height:1.8;padding-left:20px">
+            <li>100% Genuine Product</li>
+            <li>Fast Delivery in Greater Noida</li>
+            <li>Cash on Delivery Available</li>
+            <li>7 Days Return Policy</li>
+            <li>FSSAI/Drug License Approved</li>
+            <li>Best Price Guarantee</li>
+            <li>Secure Packaging</li>
+            <li>Easy Returns</li>
+            <li>24x7 Customer Support</li>
+            <li>Prescription Upload Available</li>
+        </ul>
+        
+        <h4 style="margin-top:20px">Delivery Info</h4>
+        <p style="font-size:14px">📍 Check delivery at your pincode<br>🚚 Free delivery on orders above ₹499<br>⚡ Same day delivery in Greater Noida</p>
+    `;
+    document.getElementById('sidebar').style.left = '0';
+    document.getElementById('overlay').style.display = 'block';
+}
+
+function showAllFres() {
+    location.reload();
+}
+
 </script>
 <!-- Sidebar Menu - Dynamic -->
 
