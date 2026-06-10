@@ -278,7 +278,7 @@ color:white;
         <option value="Baby Care">Baby Care</option>
       </select>
       <input type="text" id="searchInput" placeholder="Search S K Pharmacy" style="flex:1;border:none;padding:0 10px;font-size:14px;">
-      <button onclick="searchProducts()" style="background:#febd69;border:none;border-radius:0 4px 4px 0;padding:0 12px;cursor:pointer;">🔍</button>
+      <button style="background:#febd69;border:none;border-radius:0 4px 4px 0;padding:0 10px;">Search</button>
     </div>
 
     <!-- Language -->
@@ -357,12 +357,12 @@ color:white;
   </div>
 </div>
 
-<h2 class="section-title">हमारे प्रमुख प्रोडक्ट्स</h2>
+  <h2 class="section-title">हमारे प्रमुख प्रोडक्ट्स</h2>
+<div id="medicine-search-section"></div>
+ <div class="product-grid" id="sk-product-list">
 
-<div class="product-grid" id="sk-product-list">
-
-  <!-- Product 1 -->
-  <div class="product-card">
+ <!-- Product 1 -->
+   <div class="product-card">
     <img src="24664.png">
     <div class="product-title">Garnier Men AcnoFight</div>
     <div class="product-subtitle">Anti Pimple Face Wash</div>
@@ -1307,5 +1307,20 @@ function showAllFres() {
    style="position:fixed;bottom:20px;right:20px;background:#25D366;color:white;border-radius:50px;padding:12px 16px;font-size:20px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.3);text-decoration:none">
    💬 WhatsApp Order
 </a>
+<script src="medicines.js"></script>
+<script src="search-system.js"></script>
+<script>
+function searchProducts() { return false; } 
+initSearchSystem('medicine-search-section'); 
+
+const searchBox = document.getElementById('searchInput');
+const oldProductList = document.getElementById('sk-product-list');
+if(searchBox && oldProductList) {
+    searchBox.addEventListener('input', function(e) {
+        oldProductList.style.display = e.target.value.trim() === '' ? 'grid' : 'none';
+    });
+}
+</script>
 </body>
-      </html>
+</html>
+    
