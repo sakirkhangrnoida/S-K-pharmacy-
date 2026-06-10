@@ -1491,6 +1491,42 @@ function confirmOrder(id) {
 function openCart() {
   showSnack('Cart feature coming soon');
 }
+// Google Sheet से Auto Products Load करो
+let medicines = []; // पुराना medicines Array हटा के ये लगा दे
+
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR.../pub?output=csv";
+async function loadMedicinesFromSheet() {
+  try {
+    const response = await fetch(SHEET_CSV_URL);
+    const csvText = await response.text();
+    
+    const rows = csvText.split('\n').slice(1); // Heading Row छोड़ दो
+    
+    medicines = rows.map((row, index) => {
+      const [name, company, price, mrp, image, description] = row.split(',');
+      return {
+        id: index + 1,
+        name: name?.trim(),
+        company: company?.trim(),
+        price: Number(price) || 0,
+        mrp: Number(mrp) || 0,
+        image: image?.trim(),
+        description: description?.trim()
+      };
+    }).filter(med => med.name); // खाली Row हटा दो
+    
+    // Products Load होने के बाद Page Refresh कर दो
+    if (typeof renderProducts === 'function') renderProducts();
+    if (typeof displayMedicines === 'function') displayMedicines();
+    
+  } catch (error) {
+    console.log('Sheet load error:', error);
+    showSnack('Products load नहीं हुए, Sheet check करो');
+  }
+}
+
+// Page Load होते ही Sheet से Data ले आओ
+loadMedicinesFromSheet();
 </script>
 </body>
 </html>
