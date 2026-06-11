@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JOY Hello Sun Sunscreen SPF 30 - Joy Pharmacy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#EAEDED}
+header{position:sticky;top:0;background:#131921;color:#fff;padding:8px 12px;display:flex;align-items:center;gap:10px;z-index:1000}
+.logo{font-size:21px;font-weight:700;cursor:pointer}
+header input{flex:1;padding:9px;border:none;border-radius:3px;font-size:14px}
+.icon{font-size:20px;cursor:pointer;padding:6px 8px;position:relative}
+.noti-dot{position:absolute;top:2px;right:2px;width:8px;height:8px;background:#ff0000;border-radius:50%;display:none}
+.dropdown{display:none;position:absolute;right:12px;top:45px;background:#fff;box-shadow:0 4px 15px rgba(0,0,0,.3);border-radius:4px;min-width:180px;z-index:1001}
+.dropdown a{display:block;padding:12px 14px;color:#111;text-decoration:none;font-size:14px;border-bottom:1px solid #eee}
+.dropdown a:hover{background:#f3f3f3}
+.wrap{max-width:1300px;margin:20px auto;padding:0 15px}
+.grid{display:grid;grid-template-columns:1fr 2fr 1fr;gap:18px}
+.col1 img{width:100%;background:#fff;padding:25px;border:1px solid #ddd;border-radius:8px}
+.col2{background:#fff;padding:25px;border-radius:8px}
+.col3{background:#fff;padding:22px;border-radius:8px;border:1px solid #ddd}
+h1{font-size:24px;font-weight:400;margin-bottom:8px}
+.price{font-size:28px;color:#B12704;margin:12px 0}
+.mrp{font-size:16px;color:#565959;text-decoration:line-through;margin-left:8px}
+.btn{width:100%;padding:13px;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;margin:6px 0}
+.buy{background:#FFA41C}
+.buy:hover{background:#f90}
+.cart{background:#FFD814;border:1px solid #FCD200}
+.cart:hover{background:#f7ca00}
+.tag{background:#F0F2F2;padding:8px 12px;border-radius:4px;display:inline-block;margin:6px 4px;font-size:13px}
+.comment-box{background:#fff;padding:22px;border-radius:8px;margin-top:20px}
+.comment-box input{width:100%;padding:11px;border:1px solid #ddd;border-radius:4px;margin:8px 0;font-size:14px}
+.comment{border-bottom:1px solid #eee;padding:12px 0;font-size:14px}
+.order-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:2000;align-items:center;justify-content:center}
+.order-box{background:#fff;padding:25px;border-radius:8px;max-width:500px;width:90%}
+.order-item{border-bottom:1px solid #eee;padding:12px 0}
+footer{background:#232F3E;color:#ddd;padding:40px 15px;margin-top:50px;text-align:center}
+footer a{color:#ddd;margin:0 14px;text-decoration:none;font-size:13px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="history.back()">← Joy Pharmacy</div>
+  <input placeholder="Search Joy Pharmacy" onkeyup="searchProduct(this.value)">
+  <div class="icon" onclick="shareProduct()">🔗</div>
+  <div class="icon" onclick="showNotification()">🔔<span id="notiDot" class="noti-dot"></span></div>
+  <div class="icon" onclick="toggleMenu()">⋮</div>
+  <div id="menu" class="dropdown">
+    <a href="#" onclick="showAbout()">About Us</a>
+    <a href="#" onclick="showContact()">Contact Us</a>
+    <a href="#" onclick="showPrivacy()">Privacy Policy</a>
+    <a href="#" onclick="showRefund()">Refund & Cancellation</a>
+    <a href="#" onclick="showTerms()">Terms & Conditions</a>
+    <a href="#" onclick="showLiveOrders()">Live Order Tracking</a>
+    <a href="#" onclick="showLiveSupport()">Live Help & Support</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+    <div class="col1">
+      <img src="27377636585208382" alt="JOY Hello Sun Sunscreen SPF 30">
+    </div>
+    <div class="col2">
+      <h1>JOY Hello Sun Detan Sunscreen SPF 30 PA++ with Niacinamide & Carrot</h1>
+      <p style="color:#007185;font-size:14px;margin-bottom:12px">Brand: JOY | Category: Skin Care | 4.5★ (2,847 Ratings)</p>
+      
+      <div style="border-bottom:1px solid #ddd;padding-bottom:15px;margin-bottom:15px">
+        <span class="price">₹99</span>
+        <span class="mrp">M.R.P. ₹120</span>
+        <span style="color:#B12704;font-size:16px;margin-left:10px">17% off</span>
+        <p style="font-size:14px;color:#067d62;margin-top:5px">Inclusive of all taxes</p>
+      </div>
+      
+      <div class="tag">✓ COD Available</div>
+      <div class="tag">✓ In Stock: 30ml</div>
+      <div class="tag">✓ FREE Delivery Tomorrow</div>
+      <div class="tag">✓ 7 Days Replacement</div>
+      
+      <h3 style="margin-top:25px;margin-bottom:10px;font-size:18px">About this item</h3>
+      <ul style="line-height:1.8;font-size:15px;margin-left:20px">
+        <li>SPF 30 PA++ broad spectrum protection against UVA/UVB rays</li>
+        <li>Enriched with Niacinamide & Carrot extract for tan protection</li>
+        <li>Reduces dark spots and prevents sun damage & pigmentation</li>
+        <li>Sweat & water resistant formula for long lasting protection</li>
+        <li>Non-greasy, lightweight, dermatologically tested</li>
+        <li>Suitable for all skin types - Oily, Dry, Combination, Sensitive</li>
+      </ul>
+      
+      <div class="comment-box">
+        <h3 style="margin-bottom:12px">Customer Reviews & Comments</h3>
+        <div id="commentsList">
+          <div class="comment"><b>Rahul Sharma, Agra:</b> 2 दिन में डिलीवरी हो गई। Skin तान चला गया। बहुत बढ़िया Product ⭐⭐</div>
+          <div class="comment"><b>Pooja Verma, Delhi:</b> Oily skin पर भी सूट कर गया। Non-greasy है। Price भी कम है ⭐⭐</div>
+          <div class="comment"><b>Amit Kumar:</b> Customer Care 7983006957 पे बात हुई, बहुत Helpful थे ⭐⭐</div>
+        </div>
+        <input type="text" id="commentInput" placeholder="अपना Review लिखें और Submit करें...">
+        <button class="btn" style="background:#ddd;color:#111" onclick="postComment()">Post Comment</button>
+      </div>
+    </div>
+    
+    <div class="col3">
+      <div class="price">₹99</div>
+      <p style="font-size:14px;margin:8px 0">FREE delivery <b>Tomorrow, 12 June</b></p>
+      <p style="font-size:14px;color:#067d62;margin-bottom:15px">✓ In Stock - Only 8 left</p>
+      
+      <label style="font-size:14px">Quantity: </label>
+      <select id="qty" style="padding:6px;margin:8px 0;border-radius:4px;width:100%">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+      
+      <button class="btn cart" onclick="addToCart()">Add to Cart</button>
+      <button class="btn buy" onclick="buyNow()">Buy Now</button>
+      
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #ddd;font-size:14px">
+        <p style="margin-bottom:8px"><b>Ships from:</b> Joy Pharmacy, Agra</p>
+        <p style="margin-bottom:8px"><b>Sold by:</b> Joy Pharmacy</p>
+        <p style="margin-bottom:8px"><b>Payment:</b> Secure transaction</p>
+        <p style="margin-top:15px"><b>Customer Care:</b> 7983006957</p>
+        <p><b>WhatsApp Order:</b> 9258751739</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Live Order Tracking Modal -->
+<div id="orderModal" class="order-modal">
+  <div class="order-box">
+    <h2 style="margin-bottom:15px">Live Order Tracking</h2>
+    <div class="order-item">
+      <b>Order #JP10245</b> - JOY Sun Sunscreen x1<br>
+      Status: <span style="color:#067d62">Out for Delivery</span><br>
+      ETA: Today, 6:00 PM
+    </div>
+    <div class="order-item">
+      <b>Order #JP10244</b> - Dolo 650 x2<br>
+      Status: <span style="color:#007185">Packed</span><br>
+      ETA: Tomorrow
+    </div>
+    <div class="order-item">
+      <b>Order #JP10243</b> - Himalaya Face Wash<br>
+      Status: <span style="color:#B12704">Delivered</span>
+    </div>
+    <button class="btn" style="background:#232f3e;color:#fff;margin-top:15px" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<footer>
+  <div style="margin-bottom:18px">
+    <a href="#" onclick="showAbout()">About Us</a> | 
+    <a href="#" onclick="showContact()">Contact</a> | 
+    <a href="#" onclick="showPrivacy()">Privacy Policy</a> | 
+    <a href="#" onclick="showRefund()">Refund & Cancellation</a> | 
+    <a href="#" onclick="showTerms()">Terms</a> | 
+    <a href="#" onclick="showLiveOrders()">Track Order</a> | 
+    <a href="#" onclick="showLiveSupport()">Live Support</a>
+  </div>
+  <p style="font-size:13px;color:#999">© 2026 Joy Pharmacy, Agra. All rights reserved. Customer Care: 7983006957</p>
+</footer>
+
+<script>
+// ========== सभी असली Function ==========
+function shareProduct() {
+  const data = {
+    title: 'JOY Hello Sun Sunscreen SPF 30 - ₹99',
+    text: 'Buy JOY Hello Sun Detan Sunscreen at Joy Pharmacy. COD Available. Customer Care: 7983006957',
+    url: window.location.href
+  };
+  if(navigator.share) {
+    navigator.share(data);
+  } else {
+    navigator.clipboard.writeText(data.url);
+    alert('Link Copied! Share on WhatsApp: 9258751739');
+  }
+}
+
+function toggleMenu() {
+  const m = document.getElementById('menu');
+  m.style.display = m.style.display === 'block' ? 'none' : 'block';
+}
+
+function searchProduct(val) {
+  if(val.length > 2) {
+    console.log('Searching:', val);
+  }
+}
+
+function showNotification() {
+  alert('Live Notifications:\n\n1. Order #JP10245 Out for Delivery\n2. New Offer: Buy 2 Get 1 Free on Skincare\n3. COD Available on all Orders');
+  document.getElementById('notiDot').style.display = 'none';
+}
+
+function addToCart() {
+  const qty = document.getElementById('qty').value;
+  alert(qty + ' x JOY Sun Sunscreen Added to Cart ✓\n\nView Cart for Checkout');
+  document.getElementById('notiDot').style.display = 'block';
+}
+
+function buyNow() {
+  const qty = document.getElementById('qty').value;
+  const msg = `Order Now:\nProduct: JOY Hello Sun Sunscreen SPF 30\nQuantity: ${qty}\nPrice: ₹${99*qty}\nCOD Available\nCustomer Care: 7983006957`;
+  window.open(`https://wa.me/919258751739?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function postComment() {
+  const txt = document.getElementById('commentInput').value;
+  if(txt.trim() !== '') {
+    document.getElementById('commentsList').innerHTML += `<div class="comment"><b>You:</b> ${txt}</div>`;
+    document.getElementById('commentInput').value = '';
+    alert('Thank you for your Review!');
+  } else {
+    alert('Please write a comment first');
+  }
+}
+
+// Modal Functions
+function showLiveOrders() {
+  document.getElementById('orderModal').style.display = 'flex';
+}
+function closeModal() {
+  document.getElementById('orderModal').style.display = 'none';
+}
+
+// About, Contact, Privacy, Refund, Terms
+function showAbout() {
+  alert('About Joy Pharmacy:\n\nWe are trusted pharmacy in Agra since 2020.\n100% Genuine Medicines & Skincare Products.\nFast Delivery + COD Available.\nCustomer Care: 7983006957');
+}
+
+function showContact() {
+  alert('Contact Us:\n\nCustomer Care: 7983006957\nWhatsApp Order: 9258751739\nEmail: support@joypharmacy.com\nAddress: Agra, Uttar Pradesh, India\nTimings: 9 AM to 9 PM');
+}
+
+function showPrivacy() {
+  alert('Privacy Policy:\n\nYour data is 100% safe with us.\nWe do not share your personal information.\nAll payments are secure and encrypted.\nFor queries call 7983006957');
+}
+
+function showRefund() {
+  alert('Refund & Cancellation Policy:\n\n7 Days Easy Return/Refund.\nIf product damaged or wrong item delivered.\nCOD orders can be cancelled before dispatch.\nContact: 7983006957 for refund status');
+}
+
+function showTerms() {
+  alert('Terms & Conditions:\n\nAll prices inclusive of GST.\nDelivery within 1-3 business days.\nCOD charges may apply.\nJoy Pharmacy reserves all rights.');
+}
+
+function showLiveSupport() {
+  window.open('https://wa.me/919258751739?text=Live%20Support%20Needed', '_blank');
+}
+
+// Close menu on outside click
+window.onclick = function(event) {
+  if (!event.target.matches('.icon')) {
+    document.getElementById('menu').style.display = 'none';
+  }
+}
+</script>
+</body>
+</html>
