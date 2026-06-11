@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JOY Sunscreen - S K Pharmacy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#EAEDED}
+header{position:sticky;top:0;background:#131921;color:#fff;padding:8px 12px;display:flex;align-items:center;gap:10px;z-index:1000}
+.logo{font-size:21px;font-weight:700;cursor:pointer}
+.icon{font-size:20px;cursor:pointer;padding:6px 8px;position:relative}
+.noti-dot{position:absolute;top:2px;right:2px;width:8px;height:8px;background:#ff0000;border-radius:50%;display:none}
+.wrap{max-width:1300px;margin:20px auto;padding:0 15px}
+.grid{display:grid;grid-template-columns:1fr 2fr 1fr;gap:18px}
+.col1 img{width:100%;background:#fff;padding:25px;border:1px solid #ddd;border-radius:8px}
+.col2{background:#fff;padding:25px;border-radius:8px}
+.col3{background:#fff;padding:22px;border-radius:8px;border:1px solid #ddd}
+h1{font-size:24px;font-weight:400}
+.price{font-size:28px;color:#B12704;margin:12px 0}
+.mrp{font-size:16px;color:#565959;text-decoration:line-through;margin-left:8px}
+.btn{width:100%;padding:13px;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;margin:6px 0}
+.buy{background:#FFA41C}
+.cart{background:#FFD814;border:1px solid #FCD200}
+
+/* Sidebar Menu - तेरे Screenshot जैसा */
+.sidebar{display:none;position:fixed;left:0;top:0;width:280px;height:100%;background:#fff;z-index:2000;box-shadow:2px 0 10px rgba(0,0,0,0.3);overflow-y:auto}
+.sidebar.active{display:block}
+.sidebar-header{background:#131921;color:#fff;padding:15px;font-size:18px;font-weight:600}
+.sidebar a{display:flex;align-items:center;gap:12px;padding:14px 16px;color:#111;text-decoration:none;border-bottom:1px solid #eee;font-size:15px;cursor:pointer}
+.sidebar a:hover{background:#f3f3f3}
+.overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1999}
+.overlay.active{display:block}
+
+/* अलग-अलग Page Section */
+.page-section{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:3000;overflow-y:auto;padding:20px}
+.page-section.active{display:block}
+.back-btn{font-size:24px;cursor:pointer;margin-bottom:15px;color:#131921}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="toggleSidebar()">☰ S K Pharmacy</div>
+  <input placeholder="Search S K Pharmacy" style="flex:1;padding:9px;border:none;border-radius:3px" readonly>
+  <div class="icon" onclick="shareProduct()">🔗</div>
+  <div class="icon" onclick="openPage('notification')">🔔<span id="notiDot" class="noti-dot"></span></div>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+    <div class="col1">
+      <img src="joy" alt="JOY Sunscreen">
+    </div>
+    <div class="col2">
+      <h1>JOY Hello Sun Detan Sunscreen SPF 30 PA++</h1>
+      <p style="color:#007185;font-size:14px;margin:12px 0">Brand: JOY | 4.5★ (2,847 Ratings)</p>
+      <span class="price">₹99</span>
+      <span class="mrp">₹120</span>
+      <div style="margin:20px 0">
+        <p>✓ SPF 30 PA++ broad spectrum protection</p>
+        <p>✓ Niacinamide & Carrot extract</p>
+        <p>✓ Non-greasy, dermatologically tested</p>
+      </div>
+    </div>
+    <div class="col3">
+      <div class="price">₹99</div>
+      <p style="font-size:14px">FREE delivery Tomorrow</p>
+      <select id="qty" style="padding:6px;margin:12px 0;width:100%">
+        <option>1</option><option>2</option><option>3</option>
+      </select>
+      <button class="btn cart" onclick="addToCart()">Add to Cart</button>
+      <button class="btn buy" onclick="buyNow()">Buy Now</button>
+      <div style="margin-top:20px;font-size:14px">
+        <p><b>Sold by:</b> S K Pharmacy</p>
+        <p><b>Address:</b> Greater Noida, Dankaur, Silapur Village, PIN 203201</p>
+        <p><b>Care:</b> 7983006957</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar Menu - तेरे Screenshot जैसा -->
+<div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">Help & Settings <span style="float:right;cursor:pointer" onclick="toggleSidebar()">✕</span></div>
+  <a onclick="openPage('orders')">📦 Your Orders</a>
+  <a onclick="openPage('track')">🚚 Track Order</a>
+  <a onclick="openPage('privacy')">🔒 Privacy Policy</a>
+  <a onclick="openPage('terms')">📄 Terms & Conditions</a>
+  <a onclick="openPage('refund')">↩️ Return & Refund</a>
+  <a onclick="openPage('contact')">📞 Contact Us</a>
+  <a onclick="shareProduct()">🔗 Share Website</a>
+</div>
+
+<!-- अलग-अलग Page Sections -->
+<div id="orders" class="page-section">
+  <div class="back-btn" onclick="closePage('orders')">← Back</div>
+  <h2>Your Orders</h2>
+  <div style="border:1px solid #ddd;padding:15px;margin:10px 0;border-radius:5px">
+    <b>Order #SK10245</b><br>JOY Sun Sunscreen x1<br>Status: Out for Delivery
+  </div>
+  <div style="border:1px solid #ddd;padding:15px;margin:10px 0;border-radius:5px">
+    <b>Order #SK10244</b><br>Dolo 650 x2<br>Status: Delivered
+  </div>
+</div>
+
+<div id="track" class="page-section">
+  <div class="back-btn" onclick="closePage('track')">← Back</div>
+  <h2>Track Order</h2>
+  <input placeholder="Enter Order ID" style="width:100%;padding:12px;margin:10px 0;border:1px solid #ddd">
+  <button class="btn" style="background:#131921;color:#fff" onclick="document.getElementById('notiDot').style.display='block'">Track</button>
+  <div style="margin-top:20px">
+    <p><b>Order #SK10245:</b> Out for Delivery - ETA Today 6PM</p>
+  </div>
+</div>
+
+<div id="privacy" class="page-section">
+  <div class="back-btn" onclick="closePage('privacy')">← Back</div>
+  <h2>Privacy Policy</h2>
+  <p>Your data is 100% safe with S K Pharmacy.</p>
+  <p>We do not share your personal information.</p>
+  <p>All payments are secure and encrypted.</p>
+  <p>Address: Greater Noida, Dankaur, Silapur Village, PIN 203201</p>
+</div>
+
+<div id="terms" class="page-section">
+  <div class="back-btn" onclick="closePage('terms')">← Back</div>
+  <h2>Terms & Conditions</h2>
+  <p>All prices inclusive of GST.</p>
+  <p>Delivery within 1-3 business days.</p>
+  <p>COD available on all orders.</p>
+</div>
+
+<div id="refund" class="page-section">
+  <div class="back-btn" onclick="closePage('refund')">← Back</div>
+  <h2>Return & Refund</h2>
+  <p>7 Days Easy Return/Refund Policy</p>
+  <p>1. Damaged or wrong item delivered</p>
+  <p>2. COD can be cancelled before dispatch</p>
+  <p>3. Refund in 3-5 business days</p>
+  <p>Contact: 7983006957</p>
+</div>
+
+<div id="contact" class="page-section">
+  <div class="back-btn" onclick="closePage('contact')">← Back</div>
+  <h2>Contact Us</h2>
+  <p><b>Customer Care:</b> 7983006957</p>
+  <p><b>WhatsApp:</b> 9258751739</p>
+  <p><b>Address:</b> Uttar Pradesh, Greater Noida, Dankaur, Silapur Village, PIN 203201</p>
+  <button class="btn" style="background:#25D366;color:#fff" onclick="window.open('https://wa.me/919258751739')">Chat on WhatsApp</button>
+</div>
+
+<div id="notification" class="page-section">
+  <div class="back-btn" onclick="closePage('notification')">← Back</div>
+  <h2>Notifications</h2>
+  <p style="background:#e7f3ff;padding:12px;border-radius:5px">🔔 Order #SK10245 Out for Delivery</p>
+  <p style="background:#fff3cd;padding:12px;border-radius:5px">🎉 Buy 2 Get 1 Free on Skincare</p>
+</div>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+
+function openPage(id) {
+  document.getElementById(id).classList.add('active');
+  toggleSidebar();
+}
+
+function closePage(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+function shareProduct() {
+  if(navigator.share) {
+    navigator.share({title:'S K Pharmacy', text:'Buy medicines online', url:window.location.href});
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+  }
+}
+
+function addToCart() {
+  document.getElementById('notiDot').style.display='block';
+  openPage('notification');
+}
+
+function buyNow() {
+  const qty = document.getElementById('qty').value;
+  window.open(`https://wa.me/919258751739?text=Order%20JOY%20Sunscreen%20Qty:${qty}%20Address:%20Greater%20Noida%20PIN%20203201`, '_blank');
+}
+</script>
+</body>
+</html>
