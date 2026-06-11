@@ -1208,3 +1208,180 @@ function logoutUser() {
   toggleAllMenu();
   setTimeout(() => location.reload(), 500);
 }
+// ===== CONFIG - 1 बार सेट कर भूल जा =====
+const WHATSAPP = '919258751739';
+const CARE = '7983006957';
+
+// ===== SMART PRODUCT PAGE =====
+function openProductPage(name) {
+  const p = PRODUCT_LINKS[name];
+  if(!p) return;
+
+  history.pushState(null, '', `#product=${encodeURIComponent(name)}`);
+
+  // Rule: layout = "new" है तो Amazon Page, वरना पुराना Page
+  if(p.layout && p.layout.toLowerCase() === 'new') {
+    renderNewProductPage(name, p);
+  } else {
+    // पुराना Page - 3 Dot/All नहीं छेड़ेंगे
+    if(typeof showProductDetails === 'function') showProductDetails(name);
+    else alert(name + '\n₹' + p.price);
+  }
+}
+
+// ===== नया Amazon Style Page - Auto सब कुछ =====
+function renderNewProductPage(name, p) {
+  const discount = p.mrp > p.price? Math.round((p.mrp - p.price) * 100 / p.mrp) : 0;
+
+  document.body.innerHTML = `
+  <div style="font-family:Arial, sans-serif;background:#eaeded;min-height:100vh;">
+
+    <!-- Header - Search + 3 Dot + Share -->
+    <div style="background:#131921;color:white;padding:8px 10px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;flex-wrap:wrap;">
+      <div onclick="goHome()" style="cursor:pointer;font-weight:bold;font-size:20px;white-space:nowrap;">S K <span style="color:#ff9900;">Pharmacy</span></div>
+      <div style="flex:1;min-width:200px;display:flex;max-width:600px;">
+        <select id="searchCat" style="border-radius:4px 0 0 4px;border:none;padding:5px;background:#f3f3f3;">
+          <option value="all">All</option><option>Medicines</option><option>Skin Care</option><option>General</option>
+        </select>
+        <input type="text" id="searchBox" placeholder="Search S K Pharmacy" style="flex:1;border:none;padding:8px;" onkeypress="if(event.key==='Enter')searchNow()">
+        <button onclick="searchNow()" style="background:#febd69;border:none;padding:0 15px;border-radius:0 4px 4px 0;cursor:pointer;font-size:18px;">🔍</button>
+      </div>
+      <div onclick="shareProduct('${name}')" style="cursor:pointer;font-size:22px;" title="Share">🔗</div>
+      <div onclick="open3DotMenu()" style="cursor:pointer;font-size:24px;" title="All Settings">⋮</div>
+    </div>
+
+    <!-- Product Body -->
+    <div style="max-width:1200px;margin:20px auto;background:white;padding:20px;display:flex;gap:30px;flex-wrap:wrap;border-radius:4px;">
+
+      <!-- Left Image -->
+      <div style="flex:1;min-width:300px;text-align:center;">
+        <img src="${p.image}" onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'" style="max-width:100%;height:400px;object-fit:contain;border:1px solid #ddd;padding:10px;border-radius:4px;">
+      </div>
+
+      <!-- Right Details -->
+      <div style="flex:2;min-width:300px;">
+        <h1 style="font-size:24px;margin:0 0 10px;line-height:1.4;">${name}</h1>
+        <p style="color:#565959;font-size:14px;">Brand: S K Pharmacy | Category: ${p.category}</p>
+
+        <div style="border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:15px 0;margin:15px 0;">
+          <div style="color:#B12704;font-size:32px;">
+            ${discount > 0? `<span style="background:#CC0C39;color:white;font-size:14px;padding:2px 6px;border-radius:2px;">-${discount}%</span> ` : ''}
+            ₹${p.price}
+          </div>
+          ${p.mrp > p.price? `<div style="color:#565959;font-size:14px;">M.R.P.: <s>₹${p.mrp}</s></div>` : ''}
+          <p style="font-size:13px;color:#565959;margin:5px 0;">Inclusive of all taxes</p>
+        </div>
+
+        <!-- Real Buttons - No Alert -->
+        <div style="margin:20px 0;">
+          <button onclick="addToCart('${name}')" style="background:#FFD814;border:none;padding:12px 0;border-radius:8px;font-size:16px;cursor:pointer;margin:5px 0;width:100%;max-width:250px;font-weight:bold;box-shadow:0 2px 5px rgba(0,0,0,0.1);">🛒 Add to Cart</button>
+          <button onclick="buyNow('${name}')" style="background:#FFA41C;border:none;padding:12px 0;border-radius:8px;font-size:16px;cursor:pointer;margin:5px 0;width:100%;max-width:250px;font-weight:bold;box-shadow:0 2px 5px rgba(0,0,0,0.1);">⚡ Buy Now</button>
+        </div>
+
+        <!-- Contact - Real Numbers -->
+        <div style="margin-top:20px;padding:15px;background:#f0f2f2;border-radius:8px;border-left:4px solid #ff9900;">
+          <div style="margin:8px 0;"><b>Customer Care:</b> <a href="tel:${CARE}" style="color:#007185;text-decoration:none;font-size:16px;">${CARE}</a></div>
+          <div style="margin:8px 0;"><b>WhatsApp Order:</b> <a href="https://wa.me/${WHATSAPP}?text=Order ${name} - ₹${p.price}" target="_blank" style="color:#007185;text-decoration:none;font-size:16px;">${WHATSAPP}</a></div>
+          <div style="margin:8px 0;"><b>Live Help & Support:</b> <a href="https://wa.me/${WHATSAPP}" target="_blank" style="color:#007185;text-decoration:none;">Click to Chat</a></div>
+        </div>
+
+        <!-- About -->
+        <div style="margin-top:30px;border-top:1px solid #ddd;padding-top:20px;">
+          <h3>About this item</h3>
+          <p style="line-height:1.6;color:#0F1111;">${p.description || 'No description available'}</p>
+          <ul style="line-height:1.8;color:#0F1111;">
+            <li>✓ 100% Genuine Product</li>
+            <li>✓ Fast Delivery in Agra</li>
+            <li>✓ Cash on Delivery Available</li>
+            <li>✓ 7 Days Return/Refund Policy</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer - Auto हर नए Product में -->
+    <div style="background:#232f3e;color:white;padding:30px 10px;margin-top:50px;">
+      <div style="max-width:1000px;margin:auto;display:flex;gap:40px;flex-wrap:wrap;justify-content:space-around;text-align:left;">
+        <div>
+          <b>Get to Know Us</b><br>
+          <a style="color:#ddd;text-decoration:none;line-height:2;" href="#" onclick="showPage('About Us')">About Us</a><br>
+          <a style="color:#ddd;text-decoration:none;line-height:2;" href="#" onclick="showPage('Contact')">Contact Us</a>
+        </div>
+        <div>
+          <b>Help & Policies</b><br>
+          <a style="color:#ddd;text-decoration:none;line-height:2;" href="#" onclick="showPage('Privacy Policy')">Privacy Policy</a><br>
+          <a style="color:#ddd;text-decoration:none;line-height:2;" href="#" onclick="showPage('Refund Policy')">Refund Policy</a><br>
+          <a style="color:#ddd;text-decoration:none;line-height:2;" href="#" onclick="showPage('Terms')">Terms & Conditions</a>
+        </div>
+        <div>
+          <b>Order & Support</b><br>
+          <a style="color:#ddd;text-decoration:none;line-height:2;" href="#" onclick="showPage('Track Order')">Track Order Live</a><br>
+          <a style="color:#ddd;text-decoration:none;line-height:2;" href="https://wa.me/${WHATSAPP}" target="_blank">Live Help & Support</a>
+        </div>
+        <div>
+          <b>Connect</b><br>
+          <a style="color:#ddd;text-decoration:none;line-height:2;" href="tel:${CARE}">Call: ${CARE}</a><br>
+          <a style="color:#ddd;text-decoration:none;line-height:2;" href="https://wa.me/${WHATSAPP}" target="_blank">WhatsApp</a>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:20px;padding-top:20px;border-top:1px solid #3a4553;color:gray;font-size:13px;">
+        © 2026 S K Pharmacy - Greater Noida | Live Notification On | Share करें
+      </div>
+    </div>
+  </div>`;
+  window.scrollTo(0,0);
+}
+
+// ===== 3 Dot Menu - All Settings =====
+function open3DotMenu() {
+  document.body.innerHTML += `
+  <div onclick="this.remove()" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;display:flex;justify-content:flex-end;">
+    <div onclick="event.stopPropagation()" style="background:white;width:280px;height:100%;padding:20px;overflow-y:auto;box-shadow:-2px 0 10px rgba(0,0,0,0.2);">
+      <h3 style="margin-top:0;border-bottom:2px solid #ff9900;padding-bottom:10px;">All Settings</h3>
+      <div onclick="showPage('About Us')" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">About Us</div>
+      <div onclick="showPage('Contact')" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">Contact Support</div>
+      <div onclick="showPage('Privacy Policy')" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">Privacy Policy</div>
+      <div onclick="showPage('Refund Policy')" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">Refund Policy</div>
+      <div onclick="showPage('Terms')" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">Terms & Conditions</div>
+      <div onclick="showPage('Track Order')" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">Track Order Live</div>
+      <div onclick="window.open('https://wa.me/${WHATSAPP}','_blank')" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">Live Help & Support</div>
+      <div onclick="shareProduct('S K Pharmacy')" style="padding:12px;border-bottom:1px solid #eee;cursor:pointer;">Share Website</div>
+    </div>
+  </div>`;
+}
+
+// ===== Search - Real काम करेगा =====
+function searchNow() {
+  const query = document.getElementById('searchBox').value.toLowerCase().trim();
+  const cat = document.getElementById('searchCat').value;
+
+  if(query === '') { goHome(); return; }
+
+  const results = Object.keys(PRODUCT_LINKS).filter(name => {
+    const p = PRODUCT_LINKS[name];
+    return (name.toLowerCase().includes(query) || (p.description||'').toLowerCase().includes(query))
+           && (cat === 'all' || p.category === cat);
+  });
+
+  if(results.length === 0) {
+    alert('"' + query + '" नहीं मिला');
+    return;
+  }
+
+  // Search Results दिखा दे
+  document.body.innerHTML = `
+  <div style="padding:20px;">
+    <div style="background:#131921;color:white;padding:10px;display:flex;gap:10px;">
+      <div onclick="goHome()" style="cursor:pointer;">← Back</div>
+      <div>Search: ${query}</div>
+    </div>
+    <h2 style="margin:20px 0;">${results.length} Product मिले</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px;">
+      ${results.map(n => {
+        const p = PRODUCT_LINKS[n];
+        return `<div onclick="openProductPage('${n}')" style="border:1px solid #ddd;padding:10px;cursor:pointer;border-radius:4px;text-align:center;">
+          <img src="${p.image}" style="width:100%;height:150px;object-fit:contain;">
+          <p style="font-size:14px;margin:5px 0;">${n}</p>
+          <b style="color:#B12704;">₹${p.price}</b>
+        </div>`;
+      }). 
