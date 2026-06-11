@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JOY Lemon Face Wash - S K Pharmacy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#EAEDED}
+header{position:sticky;top:0;background:#131921;color:#fff;padding:8px 12px;display:flex;align-items:center;gap:10px;z-index:1000}
+.logo{font-size:21px;font-weight:700;cursor:pointer}
+.icon{font-size:20px;cursor:pointer;padding:6px 8px;position:relative}
+.noti-dot{position:absolute;top:2px;right:2px;width:8px;height:8px;background:#ff0000;border-radius:50%;display:none}
+.wrap{max-width:1300px;margin:20px auto;padding:0 15px}
+.grid{display:grid;grid-template-columns:1fr 2fr 1fr;gap:18px}
+.col1{background:#fff;padding:20px;border-radius:8px}
+.col2{background:#fff;padding:25px;border-radius:8px}
+.col3{background:#fff;padding:22px;border-radius:8px;border:1px solid #ddd}
+h1{font-size:24px;font-weight:400}
+.price{font-size:28px;color:#B12704;margin:12px 0}
+.mrp{font-size:16px;color:#565959;text-decoration:line-through;margin-left:8px}
+.btn{width:100%;padding:13px;border:none;border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;margin:6px 0}
+.buy{background:#FFA41C}
+.cart{background:#FFD814;border:1px solid #FCD200}
+.img-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:15px}
+.img-grid img{width:100%;border:1px solid #ddd;border-radius:4px;background:#fff;padding:8px}
+.sidebar{display:none;position:fixed;left:0;top:0;width:280px;height:100%;background:#fff;z-index:2000;box-shadow:2px 0 10px rgba(0,0,0,0.3);overflow-y:auto}
+.sidebar.active{display:block}
+.sidebar-header{background:#131921;color:#fff;padding:15px;font-size:18px;font-weight:600}
+.sidebar a{display:flex;align-items:center;gap:12px;padding:14px 16px;color:#111;text-decoration:none;border-bottom:1px solid #eee;font-size:15px;cursor:pointer}
+.sidebar a:hover{background:#f3f3f3}
+.overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1999}
+.overlay.active{display:block}
+.page-section{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:3000;overflow-y:auto;padding:20px}
+.page-section.active{display:block}
+.back-btn{font-size:24px;cursor:pointer;margin-bottom:15px;color:#131921}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="toggleSidebar()">☰ S K Pharmacy</div>
+  <input placeholder="Search S K Pharmacy" style="flex:1;padding:9px;border:none;border-radius:3px" readonly>
+  <div class="icon" onclick="shareProduct()">🔗</div>
+  <div class="icon" onclick="openPage('notification')">🔔<span id="notiDot" class="noti-dot"></span></div>
+</header>
+
+<!-- News Ticker - Fogg जैसा ऊपर चलने वाला -->
+<div style="background:#232F3E;color:#fff;padding:6px 0;overflow:hidden;white-space:nowrap;font-size:13px">
+  <marquee behavior="scroll" direction="left" scrollamount="5">
+    🚚 FREE Delivery on Orders above ₹199 | 🎉 Buy 2 Get 1 Free on Skincare | 💊 100% Genuine Products | 📞 WhatsApp Order: 9258751739 | 🏦 COD Available Greater Noida PIN 203201
+  </marquee>
+</div>
+
+<div class="wrap">
+  <div class="grid">
+    <div class="col1">
+      <!-- 4 फोटो Grid - Fogg जैसा -->
+      <div class="img-grid">
+        <img src="joy-lemon1.png" alt="Front View">
+        <img src="joy-lemon2.png" alt="Back View">
+        <img src="joy-lemon3.png" alt="Ingredients">
+        <img src="joy-lemon4.png" alt="How to Use">
+      </div>
+    </div>
+    <div class="col2">
+      <h1>JOY Skin Fruits Brightening Lemon Face Wash 50ml</h1>
+      <p style="color:#007185;font-size:14px;margin:12px 0">Brand: JOY | Category: Face Wash | 4.4★ (1,245 Ratings)</p>
+      
+      <span class="price">₹195</span>
+      <span class="mrp">₹125</span>
+      <span style="color:#B12704;font-size:16px;margin-left:8px">12% off</span>
+      <p style="font-size:14px;color:#067d62;margin-top:5px">Inclusive of all taxes</p>
+      
+      <!-- Offer Banner - Fogg जैसा पीला पट्टा -->
+      <div style="background:#FFC72C;color:#111;padding:8px;text-align:center;font-weight:600;margin:15px 0;border-radius:4px">
+        🔥 Buy Now & Get 5 S K Coins = ₹5 Cashback
+      </div>
+      
+      <h3 style="margin-top:20px;margin-bottom:10px">About this item</h3>
+      <ul style="line-height:1.8;font-size:15px;margin-left:20px">
+        <li>EXFOLIATES • DETANS • BRIGHTENS - Removes dullness, dirt and tan</li>
+        <li>Made with natural lemon extracts - Famous for brightening properties</li>
+        <li>Controls excess oil production & unclogs pores</li>
+        <li>Sulphate free cleansers - Gentle on skin</li>
+        <li>Reveals brighter, fresher skin with natural glow</li>
+        <li>Suitable for normal to oily skin</li>
+      </ul>
+      
+      <!-- Bank Offer + Cashback - Fogg जैसा -->
+      <div style="border-top:1px solid #ddd;padding-top:12px;margin-top:15px;font-size:13px;line-height:1.6">
+        <p>🏦 Bank Offer: 10% Instant Discount on SBI Card Min ₹500</p>
+        <p>💰 Cashback: Get ₹5 back on UPI Payment</p>
+        <p>🎁 Site Offer: Buy 2 Face Wash Get 5% Extra Off</p>
+      </div>
+    </div>
+    
+    <div class="col3">
+      <div class="price">₹79</div>
+      <p style="font-size:14px">FREE delivery Tomorrow</p>
+      <p style="font-size:14px;color:#067d62">✓ In Stock - Only 15 left</p>
+      
+      <label style="font-size:14px">Quantity: </label>
+      <select id="qty" style="padding:6px;margin:8px 0;border-radius:4px;width:100%">
+        <option>1</option><option>2</option><option>3</option>
+      </select>
+      
+      <button class="btn cart" onclick="addToCart()">Add to Cart</button>
+      <button class="btn buy" onclick="buyNow()">Buy Now</button>
+      
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #ddd;font-size:14px">
+        <p style="margin-bottom:8px"><b>Sold by:</b> S K Pharmacy</p>
+        <p style="margin-bottom:8px"><b>Address:</b> Greater Noida, Dankaur, Silapur Village, PIN 203201</p>
+        <p style="margin-bottom:8px"><b>Customer Care:</b> 7983006957</p>
+        <p><b>WhatsApp:</b> 9258751739</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar Menu -->
+<div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">Help & Settings <span style="float:right;cursor:pointer" onclick="toggleSidebar()">✕</span></div>
+  <a onclick="openPage('orders')">📦 Your Orders</a>
+  <a onclick="openPage('track')">🚚 Track Order</a>
+  <a onclick="openPage('privacy')">🔒 Privacy Policy</a>
+  <a onclick="openPage('terms')">📄 Terms & Conditions</a>
+  <a onclick="openPage('refund')">↩️ Return & Refund</a>
+  <a onclick="openPage('contact')">📞 Contact Us</a>
+  <a onclick="shareProduct()">🔗 Share Website</a>
+</div>
+
+<!-- अलग-अलग Page Sections -->
+<div id="orders" class="page-section"><div class="back-btn" onclick="closePage('orders')">← Back</div><h2>Your Orders</h2><div style="border:1px solid #ddd;padding:15px;margin:10px 0">Order #SK10246 - JOY Lemon Face Wash x1<br>Status: Packed</div></div>
+<div id="track" class="page-section"><div class="back-btn" onclick="closePage('track')">← Back</div><h2>Track Order</h2><input placeholder="Enter Order ID" style="width:100%;padding:12px;margin:10px 0;border:1px solid #ddd"><button class="btn" style="background:#131921;color:#fff" onclick="document.getElementById('notiDot').style.display='block'">Track</button></div>
+<div id="privacy" class="page-section"><div class="back-btn" onclick="closePage('privacy')">← Back</div><h2>Privacy Policy</h2><p>Your data is 100% safe with S K Pharmacy. Address: Greater Noida, Dankaur, Silapur Village, PIN 203201</p></div>
+<div id="terms" class="page-section"><div class="back-btn" onclick="closePage('terms')">← Back</div><h2>Terms & Conditions</h2><p>All prices inclusive of GST. Delivery 1-3 days. COD available.</p></div>
+<div id="refund" class="page-section"><div class="back-btn" onclick="closePage('refund')">← Back</div><h2>Return & Refund</h2><p>7 Days Easy Return. Contact: 7983006957</p></div>
+<div id="contact" class="page-section"><div class="back-btn" onclick="closePage('contact')">← Back</div><h2>Contact Us</h2><p><b>Customer Care:</b> 7983006957<br><b>WhatsApp:</b> 9258751739<br><b>Address:</b> Greater Noida, Dankaur, Silapur Village, PIN 203201</p><button class="btn" style="background:#25D366;color:#fff" onclick="window.open('https://wa.me/919258751739')">Chat on WhatsApp</button></div>
+<div id="notification" class="page-section"><div class="back-btn" onclick="closePage('notification')">← Back</div><h2>Notifications</h2><p style="background:#e7f3ff;padding:12px;border-radius:5px">🔔 New Product Added: JOY Lemon Face Wash</p></div>
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('active');
+  document.getElementById('overlay').classList.toggle('active');
+}
+function openPage(id) {
+  document.getElementById(id).classList.add('active');
+  toggleSidebar();
+}
+function closePage(id) {
+  document.getElementById(id).classList.remove('active');
+}
+function shareProduct() {
+  if(navigator.share) {
+    navigator.share({title:'JOY Lemon Face Wash - ₹79', text:'Buy at S K Pharmacy COD Available', url:window.location.href});
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    document.getElementById('notiDot').style.display='block';
+  }
+}
+function addToCart() {
+  document.getElementById('notiDot').style.display='block';
+  openPage('notification');
+}
+function buyNow() {
+  const qty = document.getElementById('qty').value;
+  const msg = `Order Now:\nProduct: JOY Lemon Face Wash 50ml\nQuantity: ${qty}\nPrice: ₹${79*qty}\nAddress: Greater Noida, Dankaur, Silapur Village, PIN 203201\nCOD Available\nCustomer Care: 7983006957`;
+  window.open(`https://wa.me/919258751739?text=${encodeURIComponent(msg)}`, '_blank');
+}
+</script>
+</body>
+  </html>
