@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const FAST2SMS_API = "यहां_तेरी_API_KEY_डाल_दे";
+const FAST2SMS_API ="38lAJiVFE0QvLWbu4ZpC5roetzYBMhcRPg7jyDwsxKmIf2S1Un6YAtjzugeZivpLF51cmnIUqol4J7fP
 
 let currentOTP = "";
 let currentMobile = "";
