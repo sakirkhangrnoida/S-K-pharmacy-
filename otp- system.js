@@ -1,6 +1,7 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
+// 🔥 तेरा Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyD2EOywrcF8vJUXnsmF5PA3t3inW79UX8Y",
   authDomain: "grnoida-store.firebaseapp.com",
@@ -13,58 +14,120 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const FAST2SMS_API ="38lAJiVFE0QvLWbu4ZpC5roetzYBMhcRPg7jyDwsxKmIf2S1Un6YAtjzugeZivpLF51cmnIUqol4J7fP
 
-let currentOTP = "";
-let currentMobile = "";
+// 🔑 तेरी Fast2SMS API Key - Screenshot से डाली
+const FAST2SMS_API = "38IAJiVFE0QvLWbu4ZpC5roetzYBMhcRI";
+
 let currentProduct = "";
+let currentPrice = 0;
+let currentQty = 1;
+let currentMobile = "";
+let currentOTP = "";
 
 window.startOTP = function(productName, price, qty) {
   currentProduct = productName;
-  window.qty = qty;
-  window.price = price;
+  currentPrice = price;
+  currentQty = qty;
   document.getElementById('otpPopup').style.display = 'flex';
   document.getElementById('productName').innerText = productName;
   document.getElementById('productPrice').innerText = price * qty;
+  document.getElementById('msg').innerText = "";
+  document.getElementById('msg').className = "";
+  document.getElementById('otpBox').style.display = 'none';
+  document.getElementById('sendBtn').innerText = 'OTP भेजो';
+  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('mobileInput').value = '';
+  document.getElementById('otpInput').value = '';
 }
 
 window.sendOTP = async function() {
   const mobile = document.getElementById('mobileInput').value;
-  if(mobile.length != 10) { alert("10 Digit Mobile डालो"); return; }
+  const msg = document.getElementById('msg');
+  const sendBtn = document.getElementById('sendBtn');
+  
+  if(mobile.length != 10 || isNaN(mobile)) {
+    msg.innerText = "10 Digit Mobile Number डालो";
+    msg.className = "error";
+    msg.style.display = "block";
+    return;
+  }
+  
+  sendBtn.disabled = true;
+  sendBtn.innerText = "भेज रहे हैं...";
+  msg.style.display = "none";
   
   currentMobile = mobile;
   currentOTP = Math.floor(100000 + Math.random() * 900000);
   
   await set(ref(db, 'otps/' + mobile), {otp: currentOTP, time: Date.now()});
-  fetch(`https://www.fast2sms.com/dev/bulkV2?authorization=${FAST2SMS_API}&route=otp&variables_values=${currentOTP}&numbers=${mobile}`);
+  
+  await fetch(`https://www.fast2sms.com/dev/bulkV2?authorization=${FAST2SMS_API}&route=otp&variables_values=${currentOTP}&numbers=${mobile}`);
   
   document.getElementById('otpBox').style.display = 'block';
-  document.getElementById('sendBtn').style.display = 'none';
-  alert("OTP भेज दिया ✅ 2 मिनट Valid");
+  sendBtn.innerText = 'OTP भेज दिया ✅';
+  msg.innerText = 'OTP भेज दिया, SMS Check करो';
+  msg.className = "success";
+  msg.style.display = "block";
 }
 
 window.verifyOTP = async function() {
   const inputOTP = document.getElementById('otpInput').value;
-  const snapshot = await get(ref(db, 'otps/' + currentMobile));
+  const msg = document.getElementById('msg');
+  const verifyBtn = document.getElementById('verifyBtn');
   
-  if(!snapshot.exists() || (Date.now() - snapshot.val().time) > 120000) {
-    alert("OTP Expire हो गया ❌"); return;
+  if(inputOTP.length != 6) {
+    msg.innerText = "6 Digit OTP डालो";
+    msg.className = "error";
+    msg.style.display = "block";
+    return;
   }
   
-  if(inputOTP == snapshot.val().otp) {
-    const msg = `Order Confirmed ✅%0AProduct: ${currentProduct}%0AMobile: ${currentMobile}%0AQty: ${window.qty}%0APrice: ₹${window.price*window.qty}%0AAddress: Greater Noida, PIN 203201`;
-    window.open(`https://wa.me/919258751739?text=${msg}`, '_blank');
-    set(ref(db, 'otps/' + currentMobile), null);
-    closePopup();
+  verifyBtn.disabled = true;
+  verifyBtn.innerText = "Verify कर रहे हैं...";
+  
+  const snapshot = await get(ref(db, 'otps/' + currentMobile));
+  
+  if(!snapshot.exists()) {
+    msg.innerText = "OTP Expire हो गया, दोबारा भेजो";
+    msg.className = "error";
+    msg.style.display = "block";
+    verifyBtn.disabled = false;
+    verifyBtn.innerText = "Verify करो";
+    return;
+  }
+  
+  const data = snapshot.val();
+  if(Date.now() - data.time > 120000) {
+    await remove(ref(db, 'otps/' + currentMobile));
+    msg.innerText = "OTP Expire हो गया, दोबारा भेजो";
+    msg.className = "error";
+    msg.style.display = "block";
+    verifyBtn.disabled = false;
+    verifyBtn.innerText = "Verify करो";
+    return;
+  }
+  
+  if(inputOTP == data.otp) {
+    await remove(ref(db, 'otps/' + currentMobile));
+    msg.innerText = "Order Confirm ✅ WhatsApp खुल रहा है";
+    msg.className = "success";
+    const total = currentPrice * currentQty;
+    const whatsappMsg = `Order Confirmed ✅%0AProduct: ${currentProduct}%0AQty: ${currentQty}%0ATotal: ₹${total}%0AMobile: ${currentMobile}`;
+    setTimeout(() => {
+      // 📱 तेरा WhatsApp - 9258751739
+      window.open(`https://wa.me/919258751739?text=${whatsappMsg}`, '_blank');
+      closePopup();
+    }, 1000);
   } else {
-    alert("गलत OTP ❌ दोबारा डालो");
+    msg.innerText = "गलत OTP है, दोबारा डालो";
+    msg.className = "error";
+    msg.style.display = "block";
+    document.getElementById('otpInput').value = '';
+    verifyBtn.disabled = false;
+    verifyBtn.innerText = "Verify करो";
   }
 }
 
 window.closePopup = function() {
   document.getElementById('otpPopup').style.display = 'none';
-  document.getElementById('otpBox').style.display = 'none';
-  document.getElementById('sendBtn').style.display = 'block';
-  document.getElementById('mobileInput').value = '';
-  document.getElementById('otpInput').value = '';
-}
+      }
