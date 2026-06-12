@@ -113,6 +113,20 @@ window.verifyOTP = async function() {
     msg.className = "success";
     const total = currentPrice * currentQty;
     const whatsappMsg = `Order Confirmed ✅%0AProduct: ${currentProduct}%0AQty: ${currentQty}%0ATotal: ₹${total}%0AMobile: ${currentMobile}`;
+    117   // Firebase में Order Save - Admin Dashboard के लिए
+  const orderId = 'ORD' + Date.now();
+   await set(ref(db, 'orders/' + orderId), {
+   orderId: orderId,
+   product: currentProduct,
+    price: currentPrice,
+     qty: currentQty,
+    mobile: currentMobile,
+    address: "COD Order",
+   payment: "COD",
+    status: "Order Placed",
+     total: total,
+     time: Date.now()
+ });
     setTimeout(() => {
       // 📱 तेरा WhatsApp - 9258751739
       window.open(`https://wa.me/919258751739?text=${whatsappMsg}`, '_blank');
