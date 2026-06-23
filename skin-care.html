@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skin Care Products - S K Pharmacy</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
+body { background:#f8f9fa; }
+#header { position:sticky; top:0; z-index:1000; background:#131921; color:white; }
+.top-bar { display:flex; align-items:center; padding:8px 15px; gap:10px; }
+.logo { font-size:24px; font-weight:bold; color:#4CAF50; cursor:pointer; }
+.search-bar { flex:1; display:flex; margin:0 10px; }
+.search-bar select { padding:8px; border:none; background:#f3f3f3; border-radius:4px 0 0 4px; }
+.search-bar input { flex:1; padding:8px; border:none; }
+.search-bar button { padding:8px 15px; background:#ff9900; border:none; border-radius:0 4px 4px 0; cursor:pointer; }
+#navbar { background:#232f3e; padding:8px 15px; display:flex; gap:15px; font-size:13px; overflow-x:auto; }
+#navbar span { color:white; cursor:pointer; padding:5px 8px; white-space:nowrap; }
+#navbar span.active { border:1px solid #ff9900; color:#ff9900; font-weight:bold; }
+
+.container { max-width:1200px; margin:20px auto; padding:0 15px; }
+.banner { background:linear-gradient(90deg, #007185 0%, #00a8cc 100%); color:white; padding:30px; border-radius:8px; margin-bottom:30px; }
+.banner h1 { font-size:32px; margin-bottom:8px; }
+.banner p { font-size:16px; opacity:0.9; }
+
+.product-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:20px; }
+.product-card { background:white; border-radius:8px; padding:15px; box-shadow:0 2px 5px rgba(0,0,0,0.1); transition:0.3s; }
+.product-card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.15); transform:translateY(-3px); }
+.product-img { width:100%; height:180px; object-fit:contain; margin-bottom:10px; }
+.product-name { font-size:14px; color:#0f1111; font-weight:600; margin-bottom:5px; min-height:40px; }
+.product-desc { font-size:12px; color:#565959; margin-bottom:8px; }
+.price { font-size:18px; color:#B12704; font-weight:bold; margin-bottom:8px; }
+.old-price { font-size:14px; color:#565959; text-decoration:line-through; margin-left:8px; }
+
+.btn { width:100%; padding:10px; border:none; border-radius:20px; font-weight:bold; cursor:pointer; margin-top:5px; font-size:13px; }
+.btn-orange { background:#ffa41c; color:#0f1111; }
+.btn-green { background:#25D366; color:white; }
+
+#footer { background:#232f3e; color:#ddd; margin-top:50px; padding:30px 0; text-align:center; }
+.whatsapp-float { position:fixed; bottom:20px; right:20px; background:#25D366; color:white; padding:12px 20px; border-radius:50px; text-decoration:none; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.3); z-index:999; }
+
+@media(max-width:768px) { .product-grid { grid-template-columns:repeat(2, 1fr); gap:12px; } }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="top-bar">
+    <div class="logo" onclick="window.location='index.html'">SK Pharmacy</div>
+    <div class="search-bar">
+      <select><option>All</option></select>
+      <input type="text" placeholder="Search S K Pharmacy">
+      <button>Search</button>
+    </div>
+  </div>
+  <nav id="navbar">
+    <span onclick="window.location='index.html'">☰ All</span>
+    <span onclick="window.location='index.html'">Medicines</span>
+    <span class="active">Skin Care</span>
+    <span onclick="window.location='index.html'">Baby Care</span>
+    <span onclick="window.location='index.html'">Health+</span>
+    <span onclick="window.location='customer-service.html'">Customer Service</span>
+    <span onclick="window.location='index.html'">Pharmacy</span>
+    <span onclick="window.location='sell.html'">Sell</span>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="banner">
+    <h1>Skin Care Collection</h1>
+    <p>Up to 30% Off on Face Wash, Cream, Oil & More | 24x7 Delivery</p>
+  </div>
+
+  <div class="product-grid">
+    
+    <div class="product-card">
+      <img src="https://via.placeholder.com/200x180?text=Garnier+AcnoFight" class="product-img" alt="Garnier Men AcnoFight">
+      <div class="product-name">Garnier Men AcnoFight</div>
+      <div class="product-desc">Anti Pimple Face Wash 100ml</div>
+      <div class="price">₹130 <span class="old-price">₹180</span></div>
+      <button class="btn btn-orange" onclick="window.location='product-garnier.html'">View Details</button>
+      <button class="btn btn-green" onclick="window.open('https://wa.me/9258751739?text=Garnier+AcnoFight+Order')">Order Now</button>
+    </div>
+
+    <div class="product-card">
+      <img src="https://via.placeholder.com/200x180?text=Nivea+Men" class="product-img" alt="Nivea Men Charcoal">
+      <div class="product-name">Nivea Men Charcoal</div>
+      <div class="product-desc">Deep Clean Face Wash 100ml</div>
+      <div class="price">₹150 <span class="old-price">₹210</span></div>
+      <button class="btn btn-orange" onclick="window.location='product-nivea.html'">View Details</button>
+      <button class="btn btn-green" onclick="window.open('https://wa.me/9258751739?text=Nivea+Men+Charcoal+Order')">Order Now</button>
+    </div>
+
+    <div class="product-card">
+      <img src="https://via.placeholder.com/200x180?text=Kesh+Shine" class="product-img" alt="Kesh Shine Oil">
+      <div class="product-name">Kesh Shine Oil</div>
+      <div class="product-desc">Ayurvedic Hair Oil 200ml</div>
+      <div class="price">₹199 <span class="old-price">₹299</span></div>
+      <button class="btn btn-orange" onclick="window.location='product-kesh.html'">View Details</button>
+      <button class="btn btn-green" onclick="window.open('https://wa.me/9258751739?text=Kesh+Shine+Oil+Order')">Order Now</button>
+    </div>
+
+    <div class="product-card">
+      <img src="https://via.placeholder.com/200x180?text=Indulekha" class="product-img" alt="Indulekha Bringha">
+      <div class="product-name">Indulekha Bringha</div>
+      <div class="product-desc">Hair Fall Control Shampoo</div>
+      <div class="price">₹199 <span class="old-price">₹250</span></div>
+      <button class="btn btn-orange" onclick="alert('Product Page Coming Soon')">View Details</button>
+      <button class="btn btn-green" onclick="window.open('https://wa.me/9258751739?text=Indulekha+Order')">Order Now</button>
+    </div>
+
+  </div>
+</div>
+
+<a href="https://wa.me/9258751739" class="whatsapp-float">💬 WhatsApp Order</a>
+
+<footer id="footer">
+  <p>© 2026 S K Pharmacy, Greater Noida | 24x7 Customer Support: 7983006957</p>
+</footer>
+
+</body>
+</html>
