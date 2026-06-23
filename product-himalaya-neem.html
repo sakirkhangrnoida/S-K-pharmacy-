@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Himalaya Purifying Neem Face Wash - S K Pharmacy</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
+body { background:#fff; }
+#header { position:sticky; top:0; z-index:1000; background:#131921; color:white; padding:8px 15px; }
+.logo { font-size:22px; font-weight:bold; color:#4CAF50; cursor:pointer; }
+.container { max-width:1200px; margin:20px auto; padding:0 15px; display:grid; grid-template-columns:40% 60%; gap:30px; }
+.product-img { width:100%; max-height:500px; object-fit:contain; border:1px solid #ddd; border-radius:8px; padding:20px; }
+.product-title { font-size:24px; color:#0f1111; font-weight:600; margin-bottom:10px; }
+.rating { color:#ffa41c; margin:8px 0; }
+.price { font-size:28px; color:#B12704; font-weight:bold; margin:15px 0; }
+.old-price { color:#565959; text-decoration:line-through; font-size:18px; }
+.btn { width:100%; padding:14px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin-top:10px; font-size:16px; transition:0.2s; }
+.btn-cart { background:#ffd814; color:#0f1111; }
+.btn-cart:active { background:#f7ca00; }
+.btn-buy { background:#ffa41c; color:#0f1111; }
+.btn-buy:active { background:#f08804; }
+.tracking { background:#f0f8ff; border:1px solid #007185; padding:15px; border-radius:8px; margin:20px 0; }
+.tracking h3 { color:#007185; margin-bottom:8px; font-size:16px; }
+.share-btn { background:#e7f3ff; border:1px solid #007185; color:#007185; padding:8px 15px; border-radius:20px; cursor:pointer; margin-right:8px; font-size:14px; }
+.comment-box { border-top:1px solid #ddd; margin-top:30px; padding-top:20px; }
+.comment-input { width:100%; padding:10px; border:1px solid #ddd; border-radius:4px; margin-top:10px; }
+.like-btn { background:none; border:none; font-size:20px; cursor:pointer; vertical-align:middle; }
+.like-count { font-size:14px; color:#565959; }
+.like-btn.liked { color:#ff0000; }
+.gift-card { background:#fff7e6; border:1px dashed #ff9900; padding:12px; border-radius:6px; margin:15px 0; font-size:14px; }
+#toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#232f3e; color:white; padding:12px 20px; border-radius:6px; display:none; z-index:9999; }
+#settings-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; }
+.settings-content { background:white; padding:25px; border-radius:8px; width:90%; max-width:400px; }
+.comment-item { border-bottom:1px solid #eee; padding:12px 0; }
+#footer { background:#232f3e; color:#ddd; margin-top:50px; padding:25px 0; text-align:center; font-size:13px; }
+.footer-links { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-bottom:10px; }
+.footer-links a { color:#ddd; text-decoration:none; }
+.footer-links a:hover { color:#ff9900; }
+@media(max-width:768px) { .container { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="logo" onclick="window.location='index.html'">SK Pharmacy</div>
+</header>
+
+<div class="container">
+  <div>
+    <img src="images/himalaya-neem.jpg" class="product-img" alt="Himalaya Neem">
+    <button class="like-btn" id="likeBtn">♡</button> 
+    <span class="like-count"><span id="likeCount">528</span> Likes</span>
+  </div>
+  
+  <div>
+    <div class="product-title">Himalaya Purifying Neem Face Wash - With Neem & Turmeric for Clear Skin - 100ml</div>
+    <div class="rating">★★ 4.6 (12,000 ratings)</div>
+    
+    <div class="price">₹135 <span class="old-price">₹165</span> <span style="color:green;font-size:14px">18% off</span></div>
+    <p style="color:#007185;font-size:14px">Inclusive of all taxes</p>
+    <p style="margin:10px 0"><b>Delivery:</b> Free Delivery by Tomorrow, Greater Noida</p>
+    
+    <div class="tracking">
+      <h3>📦 Live Tracking Status</h3>
+      <p>Order Placed ✓ → Packed → Shipped → Out for Delivery → Delivered</p>
+      <p style="font-size:13px;color:#565959;margin-top:5px">Buy करने के बाद WhatsApp पे Tracking Link भेज देंगे</p>
+    </div>
+
+    <button class="btn btn-cart" id="addCartBtn">🛒 Add to Cart</button>
+    <button class="btn btn-buy" id="buyNowBtn">⚡ Buy Now</button>
+    
+    <div class="gift-card">
+      🎁 <b>Gift Card Available</b> - ₹100 से ₹5000 तक का Gift Card
+    </div>
+    
+    <div style="margin:20px 0">
+      <button class="share-btn" id="shareBtn">📤 Share</button>
+      <button class="share-btn" id="settingsBtn">⚙️ Settings</button>
+    </div>
+
+    <h3 style="margin-top:30px">Product Details</h3>
+    <ul style="margin:10px 0 20px 20px; line-height:1.8; color:#565959">
+      <li>Neem + Turmeric - 100% Herbal Actives</li>
+      <li>Pimples को रोकता है</li>
+      <li>Excess Oil & Dirt Clean करता है</li>
+      <li>Oily & Acne Prone Skin के लिए Best</li>
+      <li>No Parabens, No SLS</li>
+    </ul>
+
+    <div class="comment-box">
+      <h3>Customer Reviews</h3>
+      <input type="text" class="comment-input" id="commentInput" placeholder="Write a review...">
+      <button class="btn btn-cart" id="postCommentBtn" style="width:auto;padding:8px 20px;margin-top:8px">Post</button>
+      <div id="commentsList" style="margin-top:15px">
+        <div class="comment-item"><b>Sneha R.</b> ★★ <p>2 महीने से use कर रही हूं, pimples कम हो गए।</p></div>
+        <div class="comment-item"><b>Karan M.</b> ★★ <p>Oily skin के लिए best face wash।</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer id="footer">
+  <div class="footer-links">
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="cs-refund.html">Refund</a>
+    <a href="customer-service.html">Customer Service</a>
+    <a href="#" id="footerShare">Share</a>
+  </div>
+  <p style="margin-top:10px">© 2026 S K Pharmacy, Greater Noida | Customer Care: 9258751739</p>
+</footer>
+
+<div id="toast"></div>
+
+<div id="settings-modal">
+  <div class="settings-content">
+    <h3 style="margin-bottom:15px">Settings</h3>
+    <label><input type="checkbox" id="notifyToggle" checked> Order Notifications</label><br><br>
+    <label>Theme: 
+      <select id="themeSelect">
+        <option>Light</option>
+        <option>Dark</option>
+      </select>
+    </label><br><br>
+    <button class="btn btn-cart" onclick="closeSettings()" style="width:100%">Close</button>
+  </div>
+</div>
+
+<script>
+const product = { id: 'himalaya-neem', name: 'Himalaya Purifying Neem Face Wash 100ml', price: 135, img: 'images/himalaya-neem.jpg' };
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2000);
+}
+
+// Add to Cart - LocalStorage
+document.getElementById('addCartBtn').onclick = () => {
+  let cart = JSON.parse(localStorage.getItem('sk_cart') || '[]');
+  let item = cart.find(i => i.id === product.id);
+  if(item) item.qty += 1;
+  else cart.push({...product, qty: 1});
+  localStorage.setItem('sk_cart', JSON.stringify(cart));
+  showToast('Cart में Add हो गया ✓');
+};
+
+// Buy Now - WhatsApp
+document.getElementById('buyNowBtn').onclick = () => {
+  window.open('https://wa.me/9258751739?text=Buy+' + encodeURIComponent(product.name) + '+Qty:1');
+};
+
+// Like Button
+let likes = parseInt(localStorage.getItem('like_himalaya-neem') || '528');
+let liked = localStorage.getItem('liked_himalaya-neem') === 'true';
+const likeBtn = document.getElementById('likeBtn');
+const likeCount = document.getElementById('likeCount');
+if(liked) { likeBtn.textContent = '❤️'; likeBtn.classList.add('liked'); }
+likeCount.textContent = likes;
+
+likeBtn.onclick = () => {
+  liked = !liked;
+  likes = liked ? likes + 1 : likes - 1;
+  likeBtn.textContent = liked ? '❤️' : '♡';
+  likeBtn.classList.toggle('liked');
+  likeCount.textContent = likes;
+  localStorage.setItem('like_himalaya-neem', likes);
+  localStorage.setItem('liked_himalaya-neem', liked);
+};
+
+// Share
+document.getElementById('shareBtn').onclick = document.getElementById('footerShare').onclick = () => {
+  if(navigator.share) {
+    navigator.share({ title: product.name, text: 'S K Pharmacy से खरीदें', url: window.location.href });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    showToast('Link Copy हो गया');
+  }
+};
+
+// Settings Modal
+document.getElementById('settingsBtn').onclick = () => {
+  document.getElementById('settings-modal').style.display = 'flex';
+};
+function closeSettings() {
+  document.getElementById('settings-modal').style.display = 'none';
+  showToast('Settings Saved');
+}
+
+// Comment Post
+document.getElementById('postCommentBtn').onclick = () => {
+  const input = document.getElementById('commentInput');
+  const text = input.value.trim();
+  if(!text) return;
+  const div = document.createElement('div');
+  div.className = 'comment-item';
+  div.innerHTML = `<b>You</b> ★★ <p>${text}</p>`;
+  document.getElementById('commentsList').prepend(div);
+  input.value = '';
+  showToast('Review Posted ✓');
+};
+
+// Settings Save
+document.getElementById('notifyToggle').onchange = e => localStorage.setItem('notify', e.target.checked);
+document.getElementById('themeSelect').onchange = e => localStorage.setItem('theme', e.target.value);
+</script>
+</body>
+</html>
