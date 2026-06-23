@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Service - S K Pharmacy</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
+body { background:#007185; }
+#header { position:sticky; top:0; z-index:1000; background:#131921; color:white; }
+.top-bar { display:flex; align-items:center; padding:8px 15px; gap:10px; }
+.logo { font-size:24px; font-weight:bold; color:#4CAF50; cursor:pointer; }
+#navbar { background:#232f3e; padding:8px 15px; display:flex; gap:15px; font-size:13px; overflow-x:auto; }
+#navbar span { color:white; cursor:pointer; padding:5px 8px; white-space:nowrap; }
+#navbar span.active { border:1px solid #ff9900; color:#ff9900; font-weight:bold; }
+.cs-container { max-width:1100px; margin:0 auto; padding:40px 20px; }
+.cs-title { color:white; font-size:28px; font-weight:700; margin-bottom:8px; }
+.cs-subtitle { color:#e6f3f7; font-size:16px; margin-bottom:30px; }
+.cs-grid { display:flex; flex-direction:column; gap:12px; }
+.cs-box { background:white; border-radius:8px; padding:18px 20px; display:flex; align-items:center; gap:15px; cursor:pointer; transition:0.2s; }
+.cs-box:hover { transform:translateX(5px); box-shadow:0 4px 8px rgba(0,0,0,0.2); }
+.cs-icon { font-size:28px; width:40px; }
+.cs-text { font-size:16px; color:#0f1111; font-weight:500; }
+.search-box { background:white; padding:20px; border-radius:8px; margin-top:40px; }
+.search-box h3 { font-size:20px; margin-bottom:15px; }
+.search-box input { width:100%; padding:12px; border:2px solid #ddd; border-radius:4px; }
+#footer { background:#232f3e; color:#ddd; margin-top:50px; }
+.back-top { background:#37475a; text-align:center; padding:15px; cursor:pointer; color:white; }
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="top-bar">
+    <div class="logo" onclick="window.location='index.html'">SK Pharmacy</div>
+  </div>
+  <nav id="navbar">
+    <span onclick="window.location='index.html'">☰ All</span>
+    <span onclick="window.location='index.html'">Medicines</span>
+    <span onclick="window.location='index.html'">Skin Care</span>
+    <span onclick="window.location='index.html'">Baby Care</span>
+    <span onclick="window.location='index.html'">Health+</span>
+    <span class="active">Customer Service</span>
+    <span onclick="window.location='index.html'">Pharmacy</span>
+    <span onclick="window.location='sell.html'">Sell</span>
+  </nav>
+</header>
+
+<div class="cs-container">
+  <h1 class="cs-title">S K Pharmacy Customer Service में आपका स्वागत है</h1>
+  <p class="cs-subtitle">नीचे दिए विकल्पों में से चुनें, हम मदद करेंगे</p>
+  
+  <div class="cs-grid">
+    <div class="cs-box" onclick="window.location='cs-delivery.html'">
+      <div class="cs-icon">📦</div>
+      <div class="cs-text">Delivery, Order या Return</div>
+    </div>
+    
+    <div class="cs-box" onclick="window.location='cs-login.html'">
+      <div class="cs-icon">🔑</div>
+      <div class="cs-text">Login / Sign in में समस्या</div>
+    </div>
+    
+    <div class="cs-box" onclick="window.location='cs-payment.html'">
+      <div class="cs-icon">💳</div>
+      <div class="cs-text">Payment, UPI, COD की समस्या</div>
+    </div>
+    
+    <div class="cs-box" onclick="window.location='cs-address.html'">
+      <div class="cs-icon">📍</div>
+      <div class="cs-text">Address बदलना / Delivery Location</div>
+    </div>
+    
+    <div class="cs-box" onclick="window.location='cs-medicine.html'">
+      <div class="cs-icon">💊</div>
+      <div class="cs-text">Medicine की जानकारी / Side Effects</div>
+    </div>
+    
+    <div class="cs-box" onclick="window.location='cs-prescription.html'">
+      <div class="cs-icon">📋</div>
+      <div class="cs-text">Prescription Upload कैसे करें</div>
+    </div>
+    
+    <div class="cs-box" onclick="window.location='cs-refund.html'">
+      <div class="cs-icon">💰</div>
+      <div class="cs-text">Refund Status Check करें</div>
+    </div>
+    
+    <div class="cs-box" onclick="window.location='cs-account.html'">
+      <div class="cs-icon">👤</div>
+      <div class="cs-text">Account Settings & Privacy</div>
+    </div>
+    
+    <div class="cs-box" onclick="window.location='cs-other.html'">
+      <div class="cs-icon">❓</div>
+      <div class="cs-text">अन्य समस्या / General Query</div>
+    </div>
+    
+    <div class="cs-box" onclick="window.location='cs-report.html'">
+      <div class="cs-icon">⚠️</div>
+      <div class="cs-text">Fake Medicine की शिकायत</div>
+    </div>
+    
+    <div class="cs-box" onclick="window.location='tel:7983006957'">
+      <div class="cs-icon">📞</div>
+      <div class="cs-text">24x7 Call करें: 7983006957</div>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <h3>Help Library में Search करें</h3>
+    <input type="text" placeholder="जैसे: order नहीं आया, payment fail">
+  </div>
+</div>
+
+<footer id="footer">
+  <div class="back-top" onclick="window.scrollTo(0,0)">Back to top</div>
+</footer>
+
+</body>
+</html>
