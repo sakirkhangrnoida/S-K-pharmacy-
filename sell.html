@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sell on S K Pharmacy</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
+body { background:#f8f9fa; }
+
+/* Fixed Header - index.html वाला ही */
+#header { position:sticky; top:0; z-index:1000; background:#131921; color:white; }
+.top-bar { display:flex; align-items:center; padding:8px 15px; gap:10px; }
+.logo { font-size:24px; font-weight:bold; color:#4CAF50; cursor:pointer; }
+.deliver { font-size:12px; }
+.search-box { flex:1; display:flex; }
+.search-box input { flex:1; padding:10px; border:none; border-radius:4px 0 0 4px; }
+.search-box button { padding:10px 15px; background:#febd69; border:none; border-radius:0 4px 4px 0; cursor:pointer; }
+.header-right { display:flex; gap:15px; font-size:13px; }
+.header-right div { cursor:pointer; }
+
+/* Navbar - Sell Active */
+#navbar { background:#232f3e; padding:8px 15px; display:flex; gap:20px; }
+#navbar a { color:white; text-decoration:none; font-size:14px; cursor:pointer; padding:5px 8px; }
+#navbar a:hover { border:1px solid white; border-radius:2px; }
+#navbar a.active { border:1px solid #ff9900; color:#ff9900; font-weight:bold; }
+
+/* Content */
+.container { max-width:1400px; margin:0 auto; padding:20px; }
+.banner-img { width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); margin:30px 0; }
+
+/* Contact CTA */
+.contact-cta { background:#232f3e; padding:40px 20px; text-align:center; margin-top:40px; }
+.contact-cta h2 { color:white; font-size:28px; margin-bottom:15px; }
+.contact-cta p { color:#ccc; font-size:16px; margin-bottom:25px; }
+.btn-group { display:flex; gap:15px; justify-content:center; flex-wrap:wrap; }
+.btn { padding:14px 30px; border-radius:25px; text-decoration:none; font-weight:bold; font-size:16px; display:inline-block; }
+.btn-orange { background:#ff9900; color:#111; }
+.btn-green { background:#25D366; color:white; }
+
+/* Footer - index.html वाला ही */
+#footer { background:#232f3e; color:#ddd; margin-top:50px; }
+.back-top { background:#37475a; text-align:center; padding:15px; cursor:pointer; color:white; }
+.footer-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:30px; padding:40px 20px; max-width:1200px; margin:0 auto; }
+.footer-col h4 { color:white; margin-bottom:12px; }
+.footer-col a { display:block; color:#ddd; text-decoration:none; font-size:13px; margin:8px 0; cursor:pointer; }
+.footer-col a:hover { text-decoration:underline; }
+.footer-bottom { border-top:1px solid #3a4553; padding:20px; text-align:center; font-size:12px; }
+
+@media(max-width:768px) {
+.footer-grid { grid-template-columns:repeat(2, 1fr); }
+.container { padding:15px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header Same as index.html -->
+<header id="header">
+  <div class="top-bar">
+    <div class="logo" onclick="window.location='index.html'">SK Pharmacy</div>
+    <div class="deliver">Deliver to<br><b>Khan Alampura 203201</b></div>
+    <div class="search-box">
+      <input type="text" placeholder="Search Medicines...">
+      <button>🔍</button>
+    </div>
+    <div class="header-right">
+      <div>EN ▼</div>
+      <div onclick="window.location='index.html'">Hello, Sign in<br><b>Account & Lists ▼</b></div>
+      <div>Returns<br><b>& Orders</b></div>
+      <div>🛒 Cart</div>
+    </div>
+  </div>
+  
+  <!-- Navbar - Sell Active है -->
+  <nav id="navbar">
+    <a onclick="window.location='sell.html'" class="active">Sell</a>
+    <a onclick="window.location='index.html'">Home</a>
+    <a onclick="window.location='index.html'">Medicines</a>
+    <a onclick="window.location='index.html'">Skin Care</a>
+    <a onclick="window.location='index.html'">Baby Care</a>
+    <a onclick="window.location='index.html'">Customer Service</a>
+  </nav>
+</header>
+
+<!-- Sell Page Content - तेरी 9 Images -->
+<div class="container">
+  
+  <!-- Banner 1 -->
+  <img src="banner-sell1.jpg" class="banner-img" alt="S K Pharmacy - आपकी सेहत हमारी जिम्मेदारी" 
+       onerror="this.src='https://via.placeholder.com/1400x500/4CAF50/fff?text=S+K+Pharmacy+Banner+1'">
+
+  <!-- Banner 2 - Best Selling + Meesho Guide -->
+  <img src="banner-sell2.jpg" class="banner-img" alt="Best Selling Products & Meesho Guide"
+       onerror="this.src='https://via.placeholder.com/1400x600/232f3e/fff?text=Best+Selling+Products'">
+
+  <!-- Banner 3 - Instagram + Reel Script -->
+  <img src="banner-sell3.jpg" class="banner-img" alt="Instagram Marketing"
+       onerror="this.src='https://via.placeholder.com/1400x600/37475a/fff?text=Instagram+Marketing'">
+
+  <!-- Banner 4 - Reel Frames 12 Grids -->
+  <img src="banner-sell4.jpg" class="banner-img" alt="Reel Video Script"
+       onerror="this.src='https://via.placeholder.com/1400x600/0f1111/fff?text=Reel+Frames'">
+
+  <!-- Banner 5 - Free Home Delivery -->
+  <img src="banner-sell5.jpg" class="banner-img" alt="Free Home Delivery"
+       onerror="this.src='https://via.placeholder.com/1400x600/4CAF50/fff?text=Free+Home+Delivery'">
+
+  <!-- Banner 6 - Quality Banner -->
+  <img src="banner-sell6.jpg" class="banner-img" alt="Quality Medicines"
+       onerror="this.src='https://via.placeholder.com/1400x500/232f3e/fff?text=Quality+Medicines'">
+
+  <!-- Banner 7 - Special Offer -->
+  <img src="banner-sell7.jpg" class="banner-img" alt="Special Offer"
+       onerror="this.src='https://via.placeholder.com/1400x600/37475a/fff?text=Special+Offer+₹20+Off'">
+
+  <!-- Banner 8 - Address Banner -->
+  <img src="banner-sell8.jpg" class="banner-img" alt="Address Banner"
+       onerror="this.src='https://via.placeholder.com/1400x500/0f1111/fff?text=Address+Banner'">
+
+  <!-- Banner 9 - Owner Photo -->
+  <img src="banner-sell9.jpg" class="banner-img" alt="Sakir Khan Owner"
+       onerror="this.src='https://via.placeholder.com/1400x600/4CAF50/fff?text=Sakir+Khan+Owner'">
+
+</div>
+
+<!-- Contact CTA -->
+<div class="contact-cta">
+  <h2>S K Pharmacy से जुड़ें</h2>
+  <p>सभी प्रकार की दवाइयाँ उचित दाम पर उपलब्ध</p>
+  <div class="btn-group">
+    <a href="tel:7983006957" class="btn btn-orange">📞 Call Now 7983006957</a>
+    <a href="https://wa.me/9258751739" target="_blank" class="btn btn-green">💬 WhatsApp 9258751739</a>
+  </div>
+</div>
+
+<!-- Footer Same as index.html -->
+<footer id="footer">
+  <div class="back-top" onclick="window.scrollTo(0,0)">Back to top</div>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Get to Know Us</h4>
+      <a onclick="window.location='index.html'">About S K Pharmacy</a>
+      <a>Careers</a>
+    </div>
+    <div class="footer-col">
+      <h4>Make Money with Us</h4>
+      <a onclick="window.location='sell.html'">Sell on S K Pharmacy</a>
+      <a>Become an Affiliate</a>
+    </div>
+    <div class="footer-col">
+      <h4>Payment Products</h4>
+      <a>S K Card</a>
+      <a>Shop with Points</a>
+    </div>
+    <div class="footer-col">
+      <h4>Let Us Help You</h4>
+      <a onclick="window.location='index.html'">Customer Service</a>
+      <a>Contact Us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">© 1996-2026, S K Pharmacy.com</div>
+</footer>
+
+</body>
+</html>
