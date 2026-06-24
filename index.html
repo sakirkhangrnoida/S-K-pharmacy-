@@ -1627,7 +1627,25 @@ loadMedicinesFromSheet();
 .error { color:#EF4444; font-weight:bold; padding:8px; background:#fee2e2; border-radius:6px; }
 </style>
 
-<script type="module" src="store.js"></script>
+<script>
+const searchInput = document.getElementById('searchInput');
+const productCards = document.querySelectorAll('.product-card');
+
+searchInput.addEventListener('keyup', function() {
+  let filter = this.value.toLowerCase();
+  
+  productCards.forEach(function(card) {
+    let text = card.textContent.toLowerCase();
+    
+    if(text.includes(filter)) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+});
+</script>
+    <script type="module" src="store.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
