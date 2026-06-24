@@ -4,22 +4,83 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nivea Men All in 1 Charcoal - S K Pharmacy</title>
-<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}body{background:#f8f9fa}#header{background:#131921;color:white;padding:10px 15px}#header .logo{font-size:22px;font-weight:bold;color:#4CAF50;cursor:pointer}.container{max-width:1200px;margin:20px auto;padding:0 15px;display:grid;grid-template-columns:40% 60%;gap:30px}.product-images{background:white;padding:20px;border-radius:8px}.product-images img{width:100%;max-width:400px;height:auto}.product-details{background:white;padding:25px;border-radius:8px}.product-title{font-size:24px;color:#0f1111}.rating{color:#ffa41c;margin:10px 0}.current-price{font-size:28px;color:#B12704;font-weight:bold;margin:15px 0}.btn{width:100%;padding:12px;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:10px}.btn-cart{background:#ffd814}.btn-buy{background:#ffa41c}.features{margin-top:20px}.features h3{margin-bottom:10px}.features ul{list-style:none}.features li{padding:5px 0;color:#565959}.back-btn{color:#007185;text-decoration:none;font-size:14px}#footer{background:#232f3e;color:white;text-align:center;padding:20px;margin-top:50px;font-size:13px}@media(max-width:768px){.container{grid-template-columns:1fr}}</style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f8f9fa}
+#header{background:#131921;color:white;padding:10px 15px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap}
+#header .logo{font-size:22px;font-weight:bold;color:#4CAF50;cursor:pointer}
+.search-box input{padding:8px;width:200px;border:none;border-radius:4px}
+.search-box button{padding:8px 12px;border:none;background:#4CAF50;color:white;border-radius:4px;cursor:pointer}
+nav{background:#232f3e;padding:8px 15px}
+nav a{color:white;text-decoration:none;margin-right:15px;font-size:14px}
+.container{max-width:1200px;margin:20px auto;padding:0 15px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.product-images{background:white;padding:20px;border-radius:8px;text-align:center}
+.product-images img{width:100%;max-width:400px;height:auto;object-fit:contain}
+.product-details{background:white;padding:25px;border-radius:8px}
+.product-title{font-size:24px;color:#0f1111;margin-bottom:8px}
+.rating{color:#ffa41c;margin:10px 0}
+.price-box{border-top:1px solid #ddd;border-bottom:1px solid #ddd;padding:15px 0;margin:15px 0}
+.current-price{font-size:28px;color:#B12704;font-weight:bold}
+.mrp{color:#565959;text-decoration:line-through;margin-left:8px}
+.save{color:#067d62;font-weight:bold}
+.btn{width:100%;padding:12px;border:none;border-radius:8px;font-size:16px;cursor:pointer;margin-top:8px}
+.btn-cart{background:#ffd814;color:#0f1111}
+.btn-buy{background:#ffa41c;color:#0f1111}
+.btn-share{background:#25D366;color:white}
+.features{margin-top:20px}
+.features h3{margin-bottom:10px;color:#0f1111}
+.features ul{list-style:none;padding-left:0}
+.features li{padding:5px 0;color:#565959}
+.comment-box{margin-top:20px;background:#fff;padding:15px;border-radius:8px}
+.comment-box textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:4px;margin-top:8px}
+.comment-box button{margin-top:8px;padding:8px 15px;background:#131921;color:white;border:none;border-radius:4px;cursor:pointer}
+#footer{background:#232f3e;color:white;text-align:center;padding:20px;margin-top:30px}
+#footer a{color:#4CAF50;text-decoration:none;margin:0 10px;font-size:14px}
+.back-btn{display:inline-block;margin-bottom:15px;color:#007185;text-decoration:none}
+.back-btn:hover{text-decoration:underline}
+@media(max-width:768px){.container{grid-template-columns:1fr}.search-box input{width:120px}}
+</style>
 </head>
 <body>
-<header id="header"><div class="logo" onclick="window.location='index.html'">S K Pharmacy</div></header>
+
+<header id="header">
+<div class="logo" onclick="window.location='index.html'">S K Pharmacy</div>
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Product Search...">
+<button onclick="searchProduct()">Search</button>
+</div>
+</header>
+
+<nav>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="privacy.html">Privacy Policy</a>
+<a href="refund.html">Refund Policy</a>
+<a href="tracking.html">Live Tracking</a>
+</nav>
+
 <div class="container">
 <div class="product-images">
-<a href="skin-care.html" class="back-btn">← Back</a>
-<img src="nivea-charcoal.jpg" alt="Nivea Charcoal">
+<a href="skin-care.html" class="back-btn">← Back to Skin Care</a>
+<img src="nivea-charcoal.jpg" class="product-img" alt="Nivea Men Charcoal">
 </div>
+
 <div class="product-details">
 <h1 class="product-title">Nivea Men All in 1 Charcoal Face Wash, 100g</h1>
-<div class="rating">★★★ 4.4 (3,800 ratings)</div>
-<div class="current-price">₹150</div>
+<div class="rating">★★ 4.4 (3,800 ratings)</div>
+
+<div class="price-box">
+<span class="current-price">₹150</span>
+<span class="mrp">₹200</span>
+<span class="save">25% off</span>
+</div>
+
 <p style="color:#565959;margin:10px 0">Inclusive of all taxes</p>
-<button class="btn btn-cart" onclick="alert('Added to Cart!')">🛒 Add to Cart</button>
-<button class="btn btn-buy" onclick="window.open('https://wa.me/919258751739?text=Buy Nivea Men Charcoal Face Wash')">⚡ Buy Now</button>
+
+<button class="btn btn-cart" onclick="addToCart('Nivea Men Charcoal', 150)">Add to Cart</button>
+<button class="btn btn-buy" onclick="buyNow('Nivea Men Charcoal', 150)">Buy Now</button>
+<button class="btn btn-share" onclick="shareProduct()">Share on WhatsApp</button>
+
 <div class="features">
 <h3>Product Details</h3>
 <ul>
@@ -31,8 +92,63 @@
 <li>✓ Brand: Nivea Men</li>
 </ul>
 </div>
+
+<div class="comment-box">
+<h3>Customer Comments</h3>
+<textarea id="comment" rows="3" placeholder="अपना Review लिखो..."></textarea>
+<button onclick="postComment()">Post Comment</button>
+<div id="commentsList" style="margin-top:10px"></div>
 </div>
 </div>
-<footer id="footer">© 2026 S K Pharmacy, Greater Noida | Customer Care: 9258751739</footer>
+</div>
+
+<footer id="footer">
+<a href="about.html">About Us</a>
+<a href="contact.html">Contact Us</a>
+<a href="privacy.html">Privacy Policy</a>
+<a href="refund.html">Refund & Return</a>
+<a href="tracking.html">Track Order</a>
+<br><br>
+© 2026 S K Pharmacy, Greater Noida | Customer Care: 9258751739
+</footer>
+
+<script>
+let cart = [];
+
+function addToCart(name, price){
+cart.push({name, price});
+localStorage.setItem('cart', JSON.stringify(cart));
+alert(name + ' Cart में Add हो गया');
+}
+
+function buyNow(name, price){
+let msg = `Order: ${name}\nPrice: ₹${price}\nAddress: `;
+window.open('https://wa.me/919258751739?text=' + encodeURIComponent(msg));
+}
+
+function shareProduct(){
+let url = window.location.href;
+let text = 'Check this product: ' + document.querySelector('.product-title').innerText + ' + url;
+window.open('https://wa.me/?text=' + encodeURIComponent(text));
+}
+
+function postComment(){
+let c = document.getElementById('comment').value;
+if(c.trim() != ''){
+document.getElementById('commentsList').innerHTML += '<p style="background:#f0f0f0;padding:8px;border-radius:4px;margin-top:5px">'+c+'</p>';
+document.getElementById('comment').value = '';
+}
+}
+
+function searchProduct(){
+let s = document.getElementById('searchInput').value.toLowerCase();
+if(s.includes('nivea')) window.location='product-nivea-charcoal.html';
+else if(s.includes('garnier')) window.location='skin-care.html';
+else alert('Product नहीं मिला');
+}
+
+// Cart Load
+cart = JSON.parse(localStorage.getItem('cart')) || [];
+</script>
 </body>
 </html>
