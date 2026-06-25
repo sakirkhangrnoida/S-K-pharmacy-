@@ -1628,20 +1628,22 @@ loadMedicinesFromSheet();
 </style>
 
 <script>
-const searchInput = document.getElementById('searchInput');
-const productCards = document.querySelectorAll('.product-card');
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('searchInput');
+  const productCards = document.querySelectorAll('.product-card');
 
-searchInput.addEventListener('keyup', function() {
-  let filter = this.value.toLowerCase();
-  
-  productCards.forEach(function(card) {
-    let text = card.textContent.toLowerCase();
+  searchInput.addEventListener('keyup', function() {
+    let filter = this.value.toLowerCase();
     
-    if(text.includes(filter)) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
+    productCards.forEach(function(card) {
+      let text = card.textContent.toLowerCase();
+      
+      if(text.includes(filter)) {
+        card.style.display = ''; // block की जगह खाली कर दे
+      } else {
+        card.style.display = 'none';
+      }
+    });
   });
 });
 </script>
