@@ -1628,43 +1628,21 @@ loadMedicinesFromSheet();
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const searchInput = document.getElementById('searchInput');
-  const productContainer = document.querySelector('.products-grid'); // तेरे Product का Grid
-  const productCards = Array.from(document.querySelectorAll('.product-card'));
+const search = document.getElementById('searchInput');
+const parent = document.getElementById('productGrid');
+const cards = [...parent.querySelectorAll('.product-card')];
 
-  searchInput.addEventListener('input', function() {
-    let filter = this.value.toLowerCase().trim();
-    
-    if(filter === '') {
-      // Search खाली है तो सब वापस + सही Order
-      productCards.forEach(card => {
-        card.style.display = '';
-        productContainer.appendChild(card);
-      });
-      return;
-    }
-    
-    // 2 लिस्ट बना - Match वाले और बाकी वाले
-    let matchList = [];
-    let otherList = [];
-    
-    productCards.forEach(function(card) {
-      let name = card.querySelector('h3').textContent.toLowerCase();
-      
-      if(name.includes(filter)) {
-        card.style.display = '';
-        matchList.push(card); // Match वाले
-      } else {
-        card.style.display = 'none'; // बाकी छुपा दे
-        otherList.push(card);
-      }
-    });
-    
-    // Match वाले पहले, फिर बाकी
-    matchList.forEach(card => productContainer.appendChild(card));
-    otherList.forEach(card => productContainer.appendChild(card));
+search.addEventListener('input', () => {
+  const v = search.value.toLowerCase().trim();
+  
+  // पहले सबको छुपा/दिखा
+  cards.forEach(card => {
+    card.style.display = card.textContent.toLowerCase().includes(v) ? '' : 'none';
   });
+  
+  // मैच वाले को सबसे ऊपर ले आ
+  cards.filter(c => c.style.display !== 'none')
+       .forEach(c => parent.prepend(c));
 });
 </script>
     <script type="module" src="store.js"></script>
