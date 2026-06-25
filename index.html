@@ -318,15 +318,27 @@ color:white;
   </marquee>
 </div>
 
-<!-- Medicine Banner -->
-<div style="position:relative;width:100%;height:180px;overflow:hidden;">
-  <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800" 
-       style="width:100%;height:100%;object-fit:cover;" alt="Medicine Banner">
-  <div style="position:absolute;top:50%;left:15px;transform:translateY(-50%);color:white;">
-    <h2 style="margin:0;font-size:22px;text-shadow:2px 2px 4px #000;">Healthcare Deals</h2>
-    <p style="margin:5px 0;font-size:14px;text-shadow:1px 1px 3px #000;">Up to 30% Off on Medicines</p>
-  </div>
+<style>
+.banner-slider{width:100%;height:400px;position:relative;overflow:hidden;border-radius:10px}
+.banner-slider img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;opacity:0;transition:opacity 1s}
+.banner-slider img.active{opacity:1}
+</style>
+
+<div class="banner-slider">
+  <img src="sk1.jpg" class="active">
+  <img src="sk2.jpg">
+  <img src="sk3.jpg">
+  <img src="sk4.jpg">
+  <img src="sk5.jpg">
+  <img src="sk6.jpg">
+  <img src="sk7.jpg">
+  <img src="sk8.jpg">
 </div>
+
+<script>
+let s=document.querySelectorAll('.banner-slider img');let c=0;
+setInterval(()=>{s[c].classList.remove('active');c=(c+1)%s.length;s[c].classList.add('active')},2000);
+</script>
 <!-- Amazon Style Header End -->
 
 <div class="auto-slider">
