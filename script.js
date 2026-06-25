@@ -1349,39 +1349,3 @@ function open3DotMenu() {
     </div>
   </div>`;
 }
-
-// ===== Search - Real काम करेगा =====
-function searchNow() {
-  const query = document.getElementById('searchBox').value.toLowerCase().trim();
-  const cat = document.getElementById('searchCat').value;
-
-  if(query === '') { goHome(); return; }
-
-  const results = Object.keys(PRODUCT_LINKS).filter(name => {
-    const p = PRODUCT_LINKS[name];
-    return (name.toLowerCase().includes(query) || (p.description||'').toLowerCase().includes(query))
-           && (cat === 'all' || p.category === cat);
-  });
-
-  if(results.length === 0) {
-    alert('"' + query + '" नहीं मिला');
-    return;
-  }
-
-  // Search Results दिखा दे
-  document.body.innerHTML = `
-  <div style="padding:20px;">
-    <div style="background:#131921;color:white;padding:10px;display:flex;gap:10px;">
-      <div onclick="goHome()" style="cursor:pointer;">← Back</div>
-      <div>Search: ${query}</div>
-    </div>
-    <h2 style="margin:20px 0;">${results.length} Product मिले</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px;">
-      ${results.map(n => {
-        const p = PRODUCT_LINKS[n];
-        return `<div onclick="openProductPage('${n}')" style="border:1px solid #ddd;padding:10px;cursor:pointer;border-radius:4px;text-align:center;">
-          <img src="${p.image}" style="width:100%;height:150px;object-fit:contain;">
-          <p style="font-size:14px;margin:5px 0;">${n}</p>
-          <b style="color:#B12704;">₹${p.price}</b>
-        </div>`;
-      }). 
