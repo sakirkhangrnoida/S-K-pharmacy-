@@ -1630,20 +1630,40 @@ loadMedicinesFromSheet();
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const searchInput = document.getElementById('searchInput');
-  const productCards = document.querySelectorAll('.product-card');
+  const productContainer = document.querySelector('.products-grid'); // तेरे Product का Grid
+  const productCards = Array.from(document.querySelectorAll('.product-card'));
 
-  searchInput.addEventListener('keyup', function() {
-    let filter = this.value.toLowerCase();
+  searchInput.addEventListener('input', function() {
+    let filter = this.value.toLowerCase().trim();
+    
+    if(filter === '') {
+      // Search खाली है तो सब वापस + सही Order
+      productCards.forEach(card => {
+        card.style.display = '';
+        productContainer.appendChild(card);
+      });
+      return;
+    }
+    
+    // 2 लिस्ट बना - Match वाले और बाकी वाले
+    let matchList = [];
+    let otherList = [];
     
     productCards.forEach(function(card) {
-      let text = card.textContent.toLowerCase();
+      let name = card.querySelector('h3').textContent.toLowerCase();
       
-      if(text.includes(filter)) {
-        card.style.display = ''; // block की जगह खाली कर दे
+      if(name.includes(filter)) {
+        card.style.display = '';
+        matchList.push(card); // Match वाले
       } else {
-        card.style.display = 'none';
+        card.style.display = 'none'; // बाकी छुपा दे
+        otherList.push(card);
       }
     });
+    
+    // Match वाले पहले, फिर बाकी
+    matchList.forEach(card => productContainer.appendChild(card));
+    otherList.forEach(card => productContainer.appendChild(card));
   });
 });
 </script>
