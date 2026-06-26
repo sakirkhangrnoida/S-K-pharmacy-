@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horlicks Chocolate 500g - S K Pharmacy</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Roboto,Arial,sans-serif;background:#f1f3f6;color:#212121}
+
+/* न्यूज चैनल टicker */
+.ticker{position:fixed;top:0;left:0;width:100%;background:#ff5722;color:#fff;padding:8px 0;overflow:hidden;z-index:999;font-size:14px;font-weight:500}
+.ticker span{display:inline-block;padding-left:100%;animation:scroll 25s linear infinite;white-space:nowrap}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+
+/* Navbar */
+.navbar{background:#2874f0;padding:12px 20px;display:flex;align-items:center;gap:15px;position:sticky;top:38px;z-index:998;flex-wrap:wrap}
+.navbar h2{color:#fff;font-size:20px}
+.navbar input{flex:1;min-width:200px;padding:10px;border:none;border-radius:2px;font-size:14px}
+.navbar .icons{display:flex;gap:20px;color:#fff;font-size:18px;cursor:pointer}
+.navbar .icons div{text-align:center}
+.navbar .icons span{font-size:11px;display:block;margin-top:3px}
+
+/* Container */
+.container{max-width:1200px;margin:70px auto 20px;padding:20px;display:flex;gap:20px;flex-wrap:wrap}
+.left{flex:1;min-width:320px}
+.right{flex:1;min-width:320px}
+.img-box{background:#fff;padding:20px;border-radius:4px;text-align:center;border:1px solid #e0e0e0}
+.img-box img{width:100%;max-height:400px;object-fit:contain}
+
+/* Product Info */
+.info{background:#fff;padding:20px;border-radius:4px;border:1px solid #e0e0e0}
+.info h1{font-size:22px;margin-bottom:8px;font-weight:500}
+.rating{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:14px}
+.badge{background:#388e3c;color:#fff;padding:4px 8px;border-radius:3px;font-size:12px;font-weight:500}
+.price{font-size:28px;font-weight:700;margin:15px 0;color:#000}
+.price del{font-size:18px;color:#878787;margin-left:10px;font-weight:400}
+.off{color:#388e3c;font-size:16px;margin-left:10px;font-weight:500}
+.qty{display:flex;align-items:center;gap:10px;margin:20px 0}
+.qty button{width:32px;height:32px;border:1px solid #e0e0e0;background:#fff;font-size:18px;cursor:pointer;border-radius:2px}
+.qty input{width:60px;height:32px;text-align:center;border:1px solid #e0e0e0;border-radius:2px}
+.btns{display:flex;gap:10px;margin:20px 0;flex-wrap:wrap}
+.btn{flex:1;min-width:140px;padding:14px;border:none;border-radius:2px;font-size:16px;font-weight:500;cursor:pointer}
+.btn-cart{background:#ff9f00;color:#fff}
+.btn-buy{background:#fb641b;color:#fff}
+.btn:hover{opacity:0.9}
+
+/* OTP Popup */
+.popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center}
+.popup-box{background:#fff;padding:25px;border-radius:8px;width:90%;max-width:400px;position:relative}
+.popup-box .close{position:absolute;top:10px;right:15px;font-size:24px;cursor:pointer;color:#878787}
+.popup-box h3{margin-bottom:15px;font-size:18px}
+.popup-box input{width:100%;padding:12px;margin:8px 0;border:1px solid #e0e0e0;border-radius:4px;font-size:14px}
+.popup-box button{width:100%;padding:12px;background:#2874f0;color:#fff;border:none;border-radius:4px;margin-top:10px;cursor:pointer;font-size:15px;font-weight:500}
+#msg{margin-top:10px;font-size:13px;color:#d32f2f;min-height:20px}
+
+/* Footer Info */
+.footer{background:#fff;margin-top:20px;padding:20px;border-radius:4px;font-size:14px;line-height:1.8;border:1px solid #e0e0e0}
+.footer b{color:#2874f0}
+.footer a{color:#2874f0;text-decoration:none;cursor:pointer}
+.comment-box{margin-top:15px}
+.comment-box textarea{width:100%;padding:10px;border:1px solid #e0e0e0;border-radius:4px;font-size:14px;resize:vertical}
+.share{margin-top:10px;display:flex;gap:15px;font-size:18px;color:#2874f0;cursor:pointer;flex-wrap:wrap}
+.share span{display:flex;align-items:center;gap:5px;font-size:14px}
+
+/* Cart Sidebar */
+.cart-sidebar{display:none;position:fixed;right:0;top:0;width:320px;height:100%;background:#fff;box-shadow:-2px 0 8px rgba(0,0,0,0.2);z-index:1001;padding:20px;overflow-y:auto}
+.cart-sidebar h3{margin-bottom:15px;font-size:18px}
+.cart-item{border-bottom:1px solid #e0e0e0;padding:10px 0;font-size:14px;display:flex;justify-content:space-between}
+.close-cart{position:absolute;top:10px;right:15px;font-size:24px;cursor:pointer}
+.cart-total{margin-top:15px;font-weight:700;font-size:16px}
+
+/* Account Modal */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:1002;align-items:center;justify-content:center}
+.modal-box{background:#fff;padding:25px;border-radius:8px;width:90%;max-width:350px}
+.modal-box input{width:100%;padding:12px;margin:8px 0;border:1px solid #e0e0e0;border-radius:4px}
+.modal-box button{width:100%;padding:12px;background:#2874f0;color:#fff;border:none;border-radius:4px;margin-top:10px;cursor:pointer}
+.modal-links{display:flex;justify-content:space-between;margin-top:10px;font-size:13px}
+.modal-links a{color:#2874f0;cursor:pointer;text-decoration:none}
+</style>
+</head>
+<body>
+
+<!-- न्यूज चैनल लाइन -->
+<div class="ticker"><span>🚚 फ्री डिलीवरी 499+ पर | 🔒 100% सुरक्षित पेमेंट | 💳 Cash on Delivery Available | 📞 WhatsApp: 9258751739, 7983006957 | 📍 उत्तर प्रदेश, ग्रेटर नोएडा, दनकौर, सिलापुर गांव, PIN 203201 | 💰 MRP ₹300, Special Price ₹264 | 7 Day Replacement</span></div>
+
+<!-- Navbar -->
+<div class="navbar">
+  <h2>S K Pharmacy</h2>
+  <input type="text" id="searchBox" placeholder="Search products, brands and more...">
+  <div class="icons">
+    <div onclick="openCart()"><i class="fa fa-shopping-cart"></i><span>Cart</span></div>
+    <div onclick="openAccount()"><i class="fa fa-user"></i><span>Account</span></div>
+    <div onclick="shareProduct()"><i class="fa fa-share-alt"></i><span>Share</span></div>
+    <div onclick="openWishlist()"><i class="fa fa-heart"></i><span>Wishlist</span></div>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="container">
+  <div class="left">
+    <div class="img-box">
+      <img src="p32.jpg" alt="Horlicks 500g">
+    </div>
+  </div>
+  
+  <div class="right">
+    <div class="info">
+      <h1 id="productName">Horlicks Chocolate Delight Flavour 500g</h1>
+      <div class="rating">
+        <span class="badge">4.3 ★</span>
+        <span>2,341 Ratings & 198 Reviews</span>
+      </div>
+      
+      <div class="price">₹<span id="productPrice">264</span> 
+        <del>₹300</del> 
+        <span class="off">12% off</span>
+      </div>
+      
+      <p style="color:#388e3c;margin:10px 0;font-size:14px">✓ In Stock | ✓ COD Available | ✓ 7 Day Replacement | ✓ Secure Payment</p>
+      
+      <div class="qty">
+        <span>Quantity:</span>
+        <button onclick="changeQty(-1)">-</button>
+        <input type="number" id="qtyInput" value="1" min="1" max="10" readonly>
+        <button onclick="changeQty(1)">+</button>
+      </div>
+      
+      <div class="btns">
+        <button class="btn btn-cart" onclick="addToCart()">Add to Cart</button>
+        <button class="btn btn-buy" onclick="buyNow()">Buy Now</button>
+        <button class="btn btn-cart" onclick="openGiftCard()">Gift Card</button>
+      </div>
+      
+      <div class="share">
+        <span onclick="shareProduct()"><i class="fa fa-share"></i> Share Product</span>
+        <span onclick="openWishlist()"><i class="fa fa-heart"></i> Wishlist</span>
+        <span onclick="openComments()"><i class="fa fa-comment"></i> Comments</span>
+        <span onclick="openRefund()"><i class="fa fa-undo"></i> Refund Policy</span>
+      </div>
+      
+      <div class="comment-box" id="commentSection" style="display:none">
+        <b>Comments & Reviews:</b>
+        <textarea id="commentBox" placeholder="Write your review..."></textarea>
+        <button onclick="postComment()" style="margin-top:8px;padding:8px 15px;background:#2874f0;color:#fff;border:none;border-radius:4px;cursor:pointer">Post Review</button>
+        <div id="commentList" style="margin-top:10px;font-size:13px"></div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <b>Delivery Address:</b> उत्तर प्रदेश, ग्रेटर नोएडा, दनकौर, सिलापुर गांव, PIN 203201<br>
+      <b>WhatsApp Support:</b> 9258751739, 7983006957<br>
+      <b>Payment Options:</b> Cash on Delivery, Online Payment - UPI, Card, Net Banking<br>
+      <b>Refund Policy:</b> 7 दिन के अंदर 100% Refund | <a onclick="openRefund()">View Details</a><br>
+      <b>Account:</b> <a onclick="openLogin()">Login</a> | <a onclick="openPasswordSetting()">Password Setting</a> | <a onclick="openLiveOrders()">Live Orders</a>
+    </div>
+  </div>
+</div>
+
+<!-- OTP Popup -->
+<div class="popup" id="otpPopup">
+  <div class="popup-box">
+    <span class="close" onclick="closePopup()">×</span>
+    <h3>Mobile OTP Verification</h3>
+    <input type="tel" id="mobileInput" placeholder="Enter 10 digit mobile number" maxlength="10">
+    <button id="sendBtn" onclick="sendOTP()">Send OTP</button>
+    <input type="text" id="otpInput" placeholder="Enter 4 digit OTP" style="display:none" maxlength="4">
+    <button id="verifyBtn" onclick="verifyOTP()" style="display:none">Verify & Place Order</button>
+    <div id="msg"></div>
+    <p style="margin-top:15px;font-size:12px;color:#878787">Order confirm होते ही WhatsApp पर 9258751739 से confirmation आ जाएगा</p>
+  </div>
+</div>
+
+<!-- Cart Sidebar -->
+<div class="cart-sidebar" id="cartSidebar">
+  <span class="close-cart" onclick="closeCart()">×</span>
+  <h3>Your Cart</h3>
+  <div id="cartItems"></div>
+  <div class="cart-total" id="cartTotal">Total: ₹0</div>
+  <button onclick="checkout()" style="width:100%;padding:12px;background:#fb641b;color:#fff;border:none;margin-top:15px;cursor:pointer;border-radius:2px;font-weight:500">Checkout</button>
+</div>
+
+<!-- Account Modal -->
+<div class="modal" id="accountModal">
+  <div class="modal-box">
+    <span class="close" onclick="closeAccount()">×</span>
+    <h3 id="modalTitle">Login</h3>
+    <input type="text" id="accInput1" placeholder="Mobile/Email">
+    <input type="password" id="accInput2" placeholder="Password" id="passwordInput">
+    <button onclick="accountAction()">Login</button>
+    <div class="modal-links">
+      <a onclick="switchToSignup()">Create Account</a>
+      <a onclick="switchToPassword()">Forgot Password?</a>
+    </div>
+    <div id="accMsg" style="margin-top:10px;font-size:13px;color:#d32f2f"></div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+
+// Firebase Config - अपनी नई Key यहां पेस्ट करो
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_FIREBASE_API_KEY_HERE",
+  authDomain: "grnoida-store.firebaseapp.com",
+  databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com",
+  projectId: "grnoida-store",
+  storageBucket: "grnoida-store.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcdef"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let currentOrder = {};
+let cart = [];
+let comments = [];
+const basePrice = 264;
+
+// Quantity Change
+window.changeQty = function(n){
+  let qty = document.getElementById('qtyInput');
+  let val = parseInt(qty.value) + n;
+  if(val>=1 && val<=10){
+    qty.value = val;
+    document.getElementById('productPrice').innerText = basePrice * val;
+  }
+}
+
+// Cart Functions
+window.addToCart = function(){
+  let qty = document.getElementById('qtyInput').value;
+  let price = basePrice * qty;
+  cart.push({name: "Horlicks 500g", price: price, qty: qty});
+  updateCart();
+  showMsg("Product added to cart!", "#388e3c");
+}
+
+window.updateCart = function(){
+  let cartDiv = document.getElementById('cartItems');
+  let total = 0;
+  cartDiv.innerHTML = '';
+  cart.forEach((item,i)=>{
+    total += item.price;
+    cartDiv.innerHTML += `<div class="cart-item"><span>${item.name} x${item.qty}</span><span>₹${item.price}</span></div>`;
+  });
+  document.getElementById('cartTotal').innerText = "Total: ₹" + total;
+}
+
+window.openCart = function(){
+  document.getElementById('cartSidebar').style.display = 'block';
+}
+window.closeCart = function(){
+  document.getElementById('cartSidebar').style.display = 'none';
+}
+window.checkout = function(){
+  if(cart.length==0){showMsg("Cart खाली है", "#d32f2f"); return;}
+  document.getElementById('otpPopup').style.display = 'flex';
+  closeCart();
+}
+
+// Buy Now -> OTP
+window.buyNow = function(){
+  document.getElementById('otpPopup').style.display = 'flex';
+}
+window.closePopup = function(){
+  document.getElementById('otpPopup').style.display = 'none';
+}
+
+// Send OTP via Fast2SMS
+window.sendOTP = async function(){
+  let mobile = document.getElementById('mobileInput').value;
+  if(mobile.length!=10){showMsg("10 digit number डालो", "#d32f2f"); return;}
+  
+  let otp = Math.floor(1000 + Math.random() * 9000);
+  currentOrder.otp = otp;
+  currentOrder.mobile = mobile;
+  currentOrder.qty = document.getElementById('qtyInput').value;
+  currentOrder.total = basePrice * currentOrder.qty;
+  
+  document.getElementById('sendBtn').style.display = 'none';
+  document.getElementById('otpInput').style.display = 'block';
+  document.getElementById('verifyBtn').style.display = 'block';
+  showMsg("OTP भेज दिया " + mobile + " पर", "#388e3c");
+  
+  // Fast2SMS API - अपनी नई Key यहां पेस्ट करो
+  try{
+    await fetch(`https://www.fast2sms.com/dev/bulkV2?authorization=PASTE_YOUR_FAST2SMS_KEY_HERE&route=otp&variables_values=${otp}&flash=0&numbers=${mobile}`);
+  }catch(e){console.log("SMS Error:", e)}
+}
+
+// Verify OTP + Save Order
+window.verifyOTP = async function(){
+  let enteredOTP = document.getElementById('otpInput').value;
+  if(enteredOTP == currentOrder.otp){
+    showMsg("Order Confirmed! COD पर भेज दिया गया", "#388e3c");
+    
+    // Firebase में Order Save
+    let orderData = {
+      product: "Horlicks Chocolate 500g",
+      qty: currentOrder.qty,
+      total: currentOrder.total,
+      mobile: currentOrder.mobile,
+      address: "उत्तर प्रदेश, ग्रेटर नोएडा, दनकौर, सिलापुर गांव, PIN 203201",
+      payment: "Cash on Delivery",
+      time: new Date().toLocaleString(),
+      status: "Pending"
+    };
+    await push(ref(db, 'orders'), orderData);
+    
+    cart = [];
+    updateCart();
+    setTimeout(()=>{closePopup()},2500);
+  } else {
+    showMsg("गलत OTP, दोबारा try करो", "#d32f2f");
+  }
+}
+
+// Account Functions
+window.openAccount = function(){
+  document.getElementById('accountModal').style.display = 'flex';
+  document.getElementById('modalTitle').innerText = "Login";
+  document.getElementById('accInput2').type = "password";
+}
+window.closeAccount = function(){
+  document.getElementById('accountModal').style.display = 'none';
+}
+window.openLogin = function(){openAccount();}
+window.switchToSignup = function(){
+  document.getElementById('modalTitle').innerText = "Create Account";
+  document.getElementById('accMsg').innerText = "";
+}
+window.switchToPassword = function(){
+  document.getElementById('modalTitle').innerText = "Reset Password";
+  document.getElementById('accInput2').style.display = "none";
+}
+window.openPasswordSetting = function(){
+  document.getElementById('accountModal').style.display = 'flex';
+  document.getElementById('modalTitle').innerText = "Password Setting";
+  document.getElementById('accInput2').style.display = "block";
+}
+window.accountAction = function(){
+  let val1 = document.getElementById('accInput1').value;
+  document.getElementById('accMsg').innerText = "Success! " + val1;
+  document.getElementById('accMsg').style.color = "#388e3c";
+  setTimeout(closeAccount,1500);
+}
+
+// Other Features
+window.shareProduct = function(){
+  if(navigator.share){
+    navigator.share({title: "Horlicks 500g ₹264", text: "Check this out", url: window.location.href});
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    showMsg("Link copied!", "#388e3c");
+  }
+}
+window.openWishlist = function(){
+  showMsg("Wishlist में add हो गया", "#388e3c");
+}
+window.openGiftCard = function(){
+  showMsg("Gift Card option खुल गया", "#388e3c");
+}
+window.openComments = function(){
+  let sec = document.getElementById('commentSection');
+  sec.style.display = sec.style.display=='none' ? 'block' : 'none';
+}
+window.postComment = function(){
+  let c = document.getElementById('commentBox').value;
+  if(c.trim()!=""){
+    comments.push(c);
+    document.getElementById('commentList').innerHTML += `<p style="margin-top:5px;padding:5px;background:#f5f5f5;border-radius:3px">${c}</p>`;
+    document.getElementById('commentBox').value='';
+    showMsg("Review पोस्ट हो गया", "#388e3c");
+  }
+}
+window.openRefund = function(){
+  showMsg("Refund Policy: 7 दिन में 100% Refund. Damaged product पर तुरंत replacement", "#2874f0");
+}
+window.openLiveOrders = function(){
+  showMsg("Live Orders Firebase से जुड़ गए हैं", "#388e3c");
+}
+
+// Search
+document.getElementById('searchBox').addEventListener('keyup', function(e){
+  if(e.key=='Enter'){
+    showMsg("Searching: "+this.value, "#2874f0");
+  }
+});
+
+// Helper Msg
+function showMsg(text,color){
+  document.getElementById('msg').innerText = text;
+  document.getElementById('msg').style.color = color;
+  setTimeout(()=>{document.getElementById('msg').innerText=''},3000);
+}
+</script>
+</body>
+  </html>
