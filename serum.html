@@ -3,31 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pure Roots Hair Serum Argan Oil 50ML</title>
+<title>Pure Roots Hair Serum Argan Oil 50ML - S K Pharmacy</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Roboto,Arial,sans-serif;background:#f1f3f6;color:#212121}
-
-/* न्यूज चैनल टicker */
 .ticker{position:fixed;top:0;left:0;width:100%;background:#ff5722;color:#fff;padding:8px 0;overflow:hidden;z-index:999;font-size:14px}
 .ticker span{display:inline-block;padding-left:100%;animation:scroll 25s linear infinite;white-space:nowrap}
 @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
-
-/* Navbar */
 .navbar{background:#2874f0;padding:10px 15px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:38px;z-index:998}
 .navbar h2{color:#fff;font-size:18px}
-.nav-right{display:flex;gap:15px;color:#fff;font-size:20px;cursor:pointer}
-
-/* Container */
+.nav-right{display:flex;gap:15px;color:#fff;font-size:20px;cursor:pointer;position:relative}
+.menu-box{display:none;position:absolute;top:45px;right:0;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.2);border-radius:4px;padding:8px 0;min-width:200px;z-index:1002}
+.menu-box a{display:block;padding:10px 15px;color:#212121;text-decoration:none;font-size:14px}
+.menu-box a:hover{background:#f5f5f5}
 .container{max-width:1100px;margin:70px auto 20px;padding:15px}
 .left-right{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px}
 .left{flex:1;min-width:300px}
 .right{flex:1;min-width:300px}
 .img-box{background:#fff;padding:15px;border-radius:4px;text-align:center;border:1px solid #e0e0e0}
 .img-box img{width:100%;max-height:450px;object-fit:contain}
-
-/* Product Info */
 .info{background:#fff;padding:20px;border-radius:4px;border:1px solid #e0e0e0}
 .info h1{font-size:20px;margin-bottom:8px;font-weight:500}
 .rating{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:14px}
@@ -42,56 +37,61 @@ body{font-family:Roboto,Arial,sans-serif;background:#f1f3f6;color:#212121}
 .btn{flex:1;min-width:120px;padding:12px;border:none;border-radius:2px;font-size:15px;font-weight:500;cursor:pointer}
 .btn-cart{background:#ff9f00;color:#fff}
 .btn-buy{background:#fb641b;color:#fff}
-
-/* Product Gallery */
 .gallery{background:#fff;padding:20px;border-radius:4px;border:1px solid #e0e0e0;margin-top:20px}
 .gallery h2{font-size:18px;margin-bottom:15px;color:#2874f0}
 .gallery img{width:100%;margin-bottom:15px;border-radius:4px;border:1px solid #e0e0e0}
-
-/* Popup */
 .popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center}
-.popup-box{background:#fff;padding:20px;border-radius:8px;width:90%;max-width:380px;position:relative}
+.popup-box{background:#fff;padding:20px;border-radius:8px;width:90%;max-width:400px;position:relative;max-height:90vh;overflow-y:auto}
 .popup-box .close{position:absolute;top:8px;right:12px;font-size:22px;cursor:pointer}
 .popup-box h3{margin-bottom:12px;font-size:17px}
-.popup-box input{width:100%;padding:10px;margin:6px 0;border:1px solid #e0e0e0;border-radius:4px}
+.popup-box input, .popup-box textarea{width:100%;padding:10px;margin:6px 0;border:1px solid #e0e0e0;border-radius:4px;font-size:14px}
 .popup-box button{width:100%;padding:11px;background:#2874f0;color:#fff;border:none;border-radius:4px;margin-top:8px;cursor:pointer;font-weight:500}
-#msg,#loginMsg,#passMsg{margin-top:8px;font-size:13px;min-height:18px}
-
-/* Footer Links */
+.msg{margin-top:8px;font-size:13px;min-height:18px}
 .footer{background:#fff;margin-top:20px;padding:18px;border-radius:4px;font-size:13px;line-height:1.7;border:1px solid #e0e0e0}
 .footer a{color:#2874f0;text-decoration:none;margin-right:12px;cursor:pointer}
 .footer b{color:#000}
 .comment-box{margin-top:12px}
-.comment-box textarea{width:100%;padding:8px;border:1px solid #e0e0e0;border-radius:4px;font-size:13px}
 .share{margin-top:8px;display:flex;gap:12px;font-size:16px;color:#2874f0;cursor:pointer;flex-wrap:wrap}
 .share span{display:flex;align-items:center;gap:4px;font-size:13px}
-
-/* Cart Sidebar */
 .cart-sidebar{display:none;position:fixed;right:0;top:0;width:300px;height:100%;background:#fff;box-shadow:-2px 0 8px rgba(0,0,0,0.2);z-index:1001;padding:18px;overflow-y:auto}
 .cart-sidebar h3{margin-bottom:12px;font-size:17px}
 .cart-item{border-bottom:1px solid #e0e0e0;padding:8px 0;font-size:13px;display:flex;justify-content:space-between}
 .close-cart{position:absolute;top:8px;right:12px;font-size:22px;cursor:pointer}
 .cart-total{margin-top:12px;font-weight:700;font-size:15px}
-
-/* Live Notification */
-.notif{position:fixed;bottom:20px;right:20px;background:#388e3c;color:#fff;padding:10px 15px;border-radius:50px;font-size:13px;display:none;z-index:1003}
+.notif{position:fixed;bottom:20px;right:20px;background:#388e3c;color:#fff;padding:10px 15px;border-radius:50px;font-size:13px;display:none;z-index:1003;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.whatsapp-link{color:#25D366;text-decoration:none;font-weight:500;cursor:pointer}
+.payment-option{display:flex;gap:10px;margin:12px 0}
+.payment-option button{flex:1;padding:10px;border:1px solid #e0e0e0;background:#fff;border-radius:4px;cursor:pointer}
+.payment-option button.active{background:#2874f0;color:#fff;border-color:#2874f0}
+.progress-bar{display:flex;justify-content:space-between;position:relative;margin:25px 0}
+.progress-bar::before{content:'';position:absolute;top:15px;left:0;right:0;height:4px;background:#ddd;z-index:1}
+.progress-fill{position:absolute;top:15px;left:0;height:4px;background:#ff9900;z-index:2;transition:width 0.3s}
+.step{text-align:center;z-index:3}
+.step div{width:30px;height:30px;background:#ddd;border-radius:50%;margin:0 auto;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:12px}
+.step small{display:block;margin-top:5px;font-size:11px}
 </style>
 </head>
 <body>
 
-<!-- न्यूज चैनल लाइन -->
 <div class="ticker"><span>🌟 Pure Roots Argan Hair Serum 50ML | 💰 Price ₹110 MRP ₹170 | 🚚 Free Delivery 499+ | 💳 COD + Online Payment | 📞 WhatsApp: 9258751739, 7983006957 | 📍 उत्तर प्रदेश, ग्रेटर नोएडा, दनकौर, सिलापुर गांव, PIN 203201</span></div>
 
-<!-- Navbar 3 Dot + Search -->
 <div class="navbar">
   <h2>S K Pharmacy</h2>
   <div class="nav-right">
-    <i class="fa fa-search" id="searchBtn" onclick="searchBox()"></i>
-    <i class="fa fa-ellipsis-v" id="menuBtn" onclick="openMenu()"></i>
+    <i class="fa fa-search" onclick="searchBox()"></i>
+    <i class="fa fa-ellipsis-v" id="menuBtn" onclick="toggleMenu()"></i>
+    <div class="menu-box" id="menuBox">
+      <a href="orders.html">Your Orders</a>
+      <a href="settings.html">Account Settings</a>
+      <a href="customer-service.html">Customer Service</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="refund.html">Refund Policy</a>
+    </div>
   </div>
 </div>
 
-<!-- Main -->
 <div class="container">
   <div class="left-right">
     <div class="left">
@@ -117,34 +117,34 @@ body{font-family:Roboto,Arial,sans-serif;background:#f1f3f6;color:#212121}
         
         <div class="qty">
           <span>Qty:</span>
-          <button id="qtyMinus" onclick="changeQty(-1)">-</button>
+          <button onclick="changeQty(-1)">-</button>
           <input type="number" id="qtyInput" value="1" min="1" max="10" readonly>
-          <button id="qtyPlus" onclick="changeQty(1)">+</button>
+          <button onclick="changeQty(1)">+</button>
         </div>
         
         <div class="btns">
-          <button class="btn btn-cart" id="addToCartBtn" onclick="addToCart()">Add to Cart</button>
-          <button class="btn btn-buy" id="buyNowBtn" onclick="buyNow()">Buy Now</button>
-          <button class="btn btn-cart" id="giftCardBtn" onclick="openGiftCard()">Gift Card</button>
+          <button class="btn btn-cart" onclick="addToCart()">Add to Cart</button>
+          <button class="btn btn-buy" onclick="openPaymentPopup()">Buy Now</button>
+          <button class="btn btn-cart" onclick="openGiftCard()">Gift Card</button>
         </div>
         
         <div class="share">
-          <span id="shareBtn" onclick="shareProduct()"><i class="fa fa-share"></i> Share</span>
-          <span id="commentBtn" onclick="openComments()"><i class="fa fa-comment"></i> Comments</span>
-          <span id="trackingBtn" onclick="openTracking()"><i class="fa fa-truck"></i> Live Tracking</span>
+          <span onclick="shareProduct()"><i class="fa fa-share"></i> Share</span>
+          <span onclick="openComments()"><i class="fa fa-comment"></i> Comments</span>
+          <span onclick="openTrackingStatus()"><i class="fa fa-truck"></i> Live Tracking</span>
         </div>
         
         <div class="comment-box" id="commentSection" style="display:none">
           <b>Comments:</b>
-          <textarea id="commentBox" placeholder="Write review..."></textarea>
-          <button id="postCommentBtn" onclick="postComment()" style="margin-top:6px;padding:6px 12px;background:#2874f0;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px">Post</button>
-          <div id="commentList" style="margin-top:8px;font-size:12px"></div>
+          <textarea id="commentBox" placeholder="Write review..." rows="3"></textarea>
+          <input type="tel" id="commentMobile" placeholder="Mobile Number" maxlength="10">
+          <button onclick="postComment()" style="margin-top:6px;padding:6px 12px;background:#2874f0;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px">Post Review</button>
+          <div id="commentList" style="margin-top:8px;font-size:12px;max-height:150px;overflow-y:auto"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- तेरी 4 फोटो -->
   <div class="gallery">
     <h2>Product Details</h2>
     <img src="serum-benefits.jpg" alt="Argan Oil Benefits">
@@ -153,35 +153,78 @@ body{font-family:Roboto,Arial,sans-serif;background:#f1f3f6;color:#212121}
     <img src="serum-beforeafter.jpg" alt="Before After Result">
   </div>
   
-  <!-- Footer Links -->
   <div class="footer">
     <b>Quick Links:</b><br>
-    <a id="aboutLink" onclick="openAbout()">About</a>
-    <a id="contactLink" onclick="openContact()">Contact</a>
-    <a id="privacyLink" onclick="openPrivacy()">Privacy Policy</a>
-    <a id="refundLink" onclick="openRefund()">Refund Policy</a>
-    <a id="loginLink" onclick="openAccount()">Login</a>
-    <a id="passwordLink" onclick="openPasswordSetting()">Password Setting</a><br><br>
+    <a href="orders.html">My Orders</a>
+    <a href="settings.html">Account</a>
+    <a href="customer-service.html">Customer Service</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="refund.html">Refund Policy</a>
+    <a onclick="openAccount()">Login</a>
+    <a onclick="openPasswordSetting()">Password Setting</a><br><br>
     <b>Delivery:</b> उत्तर प्रदेश, ग्रेटर नोएडा, दनकौर, सिलापुर गांव, PIN 203201<br>
-    <b>WhatsApp:</b> 9258751739, 7983006957<br>
+    <b>WhatsApp:</b> <a class="whatsapp-link" onclick="openWhatsApp('9258751739')">9258751739</a>, <a class="whatsapp-link" onclick="openWhatsApp('7983006957')">7983006957</a><br>
+    <b>Email:</b> sakirkhangrnoida@gmail.com<br>
     <b>Payment:</b> Cash on Delivery, Online UPI/Card/Net Banking
+  </div>
+</div>
+
+<!-- Payment Popup -->
+<div class="popup" id="paymentPopup">
+  <div class="popup-box">
+    <span class="close" onclick="closePayment()">×</span>
+    <h3>Select Payment Method</h3>
+    <div class="payment-option">
+      <button id="codBtn" class="active" onclick="selectPayment('COD')">Cash on Delivery</button>
+      <button id="onlineBtn" onclick="selectPayment('Online')">Online Payment</button>
+    </div>
+    <input type="tel" id="orderMobile" placeholder="Enter 10 digit mobile" maxlength="10">
+    <button onclick="placeOrder()">Place Order</button>
+    <div class="msg" id="orderMsg"></div>
+    <p style="font-size:12px;margin-top:8px"><a href="cs-payment.html">Payment Failed? Click here</a></p>
   </div>
 </div>
 
 <!-- OTP Popup -->
 <div class="popup" id="otpPopup">
   <div class="popup-box">
-    <span class="close" id="closePopupBtn" onclick="closePopup()">×</span>
+    <span class="close" onclick="closePopup()">×</span>
     <h3>Mobile OTP Verification</h3>
-    <input type="tel" id="mobileInput" placeholder="Enter 10 digit mobile" maxlength="10">
-    <button id="sendBtn" onclick="sendOTP()">Send OTP</button>
-    <input type="text" id="otpInput" placeholder="Enter 4 digit OTP" style="display:none" maxlength="4">
-    <button id="verifyBtn" onclick="verifyOTP()" style="display:none">Verify & Place Order</button>
-    <div id="msg"></div>
+    <input type="text" id="otpInput" placeholder="Enter 4 digit OTP" maxlength="4">
+    <button onclick="verifyOTP()">Verify & Pay</button>
+    <div class="msg" id="msg"></div>
   </div>
 </div>
 
-<!-- Login Popup - NEW -->
+<!-- Refund Request Popup -->
+<div class="popup" id="refundPopup">
+  <div class="popup-box">
+    <span class="close" onclick="closeRefundReq()">×</span>
+    <h3>Refund Request</h3>
+    <input type="tel" id="refundMobile" placeholder="Order Mobile Number" maxlength="10">
+    <input type="text" id="refundOrderId" placeholder="Order ID">
+    <textarea id="refundReason" placeholder="Reason: Wrong Item / Damaged / Not Needed" rows="3"></textarea>
+    <button onclick="submitRefund()">Submit Request</button>
+    <div class="msg" id="refundMsg"></div>
+    <p style="font-size:12px;margin-top:8px"><a href="cs-other.html">Other Query?</a> | <a href="cs-prescription.html">Prescription Help</a> | <a href="refund.html">Full Refund Policy</a></p>
+  </div>
+</div>
+
+<!-- Live Tracking Status Popup -->
+<div class="popup" id="trackingPopup">
+  <div class="popup-box">
+    <span class="close" onclick="closeTracking()">×</span>
+    <h3>Live Tracking Status</h3>
+    <input type="tel" id="trackMobile" placeholder="Enter Order Mobile" maxlength="10">
+    <button onclick="checkTracking()">Check Status</button>
+    <div id="trackResult" style="margin-top:15px;font-size:13px"></div>
+    <p style="font-size:12px;margin-top:8px"><a href="cs-delivery.html">Delivery Help</a></p>
+  </div>
+</div>
+
+<!-- Login Popup -->
 <div class="popup" id="loginPopup">
   <div class="popup-box">
     <span class="close" onclick="closeLogin()">×</span>
@@ -189,11 +232,12 @@ body{font-family:Roboto,Arial,sans-serif;background:#f1f3f6;color:#212121}
     <input type="tel" id="loginMobile" placeholder="Mobile Number" maxlength="10">
     <input type="password" id="loginPass" placeholder="Password">
     <button onclick="doLogin()">Login</button>
-    <div id="loginMsg"></div>
+    <div class="msg" id="loginMsg"></div>
+    <p style="font-size:12px;margin-top:8px"><a href="cs-login.html">Login Problem?</a> | <a href="cs-account.html">Account Help</a></p>
   </div>
 </div>
 
-<!-- Password Setting Popup - NEW -->
+<!-- Password Setting Popup -->
 <div class="popup" id="passPopup">
   <div class="popup-box">
     <span class="close" onclick="closePass()">×</span>
@@ -201,34 +245,33 @@ body{font-family:Roboto,Arial,sans-serif;background:#f1f3f6;color:#212121}
     <input type="password" id="newPass" placeholder="New Password">
     <input type="password" id="confirmPass" placeholder="Confirm Password">
     <button onclick="changePass()">Save</button>
-    <div id="passMsg"></div>
+    <div class="msg" id="passMsg"></div>
   </div>
 </div>
 
 <!-- Cart Sidebar -->
 <div class="cart-sidebar" id="cartSidebar">
-  <span class="close-cart" id="closeCartBtn" onclick="closeCart()">×</span>
+  <span class="close-cart" onclick="closeCart()">×</span>
   <h3>Your Cart</h3>
   <div id="cartItems"></div>
   <div class="cart-total" id="cartTotal">Total: ₹0</div>
-  <button id="checkoutBtn" onclick="checkout()" style="width:100%;padding:11px;background:#fb641b;color:#fff;border:none;margin-top:12px;cursor:pointer;border-radius:2px">Checkout</button>
+  <button onclick="openPaymentPopup();closeCart()" style="width:100%;padding:11px;background:#fb641b;color:#fff;border:none;margin-top:12px;cursor:pointer;border-radius:2px">Checkout</button>
 </div>
 
-<!-- Live Notification -->
-<div class="notif" id="liveNotif">🔔 New Click on Product!</div>
+<div class="notif" id="liveNotif">🔔 New Activity!</div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, push, get, child, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_FIREBASE_API_KEY_HERE",
+  apiKey: "AlzaSyD2EOywrcf8vJUXnsmF5PA3t3inW70UX8Y",
   authDomain: "grnoida-store.firebaseapp.com",
-  databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com",
+  databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "grnoida-store",
-  storageBucket: "grnoida-store.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
+  storageBucket: "grnoida-store.firebasestorage.app",
+  messagingSenderId: "665639961400",
+  appId: "1:665639961400:web:cb704b0209b910fc6a77cd"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -236,14 +279,23 @@ const db = getDatabase(app);
 
 let currentOrder = {};
 let cart = [];
+let selectedPayment = 'COD';
 const basePrice = 110;
+const FAST2SMS_API = "38IAJVfEQOvQLwbU4zPCsroetzYBMncRI";
+
+// Last Order Tracking
+const lastOrder = localStorage.getItem('grnoida_last_order');
+if(lastOrder){
+  onValue(ref(db, 'orders/' + lastOrder), (snapshot) => {
+    const order = snapshot.val();
+    if(order){
+      localStorage.setItem('grnoida_last_order_data', JSON.stringify(order));
+    }
+  });
+}
 
 window.onload = function(){
-  push(ref(db, 'live_tracking'), {
-    product: "Pure Roots Hair Serum 50ML",
-    action: "Page Opened",
-    time: new Date().toLocaleString()
-  });
+  push(ref(db, 'live_tracking'), {product: "Pure Roots Hair Serum 50ML", action: "Page Opened", time: new Date().toLocaleString()});
   showLiveNotif();
 }
 
@@ -252,6 +304,188 @@ function showLiveNotif(){
   setTimeout(()=>{document.getElementById('liveNotif').style.display='none'},3000);
 }
 
+// 3 Dot Menu
+window.toggleMenu = function(){
+  let menu = document.getElementById('menuBox');
+  menu.style.display = menu.style.display=='block'?'none':'block';
+}
+window.onclick = function(e){
+  if(!e.target.matches('#menuBtn')){document.getElementById('menuBox').style.display='none'}
+}
+
+// WhatsApp Direct
+window.openWhatsApp = function(num){
+  let msg = encodeURIComponent("Hello S K Pharmacy, I need help regarding Pure Roots Hair Serum 50ML ₹110");
+  window.open(`https://wa.me/91${num}?text=${msg}`, '_blank');
+  push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "WhatsApp Clicked", number: num, time: new Date().toLocaleString()});
+}
+
+// Payment
+window.openPaymentPopup = function(){document.getElementById('paymentPopup').style.display = 'flex'}
+window.closePayment = function(){document.getElementById('paymentPopup').style.display = 'none'}
+window.selectPayment = function(type){
+  selectedPayment = type;
+  document.getElementById('codBtn').classList.remove('active');
+  document.getElementById('onlineBtn').classList.remove('active');
+  document.getElementById(type=='COD'?'codBtn':'onlineBtn').classList.add('active');
+}
+window.placeOrder = async function(){
+  let mobile = document.getElementById('orderMobile').value;
+  if(mobile.length!=10){showOrderMsg("10 digit mobile डालो", "#d32f2f"); return;}
+  
+  let qty = document.getElementById('qtyInput').value;
+  let total = basePrice * qty;
+  let orderId = 'SK' + Date.now();
+  currentOrder = {orderId, mobile, qty, total, payment: selectedPayment, status: "Order Placed", address: "उत्तर प्रदेश, ग्रेटर नोएडा, दनकौर, सिलापुर गांव, PIN 203201", product: "Pure Roots Hair Serum 50ML", date: new Date().toLocaleDateString()};
+  
+  if(selectedPayment=='COD'){
+    await saveOrder();
+    showOrderMsg("Order Confirmed! Order ID: " + orderId, "#388e3c");
+    localStorage.setItem('grnoida_last_order', orderId);
+    let sk_orders = JSON.parse(localStorage.getItem('sk_orders') || '[]');
+    sk_orders.push(currentOrder);
+    localStorage.setItem('sk_orders', JSON.stringify(sk_orders));
+    setTimeout(closePayment,2500);
+  } else {
+    let otp = Math.floor(1000 + Math.random() * 9000);
+    currentOrder.otp = otp;
+    document.getElementById('otpPopup').style.display = 'flex';
+    showOrderMsg("OTP भेजा गया", "#388e3c");
+    try{await fetch(`https://www.fast2sms.com/dev/bulkV2?authorization=${FAST2SMS_API}&route=otp&variables_values=${otp}&flash=0&numbers=${mobile}`);}catch(e){}
+  }
+}
+
+async function saveOrder(){
+  await set(ref(db, 'orders/' + currentOrder.orderId), currentOrder);
+  push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Order Placed", orderId: currentOrder.orderId, mobile: currentOrder.mobile, payment: currentOrder.payment, time: new Date().toLocaleString()});
+  cart = []; updateCart();
+  showLiveNotif();
+}
+
+window.verifyOTP = async function(){
+  if(document.getElementById('otpInput').value == currentOrder.otp){
+    await saveOrder();
+    showOrderMsg("Payment Success! Order ID: " + currentOrder.orderId, "#388e3c");
+    localStorage.setItem('grnoida_last_order', currentOrder.orderId);
+    let sk_orders = JSON.parse(localStorage.getItem('sk_orders') || '[]');
+    sk_orders.push(currentOrder);
+    localStorage.setItem('sk_orders', JSON.stringify(sk_orders));
+    setTimeout(()=>{closePopup(); closePayment()},2500);
+  } else {showOrderMsg("गलत OTP", "#d32f2f");}
+}
+window.closePopup = function(){document.getElementById('otpPopup').style.display = 'none'}
+
+// Refund
+window.openRefundReq = function(){
+  document.getElementById('refundPopup').style.display = 'flex';
+}
+window.closeRefundReq = function(){
+  document.getElementById('refundPopup').style.display = 'none';
+}
+window.submitRefund = async function(){
+  let mobile = document.getElementById('refundMobile').value;
+  let orderId = document.getElementById('refundOrderId').value;
+  let reason = document.getElementById('refundReason').value;
+  if(mobile.length!=10 || !orderId || !reason){
+    showRefundMsg("सब फील्ड भरो", "#d32f2f"); return;
+  }
+  await set(ref(db, 'refund_requests/' + orderId), {
+    mobile, reason, product: "Hair Serum 50ML",
+    time: new Date().toLocaleString(), status: "Requested"
+  });
+  showRefundMsg("Refund Request भेज दी। 5-7 दिन में पैसा वापस", "#388e3c");
+  setTimeout(closeRefundReq,2500);
+}
+
+// Live Tracking
+window.openTrackingStatus = function(){
+  document.getElementById('trackingPopup').style.display = 'flex';
+}
+window.closeTracking = function(){
+  document.getElementById('trackingPopup').style.display = 'none';
+  window.checkTracking = async function(){
+  let mobile = document.getElementById('trackMobile').value;
+  if(mobile.length!=10){document.getElementById('trackResult').innerHTML="10 digit mobile डालो"; return;}
+  
+  const dbRef = ref(db);
+  const snapshot = await get(child(dbRef, `orders`));
+  let found = false;
+  snapshot.forEach((child)=>{
+    let order = child.val();
+    if(order.mobile==mobile){
+      let statusMap = {'Order Placed':1, 'Packed':2, 'Shipped':3, 'Delivered':4};
+      let step = statusMap[order.status] || 1;
+      let width = (step-1)*33.33;
+      
+      document.getElementById('trackResult').innerHTML = `
+        <b>Order ID:</b> ${child.key}<br>
+        <b>Product:</b> ${order.product}<br>
+        <b>Total:</b> ₹${order.total} | <b>Payment:</b> ${order.payment}<br>
+        <b>Address:</b> ${order.address}<br><br>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:${width}%"></div>
+          <div class="step"><div style="background:${step>=1?'#ff9900':'#ddd'}">1</div><small>Placed</small></div>
+          <div class="step"><div style="background:${step>=2?'#ff9900':'#ddd'}">2</div><small>Packed</small></div>
+          <div class="step"><div style="background:${step>=3?'#ff9900':'#ddd'}">3</div><small>Shipped</small></div>
+          <div class="step"><div style="background:${step>=4?'#ff9900':'#ddd'}">4</div><small>Delivered</small></div>
+        </div>
+        <div id="currentStatus" style="text-align:center;font-weight:600;color:#007185;margin-top:10px">Current Status: ${order.status}</div>
+        <button onclick="trackWhatsApp('${child.key}')" style="margin-top:10px;padding:8px;background:#25D366;color:#fff;border:none;border-radius:4px;width:100%">Track on WhatsApp</button>
+      `;
+      found = true;
+    }
+  });
+  if(!found) document.getElementById('trackResult').innerHTML="कोई Order नहीं मिला इस नंबर पर";
+}
+
+window.trackWhatsApp = function(orderId){
+  let msg = encodeURIComponent(`Track Order%0AOrder ID: ${orderId}%0AHi, मेरे Order का Status बताएं`);
+  window.open(`https://wa.me/919258751739?text=${msg}`, '_blank');
+}
+
+// Share
+window.shareProduct = function(){
+  let url = window.location.href;
+  let text = encodeURIComponent("Pure Roots Hair Serum ₹110 only - S K Pharmacy");
+  if(navigator.share){
+    navigator.share({title: 'Hair Serum', text: text, url: url});
+  } else {
+    window.open(`https://wa.me/?text=${text} ${url}`, '_blank');
+  }
+  push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Shared", time: new Date().toLocaleString()});
+  showLiveNotif();
+}
+
+// Comments
+window.openComments = function(){
+  let sec=document.getElementById('commentSection');
+  sec.style.display=sec.style.display=='none'?'block':'none';
+  loadComments();
+}
+window.postComment = async function(){
+  let c=document.getElementById('commentBox').value;
+  let m=document.getElementById('commentMobile').value;
+  if(c.trim()!="" && m.length==10){
+    await push(ref(db, 'comments'), {product: "Hair Serum 50ML", comment: c, mobile: m, time: new Date().toLocaleString()});
+    document.getElementById('commentBox').value='';
+    document.getElementById('commentMobile').value='';
+    showMsg("Review posted", "#388e3c");
+    loadComments();
+  } else showMsg("Comment + Mobile डालो", "#d32f2f");
+}
+async function loadComments(){
+  const dbRef = ref(db);
+  const snapshot = await get(child(dbRef, `comments`));
+  let html = '';
+  snapshot.forEach((child)=>{
+    if(child.val().product=="Hair Serum 50ML"){
+      html += `<p style="margin-top:4px;padding:4px;background:#f5f5f5;border-radius:3px">${child.val().comment}</p>`;
+    }
+  });
+  document.getElementById('commentList').innerHTML = html;
+}
+
+// Cart & Qty
 window.changeQty = function(n){
   let qty = document.getElementById('qtyInput');
   let val = parseInt(qty.value) + n;
@@ -260,15 +494,14 @@ window.changeQty = function(n){
     document.getElementById('productPrice').innerText = basePrice * val;
   }
 }
-
 window.addToCart = function(){
   let qty = document.getElementById('qtyInput').value;
   cart.push({name: "Hair Serum 50ML", price: basePrice*qty, qty: qty});
   updateCart();
   showMsg("Product added to cart!", "#388e3c");
-  push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Added to Cart", qty: qty, time: new Date().toLocaleString()});
+  document.getElementById('cartSidebar').style.display = 'block';
+  showLiveNotif();
 }
-
 window.updateCart = function(){
   let cartDiv = document.getElementById('cartItems');
   let total = 0;
@@ -279,58 +512,13 @@ window.updateCart = function(){
   });
   document.getElementById('cartTotal').innerText = "Total: ₹" + total;
 }
-
-window.openCart = function(){document.getElementById('cartSidebar').style.display = 'block'}
 window.closeCart = function(){document.getElementById('cartSidebar').style.display = 'none'}
-window.checkout = function(){if(cart.length==0){showMsg("Cart खाली है", "#d32f2f"); return;} document.getElementById('otpPopup').style.display = 'flex'; closeCart();}
-window.buyNow = function(){document.getElementById('otpPopup').style.display = 'flex'; push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Buy Now Clicked", time: new Date().toLocaleString()}); showLiveNotif();}
-window.closePopup = function(){document.getElementById('otpPopup').style.display = 'none'}
+window.searchBox = function(){let s=prompt("Search product:"); if(s) showMsg("Searching: "+s, "#2874f0")}
+window.openGiftCard = function(){showMsg("Gift Card coming soon", "#2874f0")}
 
-window.sendOTP = async function(){
-  let mobile = document.getElementById('mobileInput').value;
-  if(mobile.length!=10){showMsg("10 digit number डालो", "#d32f2f"); return;}
-  let otp = Math.floor(1000 + Math.random() * 9000);
-  currentOrder = {otp, mobile, qty: document.getElementById('qtyInput').value, total: basePrice * document.getElementById('qtyInput').value};
-  document.getElementById('sendBtn').style.display = 'none';
-  document.getElementById('otpInput').style.display = 'block';
-  document.getElementById('verifyBtn').style.display = 'block';
-  showMsg("OTP भेज दिया " + mobile, "#388e3c");
-  try{await fetch(`https://www.fast2sms.com/dev/bulkV2?authorization=PASTE_YOUR_FAST2SMS_KEY_HERE&route=otp&variables_values=${otp}&flash=0&numbers=${mobile}`);}catch(e){console.log(e)}
-}
-
-window.verifyOTP = async function(){
-  if(document.getElementById('otpInput').value == currentOrder.otp){
-    showMsg("Order Confirmed! COD पर भेजा गया", "#388e3c");
-    await push(ref(db, 'orders'), {
-      product: "Pure Roots Hair Serum 50ML",
-      qty: currentOrder.qty,
-      total: currentOrder.total,
-      mobile: currentOrder.mobile,
-      address: "उत्तर प्रदेश, ग्रेटर नोएडा, दनकौर, सिलापुर गांव, PIN 203201",
-      payment: "COD",
-      time: new Date().toLocaleString(),
-      status: "Pending"
-    });
-    push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Order Placed", mobile: currentOrder.mobile, time: new Date().toLocaleString()});
-    cart = []; updateCart();
-    setTimeout(closePopup,2000);
-  } else {showMsg("गलत OTP", "#d32f2f");}
-}
-
-// 3 Dot Menu - NEW
-window.openMenu = function(){
-  showMsg("Menu: About, Contact, Privacy, Refund", "#2874f0");
-  push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "3 Dot Menu Clicked", time: new Date().toLocaleString()});
-}
-
-// Login - NEW
-window.openAccount = function(){
-  document.getElementById('loginPopup').style.display = 'flex';
-  push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Login Popup Opened", time: new Date().toLocaleString()});
-}
-window.closeLogin = function(){
-  document.getElementById('loginPopup').style.display = 'none';
-}
+// Login/Password
+window.openAccount = function(){document.getElementById('loginPopup').style.display = 'flex'}
+window.closeLogin = function(){document.getElementById('loginPopup').style.display = 'none'}
 window.doLogin = function(){
   let m = document.getElementById('loginMobile').value;
   let p = document.getElementById('loginPass').value;
@@ -338,21 +526,13 @@ window.doLogin = function(){
     document.getElementById('loginMsg').innerText = "Login Successful!";
     document.getElementById('loginMsg').style.color = "#388e3c";
     setTimeout(closeLogin,1500);
-    push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Login Success", mobile: m, time: new Date().toLocaleString()});
   } else {
     document.getElementById('loginMsg').innerText = "Mobile/Password गलत है";
     document.getElementById('loginMsg').style.color = "#d32f2f";
   }
 }
-
-// Password Setting - NEW
-window.openPasswordSetting = function(){
-  document.getElementById('passPopup').style.display = 'flex';
-  push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Password Setting Opened", time: new Date().toLocaleString()});
-}
-window.closePass = function(){
-  document.getElementById('passPopup').style.display = 'none';
-}
+window.openPasswordSetting = function(){document.getElementById('passPopup').style.display = 'flex'}
+window.closePass = function(){document.getElementById('passPopup').style.display = 'none'}
 window.changePass = function(){
   let np = document.getElementById('newPass').value;
   let cp = document.getElementById('confirmPass').value;
@@ -366,21 +546,20 @@ window.changePass = function(){
   }
 }
 
-window.shareProduct = function(){navigator.clipboard.writeText(window.location.href); showMsg("Link copied!", "#388e3c"); push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Shared", time: new Date().toLocaleString()});}
-window.openGiftCard = function(){showMsg("Gift Card खुल गया", "#388e3c")}
-window.openComments = function(){let sec=document.getElementById('commentSection'); sec.style.display=sec.style.display=='none'?'block':'none'}
-window.postComment = function(){let c=document.getElementById('commentBox').value; if(c.trim()!=""){document.getElementById('commentList').innerHTML += `<p style="margin-top:4px;padding:4px;background:#f5f5f5;border-radius:3px">${c}</p>`; document.getElementById('commentBox').value=''; showMsg("Review posted", "#388e3c")}}
-window.openTracking = function(){showMsg("Live Tracking: Order Status Pending", "#2874f0")}
-window.searchBox = function(){let s=prompt("Search product:"); if(s) showMsg("Searching: "+s, "#2874f0")}
-window.openAbout = function(){showMsg("About: S K Pharmacy - Best Medicine Store", "#2874f0")}
-window.openContact = function(){showMsg("Contact: WhatsApp 9258751739, 7983006957", "#2874f0")}
-window.openPrivacy = function(){showMsg("Privacy: Your data is 100% secure", "#2874f0")}
-window.openRefund = function(){showMsg("Refund: 7 दिन में 100% Refund", "#2874f0")}
-
 function showMsg(text,color){
   document.getElementById('msg').innerText = text;
   document.getElementById('msg').style.color = color;
   setTimeout(()=>{document.getElementById('msg').innerText=''},2500);
+}
+function showOrderMsg(text,color){
+  document.getElementById('orderMsg').innerText = text;
+  document.getElementById('orderMsg').style.color = color;
+  setTimeout(()=>{document.getElementById('orderMsg').innerText=''},2500);
+}
+function showRefundMsg(text,color){
+  document.getElementById('refundMsg').innerText = text;
+  document.getElementById('refundMsg').style.color = color;
+  setTimeout(()=>{document.getElementById('refundMsg').innerText=''},2500);
 }
 </script>
 </body>
