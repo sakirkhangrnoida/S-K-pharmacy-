@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pure Roots Hair Serum Argan Oil 50ML</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Roboto,Arial,sans-serif;background:#f1f3f6;color:#212121}
+
+/* न्यूज चैनल टicker */
+.ticker{position:fixed;top:0;left:0;width:100%;background:#ff5722;color:#fff;padding:8px 0;overflow:hidden;z-index:999;font-size:14px}
+.ticker span{display:inline-block;padding-left:100%;animation:scroll 25s linear infinite;white-space:nowrap}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+
+/* Navbar */
+.navbar{background:#2874f0;padding:10px 15px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:38px;z-index:998}
+.navbar h2{color:#fff;font-size:18px}
+.nav-right{display:flex;gap:15px;color:#fff;font-size:20px;cursor:pointer}
+
+/* Container */
+.container{max-width:1100px;margin:70px auto 20px;padding:15px}
+.left-right{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.left{flex:1;min-width:300px}
+.right{flex:1;min-width:300px}
+.img-box{background:#fff;padding:15px;border-radius:4px;text-align:center;border:1px solid #e0e0e0}
+.img-box img{width:100%;max-height:450px;object-fit:contain}
+
+/* Product Info */
+.info{background:#fff;padding:20px;border-radius:4px;border:1px solid #e0e0e0}
+.info h1{font-size:20px;margin-bottom:8px;font-weight:500}
+.rating{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:14px}
+.badge{background:#388e3c;color:#fff;padding:4px 8px;border-radius:3px;font-size:12px}
+.price{font-size:26px;font-weight:700;margin:15px 0}
+.price del{font-size:16px;color:#878787;margin-left:10px}
+.off{color:#388e3c;font-size:15px;margin-left:8px}
+.qty{display:flex;align-items:center;gap:10px;margin:18px 0}
+.qty button{width:30px;height:30px;border:1px solid #e0e0e0;background:#fff;font-size:16px;cursor:pointer}
+.qty input{width:55px;height:30px;text-align:center;border:1px solid #e0e0e0}
+.btns{display:flex;gap:8px;margin:18px 0;flex-wrap:wrap}
+.btn{flex:1;min-width:120px;padding:12px;border:none;border-radius:2px;font-size:15px;font-weight:500;cursor:pointer}
+.btn-cart{background:#ff9f00;color:#fff}
+.btn-buy{background:#fb641b;color:#fff}
+
+/* Product Gallery - तेरी 4 फोटो यहां */
+.gallery{background:#fff;padding:20px;border-radius:4px;border:1px solid #e0e0e0;margin-top:20px}
+.gallery h2{font-size:18px;margin-bottom:15px;color:#2874f0}
+.gallery img{width:100%;margin-bottom:15px;border-radius:4px;border:1px solid #e0e0e0}
+
+/* Popup */
+.popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center}
+.popup-box{background:#fff;padding:20px;border-radius:8px;width:90%;max-width:380px;position:relative}
+.popup-box .close{position:absolute;top:8px;right:12px;font-size:22px;cursor:pointer}
+.popup-box h3{margin-bottom:12px;font-size:17px}
+.popup-box input{width:100%;padding:10px;margin:6px 0;border:1px solid #e0e0e0;border-radius:4px}
+.popup-box button{width:100%;padding:11px;background:#2874f0;color:#fff;border:none;border-radius:4px;margin-top:8px;cursor:pointer;font-weight:500}
+#msg{margin-top:8px;font-size:13px;color:#d32f2f;min-height:18px}
+
+/* Footer Links */
+.footer{background:#fff;margin-top:20px;padding:18px;border-radius:4px;font-size:13px;line-height:1.7;border:1px solid #e0e0e0}
+.footer a{color:#2874f0;text-decoration:none;margin-right:12px;cursor:pointer}
+.footer b{color:#000}
+.comment-box{margin-top:12px}
+.comment-box textarea{width:100%;padding:8px;border:1px solid #e0e0e0;border-radius:4px;font-size:13px}
+.share{margin-top:8px;display:flex;gap:12px;font-size:16px;color:#2874f0;cursor:pointer;flex-wrap:wrap}
+.share span{display:flex;align-items:center;gap:4px;font-size:13px}
+
+/* Cart Sidebar */
+.cart-sidebar{display:none;position:fixed;right:0;top:0;width:300px;height:100%;background:#fff;box-shadow:-2px 0 8px rgba(0,0,0,0.2);z-index:1001;padding:18px;overflow-y:auto}
+.cart-sidebar h3{margin-bottom:12px;font-size:17px}
+.cart-item{border-bottom:1px solid #e0e0e0;padding:8px 0;font-size:13px;display:flex;justify-content:space-between}
+.close-cart{position:absolute;top:8px;right:12px;font-size:22px;cursor:pointer}
+.cart-total{margin-top:12px;font-weight:700;font-size:15px}
+
+/* Live Notification Badge */
+.notif{position:fixed;bottom:20px;right:20px;background:#388e3c;color:#fff;padding:10px 15px;border-radius:50px;font-size:13px;display:none;z-index:1003}
+</style>
+</head>
+<body>
+
+<!-- न्यूज चैनल लाइन -->
+<div class="ticker"><span>🌟 Pure Roots Argan Hair Serum 50ML | 💰 Price ₹199 MRP ₹249 | 🚚 Free Delivery 499+ | 💳 COD + Online Payment | 📞 WhatsApp: 9258751739, 7983006957 | 📍 उत्तर प्रदेश, ग्रेटर नोएडा, दनकौर, सिलापुर गांव, PIN 203201</span></div>
+
+<!-- Navbar 3 Dot + Search -->
+<div class="navbar">
+  <h2>S K Pharmacy</h2>
+  <div class="nav-right">
+    <i class="fa fa-search" id="searchBtn" onclick="searchBox()"></i>
+    <i class="fa fa-ellipsis-v" id="menuBtn" onclick="openMenu()"></i>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="container">
+  <div class="left-right">
+    <div class="left">
+      <div class="img-box">
+        <img src="serum.jpg" id="mainProductImg" alt="Hair Serum Argan Oil 50ML">
+      </div>
+    </div>
+    
+    <div class="right">
+      <div class="info">
+        <h1 id="productName">Pure Roots Hair Serum Enriched with Argan Oil & Vit E 50ML</h1>
+        <div class="rating">
+          <span class="badge" id="ratingBadge">4.3 ★</span>
+          <span id="ratingCount">54 Ratings</span>
+        </div>
+        
+        <div class="price">₹<span id="productPrice">110</span> 
+          <del>₹170</del> 
+          <span class="off" id="offPercent">35% off</span>
+        </div>
+        
+        <p style="color:#388e3c;margin:8px 0;font-size:13px">✓ In Stock | ✓ COD Available | ✓ 7 Day Return | ✓ For High Gloss Silky Smooth Finish</p>
+        
+        <div class="qty">
+          <span>Qty:</span>
+          <button id="qtyMinus" onclick="changeQty(-1)">-</button>
+          <input type="number" id="qtyInput" value="1" min="1" max="10" readonly>
+          <button id="qtyPlus" onclick="changeQty(1)">+</button>
+        </div>
+        
+        <div class="btns">
+          <button class="btn btn-cart" id="addToCartBtn" onclick="addToCart()">Add to Cart</button>
+          <button class="btn btn-buy" id="buyNowBtn" onclick="buyNow()">Buy Now</button>
+          <button class="btn btn-cart" id="giftCardBtn" onclick="openGiftCard()">Gift Card</button>
+        </div>
+        
+        <div class="share">
+          <span id="shareBtn" onclick="shareProduct()"><i class="fa fa-share"></i> Share</span>
+          <span id="commentBtn" onclick="openComments()"><i class="fa fa-comment"></i> Comments</span>
+          <span id="trackingBtn" onclick="openTracking()"><i class="fa fa-truck"></i> Live Tracking</span>
+        </div>
+        
+        <div class="comment-box" id="commentSection" style="display:none">
+          <b>Comments:</b>
+          <textarea id="commentBox" placeholder="Write review..."></textarea>
+          <button id="postCommentBtn" onclick="postComment()" style="margin-top:6px;padding:6px 12px;background:#2874f0;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px">Post</button>
+          <div id="commentList" style="margin-top:8px;font-size:12px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- तेरी 4 फोटो यहां जुड़ी हैं -->
+  <div class="gallery">
+    <h2>Product Details</h2>
+    <img src="serum-benefits.jpg" alt="Argan Oil Benefits">
+    <img src="serum-use.jpg" alt="How to Use Hair Serum">
+    <img src="serum-ingredients.jpg" alt="Argan Oil Vitamin E">
+    <img src="serum-beforeafter.jpg" alt="Before After Result">
+  </div>
+  
+  <!-- Footer Links -->
+  <div class="footer">
+    <b>Quick Links:</b><br>
+    <a id="aboutLink" onclick="openAbout()">About</a>
+    <a id="contactLink" onclick="openContact()">Contact</a>
+    <a id="privacyLink" onclick="openPrivacy()">Privacy Policy</a>
+    <a id="refundLink" onclick="openRefund()">Refund Policy</a>
+    <a id="loginLink" onclick="openAccount()">Login</a>
+    <a id="passwordLink" onclick="openPasswordSetting()">Password Setting</a><br><br>
+    <b>Delivery:</b> उत्तर प्रदेश, ग्रेटर नोएडा, दनकौर, सिलापुर गांव, PIN 203201<br>
+    <b>WhatsApp:</b> 9258751739, 7983006957<br>
+    <b>Payment:</b> Cash on Delivery, Online UPI/Card/Net Banking
+  </div>
+</div>
+
+<!-- OTP Popup -->
+<div class="popup" id="otpPopup">
+  <div class="popup-box">
+    <span class="close" id="closePopupBtn" onclick="closePopup()">×</span>
+    <h3>Mobile OTP Verification</h3>
+    <input type="tel" id="mobileInput" placeholder="Enter 10 digit mobile" maxlength="10">
+    <button id="sendBtn" onclick="sendOTP()">Send OTP</button>
+    <input type="text" id="otpInput" placeholder="Enter 4 digit OTP" style="display:none" maxlength="4">
+    <button id="verifyBtn" onclick="verifyOTP()" style="display:none">Verify & Place Order</button>
+    <div id="msg"></div>
+  </div>
+</div>
+
+<!-- Cart Sidebar -->
+<div class="cart-sidebar" id="cartSidebar">
+  <span class="close-cart" id="closeCartBtn" onclick="closeCart()">×</span>
+  <h3>Your Cart</h3>
+  <div id="cartItems"></div>
+  <div class="cart-total" id="cartTotal">Total: ₹0</div>
+  <button id="checkoutBtn" onclick="checkout()" style="width:100%;padding:11px;background:#fb641b;color:#fff;border:none;margin-top:12px;cursor:pointer;border-radius:2px">Checkout</button>
+</div>
+
+<!-- Live Notification -->
+<div class="notif" id="liveNotif">🔔 New Click on Product!</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_FIREBASE_API_KEY_HERE",
+  authDomain: "grnoida-store.firebaseapp.com",
+  databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com",
+  projectId: "grnoida-store",
+  storageBucket: "grnoida-store.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcdef"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let currentOrder = {};
+let cart = [];
+const basePrice = 199;
+
+// Page Load - Live Tracking चालू
+window.onload = function(){
+  push(ref(db, 'live_tracking'), {
+    product: "Pure Roots Hair Serum 50ML",
+    action: "Page Opened",
+    time: new Date().toLocaleString()
+  });
+  showLiveNotif();
+}
+
+function showLiveNotif(){
+  document.getElementById('liveNotif').style.display = 'block';
+  setTimeout(()=>{document.getElementById('liveNotif').style.display='none'},3000);
+}
+
+window.changeQty = function(n){
+  let qty = document.getElementById('qtyInput');
+  let val = parseInt(qty.value) + n;
+  if(val>=1 && val<=10){
+    qty.value = val;
+    document.getElementById('productPrice').innerText = basePrice * val;
+  }
+}
+
+window.addToCart = function(){
+  let qty = document.getElementById('qtyInput').value;
+  cart.push({name: "Hair Serum 50ML", price: basePrice*qty, qty: qty});
+  updateCart();
+  showMsg("Product added to cart!", "#388e3c");
+  push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Added to Cart", qty: qty, time: new Date().toLocaleString()});
+}
+
+window.updateCart = function(){
+  let cartDiv = document.getElementById('cartItems');
+  let total = 0;
+  cartDiv.innerHTML = '';
+  cart.forEach((item)=>{
+    total += item.price;
+    cartDiv.innerHTML += `<div class="cart-item"><span>${item.name} x${item.qty}</span><span>₹${item.price}</span></div>`;
+  });
+  document.getElementById('cartTotal').innerText = "Total: ₹" + total;
+}
+
+window.openCart = function(){document.getElementById('cartSidebar').style.display = 'block'}
+window.closeCart = function(){document.getElementById('cartSidebar').style.display = 'none'}
+window.checkout = function(){if(cart.length==0){showMsg("Cart खाली है", "#d32f2f"); return;} document.getElementById('otpPopup').style.display = 'flex'; closeCart();}
+window.buyNow = function(){document.getElementById('otpPopup').style.display = 'flex'; push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Buy Now Clicked", time: new Date().toLocaleString()}); showLiveNotif();}
+window.closePopup = function(){document.getElementById('otpPopup').style.display = 'none'}
+
+window.sendOTP = async function(){
+  let mobile = document.getElementById('mobileInput').value;
+  if(mobile.length!=10){showMsg("10 digit number डालो", "#d32f2f"); return;}
+  let otp = Math.floor(1000 + Math.random() * 9000);
+  currentOrder = {otp, mobile, qty: document.getElementById('qtyInput').value, total: basePrice * document.getElementById('qtyInput').value};
+  document.getElementById('sendBtn').style.display = 'none';
+  document.getElementById('otpInput').style.display = 'block';
+  document.getElementById('verifyBtn').style.display = 'block';
+  showMsg("OTP भेज दिया " + mobile, "#388e3c");
+  try{await fetch(`https://www.fast2sms.com/dev/bulkV2?authorization=PASTE_YOUR_FAST2SMS_KEY_HERE&route=otp&variables_values=${otp}&flash=0&numbers=${mobile}`);}catch(e){console.log(e)}
+}
+
+window.verifyOTP = async function(){
+  if(document.getElementById('otpInput').value == currentOrder.otp){
+    showMsg("Order Confirmed! COD पर भेजा गया", "#388e3c");
+    await push(ref(db, 'orders'), {
+      product: "Pure Roots Hair Serum 50ML",
+      qty: currentOrder.qty,
+      total: currentOrder.total,
+      mobile: currentOrder.mobile,
+      address: "उत्तर प्रदेश, ग्रेटर नोएडा, दनकौर, सिलापुर गांव, PIN 203201",
+      payment: "COD",
+      time: new Date().toLocaleString(),
+      status: "Pending"
+    });
+    push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Order Placed", mobile: currentOrder.mobile, time: new Date().toLocaleString()});
+    cart = []; updateCart();
+    setTimeout(closePopup,2000);
+  } else {showMsg("गलत OTP", "#d32f2f");}
+}
+
+window.shareProduct = function(){navigator.clipboard.writeText(window.location.href); showMsg("Link copied!", "#388e3c"); push(ref(db, 'live_tracking'), {product: "Hair Serum 50ML", action: "Shared", time: new Date().toLocaleString()});}
+window.openGiftCard = function(){showMsg("Gift Card खुल गया", "#388e3c")}
+window.openComments = function(){let sec=document.getElementById('commentSection'); sec.style.display=sec.style.display=='none'?'block':'none'}
+window.postComment = function(){let c=document.getElementById('commentBox').value; if(c.trim()!=""){document.getElementById('commentList').innerHTML += `<p style="margin-top:4px;padding:4px;background:#f5f5f5;border-radius:3px">${c}</p>`; document.getElementById('commentBox').value=''; showMsg("Review posted", "#388e3c")}}
+window.openTracking = function(){showMsg("Live Tracking: Order Status Pending", "#2874f0")}
+window.searchBox = function(){let s=prompt("Search product:"); if(s) showMsg("Searching: "+s, "#2874f0")}
+window.openMenu = function(){showMsg("Menu: About, Contact, Privacy, Refund", "#2874f0")}
+window.openAbout = function(){showMsg("About: S K Pharmacy - Best Medicine Store", "#2874f0")}
+window.openContact = function(){showMsg("Contact: WhatsApp 9258751739, 7983006957", "#2874f0")}
+window.openPrivacy = function(){showMsg("Privacy: Your data is 100% secure", "#2874f0")}
+window.openRefund = function(){showMsg("Refund: 7 दिन में 100% Refund", "#2874f0")}
+window.openAccount = function(){showMsg("Login Popup खुल गया", "#2874f0")}
+window.openPasswordSetting = function(){showMsg("Password Setting खुल गया", "#2874f0")}
+
+function showMsg(text,color){
+  document.getElementById('msg').innerText = text;
+  document.getElementById('msg').style.color = color;
+  setTimeout(()=>{document.getElementById('msg').innerText=''},2500);
+}
+</script>
+</body>
+  </html>
