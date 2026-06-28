@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livon Serum - 100ml ₹149 | S K Pharmacy</title>
+    
+    <!-- WhatsApp + Google Preview -->
+    <meta property="og:title" content="Livon Serum 100ml - ₹149 Only | S K Pharmacy">
+    <meta property="og:description" content="Damage Protection | Control Frizz | COD + Live Tracking">
+    <meta property="og:image" content="https://sakirkhangrnoida.github.io/livon-1.jpg">
+    <meta property="og:url" content="https://sakirkhangrnoida.github.io/livon-serum.html">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #f3f3f3; }
+        .top-bar { background: #131921; color: white; padding: 8px 0; font-size: 13px; }
+        .search-bar { background: #232f3e; padding: 10px 0; }
+        .search-input { border-radius: 4px 0 0 4px; border: none; }
+        .search-btn { background: #febd69; border-radius: 0 4px 4px 0; border: none; }
+        .category-bar { background: #232f3e; color: white; padding: 8px 0; font-size: 14px; overflow-x: auto; white-space: nowrap; }
+        .category-bar span { margin-right: 15px; cursor: pointer; }
+        .product-container { background: white; margin-top: 15px; }
+        .price-big { font-size: 28px; color: #B12704; }
+        .mrp { color: #565959; font-size: 14px; }
+        .discount { color: #CC0C39; font-size: 14px; }
+        .buy-box { border: 1px solid #ddd; border-radius: 8px; padding: 15px; }
+        .btn-cart { background: #FFD814; border: none; border-radius: 20px; }
+        .btn-buy { background: #FFA41C; border: none; border-radius: 20px; }
+        .btn-whatsapp { background: #25D366; border: none; border-radius: 20px; color: white; }
+        .share-icon { cursor: pointer; }
+        .three-dots { cursor: pointer; position: relative; }
+        .breadcrumb { font-size: 12px; color: #565959; }
+        .breadcrumb a { color: #007185; text-decoration: none; }
+        .product-gallery img { border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; }
+        .dropdown-menu { min-width: 200px; }
+        .live-badge { animation: blink 1.5s infinite; }
+        @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar - Login + Map + Settings -->
+    <div class="top-bar">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between">
+                <div><i class="fa fa-map-marker-alt"></i> <a href="#" onclick="openMap()" class="text-white text-decoration-none">Deliver to Gr. Noida 201301</a></div>
+                <div>
+                    <span class="me-3 dropdown">
+                        <a href="#" class="text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-user"></i> <span id="loginText">Hello, Sign in</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="loginUser()">Login / Register</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="myOrders()">My Orders</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="settings()">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logoutUser()">Logout</a></li>
+                        </ul>
+                    </span>
+                    <span><i class="fa fa-shopping-cart"></i> Cart <span class="badge bg-warning text-dark" id="cartCount">0</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center">
+                <h4 class="text-white me-3 mb-0">S K Pharmacy</h4>
+                <div class="input-group flex-grow-1">
+                    <button class="btn btn-light dropdown-toggle" type="button" style="border-radius: 4px 0 0 4px; font-size: 12px;">All</button>
+                    <input type="text" class="form-control search-input" placeholder="Search S K Pharmacy" id="searchBox">
+                    <button class="btn search-btn px-3" onclick="searchProduct()"><i class="fa fa-search"></i></button>
+                </div>
+                <div class="ms-3 text-white">
+                    <i class="fa fa-share-alt share-icon me-3" onclick="shareGoogle()" title="Share on Google/WhatsApp"></i>
+                    <div class="d-inline-block three-dots">
+                        <i class="fa fa-ellipsis-v" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="copyLink()"><i class="fa fa-link"></i> Copy Link</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="reportProduct()"><i class="fa fa-flag"></i> Report</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="helpCenter()"><i class="fa fa-question-circle"></i> Help</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Bar -->
+    <div class="category-bar">
+        <div class="container-fluid">
+            <span><i class="fa fa-bars"></i> All</span>
+            <span>Fresh</span>
+            <span>Amazon Pay</span>
+            <span>Sell</span>
+            <span>Hair Care</span>
+            <span>Serum</span>
+            <span>Livon</span>
+        </div>
+    </div>
+
+    <!-- Live Notification -->
+    <div class="alert alert-success alert-dismissible fade show mb-0 rounded-0" role="alert">
+        <i class="fa fa-bell live-badge"></i> <strong>Live:</strong> Gr. Noida में 5 लोग अभी ये प्रोडक्ट देख रहे हैं! <span class="text-success">In Stock</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="container-fluid bg-white py-2">
+        <div class="breadcrumb mb-0">
+            <a href="https://sakirkhangrnoida.github.io/index.html">Home</a> > 
+            <a href="#">Hair Care</a> > 
+            <a href="#">Serum</a> > 
+            <span>Livon Serum</span>
+        </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="container-fluid">
+        <div class="product-container p-3">
+            <div class="row">
+                <!-- Left - Images -->
+                <div class="col-md-4 product-gallery">
+                    <img src="livon-1.jpg" class="img-fluid w-100" alt="Livon Serum">
+                    <img src="livon-2.jpg" class="img-fluid w-100" alt="Livon Serum Box">
+                    <div class="text-center mt-2">
+                        <small class="text-muted">Roll over image to zoom in</small>
+                    </div>
+                </div>
+
+                <!-- Middle - Details -->
+                <div class="col-md-5">
+                    <h4>Livon Serum - 100ml | Hair Serum for Frizz Control & Silky Shine | Vitamin E</h4>
+                    <div class="small">
+                        <span class="text-primary">Brand: Livon</span> | 
+                        <a href="#" class="text-primary">Search this page</a>
+                    </div>
+                    <div class="my-2">
+                        <span class="text-warning">
+                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-alt"></i>
+                        </span>
+                        <a href="#reviews" class="text-primary ms-2">5,200 ratings</a> | 
+                        <a href="#reviews" class="text-primary">340 answered questions</a>
+                    </div>
+                    <div class="badge bg-success mb-2">No.1 Hair Serum</div>
+                    <div class="text-success small">15K+ bought in past month</div>
+                    <hr>
+                    
+                    <div>
+                        <span class="discount">-17%</span>
+                        <span class="price-big">₹149</span>
+                    </div>
+                    <div class="mrp">M.R.P.: <del>₹180</del></div>
+                    <div class="small">Inclusive of all taxes</div>
+                    
+                    <div class="mt-3">
+                        <span class="badge bg-primary"><i class="fa fa-truck"></i> Live Tracking Available</span>
+                    </div>
+
+                    <hr>
+                    <!-- About this item -->
+                    <div class="mt-3">
+                        <h6>About this item</h6>
+                        <ul class="small">
+                            <li><strong>Damage Protection:</strong> बालों को हीट और प्रदूषण से बचाए</li>
+                            <li><strong>Control Frizz:</strong> उलझे बालों को सुलझाए, 48 घंटे तक स्मूद</li>
+                            <li><strong>Vitamin E:</strong> बालों को सिल्की, शाइनी और हेल्दी बनाए</li>
+                            <li><strong>Lightweight:</strong> चिपचिपा नहीं, रोज इस्तेमाल कर सकते हैं</li>
+                            <li><strong>Volume:</strong> 100ml - 2-3 महीने चलेगा</li>
+                        </ul>
+                    </div>
+
+                    <hr>
+                    <!-- How to Use -->
+                    <div class="mt-3">
+                        <h6><i class="fa fa-question-circle"></i> कैसे इस्तेमाल करें?</h6>
+                        <ol class="small">
+                            <li><strong>शैंपू के बाद:</strong> बाल धोकर तौलिए से हल्के सुखाएं</li>
+                            <li><strong>लें:</strong> हथेली पर 2-3 बूंद लें</li>
+                            <li><strong>लगाएं:</strong> बालों की लंबाई और सिरों पर लगाएं, जड़ों पर नहीं</li>
+                            <li><strong>सुखाएं:</strong> हवा में सुखाएं या ब्लो ड्राई करें - फ्रिज कंट्रोल हो जाएगा</li>
+                            <li><strong>रोज:</strong> रोज इस्तेमाल कर सकते हैं स्टाइलिंग के लिए</li>
+                        </ol>
+                    </div>
+
+                    <hr>
+                    <!-- Live Tracking Status -->
+                    <div class="border p-2 rounded bg-light">
+                        <strong><i class="fa fa-location-dot text-danger"></i> Live Tracking Status</strong>
+                        <div class="small mt-2">
+                            <div class="d-flex justify-content-between">
+                                <span>Order Confirmed</span>
+                                <i class="fa fa-check text-success"></i>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Packed & Ready</span>
+                                <i class="fa fa-check text-success"></i>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Out for Delivery</span>
+                                <i class="fa fa-truck text-primary"></i>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Delivered</span>
+                                <i class="fa fa-circle text-muted"></i>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary w-100 mt-2" onclick="trackOrder()">Track on Map</button>
+                    </div>
+                </div>
+
+                <!-- Right - Buy Box -->
+                <div class="col-md-3">
+                    <div class="buy-box">
+                        <div class="price-big">₹149</div>
+                        <div class="small text-primary"><i class="fa fa-map-marker-alt"></i> Delivery to Gr. Noida 201301</div>
+                        <div class="text-success small mt-2"><strong>In Stock</strong></div>
+                        <div class="small">Ships from <strong>S K Pharmacy</strong></div>
+                        
+                        <div class="mt-3">
+                            <label class="small">Quantity:</label>
+                            <select class="form-select form-select-sm" id="quantity">
+                                <option>1</option><option>2</option><option>3</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-3">
+                            <button class="btn btn-cart" onclick="addToCart()">
+                                <i class="fa fa-cart-plus"></i> Add to Cart
+                            </button>
+                            <button class="btn btn-buy" onclick="buyNow()">
+                                <i class="fa fa-bolt"></i> Buy Now - COD
+                            </button>
+                            <button class="btn btn-whatsapp" onclick="orderWhatsApp()">
+                                <i class="fab fa-whatsapp"></i> Order on WhatsApp
+                            </button>
+                        </div>
+
+                        <hr>
+                        <!-- Refund Option -->
+                        <div class="alert alert-warning py-2 small">
+                            <strong><i class="fa fa-undo"></i> 7 Days Refund</strong><br>
+                            प्रोडक्ट पसंद न आए? 7 दिन में रिटर्न करें।<br>
+                            <button class="btn btn-sm btn-danger w-100 mt-1" onclick="refundOption()">Refund Request करें</button>
+                        </div>
+
+                        <div class="small mt-2">
+                            <i class="fa fa-lock"></i> Secure transaction<br>
+                            <i class="fa fa-shield-alt"></i> S K Pharmacy Delivered
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="product-container p-3 mt-3" id="reviews">
+            <h5>Customer Reviews</h5>
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>4.4 <i class="fa fa-star text-warning"></i></h2>
+                    <div class="small text-muted">5,200 global ratings</div>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" id="userName" class="form-control mb-2" placeholder="आपका नाम">
+                    <textarea id="commentBox" class="form-control mb-2" rows="2" placeholder="अपना रिव्यू लिखें..."></textarea>
+                    <button class="btn btn-warning btn-sm" onclick="addComment()">Post Review</button>
+                    <hr>
+                    <div id="commentList">
+                        <div class="border-bottom py-2"><strong>Sneha R.</strong> <span class="text-warning"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span><br>फ्रिज एकदम खत्म! बाल सिल्की हो गए। Live tracking भी मिला 👌</div>
+                        <div class="border-bottom py-2"><strong>Aman K.</strong> <span class="text-warning"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span><br>Original प्रोडक्ट, S K Pharmacy से COD में मंगवाया।</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white mt-4 py-4 border-top">
+        <div class="container text-center small">
+            <a href="https://sakirkhangrnoida.github.io/about.html" class="text-primary me-3">About Us</a>
+            <a href="https://sakirkhangrnoida.github.io/contact.html" class="text-primary me-3">Contact</a>
+            <a href="https://sakirkhangrnoida.github.io/privacy.html" class="text-primary me-3">Privacy Policy</a>
+            <a href="https://sakirkhangrnoida.github.io/refund.html" class="text-primary">Refund Policy</a>
+            <p class="mt-3 mb-0 text-muted">© 2026 S K Pharmacy, Gr. Noida | WhatsApp: 9258751739, 7983006957</p>
+        </div>
+    </footer>
+
+<script>
+let cartItems = 0;
+let isLoggedIn = false;
+
+// Login/Settings/Map
+function loginUser() {
+    let name = prompt("अपना नाम डालें:");
+    if(name) {
+        isLoggedIn = true;
+        document.getElementById('loginText').innerText = name;
+        alert("Login successful! Welcome " + name);
+    }
+}
+function logoutUser() {
+    isLoggedIn = false;
+    document.getElementById('loginText').innerText = "Hello, Sign in";
+    alert("Logged out");
+}
+function settings() {
+    alert("Settings:\n1. Change Address\n2. Notification Settings\n3. Privacy\n\nGoogle Map integration के लिए API Key लगेगी।");
+}
+function openMap() {
+    window.open("https://maps.google.com/?q=Gr+Noida+201301", "_blank");
+}
+
+// Google Share Button - अब काम करेगा
+function shareGoogle() {
+    let url = 'https://sakirkhangrnoida.github.io/livon-serum.html';
+    let text = 'Livon Serum ₹149 | COD + Live Tracking | S K Pharmacy';
+    
+    if (navigator.share) {
+        navigator.share({ title: 'Livon Serum', text: text, url: url });
+    } else {
+        window.open('https://wa.me/?text=' + encodeURIComponent(text + ' ' + url), '_blank');
+    }
+}
+
+// 3 Dots - अब काम करेगा Bootstrap dropdown से
+function copyLink() {
+    navigator.clipboard.writeText('https://sakirkhangrnoida.github.io/livon-serum.html');
+    alert('Link Copied!');
+}
+function reportProduct() {
+    alert('Report submitted. S K Pharmacy टीम जल्दी चेक करेगी।');
+}
+function helpCenter() {
+    window.open('https://wa.me/919258751739', '_blank');
+}
+
+// Live Tracking
+function trackOrder() {
+    alert('Live Tracking:\nOrder ID: SKP' + Math.floor(Math.random()*10000) + '\nStatus: Out for Delivery\nRider: 5 min में पहुंचेगा\nMap: Google Maps पे दिखेगा');
+}
+
+// Refund कैसे करेगा
+function refundOption() {
+    if(!isLoggedIn) {
+        alert('पहले Login करें Refund के लिए');
+        loginUser();
+        return;
+    }
+    let reason = prompt('Refund का कारण बताएं:\n1. प्रोडक्ट डैमेज\n2. गलत प्रोडक्ट\n3. पसंद नहीं आया\nनंबर डालें:');
+    if(reason) {
+        alert('Refund Request Submitted!\n\nस्टेप:\n1. Rider 2 दिन में पिकअप करेगा\n2. चेक होने के बाद 5-7 दिन में पैसा वापस\n3. COD का पैसा WhatsApp/UPI पे वापस होगा\nWhatsApp: 9258751739 पे Order ID भेज दें');
+    }
+}
+
+// Cart Functions
+function addToCart() {
+    let qty = parseInt(document.getElementById('quantity').value);
+    cartItems += qty;
+    document.getElementById('cartCount').innerText = cartItems;
+    alert(qty + ' x Livon Serum Added to Cart!\nTotal: ₹' + (149 * qty));
+}
+function buyNow() {
+    let qty = document.getElementById('quantity').value;
+    let msg = `Hi S K Pharmacy!%0A%0A*BUY NOW Order*%0AProduct: Livon Serum 100ml%0AQty: ${qty}%0ATotal: ₹${149 * qty}%0APayment: COD%0A%0ALive Tracking: ON%0AProduct Link: https://sakirkhangrnoida.github.io/livon-serum.html`;
+    window.open('https://wa.me/919258751739?text=' + msg, '_blank');
+}
+function orderWhatsApp() {
+    let qty = document.getElementById('quantity').value;
+    let msg = `Namaste S K Pharmacy,%0A%0AMujhe Livon Serum 100ml order karni hai%0AQty: ${qty}%0APrice: ₹${149 * qty}%0A%0AProduct: https://sakirkhangrnoida.github.io/livon-serum.html%0A%0ACOD + Live Tracking चाहिए`;
+    window.open('https://wa.me/919258751739?text=' + msg, '_blank');
+}
+function searchProduct() {
+    let query = document.getElementById('searchBox').value;
+    if(query) alert('Searching for: ' + query);
+}
+function myOrders() {
+    alert('My Orders:\n1. Livon Serum - Delivered\n2. Emami 7 Oils - Out for Delivery\nLive Tracking के लिए Order पे क्लिक करें');
+}
+function addComment() {
+    const namefunction addComment() {
+    const name = document.getElementById('userName').value || 'Customer';
+    const comment = document.getElementById('commentBox').value;
+    if(comment.trim() === '') {
+        alert('कृपया रिव्यू लिखें');
+        return;
+    }
+    const commentList = document.getElementById('commentList');
+    const newComment = document.createElement('div');
+    newComment.className = 'border-bottom py-2';
+    newComment.innerHTML = '<strong>' + name + ':</strong> <span class="text-warning"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span><br>' + comment;
+    commentList.prepend(newComment);
+    document.getElementById('commentBox').value = '';
+    document.getElementById('userName').value = '';
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
