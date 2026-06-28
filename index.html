@@ -657,10 +657,38 @@ setInterval(()=>{s[c].classList.remove('active');c=(c+1)%s.length;s[c].classList
     <button style="width:100%;padding:8px;background:#fb641b;color:#fff;border:none;border-radius:2px;cursor:pointer">Buy Now</button>
   </div>
 </a>
-<a href="serum.html">
-  <img src="serum.jpg" alt="Pure Roots Hair Serum Argan Oil 50ML ₹110" style="width:100%;max-width:500px;border-radius:8px;cursor:pointer">
-</a>
-     
+<div class="product-card">
+  <a href="serum.html">
+    <img src="serum.jpg" alt="Hair Serum Argan Oil">
+    <h3>Pure Roots Hair Serum 50ML</h3>
+    <p>₹110 <del>₹170</del> <span style="color:#388e3c">35% off</span></p>
+  </a>
+  
+  <!-- 3 बटन - Add to Cart, Buy Now, WhatsApp -->
+  <div style="display:flex;gap:4px;margin-top:6px;flex-wrap:wrap">
+    
+    <button onclick="addToCartIndex()" style="flex:1;min-width:80px;padding:7px;background:#ff9f00;color:#fff;border:none;border-radius:3px;font-size:11px;cursor:pointer;font-weight:600">
+      <i class="fa fa-shopping-cart"></i> Add to Cart
+    </button>
+    
+    <button onclick="location.href='serum.html'" style="flex:1;min-width:80px;padding:7px;background:#fb641b;color:#fff;border:none;border-radius:3px;font-size:11px;cursor:pointer;font-weight:600">
+      Buy Now
+    </button>
+    
+    <button onclick="window.open('https://wa.me/919258751739?text=Hello%20S%20K%20Pharmacy,%20Pure%20Roots%20Hair%20Serum%2050ML%20₹110%20चाहिए','_blank')" style="flex:1;min-width:80px;padding:7px;background:#25D366;color:#fff;border:none;border-radius:3px;font-size:11px;cursor:pointer;font-weight:600">
+      <i class="fa fa-whatsapp"></i> WhatsApp
+    </button>
+    
+  </div>
+</div>
+
+<script>
+// Index.html के लिए Add to Cart फंक्शन
+function addToCartIndex(){
+  localStorage.setItem('addToCart', 'Hair Serum 50ML');
+  window.location.href = 'serum.html#cart';
+}
+</script>
 <!-- S K Pharmacy Banner -->
 <div style="margin: 20px 15px;">
   <a href="details.html">
