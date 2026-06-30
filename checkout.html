@@ -1,80 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
-  <title>Checkout - GRNoida Store</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body{font-family:Arial;padding:15px;max-width:500px;margin:auto;background:#f3f3f3}
-    input,select,textarea,button{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:6px;font-size:16px}
-    button{background:#ff9900;color:#fff;font-weight:bold;border:none;cursor:pointer}
-    h2{text-align:center;color:#232f3e}
-    .box{background:#fff;padding:20px;border-radius:8px}
-  </style>
+<title>Checkout - GRNoida Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:Arial;padding:15px;max-width:500px;margin:auto;background:#f3f3f3}
+input,select,textarea,button{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:6px;font-size:16px}
+button{background:#ff9900;color:#fff;font-weight:bold;border:none;cursor:pointer}
+.box{background:#fff;padding:20px;border-radius:8px}
+.error{color:red;font-size:13px;display:none;margin-top:-5px}
+</style>
 </head>
 <body>
-  <div class="box">
-    <h2>Delivery Details</h2>
-    <input id="name" placeholder="पूरा नाम" required>
-    <input id="mobile" placeholder="Mobile Number" type="tel" maxlength="10" required>
-    <textarea id="address" placeholder="पूरा Address - House No, Gali, Area" rows="3" required></textarea>
-    <input id="pin" placeholder="PIN Code" type="tel" maxlength="6" required>
-    <select id="payment">
-      <option value="COD">Cash on Delivery</option>
-      <option value="Online">Online Payment</option>
-    </select>
-    <button onclick="placeOrder()">Place Order</button>
-  </div>
+<div class="box">
+<h2 style="text-align:center">Delivery Details</h2>
+<input id="name" placeholder="पूरा नाम" required>
+<div class="error" id="nameErr">नाम लिखो भाई</div>
+
+<input id="mobile" placeholder="Mobile Number" type="tel" maxlength="10" required>
+<div class="error" id="mobileErr">10 डिजिट नंबर डालो</div>
+
+<textarea id="address" placeholder="पूरा Address - House No, Gali, Area" rows="3" required></textarea>
+<div class="error" id="addressErr">पता लिखो</div>
+
+<input id="pin" placeholder="PIN Code" type="tel" maxlength="6" required>
+<div class="error" id="pinErr">6 डिजिट PIN डालो</div>
+
+<select id="payment">
+<option value="COD">COD - Cash on Delivery</option>
+<option value="Online">Online Payment</option>
+</select>
+
+<button onclick="placeOrder()">Place Order</button>
+<div id="msg" style="margin-top:10px;text-align:center;font-weight:bold"></div>
+</div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyD2EOywrcF8vJUXnsmF5PA3t3inW79UX8Y",
-    authDomain: "grnoida-store.firebaseapp.com",
-    databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "grnoida-store",
-    storageBucket: "grnoida-store.firebasestorage.app",
-    messagingSenderId: "665639961400",
-    appId: "1:665639961400:web:cb704b0209b910fc6a77cd"
-  };
+const firebaseConfig = {
+apiKey: "AIzaSyD2E0ywrcF8vJUXnsmF5PA3t3inW79UX8Y",
+authDomain: "grnoida-store.firebaseapp.com",
+databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId: "grnoida-store",
+storageBucket: "grnoida-store.appspot.com",
+messagingSenderId: "665639961400",
+appId: "1:665639961400:web:cb704b020b910fc6a77cd"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-  window.placeOrder = function() {
-    const name = document.getElementById('name').value;
-    const mobile = document.getElementById('mobile').value;
-    const address = document.getElementById('address').value;
-    const pin = document.getElementById('pin').value;
-    const payment = document.getElementById('payment').value;
-    
-    if(!name || !mobile || !address || !pin){ alert('सभी Details भरो'); return; }
-    if(mobile.length !== 10){ alert('10 Digit Mobile डालो'); return; }
-    if(pin.length !== 6){ alert('6 Digit PIN डालो'); return; }
+window.placeOrder = function() {
+let name = document.getElementById('name').value.trim();
+let mobile = document.getElementById('mobile').value.trim();
+let address = document.getElementById('address').value.trim();
+let pin = document.getElementById('pin').value.trim();
+let payment = document.getElementById('payment').value;
+let msg = document.getElementById('msg');
 
-    const orderId = 'GR' + Date.now();
-    const cart = JSON.parse(localStorage.getItem('grnoida_cart') || '[]');
-    const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+// Error छुपा दो पहले
+document.querySelectorAll('.error').forEach(e=>e.style.display='none');
+msg.innerHTML = '';
 
-    set(ref(db, 'orders/' + orderId), {
-      orderId: orderId,
-      name: name,
-      mobile: mobile,
-      address: address,
-      pin: pin,
-      payment: payment,
-      cart: cart,
-      total: total,
-      status: 'Order Placed',
-      time: Date.now()
-    }).then(() => {
-      localStorage.setItem('grnoida_last_order', orderId);
-      localStorage.removeItem('grnoida_cart');
-      alert('Order Placed! Order ID: ' + orderId);
-      window.location.href = 'settings.html';
-    });
-  }
+let hasError = false;
+if(!name){document.getElementById('nameErr').style.display='block'; hasError=true;}
+if(mobile.length != 10){document.getElementById('mobileErr').style.display='block'; hasError=true;}
+if(!address){document.getElementById('addressErr').style.display='block'; hasError=true;}
+if(pin.length != 6){document.getElementById('pinErr').style.display='block'; hasError=true;}
+if(hasError) return;
+
+let orderId = 'ORD' + Date.now();
+let cart = JSON.parse(localStorage.getItem('sk_cart') || '[]'); // sk_cart कर दिया
+let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+set(ref(db, 'orders/' + orderId), {
+orderId: orderId,
+name: name,
+mobile: mobile,
+address: address,
+pin: pin,
+payment: payment,
+cart: cart,
+total: total,
+status: 'Order Placed',
+time: Date.now()
+}).then(() => {
+localStorage.setItem('grnoida_last_order', orderId);
+localStorage.removeItem('sk_cart'); // sk_cart खाली कर दिया
+msg.innerHTML = '✅ Order Placed! ID: ' + orderId;
+msg.style.color = 'green';
+setTimeout(()=>{window.location.href = 'settings.html';}, 2000);
+});
+}
 </script>
 </body>
 </html>
