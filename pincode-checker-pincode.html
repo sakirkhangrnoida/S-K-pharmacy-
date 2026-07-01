@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<title>Delivery Check - S K Pharmacy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Arial;background:#f3f3f3;margin:0;padding:20px}
+.box{max-width:500px;margin:50px auto;background:white;padding:30px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+h2{color:#232f3e}
+input{width:100%;padding:12px;border:2px solid #ddd;border-radius:4px;font-size:16px;margin:10px 0}
+.btn{width:100%;padding:14px;background:#ff9900;border:none;color:white;font-weight:bold;font-size:16px;border-radius:4px;cursor:pointer}
+.result{margin-top:20px;padding:15px;border-radius:5px;display:none}
+.success{background:#d4edda;color:#155724;border:1px solid #c3e6cb}
+.error{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>🚚 Delivery Check करें</h2>
+<p>अपना पिनकोड डालें और देखें डिलीवरी होगी या नहीं</p>
+
+<input type="tel" id="pincode" placeholder="6 अंकों का पिनकोड डालें" maxlength="6">
+<button class="btn" onclick="checkPincode()">Check</button>
+
+<div id="result" class="result"></div>
+
+<p style="margin-top:20px;font-size:13px;color:#666">
+✓ COD Available<br>
+✓ 2-3 Day Delivery सिलापुर गांव में<br>
+✓ Free Delivery ₹499+
+</p>
+</div>
+
+<script>
+function checkPincode(){
+  let pin = document.getElementById('pincode').value;
+  let result = document.getElementById('result');
+  
+  if(pin.length !== 6 || isNaN(pin)){
+    result.className = 'result error';
+    result.innerHTML = '❌ सही 6 अंकों का पिनकोड डालें';
+    result.style.display = 'block';
+    return;
+  }
+  
+  // Agra के पिनकोड - तू अपने हिसाब से बढ़ा देना
+  let servicePins = ['281003', '282001', '282002', '282003', '282004', '282005', '283105'];
+  
+  if(servicePins.includes(pin)){
+    result.className = 'result success';
+    result.innerHTML = '✅ हां! इस पिनकोड पर डिलीवरी होगी<br>📦 2-3 दिन में डिलीवरी<br>💵 COD उपलब्ध है';
+  } else {
+    result.className = 'result error';
+    result.innerHTML = '❌ माफ करें, अभी इस पिनकोड पर डिलीवरी नहीं है<br>📞 WhatsApp करें: 98765 43210';
+  }
+  result.style.display = 'block';
+}
+</script>
+</body>
+</html>
