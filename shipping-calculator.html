@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<title>Shipping Calculator - S K Pharmacy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Arial;background:#f7f8f8;margin:0;padding:15px}
+.box{max-width:550px;margin:40px auto;background:white;padding:25px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+h2{color:#0F1111;margin-top:0}
+label{font-weight:bold;color:#0F1111;display:block;margin-top:12px}
+input,select{width:100%;padding:12px;border:1px solid #a6a6a6;border-radius:4px;font-size:15px;margin:8px 0}
+.btn{width:100%;padding:14px;background:#ffa41c;border:none;color:#0F1111;font-weight:bold;font-size:16px;border-radius:4px;cursor:pointer;margin-top:15px}
+.btn:hover{background:#f0b04b}
+.result{display:none;background:#f0f8ff;border:1px solid #007185;padding:15px;border-radius:6px;margin-top:20px}
+.result h3{color:#007185;margin-top:0}
+.row{display:flex;justify-content:space-between;margin:8px 0;font-size:15px}
+.total{border-top:2px solid #ddd;padding-top:8px;font-weight:bold;font-size:18px;color:#B12704}
+.note{font-size:12px;color:#565959;margin-top:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.checkbox{width:auto;margin-right:8px}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h2>📦 Shipping Calculator Pro</h2>
+<p style="color:#565959;font-size:14px">Amazon FBA + Volumetric Weight</p>
+
+<label>पिनकोड *</label>
+<input type="text" id="pincode" placeholder="226001" maxlength="6">
+
+<label>असली वजन ग्राम में *</label>
+<input type="number" id="weight" placeholder="250" min="10">
+
+<label>वॉल्यूमेट्रिक वजन - डब्बे का साइज cm में</label>
+<div class="grid">
+<input type="number" id="length" placeholder="लंबाई L" min="0">
+<input type="number" id="breadth" placeholder="चौड़ाई B" min="0">
+<input type="number" id="height" placeholder="ऊंचाई H" min="0">
+<input type="text" id="volWeight" placeholder="Vol Weight ऑटो" readonly>
+</div>
+
+<label><input type="checkbox" id="cod" class="checkbox"> Cash on Delivery - +₹40</label>
+<label><input type="checkbox" id="express" class="checkbox"> Express 1 Day Delivery - +₹50</label>
+
+<button class="btn" onclick="calcShipping()">Calculate करें</button>
+
+<div class="result" id="result">
+<h3>Shipping Cost</h3>
+<div class="row"><span>Chargeable Weight:</span><span id="cWeight">0 gm</span></div>
+<div class="row"><span>Base + Weight:</span><span id="base">₹0</span></div>
+<div class="row"><span>Zone Charge:</span><span id="zoneCharge">₹0</span></div>
+<div class="row"><span>COD Charge:</span><span id="codCharge">₹0</span></div>
+<div class="row"><span>Express:</span><span id="expCharge">₹0</span></div>
+<div class="row"><span>GST 18%:</span><span id="gst">₹0</span></div>
+<div class="row total"><span>Total:</span><span id="total">₹0</span></div>
+<p class="note">* Vol Weight = L×B×H/5000. जो ज्यादा होगा असली या Vol वही चार्ज होगा</p>
+</div>
+</div>
+
+<script>
+function getZone(pin){
+  const first = parseInt(pin[0]);
+  if(first <= 3) return 'A';
+  if(first <= 6) return 'B';
+  return 'C';
+}
+
+// Volumetric weight auto calculate
+document.getElementById('length').oninput =
+document.getElementById('breadth').oninput =
+document.getElementById('height').oninput = function(){
+  const l = document.getElementById('length').value;
+  const b = document.getElementById('breadth').value;
+  const h = document.getElementById('height').value;
+  if(l && b && h){
+    const vol = Math.ceil((l*b*h)/5000); // Amazon formula
+    document.getElementById('volWeight').value = vol*1000 + ' gm';
+  }
+};
+
+function calcShipping(){
+  const pin = document.getElementById('pincode').value;
+  let weight = parseInt(document.getElementById('weight').value);
+  const cod = document.getElementById('cod').checked;
+  const express = document.getElementById('express').checked;
+
+  if(pin.length!=6 || isNaN(pin)) return alert('सही 6 डिजिट पिनकोड डालो');
+  if(!weight || weight < 10) return alert('वजन कम से कम 10 ग्राम डालो');
+
+  // Volumetric weight check
+  const l = document.getElementById('length').value;
+  const b = document.getElementById('breadth').value;
+  const h = document.getElementById('height').value;
+  if(l && b && h){
+    const volWeight = Math.ceil((l*b*h)/5000)*1000;
+    weight = Math.max(weight, volWeight); // जो ज्यादा है वही लेंगे
+  }
+
+  const zone = getZone(pin);
+  let weightSlabs = Math.ceil(weight / 500);
+  let weightCharge = weightSlabs * 15;
+
+  let baseCharge = 30;
+  let zoneCharge = zone == 'A'? 0 : zone == 'B'? 10 : 25;
+  let codCharge = cod? 40 : 0;
+  let expCharge = express? 50 : 0;
+
+  let subtotal = baseCharge + weightCharge + zoneCharge + codCharge + expCharge;
+  let gst = Math.round(subtotal * 0.18);
+  let total = subtotal + gst;
+
+  document.getElementById('cWeight').innerText = weight + ' gm';
+  document.getElementById('base').innerText = '₹' + (baseCharge + weightCharge);
+  document.getElementById('zoneCharge').innerText = '₹' + zoneCharge + ' (Zone ' + zone + ')';
+  document.getElementById('codCharge').innerText = '₹' + codCharge;
+  document.getElementById('expCharge').innerText = '₹' + expCharge;
+  document.getElementById('gst').innerText = '₹' + gst;
+  document.getElementById('total').innerText = '₹' + total;
+  document.getElementById('result').style.display = 'block';
+}
+</script>
+</body>
+</html>
