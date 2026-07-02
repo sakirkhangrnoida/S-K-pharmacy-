@@ -57,6 +57,82 @@
   window.updateStatus = function(orderId, status) {
     update(ref(db, 'orders/' + orderId), { status: status });
   }
+
+// ===== Customer Reviews Code Start =====
+import { remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+let allReviews = {};
+let currentFilter = 'pending';
+
+// Reviews वाला HTML बॉडी में जोड़ देगा
+document.body.innerHTML += `
+<div style="margin-top:40px;padding:25px;background:white;border-radius:8px;border:2px solid #ff9900">
+<h2 style="color:#232f3e;margin-top:0">📝 Customer Reviews - Approve/Delete</h2>
+<div style="margin:15px 0">
+<button onclick="showReviews('pending')" style="padding:10px 20px;background:#ff9900;border:none;color:white;border-radius:5px;cursor:pointer;font-weight:bold">Pending</button>
+<button onclick="showReviews('approved')" style="padding:10px 20px;background:#007185;border:none;color:white;border-radius:5px;cursor:pointer;font-weight:bold;margin-left:10px">Approved</button>
+<button onclick="showReviews('all')" style="padding:10px 20px;background:#232f3e;border:none;color:white;border-radius:5px;cursor:pointer;font-weight:bold;margin-left:10px">सभी</button>
+</div>
+<div id="reviewsDiv" style="min-height:200px">Reviews लोड हो रहे हैं...</div>
+</div>`;
+
+const reviewsRef = ref(db, 'reviews');
+onValue(reviewsRef, (snapshot) => {
+  allReviews = {};
+  snapshot.forEach((child) => {
+    allReviews[child.key] = child.val();
+  });
+  displayReviews(currentFilter);
+});
+
+window.showReviews = function(filter){
+  currentFilter = filter;
+  displayReviews(filter);
+}
+
+function displayReviews(filter){
+  let html = '';
+  let count = 0;
+  for(let key in allReviews){
+    let data = allReviews[key];
+    if(filter!== 'all' && data.status!== filter) continue;
+    count++;
+    let stars = '★'.repeat(data.rating) + '☆'.repeat(5-data.rating);
+    let date = data.date? new Date(data.date).toLocaleString('hi-IN') : '';
+    let statusColor = data.status === 'pending'? '#ff9900' : '#007185';
+    html += `<div style="border:1px solid #ddd;border-left:4px solid ${statusColor};padding:15px;margin:10px 0;border-radius:5px">
+      <p><b>प्रोडक्ट:</b> ${data.product}</p>
+      <p><b>नाम:</b> ${data.name}</p>
+      <p style="color:#ffa41c;font-size:18px">${stars} (${data.rating}/5)</p>
+      <p>${data.review}</p>
+      <p style="font-size:12px;color:#565959">📅 ${date} | Status: <b style="color:${statusColor}">${data.status}</b></p>
+      <div>
+        ${data.status === 'pending'?
+          `<button class="packed" onclick="approveReview('${key}')">✓ Approve</button>` :
+          `<button class="shipped" onclick="unapproveReview('${key}')">↺ Pending करें</button>`
+        }
+        <button class="delivered" onclick="deleteReview('${key}')">🗑️ Delete</button>
+      </div>
+    </div>`;
+  }
+  if(count === 0) html = `<p style="text-align:center;color:#565959;padding:40px">इसमें कोई Review नहीं है</p>`;
+  document.getElementById('reviewsDiv').innerHTML = `<h3>कुल: ${count} Reviews</h3>` + html;
+}
+
+window.approveReview = function(key){
+  if(confirm('Approve कर दें?')){
+    update(ref(db, 'reviews/' + key), {status: 'approved'});
+  }
+}
+window.unapproveReview = function(key){
+  update(ref(db, 'reviews/' + key), {status: 'pending'});
+}
+window.deleteReview = function(key){
+  if(confirm('Delete करना है?')){
+    remove(ref(db, 'reviews/' + key));
+  }
+}
+// ===== Customer Reviews Code End =====
 </script>
-</body>
+  </body>
 </html>
