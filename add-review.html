@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<title>Review लिखें - S K Pharmacy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Arial;background:#f7f8f8;margin:0;padding:15px}
+.box{max-width:600px;margin:30px auto;background:white;padding:25px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+h2{color:#0F1111;margin-top:0;font-size:24px}
+.stars{font-size:45px;cursor:pointer;margin:12px 0}
+.stars span{color:#ddd;transition:0.2s;display:inline-block}
+.stars span.active{color:#ffa41c}
+input,textarea{width:100%;padding:12px;border:1px solid #a6a6a6;border-radius:4px;font-size:15px;margin:8px 0;box-sizing:border-box}
+.btn{width:100%;padding:14px;background:#ffa41c;border:none;color:#0F1111;font-weight:bold;font-size:16px;border-radius:8px;cursor:pointer;margin-top:15px}
+.btn:hover{background:#f0b04b}
+.msg{padding:14px;border-radius:6px;margin:15px 0;display:none;font-size:15px}
+.success{background:#d4edda;color:#155724;border:1px solid #c3e6cb}
+.topbar{background:#232f3e;padding:12px;text-align:center;margin:-15px -15px 25px -15px}
+.topbar a{color:white;margin:0 12px;text-decoration:none;font-size:14px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<a href="index.html">Home</a>
+<a href="skin-care.html">Skin Care</a>
+<a href="contact.html">Contact</a>
+</div>
+
+<div class="box">
+<h2>Review लिखें</h2>
+<p style="color:#565959;font-size:14px;margin-top:-5px">प्रोडक्ट: <b id="pName"></b></p>
+
+<div id="ok" class="msg success">✓ Review Submit हो गया। वापस जा रहे हैं...</div>
+
+<form id="f">
+<label style="font-weight:bold;color:#0F1111">Rating *</label>
+<div class="stars" id="s"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+<input type="hidden" id="r" value="0">
+
+<label style="font-weight:bold;color:#0F1111;margin-top:8px;display:block">नाम *</label>
+<input type="text" id="n" placeholder="आपका नाम" required>
+
+<label style="font-weight:bold;color:#0F1111;margin-top:8px;display:block">Review *</label>
+<textarea id="rv" rows="5" placeholder="प्रोडक्ट कैसा लगा?" required></textarea>
+
+<button class="btn">Submit</button>
+</form>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const cfg = {
+  apiKey: "तेरा-api-key",
+  authDomain: "तेरा.firebaseapp.com",
+  databaseURL: "https://तेरा-default-rtdb.firebaseio.com",
+  projectId: "तेरा",
+  storageBucket: "तेरा.appspot.com",
+  messagingSenderId: "123",
+  appId: "1:123:web:abc"
+};
+
+const app = initializeApp(cfg);
+const db = getDatabase(app);
+
+const prod = decodeURIComponent(new URLSearchParams(location.search).get('product') || 'Product');
+document.getElementById('pName').innerText = prod;
+
+let rate = 0;
+document.querySelectorAll('#s span').forEach((x,i)=>{
+  x.onclick = ()=>{ rate = i+1; document.getElementById('r').value = rate;
+    document.querySelectorAll('#s span').forEach((y,j)=> y.classList.toggle('active', j<rate));
+  }
+});
+
+document.getElementById('f').onsubmit = e=>{
+  e.preventDefault();
+  if(rate==0) return;
+  
+  push(ref(db,'reviews'),{
+    product: prod,
+    rating: rate,
+    name: document.getElementById('n').value.trim(),
+    review: document.getElementById('rv').value.trim(),
+    date: serverTimestamp(),
+    status: 'approved'
+  }).then(()=>{
+    document.getElementById('f').style.display='none';
+    document.getElementById('ok').style.display='block';
+    setTimeout(()=> history.back(), 2000);
+  });
+}
+</script>
+</body>
+</html>
