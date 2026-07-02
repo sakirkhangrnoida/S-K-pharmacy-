@@ -47,18 +47,57 @@ window.onload = function(){
 }
 
 function showOrders(){
-    let orders = JSON.parse(localStorage.getItem('sk_orders') || '[]');
-    let html = '';
+  let orders = [];
+  let html = '';
+
+  // 1. पहले localStorage से लो - बैकअप के लिए
+  let localOrders = JSON.parse(localStorage.getItem('sk_orders') || '[]');
+  orders = [...localOrders];
+
+  // 2. फिर Firebase से लाइव डेटा लाओ
+  fetch('https://vs3-one-default-rtdb.firebaseio.com/invoices.json')
+.then(res => res.json())
+.then(data => {
+    if(data){
+      let firebaseOrders = Object.keys(data).map(key => {
+        let o = data[key];
+        o.id = key;
+        o.product = o.items? o.items.map(i=>i.name).join(', ') : 'Product';
+        o.price = o.total;
+        o.date = o.billDate;
+        o.status = o.status || 'Ordered';
+        return o;
+      });
+
+      // Firebase वाले आगे, localStorage वाले पीछे
+      orders = [...firebaseOrders,...localOrders];
+    }
+
+    // Duplicate हटाओ - same billNo दो बार न आए
+    orders = orders.filter((order, index, self) =>
+      index === self.findIndex(o => o.id === order.id)
+    );
 
     if(orders.length === 0){
-        html = '<div class="empty"><h3>No Orders Yet</h3><p>पहला Order करने के लिए Buy Now दबाएं</p><a href="index.html" class="btn">Shop Now</a></div>';
+      html = '<div class="empty"><h3>No Orders Yet</h3><p>पहला Order करने के लिए Buy Now दबाएं</p></div>';
     } else {
-        // Latest Order पहले दिखाओ
-        orders.reverse().forEach(order => {
-            html += createOrderCard(order);
-        });
+      orders.reverse().forEach(order => {
+        html += createOrderCard(order);
+      });
     }
     document.getElementById('orderList').innerHTML = html;
+  })
+.catch(err => {
+    // अगर Firebase फेल हो जाए तो localStorage वाला दिख जाएगा
+    if(orders.length === 0){
+      html = '<div class="empty"><h3>No Orders Yet</h3><p>पहला Order करने के लिए Buy Now दबाएं</p></div>';
+    } else {
+      orders.reverse().forEach(order => {
+        html += createOrderCard(order);
+      });
+    }
+    document.getElementById('orderList').innerHTML = html;
+  });
 }
 
 function createOrderCard(order){
