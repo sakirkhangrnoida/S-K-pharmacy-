@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<title>Barcode Scanner - S K Pharmacy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+body{font-family:'Poppins',Arial;background:#0f172a;color:white;margin:0;padding:20px;text-align:center}
+.container{max-width:600px;margin:auto}
+h1{color:#60a5fa;margin-bottom:20px}
+#scanner{width:100%;height:400px;border:3px solid #3b82f6;border-radius:12px;overflow:hidden;position:relative;background:#000}
+#result{background:#1e293b;padding:20px;border-radius:12px;margin-top:20px;display:none}
+#result h3{color:#34d399;margin:0 0 10px 0}
+.btn{padding:12px 25px;background:#2563eb;color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin:5px;font-family:'Poppins'}
+.btn:hover{background:#1d4ed8}
+.back-btn{background:#6b7280}
+.back-btn:hover{background:#4b5563}
+.error-box{display:none;background:#7f1d1d;color:#fecaca;padding:12px;border-radius:6px;margin:15px 0;border-left:4px solid #dc2626}
+.loading{color:#94a3b8;margin-top:15px}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>📷 Barcode Scanner</h1>
+<button class="back-btn btn" onclick="window.location.href='invoice.html'">← Back to Billing</button>
+
+<div id="errorMsg" class="error-box"></div>
+
+<div id="scanner"></div>
+<div class="loading">कैमरा ऑन कर रहा हूं... दवा का Barcode सामने रखो</div>
+
+<div id="result">
+<h3>✅ Product Found</h3>
+<p id="productName"></p>
+<p id="productPrice"></p>
+<button class="btn" onclick="addToBill()">+ Bill में जोड़ो</button>
+<button class="btn back-btn" onclick="resetScan()">नया Scan करो</button>
+</div>
+</div>
+
+<script>
+const firebaseConfig = "https://vs3-one-default-rtdb.firebaseio.com/products.json";
+let currentProduct = null;
+
+window.onload = startScanner;
+
+function showError(msg){
+  const err = document.getElementById('errorMsg');
+  err.innerText = '⚠️ ' + msg;
+  err.style.display = 'block';
+  setTimeout(()=>{err.style.display='none'}, 3000);
+}
+
+function startScanner(){
+  Quagga.init({
+    inputStream: {
+      name: "Live",
+      type: "LiveStream",
+      target: document.querySelector('#scanner'),
+      constraints: { facingMode: "environment" }
+    },
+    decoder: {
+      readers: ["code_128_reader","ean_reader","ean_8_reader","code_39_reader","upc_reader"]
+    }
+  }, function(err) {
+    if (err) {
+      showError('कैमरा एक्सेस नहीं मिला');
+      return;
+    }
+    Quagga.start();
+  });
+
+  Quagga.onDetected(function(data) {
+    let barcode = data.codeResult.code;
+    Quagga.stop();
+    checkProduct(barcode);
+  });
+}
+
+function checkProduct(barcode){
+  fetch(firebaseConfig)
+.then(res => res.json())
+.then(products => {
+    let found = null;
+    if(products){
+      Object.keys(products).forEach(key => {
+        if(products[key].barcode == barcode) found = products[key];
+      });
+    }
+
+    if(found){
+      currentProduct = found;
+      document.getElementById('productName').innerText = 'नाम: ' + found.name;
+      document.getElementById('productPrice').innerText = 'रेट: ₹' + found.price;
+      document.getElementById('result').style.display = 'block';
+      document.querySelector('.loading').style.display = 'none';
+    } else {
+      showError('Barcode Firebase में नहीं मिला - पहले products में add करो');
+      resetScan();
+    }
+  })
+.catch(() => {
+    showError('Net चेक करो');
+    resetScan();
+  });
+}
+
+function addToBill(){
+  localStorage.setItem('scannedProduct', JSON.stringify(currentProduct));
+  window.location.href = 'invoice.html?from=scan';
+}
+
+function resetScan(){
+  document.getElementById('result').style.display = 'none';
+  document.querySelector('.loading').style.display = 'block';
+  Quagga.start();
+}
+</script>
+</body>
+</html>
