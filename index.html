@@ -1793,15 +1793,51 @@ document.addEventListener('click', e => {
   }
 });
 </script>
-  <!-- EmailJS -->
+  <!-- Order Popup -->
+<div id="orderPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999;">
+  <div style="background:white; width:90%; max-width:400px; margin:80px auto; padding:25px; border-radius:12px; box-shadow:0 5px 20px rgba(0,0,0,0.3);">
+    <h3 style="margin-top:0; text-align:center;">Order Details</h3>
+    <input type="text" id="custName" placeholder="आपका नाम" style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:5px; box-sizing:border-box;">
+    <input type="tel" id="custPhone" placeholder="मोबाइल नंबर" style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:5px; box-sizing:border-box;">
+    <textarea id="custAddress" placeholder="पूरा पता" rows="3" style="width:100%; padding:12px; margin:8px 0; border:1px solid #ddd; border-radius:5px; box-sizing:border-box;"></textarea>
+    <button onclick="submitOrder()" style="width:100%; padding:12px; background:#28a745; color:white; border:none; border-radius:5px; font-size:16px; cursor:pointer;">Confirm Order</button>
+    <button onclick="closePopup()" style="width:100%; padding:12px; margin-top:8px; background:#6c757d; color:white; border:none; border-radius:5px; cursor:pointer;">Cancel</button>
+  </div>
+</div>
+
+<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
   emailjs.init("z3cFw4MCTs6DKv2Cj"); // Public Key
 
+  let currentProduct = "";
+
+  function openPopup(productName) {
+    currentProduct = productName;
+    document.getElementById('orderPopup').style.display = 'block';
+  }
+
+  function closePopup() {
+    document.getElementById('orderPopup').style.display = 'none';
+  }
+
+  function submitOrder() {
+    const name = document.getElementById('custName').value;
+    const phone = document.getElementById('custPhone').value;
+    const address = document.getElementById('custAddress').value;
+    
+    if(!name || !phone || !address) { 
+      alert("कृपया सारी जानकारी भरें"); 
+      return; 
+    }
+    
+    sendOrder(name, phone, address + " | Product: " + currentProduct);
+  }
+
   function sendOrder(name, phone, address) {
     const orderId = 'ORD' + Date.now();
     
-    emailjs.send("service_u1c0727", "dg8drle", { // Service ID, Template ID
+    emailjs.send("service_u1c0727", "dg8drle", {
       to_email: "sakirkhangrnoida@gmail.com",
       customer_name: name,
       customer_phone: phone,
@@ -1809,12 +1845,16 @@ document.addEventListener('click', e => {
       order_id: orderId
     })
     .then(function(response) {
-      alert("Order हो गया! Order ID: " + orderId);
+      alert("✅ Order Successfully Placed!\nOrder ID: " + orderId);
+      document.getElementById('custName').value = "";
+      document.getElementById('custPhone').value = "";
+      document.getElementById('custAddress').value = "";
+      closePopup();
     }, function(error) {
-      alert("Error: " + error.text);
+      alert("❌ Error: " + error.text);
     });
   }
-</script>  
+</script>
     <script type="module" src="store.js"></script>
 <script src="script.js"></script>
 </body>
