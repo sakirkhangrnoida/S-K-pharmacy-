@@ -1793,6 +1793,28 @@ document.addEventListener('click', e => {
   }
 });
 </script>
+  <!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  emailjs.init("z3cFw4MCTs6DKv2Cj"); // Public Key
+
+  function sendOrder(name, phone, address) {
+    const orderId = 'ORD' + Date.now();
+    
+    emailjs.send("service_u1c0727", "dg8drle", { // Service ID, Template ID
+      to_email: "sakirkhangrnoida@gmail.com",
+      customer_name: name,
+      customer_phone: phone,
+      customer_address: address,
+      order_id: orderId
+    })
+    .then(function(response) {
+      alert("Order हो गया! Order ID: " + orderId);
+    }, function(error) {
+      alert("Error: " + error.text);
+    });
+  }
+</script>  
     <script type="module" src="store.js"></script>
 <script src="script.js"></script>
 </body>
