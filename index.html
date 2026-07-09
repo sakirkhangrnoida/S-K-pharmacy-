@@ -1854,6 +1854,12 @@ document.addEventListener('click', e => {
       alert("❌ Error: " + error.text);
     });
   }
+// Cart Function
+let cart = [];
+function addToCart(name, price){
+  cart.push({name, price});
+  alert("✅ " + name + " Cart में जुड़ गया!\nTotal Items: " + cart.length);
+}
 </script>
     <script type="module" src="store.js"></script>
 <script src="script.js"></script>
