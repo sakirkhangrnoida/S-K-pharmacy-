@@ -386,23 +386,48 @@ setInterval(()=>{s[c].classList.remove('active');c=(c+1)%s.length;s[c].classList
  <div class="product-grid" id="sk-product-list">
 
  <!-- Product 1 -->
-   <div class="product-card">
-    <img src="24664.png">
-    <div class="product-title">Garnier Men AcnoFight</div>
-    <div class="product-subtitle">Anti Pimple Face Wash</div>
-    <div class="price">
-      <span class="old-price">₹180</span>
-      <span class="new-price">₹130</span>
-    </div>
-    <div style="margin:10px 0;">
-      <input type="text" id="pincode-input-1" placeholder="पिनकोड डालें" maxlength="6" style="width:55%;padding:6px;border:1px solid #ccc;border-radius:4px;font-size:13px;">
-      <button onclick="checkMyPincode('pincode-input-1','pincode-msg-1')" style="width:38%;padding:6px;background:#ff9800;color:white;border:none;border-radius:4px;font-weight:bold;font-size:13px;">चेक करें</button>
-      <div id="pincode-msg-1" style="font-size:12px;margin-top:5px;font-weight:bold;"></div>
-    </div>
-    <a href="product1.html" class="details-btn">View Details</a>
-    <a href="https://wa.me/917983006957?text=मुझे%20Garnier%20AcnoFight%20चाहिए" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
+<div class="product-card">
+  <img src="24664.png">
+  <div class="product-title">Garnier Men AcnoFight</div>
+  <div class="product-subtitle">Anti Pimple Face Wash</div>
+  <div class="price">
+    <span class="old-price">₹180</span>
+    <span class="new-price">₹130</span>
+  </div>
+  
+  <div style="margin:10px 0;">
+    <input type="text" id="pincode-input-1" placeholder="Enter Pincode">
+    <button onclick="checkMyPincode('pincode-input-1', 'pincode-msg-1')">Check</button>
+    <div id="pincode-msg-1" style="font-size:12px;margin-top:5px;"></div>
   </div>
 
+  <a href="product1.html" class="details-btn">View Details</a>
+
+  <!-- 4 असली बटन -->
+  <div class="product-buttons" style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+    
+    <!-- 1. Add to Cart -->
+    <button onclick="addToCart('Garnier Men AcnoFight', 130)" class="details-btn" style="background:orange; color:white; padding:10px; border:none; border-radius:8px; font-weight:bold;">
+      🛒 Add to Cart
+    </button>
+
+    <!-- 2. Buy on Amazon - नई ID skpharmacy0786 -->
+    <a href="https://www.amazon.in/s?k=Garnier+Men+AcnoFight&tag=skpharmacy0786" target="_blank" class="details-btn" style="background:#FF9900; color:black; text-decoration:none; text-align:center; padding:10px; border-radius:8px; font-weight:bold;">
+      🛍️ Buy on Amazon
+    </a>
+
+    <!-- 3. WhatsApp - Welcome Message -->
+    <a href="https://wa.me/919258751739?text=🙏%20Namaste!%20S%20K%20Pharmacy%20me%20aapka%20swagat%20hai%0A%0AMujhe%20Garnier%20Men%20AcnoFight%20order%20karna%20hai%20-%20Rs.130%0A%0AKripya%20meri%20sahayta%20karein%20Dhanyawad!" target="_blank" class="details-btn" style="background:#25D366; color:white; text-decoration:none; text-align:center; padding:10px; border-radius:8px; font-weight:bold;">
+      💬 Order on WhatsApp
+    </a>
+
+    <!-- 4. Email Order - Popup -->
+    <button onclick="openPopup('Garnier Men AcnoFight')" class="details-btn" style="background:blue; color:white; padding:10px; border:none; border-radius:8px; font-weight:bold;">
+      📧 Order Now - Email
+    </button>
+
+  </div>
+</div>
   <!-- Product 2 -->
   <div class="product-card">
     <img src="24662.png">
