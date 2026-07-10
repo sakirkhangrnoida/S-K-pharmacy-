@@ -1845,9 +1845,11 @@ document.addEventListener('click', e => {
     const phone = document.getElementById('custPhone').value;
     const address = document.getElementById('custAddress').value;
     
-    if(!name || !phone || !address) { 
-      alert("कृपया सारी जानकारी भरें"); 
-      return; 
+
+if(!name || !phone || !address) {
+  showMsg("कृपया सारी जानकारी भरें");
+  return;
+
     }
     
     sendOrder(name, phone, address + " | Product: " + currentProduct);
@@ -1864,20 +1866,20 @@ document.addEventListener('click', e => {
       order_id: orderId
     })
     .then(function(response) {
-      alert("✅ Order Successfully Placed!\nOrder ID: " + orderId);
+      showMsg("✅ Order Successfully Placed! Order ID: " + orderId);
       document.getElementById('custName').value = "";
       document.getElementById('custPhone').value = "";
       document.getElementById('custAddress').value = "";
       closePopup();
     }, function(error) {
-      alert("❌ Error: " + error.text);
+      showMsg("❌ Error: " + error.text);
     });
   }
 // Cart Function
 let cart = [];
 function addToCart(name, price){
   cart.push({name, price});
-  alert("✅ " + name + " Cart में जुड़ गया!\nTotal Items: " + cart.length);
+  showMsg("✅ " + name + " Cart में जुड़ गया! Total Items: " + cart.length);
 }
 </script>
     <script type="module" src="store.js"></script>
