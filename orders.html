@@ -1,185 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Orders - S K Pharmacy</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <style>
-body{font-family:Arial,sans-serif;margin:0;background:#EAEDED}
-.header{background:#131921;color:white;padding:12px;text-align:center;font-size:18px;font-weight:bold}
-.card{background:white;margin:10px;padding:15px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
-.order-id{color:#007185;font-weight:bold;font-size:14px}
-.product-name{font-size:16px;margin:8px 0;font-weight:bold}
-.price{color:#B12704;font-size:18px}
-.date{color:#565959;font-size:13px}
-.track-line{margin:20px 0;position:relative}
-.track-steps{display:flex;justify-content:space-between;position:relative;margin-bottom:20px}
-.track-steps:before{content:'';position:absolute;top:15px;left:0;right:0;height:4px;background:#DDD;z-index:1}
-.track-progress{position:absolute;top:15px;left:0;height:4px;background:#007600;z-index:2}
-.step{text-align:center;position:relative;z-index:3;flex:1}
-.step-circle{width:30px;height:30px;border-radius:50%;background:#DDD;margin:0 auto 5px;border:2px solid #DDD}
-.step.active.step-circle{background:#007600;border-color:#007600}
-.step.done.step-circle{background:#007600;box-shadow:0 0 2px #007600}
-.step-label{font-size:11px;color:#565959}
-.step.active.step-label{color:#007600;font-weight:bold}
-.btn{background:#FFD814;border:0;padding:10px 20px;border-radius:20px;font-size:14px;margin:5px;cursor:pointer}
-.btn2{background:#EAEDED;border:1px solid #D5D9D9}
+body{font-family:Arial;margin:0;background:#eaeded}
+.header{background:#232f3e;color:#fff;padding:15px;text-align:center;font-size:18px;font-weight:bold}
+.box{background:#fff;margin:15px;padding:15px;border-radius:8px;border:1px solid #ddd}
+.box.cancelled{border:2px solid red;background:#ffe6e6}
+.order-id{color:#007185;font-weight:bold}
+.price{color:#B12704;font-size:18px;font-weight:bold}
+.tracker{display:flex;justify-content:space-between;margin:15px 0}
+.step{text-align:center;font-size:12px;flex:1}
+.dot{width:12px;height:12px;border-radius:50%;background:#ccc;margin:auto}
+.dot.active{background:green}
+.btn{padding:10px 15px;border:none;border-radius:4px;cursor:pointer;margin:5px;font-weight:bold}
+.btn-yellow{background:#FFD814}
 .btn-cancel{background:#fff;border:1px solid red;color:red}
-.btn-cancel:hover{background:#ffe6e6}
-.back{text-align:center;padding:15px}
-.back a{color:#007185;text-decoration:none}
-.empty{text-align:center;padding:40px;color:#565959}
+.otp-box{margin-top:10px;display:none;padding:10px;background:#f7f7f7;border-radius:5px}
+.otp-box input{padding:8px;width:120px;margin-right:5px}
 </style>
 </head>
 <body>
 
-<div class="header">📦 My Orders - S K Pharmacy</div>
-<div id="orderList"></div>
-
-<div class="back">
-  <a href="index.html">← Back to Home</a> |
-  <a href="https://wa.me/919258751739">Contact: 9258751739</a>
-</div>
+<div class="header">📦 My Orders</div>
+<div id="orders">Loading...</div>
 
 <script>
-// Page Load पर सभी Orders दिखा दो
-window.onload = function(){
-  showOrders();
-}
+const firebaseConfig = {apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y", databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app"};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+let currentOTP = '';
 
-function showOrders(){
-  let orders = [];
+db.ref('orders').orderByChild('time').limitToLast(20).once('value', snap=>{
   let html = '';
+  snap.forEach(child=>{
+    let o = child.val();
+    let productName = o.cart && o.cart[0]? o.cart[0].name : 'Product';
 
-  // 1. पहले localStorage से लो - बैकअप के लिए
-  let localOrders = JSON.parse(localStorage.getItem('sk_orders') || '[]');
-  orders = [...localOrders];
+    let statusSteps = ['Ordered','Packed','Shipped','Out for Delivery','Delivered'];
+    let currentStep = statusSteps.indexOf(o.status);
 
-  // 2. फिर Firebase से लाइव डेटा लाओ - नया वाला DB
-  fetch('https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json')
- .then(res => res.json())
- .then(data => {
-    if(data){
-      let firebaseOrders = Object.keys(data).map(key => {
-        let o = data[key];
-        o.id = o.orderId || key; // orderId या key
-        o.product = o.cart && o.cart[0]? o.cart[0].name : 'Product'; // cart से नाम
-        o.price = o.total;
-        o.date = new Date(o.time).toLocaleDateString('hi-IN');
-        o.status = o.status || 'Ordered';
-        return o;
-      });
-
-      // Firebase वाले आगे, localStorage वाले पीछे
-      orders = [...firebaseOrders,...localOrders];
-    }
-
-    // Duplicate हटाओ - same billNo दो बार न आए
-    orders = orders.filter((order, index, self) =>
-      index === self.findIndex(o => o.id === order.id)
-    );
-
-    if(orders.length === 0){
-      html = '<div class="empty"><h3>No Orders Yet</h3><p>पहला Order करने के लिए Buy Now दबाएं</p></div>';
-    } else {
-      orders.reverse().forEach(order => {
-        html += createOrderCard(order);
-      });
-    }
-    document.getElementById('orderList').innerHTML = html;
-  })
- .catch(err => {
-    // अगर Firebase फेल हो जाए तो localStorage वाला दिख जाएगा
-    if(orders.length === 0){
-      html = '<div class="empty"><h3>No Orders Yet</h3><p>पहला Order करने के लिए Buy Now दबाएं</p></div>';
-    } else {
-      orders.reverse().forEach(order => {
-        html += createOrderCard(order);
-      });
-    }
-    document.getElementById('orderList').innerHTML = html;
-  });
-}
-
-function createOrderCard(order){
-  let progress = 20; // Default: Ordered
-  if(order.status === 'Packed') progress = 40;
-  if(order.status === 'Shipped') progress = 60;
-  if(order.status === 'Out for Delivery') progress = 80;
-  if(order.status === 'Delivered') progress = 100;
-  if(order.status === 'Cancelled') progress = 0;
-
-  // Cancel बटन सिर्फ Order Placed में दिखे
-  let cancelBtn = '';
-  if(order.status === 'Ordered' || order.status === 'Order Placed'){
-    cancelBtn = `<button class="btn btn-cancel" onclick="cancelOrder('${order.id}')">Cancel Order</button>`;
-  }
-
-  return `
-  <div class="card">
-    <div class="order-id">Order ID: #${order.id}</div>
-    <div class="product-name">${order.product}</div>
-    <div class="price">₹${order.price}</div>
-    <div class="date">Ordered on ${order.date}</div>
-
-    ${order.status!== 'Cancelled'? `
-    <div class="track-line">
-      <div class="track-progress" style="width:${progress}%"></div>
-      <div class="track-steps">
-        ${getStep('Ordered', order.status, order.date)}
-        ${getStep('Packed', order.status, '')}
-        ${getStep('Shipped', order.status, '')}
-        ${getStep('Out for Delivery', order.status, '')}
-        ${getStep('Delivered', order.status, '')}
-      </div>
-    </div>` : `<p style="color:red; font-weight:bold">❌ Order Cancelled</p>`}
-
-    <button class="btn" onclick="trackWhatsApp('${order.id}')">Track on WhatsApp</button>
-    ${cancelBtn}
-    <button class="btn btn2" onclick="buyAgain('${order.product}', ${order.price})">Buy Again</button>
-  </div>`;
-}
-
-function getStep(stepName, currentStatus, date){
-  let statusOrder = ['Ordered','Packed','Shipped','Out for Delivery','Delivered'];
-  let currentIndex = statusOrder.indexOf(currentStatus);
-  let stepIndex = statusOrder.indexOf(stepName);
-
-  let className = '';
-  if(stepIndex < currentIndex) className = 'done';
-  if(stepIndex === currentIndex) className = 'active';
-
-  return `
-  <div class="step ${className}">
-    <div class="step-circle"></div>
-    <div class="step-label">${stepName}<br>${date || ''}</div>
-  </div>`;
-}
-
-function trackWhatsApp(orderId){
-  let msg = `*Track Order*%0AOrder ID: ${orderId}%0AAhi, मेरे Order का Status बताएं`;
-  window.open(`https://wa.me/919258751739?text=${msg}`, '_blank');
-}
-
-function buyAgain(product, price){
-  let msg = `*Reorder*%0AProduct: ${product}%0APrice: ₹${price}%0AFिर से Order करना है`;
-  window.open(`https://wa.me/919258751739?text=${msg}`, '_blank');
-}
-
-// NEW: CANCEL FUNCTION
-function cancelOrder(orderId){
-  if(confirm('क्या आप सच में ये Order Cancel करना चाहते हैं?')){
-    // Firebase में status update
-    fetch(`https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app/orders/${orderId}.json`, {
-      method: 'PATCH',
-      body: JSON.stringify({status: 'Cancelled'})
+    let tracker = '<div class="tracker">';
+    statusSteps.forEach((s,i)=>{
+      tracker += `<div class="step"><div class="dot ${i<=currentStep?'active':''}"></div>${s}</div>`;
     });
-    // WhatsApp Alert
-    window.open(`https://wa.me/919258751739?text=Cancel Request: Order ID ${orderId}`);
-    alert('Order Cancelled');
-    location.reload();
+    tracker += '</div>';
+
+    let cancelBtn = '';
+    if(o.status == 'Ordered' || o.status == 'Packed'){
+      cancelBtn = `<button class="btn btn-cancel" onclick="sendCancelOTP('${o.orderId}','${o.mobile}')">Cancel Order</button>
+      <div class="otp-box" id="otp-${o.orderId}">
+        <input type="text" id="input-${o.orderId}" placeholder="6 Digit OTP">
+        <button class="btn btn-yellow" onclick="verifyCancelOTP('${o.orderId}')">Submit</button>
+      </div>`;
+    }
+
+    let boxClass = o.status == 'Cancelled'? 'box cancelled' : 'box';
+
+    html += `<div class="${boxClass}">
+      <div class="order-id">Order ID: #${o.orderId}</div>
+      <div><b>${productName}</b></div>
+      <div class="price">₹${o.total}</div>
+      <div style="font-size:12px">Ordered on: ${new Date(o.time).toLocaleDateString('hi-IN')}</div>
+      <div style="font-size:12px">Status: <b>${o.status}</b></div>
+      ${o.status!= 'Cancelled'? tracker : '<p style="color:red; font-weight:bold">❌ Order Cancelled</p>'}
+      <button class="btn btn-yellow" onclick="whatsapp('${o.orderId}')">Track on WhatsApp</button>
+      ${cancelBtn}
+    </div>`;
+  });
+  document.getElementById('orders').innerHTML = html || '<p style="text-align:center">कोई Order नहीं मिला</p>';
+});
+
+function sendCancelOTP(orderId, mobile){
+  currentOTP = Math.floor(100000 + Math.random() * 900000);
+  document.getElementById(`otp-${orderId}`).style.display = 'block';
+  db.ref('orders/'+orderId).update({cancelOTP: currentOTP, cancelRequest: true});
+  window.open(`https://wa.me/91${mobile}?text=S K Pharmacy Cancel OTP: ${currentOTP} for Order ${orderId}`);
+  alert('OTP आपके नंबर पर भेज दिया गया है');
+}
+
+function verifyCancelOTP(orderId){
+  let input = document.getElementById(`input-${orderId}`).value;
+  if(input == currentOTP){
+    alert('OTP सही है। Admin Approve करेगा');
+  } else {
+    alert('गलत OTP। दोबारा कोशिश करें');
   }
 }
+
+function whatsapp(id){ window.open(`https://wa.me/919258751739?text=Track Order: ${id}`) }
 </script>
 </body>
 </html>
