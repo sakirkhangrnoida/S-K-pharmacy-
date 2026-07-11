@@ -1,138 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Admin - GRNoida</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body{font-family:Arial;padding:10px;background:#f3f3f3}
-    .order{background:#fff;padding:15px;margin:10px 0;border-radius:8px;box-shadow:0 2px 5px #ccc}
-    button{padding:8px 12px;margin:4px;background:#232f3e;color:#fff;border:none;border-radius:4px;cursor:pointer}
-    .packed{background:#ff9900} .shipped{background:#007185} .delivered{background:#067d62}
-    h2{text-align:center}
-  </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Panel - GRNoida</title>
+<style>
+body{font-family:Arial;padding:10px;background:#f3f3f3}
+h2{text-align:center}
+.order{background:#fff;padding:15px;margin:10px 0;border-radius:8px;box-shadow:0 2px 5px #ccc}
+.order.cancelled{border-left:5px solid red; background:#ffe6e6}
+button{padding:10px 12px;margin:4px;border:0;border-radius:4px;cursor:pointer;color:#fff;font-weight:bold}
+.packed{background:#ff9900}
+.shipped{background:#007185}
+.delivered{background:#067d62}
+.cancelled-btn{background:red}
+.approve-btn{background:green}
+.reject-btn{background:orange}
+.info{font-size:14px; margin:5px 0}
+.status{font-weight:bold; color:green}
+</style>
 </head>
 <body>
-  <h2>GRNoida Orders</h2>
-  <div id="orders"></div>
+<h2>📦 GRNoida Admin Panel</h2>
+<div id="orders">Loading Orders...</div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyD2EOywrcF8vJUXnsmF5PA3t3inW79UX8Y",
-    authDomain: "grnoida-store.firebaseapp.com",
-    databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "grnoida-store",
-    storageBucket: "grnoida-store.firebasestorage.app",
-    messagingSenderId: "665639961400",
-    appId: "1:665639961400:web:cb704b0209b910fc6a77cd"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y",
+  databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app",
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const ordersDiv = document.getElementById('orders');
 
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+onValue(ref(db, 'orders'), (snapshot) => {
+  ordersDiv.innerHTML = '';
+  const data = snapshot.val();
+  if(!data){ ordersDiv.innerHTML = '<p style="text-align:center">No Orders Yet</p>'; return; }
 
-  const ordersDiv = document.getElementById('orders');
-  
-  onValue(ref(db, 'orders'), (snapshot) => {
-    ordersDiv.innerHTML = '';
-    const data = snapshot.val();
-    if(!data){ ordersDiv.innerHTML = '<p>No Orders Yet</p>'; return; }
-    
-    Object.values(data).sort((a,b) => b.time - a.time).forEach(order => {
-      ordersDiv.innerHTML += `
-        <div class="order">
-          <b>${order.orderId}</b> - ₹${order.total} - ${order.payment}<br>
-          <b>${order.name}</b> | ${order.mobile}<br>
-          ${order.address}, ${order.pin}<br>
-          <b>Status: ${order.status}</b><br><br>
-          <button class="packed" onclick="updateStatus('${order.orderId}','Packed')">Packed</button>
-          <button class="shipped" onclick="updateStatus('${order.orderId}','Shipped')">Shipped</button>
-          <button class="delivered" onclick="updateStatus('${order.orderId}','Delivered')">Delivered</button>
+  Object.values(data).sort((a,b)=> b.time - a.time).forEach(order => {
+    let productName = order.cart && order.cart[0]? order.cart[0].name : 'Product';
+
+    ordersDiv.innerHTML += `
+    <div class="order ${order.status=='Cancelled'?'cancelled':''}">
+      <div class="info"><b>Order ID:</b> #${order.orderId}</div>
+      <div class="info"><b>Product:</b> ${productName} x ${order.cart[0].qty}</div>
+      <div class="info"><b>Customer:</b> ${order.name} | ${order.mobile}</div>
+      <div class="info"><b>Address:</b> ${order.address}, ${order.pin}</div>
+      <div class="info"><b>Total:</b> ₹${order.total} | <b>Payment:</b> ${order.payment}</div>
+      <div class="info"><b>Status:</b> <span class="status">${order.status}</span></div>
+
+      ${order.cancelRequest? `
+        <div style="background:#fff3cd;padding:10px;border-radius:5px;margin:10px 0">
+          <p style="color:red;margin:0"><b>Cancel Requested!</b></p>
+          <p style="margin:5px 0">OTP: <b>${order.cancelOTP}</b></p>
+          <button class="approve-btn" onclick="approveCancel('${order.orderId}')">Approve Cancel</button>
+          <button class="reject-btn" onclick="rejectCancel('${order.orderId}')">Reject</button>
         </div>
-      `;
-    });
+      `: ''}
+
+      ${order.status!='Cancelled' && order.status!='Delivered'? `
+      <hr>
+      <button class="packed" onclick="updateStatus('${order.orderId}','Packed')">Packed</button>
+      <button class="shipped" onclick="updateStatus('${order.orderId}','Shipped')">Shipped</button>
+      <button class="delivered" onclick="updateStatus('${order.orderId}','Delivered')">Delivered</button>
+      <button class="cancelled-btn" onclick="forceCancel('${order.orderId}')">Force Cancel</button>
+      `: ''}
+    </div>`;
   });
-
-  window.updateStatus = function(orderId, status) {
-    update(ref(db, 'orders/' + orderId), { status: status });
-  }
-
-// ===== Customer Reviews Code Start =====
-import { remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-let allReviews = {};
-let currentFilter = 'pending';
-
-// Reviews वाला HTML बॉडी में जोड़ देगा
-document.body.innerHTML += `
-<div style="margin-top:40px;padding:25px;background:white;border-radius:8px;border:2px solid #ff9900">
-<h2 style="color:#232f3e;margin-top:0">📝 Customer Reviews - Approve/Delete</h2>
-<div style="margin:15px 0">
-<button onclick="showReviews('pending')" style="padding:10px 20px;background:#ff9900;border:none;color:white;border-radius:5px;cursor:pointer;font-weight:bold">Pending</button>
-<button onclick="showReviews('approved')" style="padding:10px 20px;background:#007185;border:none;color:white;border-radius:5px;cursor:pointer;font-weight:bold;margin-left:10px">Approved</button>
-<button onclick="showReviews('all')" style="padding:10px 20px;background:#232f3e;border:none;color:white;border-radius:5px;cursor:pointer;font-weight:bold;margin-left:10px">सभी</button>
-</div>
-<div id="reviewsDiv" style="min-height:200px">Reviews लोड हो रहे हैं...</div>
-</div>`;
-
-const reviewsRef = ref(db, 'reviews');
-onValue(reviewsRef, (snapshot) => {
-  allReviews = {};
-  snapshot.forEach((child) => {
-    allReviews[child.key] = child.val();
-  });
-  displayReviews(currentFilter);
 });
 
-window.showReviews = function(filter){
-  currentFilter = filter;
-  displayReviews(filter);
+window.updateStatus = function(orderId, status) {
+  update(ref(db, 'orders/' + orderId), { status: status });
+  alert(`Status updated to ${status}`);
+  window.open(`https://wa.me/919258751739?text=Order ${orderId} status: ${status}`);
 }
 
-function displayReviews(filter){
-  let html = '';
-  let count = 0;
-  for(let key in allReviews){
-    let data = allReviews[key];
-    if(filter!== 'all' && data.status!== filter) continue;
-    count++;
-    let stars = '★'.repeat(data.rating) + '☆'.repeat(5-data.rating);
-    let date = data.date? new Date(data.date).toLocaleString('hi-IN') : '';
-    let statusColor = data.status === 'pending'? '#ff9900' : '#007185';
-    html += `<div style="border:1px solid #ddd;border-left:4px solid ${statusColor};padding:15px;margin:10px 0;border-radius:5px">
-      <p><b>प्रोडक्ट:</b> ${data.product}</p>
-      <p><b>नाम:</b> ${data.name}</p>
-      <p style="color:#ffa41c;font-size:18px">${stars} (${data.rating}/5)</p>
-      <p>${data.review}</p>
-      <p style="font-size:12px;color:#565959">📅 ${date} | Status: <b style="color:${statusColor}">${data.status}</b></p>
-      <div>
-        ${data.status === 'pending'?
-          `<button class="packed" onclick="approveReview('${key}')">✓ Approve</button>` :
-          `<button class="shipped" onclick="unapproveReview('${key}')">↺ Pending करें</button>`
-        }
-        <button class="delivered" onclick="deleteReview('${key}')">🗑️ Delete</button>
-      </div>
-    </div>`;
+window.forceCancel = function(orderId) {
+  if(confirm('Order Force Cancel करना है?')){
+    update(ref(db, 'orders/' + orderId), { status: 'Cancelled' });
+    alert('Order Cancelled');
   }
-  if(count === 0) html = `<p style="text-align:center;color:#565959;padding:40px">इसमें कोई Review नहीं है</p>`;
-  document.getElementById('reviewsDiv').innerHTML = `<h3>कुल: ${count} Reviews</h3>` + html;
 }
 
-window.approveReview = function(key){
-  if(confirm('Approve कर दें?')){
-    update(ref(db, 'reviews/' + key), {status: 'approved'});
+window.approveCancel = function(orderId) {
+  if(confirm('Cancel Approve करना है?')){
+    update(ref(db, 'orders/' + orderId), { status: 'Cancelled', cancelRequest: false });
+    alert('Order Cancelled');
   }
 }
-window.unapproveReview = function(key){
-  update(ref(db, 'reviews/' + key), {status: 'pending'});
+
+window.rejectCancel = function(orderId) {
+  update(ref(db, 'orders/' + orderId), { cancelRequest: false, cancelOTP: '' });
+  alert('Cancel Request Rejected');
 }
-window.deleteReview = function(key){
-  if(confirm('Delete करना है?')){
-    remove(ref(db, 'reviews/' + key));
-  }
-}
-// ===== Customer Reviews Code End =====
 </script>
-  </body>
+</body>
 </html>
