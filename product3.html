@@ -1,255 +1,111 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Kesh Shine Oil - S K Pharmacy</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <style>
-
-body{
-font-family:Arial,sans-serif;
-margin:0;
-background:#f4f7f6;
-padding-bottom:80px;
-}
-
-.header{
-background:#1a1e23;
-color:white;
-padding:18px;
-text-align:center;
-}
-
-.product-box{
-background:white;
-margin:15px;
-padding:20px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-text-align:center;
-}
-
-.product-box img{
-width:100%;
-max-width:300px;
-height:300px;
-object-fit:contain;
-}
-
-.price{
-margin-top:10px;
-}
-
-.old-price{
-text-decoration:line-through;
-color:#888;
-font-size:16px;
-margin-right:8px;
-}
-
-.new-price{
-color:#d9534f;
-font-size:28px;
-font-weight:bold;
-}
-
-.buy-btn{
-display:block;
-background:#25D366;
-color:white;
-padding:14px;
-margin-top:15px;
-border-radius:30px;
-text-decoration:none;
-font-size:18px;
-font-weight:bold;
-}
-
-.pay-btn{
-display:block;
-background:#2ea44f;
-color:white;
-padding:14px;
-margin-top:12px;
-border-radius:30px;
-text-decoration:none;
-font-size:18px;
-font-weight:bold;
-}
-
-.amazon-btn{
-display:block;
-background:#ff9800;
-color:white;
-padding:14px;
-margin-top:12px;
-border-radius:30px;
-text-decoration:none;
-font-size:18px;
-font-weight:bold;
-}
-
-.info{
-background:white;
-margin:15px;
-padding:20px;
-border-radius:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-line-height:1.9;
-font-size:15px;
-color:#333;
-}
-
-.share-btn{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#007bff;
-color:white;
-width:60px;
-height:60px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:24px;
-text-decoration:none;
-}
-
+body{margin:0; font-family:Arial; background:#f0f2f5}
+.header{background:#232f3e; color:#fff; padding:10px; display:flex; align-items:center; gap:10px; position:sticky; top:0; z-index:999}
+.header input{flex:1; padding:8px; border-radius:4px; border:none}
+.header button{background:none; border:none; color:#fff; font-size:20px; cursor:pointer}
+#dotMenu{display:none; position:absolute; right:10px; top:50px; background:#fff; color:#000; padding:10px; box-shadow:0 2px 10px #000; border-radius:5px}
+.category-bar{background:#37475a; padding:8px} .category-bar a{color:#fff; margin:0 10px; text-decoration:none}
+.product-box{display:flex; gap:20px; padding:20px; background:#fff; margin:10px; border-radius:8px}
+.product-box img{width:300px; border:1px solid #ddd; border-radius:8px}
+.step{background:#fff; padding:20px; margin:10px; border-radius:8px; display:none} .step.active{display:block}
+.step button{padding:10px 20px; background:#ff9900; border:none; cursor:pointer; border-radius:4px}
+.buybtn{background:#ffa41c; padding:12px 30px; border:none; font-size:16px; cursor:pointer; border-radius:8px}
+.footer{background:#232f3e; color:#fff; padding:30px 20px; margin-top:30px; display:flex; flex-wrap:wrap; gap:30px}
+.footer a{color:#ddd; display:block; text-decoration:none; margin:5px 0}
 </style>
-
 </head>
-
 <body>
 
-<div class="header">
+<!-- HEADER + 3 DOT + SEARCH -->
+<header class="header">
+  <button onclick="window.location='index.html'">☰</button>
+  <img src="logo.png" width="40">
+  <input id="searchBox" placeholder="Search Skin Care, Hair Oil, Medicine..." onkeyup="searchProduct(this.value)">
+  <a href="orders.html" style="color:#fff">📦 Orders</a>
+  <a href="checkout.html" style="color:#fff">🛒 Cart</a>
+  <button onclick="toggle3Dot()">⋮</button>
+</header>
 
-<h1>Kesh Shine Hair Oil</h1>
-
-<p>S K Pharmacy Product Details</p>
-
+<div id="dotMenu">
+  <a href="login.html">Login</a>
+  <a href="settings.html">Settings</a>
+  <a href="contact.html">Contact</a>
+  <a href="privacy.html">Privacy</a>
+  <a href="refund.html">Refund</a>
+  <a href="admin.html">Admin</a>
+  <a href="#" onclick="logout()">Logout</a>
 </div>
 
+<div class="category-bar">
+  <a href="skin-care.html">Skin Care</a> <a href="baby-care.html">Baby Care</a> 
+  <a href="health.html">Health</a> <a href="sell.html">Sell</a> <a href="medicine3.html">Pharmacy</a>
+</div>
+
+<!-- PRODUCT 3: KESH SHINE OIL -->
 <div class="product-box">
-
-<img src="26113.png">
-
-<h2>
-Kesh Shine Hair Oil
-</h2>
-
-<p>
-Ayurvedic Hair Oil For Strong & Shiny Hair
-</p>
-
-<div class="price">
-
-<span class="old-price">
-₹299
-</span>
-
-<span class="new-price">
-₹199
-</span>
-
+  <img src="https://i.imgur.com/你的图片链接.jpg" alt="Kesh Shine Oil">
+  <div>
+    <h2>Kesh Shine Oil</h2>
+    <p>Ayurvedic Hair Oil</p>
+    <p>⭐ 4.4 (680 Reviews)</p>
+    <h3><s>₹299</s> <span style="color:red">₹199</span> <span style="color:green">33% off</span></h3>
+    <p>• बालों को काला, घना और मजबूत बनाता है<br>
+       • 15+ आयुर्वेदिक जड़ी बूटियों से बना<br>
+       • डैंड्रफ और हेयर फॉल रोके</p>
+    <button class="buybtn" onclick="startBuy('Kesh Shine Oil', 199)">Buy Now</button>
+    <button onclick="addReview()">Add Review</button>
+  </div>
 </div>
 
-<a href="https://wa.me/917983006957?text=मुझे%20Kesh%20Shine%20Hair%20Oil%20ऑर्डर%20करना%20है"
-class="buy-btn">
+<!-- STEP BUY 5 STEP -->
+<div id="step1" class="step"><h3>Step 1: Quantity</h3><button onclick="setQty(1)">1</button><button onclick="setQty(2)">2</button><button onclick="nextStep(2)">Continue</button></div>
+<div id="step2" class="step"><h3>Step 2: Delivery Address</h3><input id="cName" placeholder="Name"><input id="cMobile" placeholder="Mobile" maxlength="10"><textarea id="cAddress" placeholder="Address"></textarea><input id="cPin" placeholder="PIN" maxlength="6"><button onclick="nextStep(3)">Continue</button></div>
+<div id="step3" class="step"><h3>Step 3: Payment</h3><button onclick="placeOrder('COD')">Cash on Delivery</button><button onclick="placeOrder('UPI')">Pay Online - ₹10 OFF</button></div>
+<div id="step4" class="step"><h3>Step 4: OTP Verify</h3><input id="otpInput" placeholder="6 Digit OTP"><button onclick="verifyOTP()">Verify</button></div>
+<div id="step5" class="step"><h3>Step 5: Order Placed ✅</h3>Order ID: <b id="orderId"></b><button onclick="window.location='orders.html'">Track Order</button></div>
 
-<i class="fab fa-whatsapp"></i>
-
-Order on WhatsApp
-
-</a>
-
-<a href="upi://pay?pa=7983006957@ibl&pn=SK%20Pharmacy&cu=INR"
-class="pay-btn">
-
-💳 Pay Now
-
-</a>
-
-<a href="https://amzn.to/3WvZmT4"
-target="_blank"
-class="amazon-btn">
-
-🛒 Buy on Amazon
-
-</a>
-
-</div>
-
-<div class="info">
-
-<h3>
-📋 Product Information
-</h3>
-
-<p>
-
-Kesh Shine Hair Oil एक Ayurvedic Hair Oil है
-जो बालों को मजबूत, चमकदार और स्वस्थ बनाने में मदद करता है।
-
-</p>
-
-<ul>
-
-<li>✅ Hair Growth Support</li>
-
-<li>✅ Reduces Hair Fall</li>
-
-<li>✅ Deep Hair Nutrition</li>
-
-<li>✅ Smooth & Shiny Hair</li>
-
-<li>✅ Suitable For Men & Women</li>
-
-</ul>
-
-<h3>
-⭐ उपयोग करने का तरीका
-</h3>
-
-<p>
-
-रात में बालों की जड़ों में तेल लगाकर हल्के हाथों से massage करें।
-सुबह shampoo से धो लें।
-
-</p>
-
-<h3>
-⚠️ Important Note
-</h3>
-
-<p>
-
-सिर्फ बाहरी उपयोग के लिए।
-आंखों में जाने से बचाएं।
-
-</p>
-
-</div>
-
-<a href="https://wa.me/?text=https://sakirkhangrnoida.github.io/product3.html"
-class="share-btn">
-
-<i class="fas fa-share-alt"></i>
-
-</a>
-<!-- Footer for AdSense -->
-<footer style="text-align:center; padding:25px 15px; margin-top:40px; background:#1a1e23; color:#fff; font-size:14px;">
-    <a href="about.html" style="color:#fff; margin:0 10px; text-decoration:none;">About Us</a> | 
-    <a href="contact.html" style="color:#fff; margin:0 10px; text-decoration:none;">Contact Us</a> | 
-    <a href="privacy.html" style="color:#fff; margin:0 10px; text-decoration:none;">Privacy Policy</a> | 
-    <a href="refund.html" style="color:#fff; margin:0 10px; text-decoration:none;">Refund Policy</a>
-    <p style="margin-top:12px;">© 2026 S K Pharmacy. All Rights Reserved.</p>
+<!-- FOOTER -->
+<footer class="footer">
+  <div><h4>About</h4><a href="about.html">About Us</a><a href="contact.html">Contact</a></div>
+  <div><h4>Help</h4><a href="privacy.html">Privacy Policy</a><a href="refund.html">Refund</a><a href="orders.html">Live Tracking</a></div>
+  <div><h4>Account</h4><a href="settings.html">Settings</a><a href="admin.html">Admin</a><a href="add-review.html">Add Review</a></div>
 </footer>
-  
+
+<script>
+const firebaseConfig = {apiKey: "AIzaSyBK...", databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com"};
+firebase.initializeApp(firebaseConfig); const db = firebase.database();
+
+let qty=1, productName="Kesh Shine Oil", productPrice=199;
+
+function toggle3Dot(){ let m=document.getElementById('dotMenu'); m.style.display=m.style.display=='block'?'none':'block'; }
+function logout(){ localStorage.clear(); location.reload(); }
+function searchProduct(q){ if(q.length>1) window.location='search.html?query='+q; }
+
+function startBuy(name, price){ productName=name; productPrice=price; document.querySelector('.product-box').style.display='none'; nextStep(1); }
+function setQty(n){ qty=n; }
+function nextStep(n){ document.querySelectorAll('.step').forEach(s=>s.classList.remove('active')); document.getElementById('step'+n).classList.add('active'); }
+
+function placeOrder(payment){
+  let orderId = "SK"+Date.now();
+  db.ref('orders/'+orderId).set({
+    orderId, product: productName, price: productPrice, qty,
+    name: cName.value, mobile: cMobile.value, address: cAddress.value, pin: cPin.value,
+    payment, total: payment=='UPI' ? (productPrice*qty)-10 : productPrice*qty,
+    status: "Order Placed", time: Date.now()
+  });
+  document.getElementById('orderId').innerText = orderId;
+  window.open(`https://wa.me/919258751739?text=New Order: ${orderId} - ${productName} x${qty}`);
+  nextStep(5);
+}
+function verifyOTP(){ /* OTP वाला कोड यहां */ nextStep(5); }
+function addReview(){ window.location='add-review.html'; }
+</script>
 </body>
-  </html>
+</html>
