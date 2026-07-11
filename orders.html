@@ -12,10 +12,12 @@ body{font-family:Arial;margin:0;background:#eaeded}
 .box.cancelled{border:2px solid red;background:#ffe6e6}
 .order-id{color:#007185;font-weight:bold}
 .price{color:#B12704;font-size:18px;font-weight:bold}
-.tracker{display:flex;justify-content:space-between;margin:15px 0}
-.step{text-align:center;font-size:12px;flex:1}
-.dot{width:12px;height:12px;border-radius:50%;background:#ccc;margin:auto}
-.dot.active{background:green}
+.tracker{display:flex;justify-content:space-between;margin:20px 0;position:relative}
+.tracker::before{content:'';position:absolute;top:6px;left:0;right:0;height:2px;background:#ccc;z-index:0}
+.step{text-align:center;font-size:12px;flex:1;position:relative;z-index:1}
+.dot{width:14px;height:14px;border-radius:50%;background:#ccc;margin:0 auto 5px;border:2px solid #fff}
+.dot.active{background:#067d62}
+.step.active{color:#067d62;font-weight:bold}
 .btn{padding:10px 15px;border:none;border-radius:4px;cursor:pointer;margin:5px;font-weight:bold}
 .btn-yellow{background:#FFD814}
 .btn-cancel{background:#fff;border:1px solid red;color:red}
@@ -25,7 +27,7 @@ body{font-family:Arial;margin:0;background:#eaeded}
 </head>
 <body>
 
-<div class="header">📦 My Orders</div>
+<div class="header">📦 My Orders - Live Tracking</div>
 <div id="orders">Loading...</div>
 
 <script>
@@ -34,21 +36,29 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 let currentOTP = '';
 
-db.ref('orders').orderByChild('time').limitToLast(20).once('value', snap=>{
+// हर 5 सेकंड में Auto Refresh होगा - Live Tracking
+setInterval(loadOrders, 5000);
+loadOrders();
+
+function loadOrders(){
+db.ref('orders').orderByChild('time').limitToLast(20).on('value', snap=>{
   let html = '';
   snap.forEach(child=>{
     let o = child.val();
     let productName = o.cart && o.cart[0]? o.cart[0].name : 'Product';
 
+    // 1. Amazon जैसा 5 Step Tracker
     let statusSteps = ['Ordered','Packed','Shipped','Out for Delivery','Delivered'];
     let currentStep = statusSteps.indexOf(o.status);
 
     let tracker = '<div class="tracker">';
     statusSteps.forEach((s,i)=>{
-      tracker += `<div class="step"><div class="dot ${i<=currentStep?'active':''}"></div>${s}</div>`;
+      let activeClass = i<=currentStep? 'active' : '';
+      tracker += `<div class="step ${activeClass}"><div class="dot ${activeClass}"></div>${s}</div>`;
     });
     tracker += '</div>';
 
+    // 2. Cancel बटन सिर्फ Ordered/Packed में
     let cancelBtn = '';
     if(o.status == 'Ordered' || o.status == 'Packed'){
       cancelBtn = `<button class="btn btn-cancel" onclick="sendCancelOTP('${o.orderId}','${o.mobile}')">Cancel Order</button>
@@ -62,17 +72,19 @@ db.ref('orders').orderByChild('time').limitToLast(20).once('value', snap=>{
 
     html += `<div class="${boxClass}">
       <div class="order-id">Order ID: #${o.orderId}</div>
-      <div><b>${productName}</b></div>
+      <div><b>${productName}</b> x ${o.cart[0].qty}</div>
       <div class="price">₹${o.total}</div>
       <div style="font-size:12px">Ordered on: ${new Date(o.time).toLocaleDateString('hi-IN')}</div>
-      <div style="font-size:12px">Status: <b>${o.status}</b></div>
-      ${o.status!= 'Cancelled'? tracker : '<p style="color:red; font-weight:bold">❌ Order Cancelled</p>'}
+
+      ${o.status!= 'Cancelled'? tracker : '<p style="color:red; font-weight:bold; text-align:center">❌ Order Cancelled</p>'}
+
       <button class="btn btn-yellow" onclick="whatsapp('${o.orderId}')">Track on WhatsApp</button>
       ${cancelBtn}
     </div>`;
   });
   document.getElementById('orders').innerHTML = html || '<p style="text-align:center">कोई Order नहीं मिला</p>';
 });
+}
 
 function sendCancelOTP(orderId, mobile){
   currentOTP = Math.floor(100000 + Math.random() * 900000);
@@ -84,11 +96,13 @@ function sendCancelOTP(orderId, mobile){
 
 function verifyCancelOTP(orderId){
   let input = document.getElementById(`input-${orderId}`).value;
-  if(input == currentOTP){
-    alert('OTP सही है। Admin Approve करेगा');
-  } else {
-    alert('गलत OTP। दोबारा कोशिश करें');
-  }
+  db.ref('orders/'+orderId).once('value', snap=>{
+    if(input == snap.val().cancelOTP){
+      alert('OTP सही है। Admin Approve करेगा');
+    } else {
+      alert('गलत OTP। दोबारा कोशिश करें');
+    }
+  });
 }
 
 function whatsapp(id){ window.open(`https://wa.me/919258751739?text=Track Order: ${id}`) }
