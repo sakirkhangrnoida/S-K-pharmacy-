@@ -436,17 +436,55 @@ setInterval(()=>{s[c].classList.remove('active');c=(c+1)%s.length;s[c].classList
   <a href="https://wa.me/919258751739?text=Namaste%20Sir,%20mujhe%20Nivea%20Men%20Charcoal%20Face%20Wash%20₹150%20mein%20chahiye" class="details-btn" style="background:#25D366;color:#fff;margin-top:8px">Order on WhatsApp</a>
 </div>
   <!-- Product 3 -->
-  <div class="product-card">
-    <img src="26113.png">
-    <div class="product-title">Kesh Shine Oil</div>
-    <div class="product-subtitle">Ayurvedic Hair Oil</div>
-    <div class="price">
-      <span class="old-price">₹299</span>
-      <span class="new-price">₹199</span>
-    </div>
-    <a href="product3.html" class="details-btn">View Details</a>
-    <a href="https://wa.me/917983006957?text=मुझे%20Kesh%20Shine%20Oil%20चाहिए" target="_blank" class="buy-btn"><i class="fab fa-whatsapp"></i> Order Now</a>
+<div class="product-card">
+  
+  <img src="26113.png" alt="Kesh Shine Oil" loading="lazy">
+  
+  <div class="product-title">Kesh Shine Oil</div>
+  
+  <div class="product-subtitle">Ayurvedic Hair Oil</div>
+  
+  <div class="price">
+    <span class="old-price">₹299</span>
+    <span class="new-price">₹199</span>
   </div>
+
+  <!-- 4 बटन यहां -->
+  <div class="product-buttons" style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+
+    <!-- 1. काला Buy Now -->
+    <a href="product3.html" 
+       class="details-btn" 
+       style="background:#000; color:#fff; padding:10px; border-radius:5px; text-decoration:none; text-align:center; font-weight:bold;">
+       Buy Now
+    </a>
+
+    <!-- 2. पीला Buy on Amazon -->
+    <a href="https://www.amazon.in/s?k=Kesh+Shine+Oil&tag=skpharmacy0786-21" 
+       target="_blank" 
+       class="details-btn" 
+       style="background:#FF9900; color:#000; padding:10px; border-radius:5px; text-decoration:none; text-align:center; font-weight:bold;">
+       Buy on Amazon
+    </a>
+
+    <!-- 3. हरा WhatsApp -->
+    <a href="https://wa.me/919258751739?text=Namaste%20Sir,%20mujhe%20Kesh%20Shine%20Oil%20order%20karna%20hai" 
+       target="_blank" 
+       class="details-btn" 
+       style="background:#25D366; color:#fff; padding:10px; border-radius:5px; text-decoration:none; text-align:center; font-weight:bold;">
+       Order on WhatsApp
+    </a>
+
+    <!-- 4. नीला Add to Cart -->
+    <button onclick="addToCart('Kesh Shine Oil', 199, '26113.png')" 
+       class="details-btn" 
+       style="background:blue; color:#fff; padding:10px; border-radius:5px; border:none; font-weight:bold;">
+       Add to Cart
+    </button>
+
+  </div>
+
+</div>
 
   <!-- Product 4 -->
   <div class="product-card">
