@@ -1,184 +1,87 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout - S K Pharmacy GRNoida</title>
-
-<!-- EMAILJS -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
+<title>Checkout - S K Pharmacy</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
-body{font-family:Arial;margin:0;background:#eaeded}
-.header{background:#232f3e; color:#fff; padding:12px 20px; display:flex; align-items:center}
-.header a{color:#fff; text-decoration:none; font-weight:bold}
-.container{display:flex; gap:20px; padding:20px; max-width:1200px; margin:auto; flex-wrap:wrap}
-.left{flex:2; min-width:300px}
-.right{flex:1; min-width:280px}
-.box{background:#fff;padding:20px;border-radius:8px;margin-bottom:15px}
-input,select,textarea{width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:4px;box-sizing:border-box}
-button{background:#ffa41c;color:#000;padding:12px;width:100%;font-weight:bold;border:none;border-radius:8px;cursor:pointer;font-size:16px}
-button:hover{background:#ff8f00}
-.error{color:red;font-size:13px;display:none;margin-top:-5px}
-.footer{background:#232f3e; color:#fff; padding:20px; margin-top:30px; text-align:center}
-.footer a{color:#ddd; margin:0 10px; text-decoration:none}
-.cart-item{border-bottom:1px solid #eee; padding:8px 0}
+body{font-family:Arial;background:#f3f3f3;margin:0;padding:15px}
+.box{background:#fff;padding:20px;border-radius:8px;max-width:500px;margin:auto}
+input,textarea{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:4px;box-sizing:border-box}
+.btn{background:#FFD814;border:none;padding:12px;width:100%;font-size:16px;font-weight:bold;border-radius:8px;cursor:pointer}
+h2{text-align:center}
 </style>
 </head>
 <body>
 
-<header class="header">
-  <a href="index.html">🏠 S K Pharmacy GRNoida</a>
-  <span style="margin-left:auto">🔒 Secure Checkout</span>
-</header>
-
-<div class="container">
-  <div class="left">
-    <div class="box">
-      <h2>Delivery Details</h2>
-      <input id="name" placeholder="पूरा नाम" required>
-      <div class="error" id="nameErr">नाम लिखो भाई</div>
-
-      <input id="mobile" placeholder="Mobile Number" type="tel" maxlength="10" required>
-      <div class="error" id="mobileErr">10 डिजिट नंबर डालो</div>
-
-      <textarea id="address" placeholder="पूरा Address - House No, Gali, Area" rows="3" required></textarea>
-      <div class="error" id="addressErr">पता लिखो</div>
-
-      <input id="pin" placeholder="PIN Code" type="tel" maxlength="6" required>
-      <div class="error" id="pinErr">6 डिजिट PIN डालो</div>
-
-      <label style="font-weight:bold">Payment Method</label>
-      <select id="payment">
-        <option value="COD">COD - Cash on Delivery</option>
-        <option value="UPI">Online Payment - Get ₹10 OFF</option>
-      </select>
-
-      <button onclick="placeOrder()">Place Order</button>
-      <div id="msg" style="margin-top:10px;text-align:center;font-weight:bold"></div>
-    </div>
-  </div>
-
-  <div class="right">
-    <div class="box">
-      <h3>Order Summary</h3>
-      <div id="cartItems">Loading...</div>
-      <hr>
-      <p>Subtotal: <span id="subtotal">₹0</span></p>
-      <p>Delivery: <span style="color:green">FREE</span></p>
-      <p>Discount: <span id="discount">-₹0</span></p>
-      <hr>
-      <h3 style="color:#B12704">Order Total: <span id="total">₹0</span></h3>
-    </div>
-  </div>
+<div class="box">
+<h2>📦 Delivery Details</h2>
+<input id="name" placeholder="पूरा नाम">
+<input id="mobile" placeholder="10 Digit Mobile Number" maxlength="10">
+<textarea id="address" placeholder="पूरा पता"></textarea>
+<input id="pin" placeholder="Pincode">
+<button class="btn" onclick="placeOrder()">Place Order</button>
 </div>
 
-<footer class="footer">
-  <a href="about.html">About</a> | 
-  <a href="contact.html">Contact</a> | 
-  <a href="privacy.html">Privacy</a> | 
-  <a href="refund.html">Refund</a> | 
-  <a href="orders.html">Track Order</a>
-  <p style="margin-top:10px">📞 9258751739 | 📍 GR Noida, UP</p>
-</footer>
+<script>
+emailjs.init("yOq3T9XyZ1aBcDeFg"); // तेरा EmailJS Key
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+const firebaseConfig = {apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y", databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app"};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-// 1. EMAILJS INIT - तेरी Public Key
-emailjs.init("z3cFw4MCTs6DKv2Cj"); 
+// Cart और Total localStorage से ले लो
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let finalTotal = localStorage.getItem('total') || 0;
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y",
-  authDomain: "grnoida-store.firebaseapp.com",
-  databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "grnoida-store"
-};
+function placeOrder(){
+  let name = document.getElementById('name').value;
+  let mobile = document.getElementById('mobile').value;
+  let address = document.getElementById('address').value;
+  let pin = document.getElementById('pin').value;
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+  if(!name || !mobile || !address){ alert('सारी डिटेल भरें'); return; }
 
-let cart = JSON.parse(localStorage.getItem('sk_cart')) || [];
-let total = 0;
+  let orderId = 'SK' + Date.now(); // Unique Order ID
+  let orderOTP = Math.floor(100000 + Math.random() * 900000); // 6 digit OTP
 
-function loadCart(){
-  let html = '';
-  if(cart.length == 0){ html = '<p>Cart खाली है</p>'; }
-  cart.forEach(item=>{
-    html += `<div class="cart-item">
-      <b>${item.name}</b><br>
-      Qty: ${item.qty} x ₹${item.price} = ₹${item.price * item.qty}
-    </div>`;
-    total += item.price * item.qty;
-  });
-  document.getElementById('cartItems').innerHTML = html;
-  document.getElementById('subtotal').innerText = '₹' + total;
-  document.getElementById('total').innerText = '₹' + total;
-}
-loadCart();
-
-window.placeOrder = function() {
-  let name = document.getElementById('name').value.trim();
-  let mobile = document.getElementById('mobile').value.trim();
-  let address = document.getElementById('address').value.trim();
-  let pin = document.getElementById('pin').value.trim();
-  let payment = document.getElementById('payment').value;
-  let msg = document.getElementById('msg');
-
-  document.querySelectorAll('.error').forEach(e=>e.style.display='none');
-  msg.innerHTML = '';
-
-  let hasError = false;
-  if(!name){document.getElementById('nameErr').style.display='block'; hasError=true;}
-  if(mobile.length != 10){document.getElementById('mobileErr').style.display='block'; hasError=true;}
-  if(!address){document.getElementById('addressErr').style.display='block'; hasError=true;}
-  if(pin.length != 6){document.getElementById('pinErr').style.display='block'; hasError=true;}
-  if(hasError) return;
-
-  let discount = payment == 'UPI' ? 10 : 0;
-  let finalTotal = total - discount;
-  
-  document.getElementById('discount').innerText = '-₹' + discount;
-  document.getElementById('total').innerText = '₹' + finalTotal;
-
-  let orderId = 'ORD' + Date.now();
   let orderData = {
     orderId: orderId,
     name: name,
     mobile: mobile,
     address: address,
     pin: pin,
-    payment: payment,
     cart: cart,
-    subtotal: total,
-    discount: discount,
     total: finalTotal,
-    status: 'Order Placed',
-    time: Date.now()
+    payment: 'COD',
+    status: 'Ordered',
+    time: Date.now(),
+    orderOTP: orderOTP,
+    cancelRequest: false
   };
-  
-  set(ref(db, 'orders/' + orderId), orderData).then(() => {
-    localStorage.setItem('grnoida_last_order', orderId);
-    localStorage.removeItem('sk_cart');
+
+  // 1. Firebase में Save
+  db.ref('orders/' + orderId).set(orderData).then(()=>{
     
-    // 2. WHATSAPP ALERT
-    window.open(`https://wa.me/919258751739?text=New Order: ${orderId} - Total: ₹${finalTotal} - ${name} - ${mobile}`);
-    
-    // 3. EMAIL ALERT - तेरी Service ID और Template ID
+    // 2. तुझे Email
     emailjs.send("service_u1c0727", "dg8drle", {
       order_id: orderId,
       customer_name: name,
-      customer_mobile: mobile,
-      customer_address: address + ', ' + pin,
-      total_amount: finalTotal,
-      payment_method: payment,
-      products: JSON.stringify(cart)
+      total: finalTotal,
+      mobile: mobile
     });
-    
-    msg.innerHTML = '✅ Order Placed! ID: ' + orderId;
-    msg.style.color = 'green';
-    setTimeout(()=>{window.location.href = 'orders.html';}, 2000);
+
+    // 3. तुझे WhatsApp
+    window.open(`https://wa.me/919258751739?text=🚨 New Order!\nID: ${orderId}\nName: ${name}\nTotal: ₹${finalTotal}`, '_blank');
+
+    // 4. ग्राहक को Order OTP WhatsApp
+    window.open(`https://wa.me/91${mobile}?text=S K Pharmacy\nYour Order ${orderId} OTP: ${orderOTP}\nइसे संभाल कर रखें`, '_blank');
+
+    alert('Order Placed! OTP आपके नंबर पर भेज दिया गया');
+    localStorage.removeItem('cart');
+    window.location.href = 'orders.html';
   });
 }
 </script>
