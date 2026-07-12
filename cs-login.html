@@ -1,82 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
-<title>Login - S K Pharma</title>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<meta charset="UTF-8">
+<title>Login - S K Pharmacy</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <style>
-body{text-align:center; padding:50px; font-family:Arial;}
-input{padding:10px; width:250px; margin:10px; border:1px solid #ccc; border-radius:5px;}
-button{padding:10px 20px; background:#FF9900; color:white; border:none; border-radius:5px; cursor:pointer;}
+body{background:#f0f2f5;font-family:Arial;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
+.login-box{background:#fff;padding:30px;border-radius:8px;box-shadow:0 2px 10px #ccc;width:350px}
+.login-box h2{text-align:center;color:#232f3e}
+.login-box input{width:93%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:4px}
+.login-box button{width:100%;padding:12px;background:#ffa41c;border:none;font-size:16px;font-weight:bold;border-radius:8px;cursor:pointer;margin-top:10px}
+.login-box.link{text-align:center;margin-top:15px}
+.logo{text-align:center;font-size:24px;font-weight:bold;color:#232f3e;margin-bottom:20px}
+.tabs{display:flex;border-bottom:2px solid #ddd;margin-bottom:20px}
+.tab{flex:1;text-align:center;padding:10px;cursor:pointer}
+.tab.active{border-bottom:3px solid #ff9900;font-weight:bold}
 </style>
 </head>
 <body>
 
-<h2>🔐 S K Pharma Login</h2>
-
-<div id="step1">
-  <input type="tel" id="mobile" placeholder="10 Digit Mobile No" maxlength="10"><br>
-  <button onclick="sendOTP()">OTP भेजो</button>
+<div class="login-box">
+<div class="logo">S K Pharmacy</div>
+<div class="tabs">
+<div class="tab active" onclick="showTab('login')">Login</div>
+<div class="tab" onclick="showTab('signup')">Sign Up</div>
 </div>
 
-<div id="step2" style="display:none;">
-  <input type="text" id="otp" placeholder="4 Digit OTP" maxlength="4"><br>
-  <button onclick="verifyOTP()">Login करो</button>
+<!-- LOGIN FORM -->
+<div id="loginForm">
+<input id="lMobile" placeholder="10 Digit Mobile Number" type="number">
+<input id="lPass" placeholder="Password" type="password">
+<button onclick="doLogin()">Login</button>
+</div>
+
+<!-- SIGNUP FORM -->
+<div id="signupForm" style="display:none">
+<input id="sName" placeholder="पूरा नाम">
+<input id="sMobile" placeholder="10 Digit Mobile Number" type="number">
+<input id="sPass" placeholder="Password बनाएं" type="password">
+<button onclick="doSignup()">Create Account</button>
+</div>
+
+<div class="link">
+<a href="orders.html">Guest में Order Track करें</a>
+</div>
 </div>
 
 <script>
-// 1. Firebase Config - अपना वाला
-var firebaseConfig = {
-  apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inw79UX8Y",
-  databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com"
-};
-firebase.initializeApp(firebaseConfig);
+const firebaseConfig = {apiKey: "AIzaSyD2EoywecfBv8JUXnsmFS4A131in790XBW", databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com"};
+firebase.initializeApp(firebaseConfig); const db = firebase.database();
 
-// 2. अगर पहले से Login है तो सीधा भेज दो
-if(localStorage.getItem('isLoggedIn') == 'true'){
-  location = 'settings.html';
+// URL से return URL लेगा
+let params = new URLSearchParams(window.location.search);
+let returnUrl = params.get('redirect') || 'index.html';
+
+function showTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  if(tab=='login'){
+    document.getElementById('loginForm').style.display='block';
+    document.getElementById('signupForm').style.display='none';
+    document.querySelectorAll('.tab')[0].classList.add('active');
+  }else{
+    document.getElementById('loginForm').style.display='none';
+    document.getElementById('signupForm').style.display='block';
+    document.querySelectorAll('.tab')[1].classList.add('active');
+  }
 }
 
-let generatedOTP = "";
-let userMobile = "";
+function doSignup(){
+  let name=document.getElementById('sName').value;
+  let mobile=document.getElementById('sMobile').value;
+  let pass=document.getElementById('sPass').value;
+  if(name==''||mobile.length!=10||pass==''){alert('सभी फील्ड भरो');return;}
 
-// 3. OTP भेजो
-function sendOTP(){
-  userMobile = document.getElementById('mobile').value;
-  if(userMobile.length != 10){ alert("सही 10 डिजिट नंबर डालो"); return; }
-  
-  generatedOTP = Math.floor(1000 + Math.random() * 9000);
-  
-  firebase.database().ref('otps/' + userMobile).set({
-    otp: generatedOTP,
-    time: Date.now()
+  db.ref('users/'+mobile).set({
+    name:name, mobile:mobile, password:pass
+  }).then(()=>{
+    alert('Account बन गया! अब Login करें');
+    showTab('login');
   });
-  
-  alert("आपका OTP है: " + generatedOTP); // बाद में WhatsApp से भेजेंगे
-  document.getElementById('step1').style.display='none';
-  document.getElementById('step2').style.display='block';
 }
 
-// 4. OTP Verify करो
-function verifyOTP(){
-  let enteredOTP = document.getElementById('otp').value;
-  firebase.database().ref('otps/' + userMobile).once('value', snap=>{
-    if(!snap.val()){ alert("OTP नहीं मिला"); return; }
-    
-    // 5 मिनट Expire Check
-    if(Date.now() - snap.val().time > 300000){
-      alert("OTP Expire हो गया, फिर से भेजो"); return;
-    }
-    
-    if(snap.val().otp == enteredOTP){
-      localStorage.setItem('userMobile', userMobile);
-      localStorage.setItem('isLoggedIn', 'true');
-      alert("Login Success!");
-      location = 'settings.html';
+function doLogin(){
+  let mobile=document.getElementById('lMobile').value;
+  let pass=document.getElementById('lPass').value;
+
+  db.ref('users/'+mobile).once('value').then((snap)=>{
+    if(snap.exists() && snap.val().password==pass){
+      localStorage.setItem('userMobile', mobile);
+      localStorage.setItem('userName', snap.val().name);
+      alert('Login Success!');
+      window.location = returnUrl; // वापस उसी Product पर भेज देगा
     }else{
-      alert("गलत OTP");
+      alert('गलत Mobile या Password');
     }
-  })
+  });
+}
+
+// अगर पहले से Login है तो सीधा भेज दो
+if(localStorage.getItem('userMobile')){
+  window.location = returnUrl;
 }
 </script>
 </body>
