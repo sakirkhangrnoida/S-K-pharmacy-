@@ -1,10 +1,81 @@
 <!DOCTYPE html>
-<html><head><title>Contact Us - S K Pharmacy</title></head>
-<body style="font-family:Arial; padding:20px; max-width:800px; margin:auto;">
-<h1>Contact Us</h1>
-<p><b>Email:</b> skpharmacy@gmail.com</p>
-<p><b>Phone/WhatsApp:</b> +91-9258751739</p>
-<p><b>Address:</b> S K Pharmacy, Sector 18, Noida, UP - 201301</p>
-<p><b>Working Hours:</b> Mon-Sun, 9 AM to 9 PM</p>
-<a href="index.html">Back to Home</a>
-</body></html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Contact Us - S K Pharmacy</title>
+<style>
+body{background:#f0f2f5;font-family:Arial;margin:0}
+.header{background:#232f3e;color:#fff;padding:15px;text-align:center}
+.container{max-width:600px;margin:20px auto;padding:20px}
+.box{background:#fff;padding:20px;margin-bottom:15px;border-radius:8px;box-shadow:0 1px 3px #ccc;text-align:center}
+.box h3{color:#232f3e;margin-top:0}
+.btn{padding:12px 25px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;font-size:16px;margin:10px;width:90%}
+.btn-whatsapp{background:#25D366;color:#fff}
+.btn-call{background:#007185;color:#fff}
+.btn-email{background:#ff9900}
+.faq{ text-align:left}
+.faq h4{margin:10px 0 5px 0}
+</style>
+</head>
+<body>
+<div class="header">
+<h3>📞 Contact & Help Center</h3>
+<a href="index.html" style="color:#fff;text-decoration:none">← Home</a>
+</div>
+
+<div class="container">
+
+<!-- CONTACT OPTIONS -->
+<div class="box">
+<h3>हमसे संपर्क करें</h3>
+<p>Order में कोई दिक्कत है? हम 24x7 मदद के लिए हैं</p>
+<button class="btn btn-whatsapp" onclick="whatsapp()">💬 WhatsApp Chat</button>
+<button class="btn btn-call" onclick="call()">📞 Call Now: 9258751739</button>
+<button class="btn btn-email" onclick="email()">📧 Email: support@skpharmacy.com</button>
+</div>
+
+<!-- ADDRESS -->
+<div class="box">
+<h3>हमारा पता</h3>
+<p><b>S K Pharmacy</b><br>
+Mathura, Uttar Pradesh - 281001<br>
+India</p>
+<p><b>Timing:</b> सुबह 9 बजे से रात 9 बजे तक</p>
+</div>
+
+<!-- FAQ -->
+<div class="box faq">
+<h3>सबसे पूछे जाने वाले सवाल</h3>
+<h4>1. Order Cancel कैसे करें?</h4>
+<p>My Orders में जाएं → Cancel बटन → OTP डालें</p>
+<h4>2. Delivery कितने दिन में होगी?</h4>
+<p>Mathura में 1-2 दिन, बाहर 3-5 दिन</p>
+<h4>3. COD Available है क्या?</h4>
+<p>हां, Cash on Delivery available है</p>
+<h4>4. Invoice कैसे मिलेगा?</h4>
+<p>My Orders में Download Invoice बटन दबाएं</p>
+</div>
+
+<!-- RETURN POLICY -->
+<div class="box">
+<h3>Return & Refund Policy</h3>
+<p>अगर प्रोडक्ट डैमेज है तो 7 दिन के अंदर Return कर सकते हैं। 
+पैसा 3-5 दिन में वापस आ जाएगा।</p>
+</div>
+
+</div>
+
+<script>
+function whatsapp(){
+  let msg = encodeURIComponent("नमस्ते S K Pharmacy, मुझे मदद चाहिए");
+  window.open(`https://wa.me/919258751739?text=`+msg);
+}
+function call(){
+  window.location = "tel:9258751739";
+}
+function email(){
+  window.location = "mailto:support@skpharmacy.com";
+}
+</script>
+</body>
+</html>
