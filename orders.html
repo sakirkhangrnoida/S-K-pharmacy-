@@ -2,107 +2,83 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<title>All Orders - S K Pharmacy Admin</title>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<title>My Orders - S K Pharmacy</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <style>
-body{font-family:Arial; background:#f3f3f3; padding:20px; margin:0}
-.header{background:#232f3e; color:white; padding:15px; display:flex; justify-content:space-between; align-items:center}
-.header h1{margin:0; font-size:22px}
-.back-btn{background:#6b7280; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer}
-.order-card{background:white; padding:15px; margin:15px 0; border-radius:8px; border-left:5px solid #ff9900; box-shadow:0 2px 4px rgba(0,0,0,0.08)}
-.order-card p{margin:6px 0; font-size:14px;}
-.order-card select{padding:8px; font-size:14px; border-radius:5px; margin-top:8px}
-.delivered{border-left:5px solid #16a34a;}
-.cancelled{border-left:5px solid #dc2626;}
-.otp-box{margin-top:10px; background:#fef3c7; padding:10px; border-radius:5px}
+body{background:#f0f2f5;font-family:Arial;margin:0}
+.header{background:#232f3e;color:#fff;padding:10px;display:flex;justify-content:space-between;}
+.order-box{background:#fff;padding:15px;margin:15px;border-radius:8px;border:1px solid #ddd}
+.order-box h4{margin:5px 0}
+.status-bar{display:flex;justify-content:space-between;margin:15px 0}
+.status-step{text-align:center;font-size:12px;color:gray}
+.status-step.active{color:green;font-weight:bold}
+.status-line{height:3px;background:gray;margin:5px 0}
+.status-line.done{background:green}
+.btn{padding:8px 15px;border:none;border-radius:4px;cursor:pointer;margin:5px}
+.btn-cancel{background:red;color:#fff}
+.btn-invoice{background:#ff9900}
 </style>
 </head>
 <body>
-
 <div class="header">
-  <h1>📦 All Orders - S K Pharmacy</h1>
-  <button class="back-btn" onclick="location.href='dashboard.html'">← Back to Dashboard</button>
+<h3>My Orders</h3>
+<input id="searchMobile" placeholder="अपना 10 Digit Mobile डालो" style="padding:5px">
+<button onclick="loadOrders()">Search</button>
 </div>
 
-<div id="allOrders">Loading Orders...</div>
+<div id="orderList">पहले अपना मोबाइल नंबर डाल कर Search करो</div>
 
 <script>
-// Firebase Config
-const firebaseConfig = {
-  apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y",
-  databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app"
-};
-firebase.initializeApp(firebaseConfig);
+const firebaseConfig = {apiKey: "AIzaSyD2EoywecfBv8JUXnsmFS4A131in790XBW", databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com"};
+firebase.initializeApp(firebaseConfig); const db = firebase.database();
 
-// Live Orders Load
-firebase.database().ref('orders').orderByChild('time').on('value', snap=>{
-  let html = '';
-  if(!snap.val()){ html = "<p style='text-align:center'>कोई Order नहीं है</p>"; }
+// URL से mobile auto ले लेगा
+let urlParams = new URLSearchParams(window.location.search);
+let autoMobile = urlParams.get('mobile');
+if(autoMobile){ document.getElementById('searchMobile').value = autoMobile; loadOrders(); }
+
+function loadOrders(){
+  let mobile = document.getElementById('searchMobile').value;
+  if(mobile.length!=10){alert('सही 10 Digit Mobile डालो'); return;}
   
-  let orders = [];
-  snap.forEach(child=>{
-    let order = child.val();
-    order.key = child.key;
-    orders.push(order);
+  db.ref('orders').orderByChild('mobile').equalTo(mobile).once('value').then((snapshot)=>{
+    let html = '';
+    if(!snapshot.exists()){ document.getElementById('orderList').innerHTML = 'कोई Order नहीं मिला'; return; }
+    
+    snapshot.forEach((child)=>{
+      let o = child.val();
+      let steps = ['Ordered','Shipped','Out for Delivery','Delivered'];
+      let currentStep = steps.indexOf(o.status);
+      
+      html += `<div class="order-box">
+        <h4>Order ID: ${o.orderId}</h4>
+        <p><b>Product:</b> ${o.cart[0].name} x ${o.cart[0].qty}</p>
+        <p><b>Total:</b> ₹${o.total} | <b>Payment:</b> ${o.payment}</p>
+        <p><b>Address:</b> ${o.name}, ${o.address}, ${o.pin}</p>
+        
+        <div class="status-bar">
+          ${steps.map((s,i)=>`<div class="status-step ${i<=currentStep?'active':''}">${s}</div>`).join('')}
+        </div>
+        <div class="status-line ${currentStep>=0?'done':''}"></div>
+        
+        ${o.status!='Delivered' && o.status!='Cancelled' ? `<button class="btn btn-cancel" onclick="cancelOrder('${o.orderId}')">Cancel Order</button>` : ''}
+        <button class="btn btn-invoice" onclick="window.location='invoice.html?id=${o.orderId}'">Download Invoice</button>
+      </div>`;
+    });
+    document.getElementById('orderList').innerHTML = html;
   });
-  
-  // Latest पहले
-  orders.reverse().forEach(o=>{
-    let cardClass = '';
-    if(o.status == 'Delivered') cardClass = 'delivered';
-    if(o.status == 'Cancelled') cardClass = 'cancelled';
-
-    html += `<div class="order-card ${cardClass}">
-      <p><b>Order ID:</b> ${o.orderId}</p>
-      <p><b>Name:</b> ${o.name} | <b>Mobile:</b> ${o.mobile}</p>
-      <p><b>Total:</b> ₹${o.total} | <b>Payment:</b> ${o.payment}</p>
-      <p><b>Address:</b> ${o.address}, ${o.pin}</p>
-      <p><b>Items:</b> ${o.cart.map(i=>i.name+' x '+i.qty).join(', ')}</p>
-      <p><b>Current Status:</b> <span style="color:#16a34a; font-weight:bold">${o.status}</span></p>
-      
-      <label><b>Update Status:</b></label>
-      <select onchange="updateStatus('${o.key}', this.value)">
-        <option ${o.status=='Order Placed'?'selected':''}>Order Placed</option>
-        <option ${o.status=='Packed'?'selected':''}>Packed</option>
-        <option ${o.status=='Shipped'?'selected':''}>Shipped</option>
-        <option ${o.status=='Out for Delivery'?'selected':''}>Out for Delivery</option>
-        <option ${o.status=='Delivered'?'selected':''}>Delivered</option>
-        <option ${o.status=='Cancelled'?'selected':''}>Cancelled</option>
-      </select>
-      
-      ${o.status=='Out for Delivery' ? 
-        `<div class="otp-box">
-          <b>Delivery OTP:</b> ${o.orderOTP} <br>
-          <input id="otp-${o.key}" placeholder="Enter OTP" maxlength="4" style="padding:8px; width:120px; margin-top:5px">
-          <button onclick="verifyOTP('${o.key}')" style="background:#16a34a; color:white; border:none; padding:8px 12px; border-radius:5px; cursor:pointer;">Verify & Delivered</button>
-        </div>` 
-        : ''}
-    </div>`
-  })
-  document.getElementById('allOrders').innerHTML = html;
-})
-
-// Status Update
-function updateStatus(orderKey, newStatus){
-  firebase.database().ref('orders/'+orderKey).update({status: newStatus});
-  alert("Status Updated to: " + newStatus);
 }
 
-// OTP Verify
-function verifyOTP(orderKey){
-  let enteredOTP = document.getElementById('otp-'+orderKey).value;
-  if(enteredOTP.length != 4){ alert('4 Digit OTP डालो'); return; }
-
-  firebase.database().ref('orders/'+orderKey).once('value').then(snap=>{
-    let order = snap.val();
-    if(enteredOTP == order.orderOTP){
-      firebase.database().ref('orders/'+orderKey).update({status: "Delivered"});
-      alert("✅ Order Delivered Successfully!");
-    } else {
-      alert("❌ गलत OTP! Customer से फिर पूछो");
-    }
-  })
+function cancelOrder(orderId){
+  let otp = prompt('Cancel करने के लिए OTP डालो जो WhatsApp पर आया था');
+  db.ref('orders/'+orderId).once('value').then((snap)=>{
+    if(snap.val().orderOTP == otp){
+      db.ref('orders/'+orderId).update({status:'Cancelled'});
+      alert('Order Cancel हो गया');
+      loadOrders();
+    }else{ alert('गलत OTP'); }
+  });
 }
 </script>
 </body>
