@@ -1,254 +1,97 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<title>Professional Invoice - S K Pharmacy</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Invoice - S K Pharmacy</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-body{font-family:'Poppins',Arial;background:#eef2f7;padding:20px;margin:0}
-.box{max-width:800px;margin:auto;background:white;padding:30px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
-h2{color:#1a1a1a;border-bottom:3px solid #2563eb;padding-bottom:12px;font-weight:600}
-.error-box{display:none;background:#fee2e2;color:#b91c1c;padding:12px 15px;border-radius:6px;margin-bottom:18px;border-left:4px solid #dc2626;font-weight:500}
-label{font-weight:500;color:#333;display:block;margin-top:14px;font-size:14px}
-input,textarea{width:100%;padding:11px;border:1.5px solid #d1d5db;border-radius:6px;margin:6px 0;font-size:15px;font-family:'Poppins'}
-input:focus,textarea:focus{border-color:#2563eb;outline:none}
-.btn{padding:12px 22px;background:#2563eb;border:none;color:white;font-weight:600;border-radius:6px;cursor:pointer;margin:10px 8px 0 0;font-size:15px;transition:0.2s}
-.btn:hover{background:#1d4ed8;transform:translateY(-1px)}
-.print-btn{background:#059669}
-.whatsapp-btn{background:#16a34a}
-.del-btn{background:#dc2626;padding:8px 12px;font-size:13px;border-radius:4px}
-.item-row{display:flex;gap:10px;margin:10px 0;align-items:center}
-.item-row input{margin:0}
-.invoice{display:none;margin-top:30px;border:1px solid #e5e7eb;background:white;padding:0;border-radius:8px;overflow:hidden}
-.inv-header{background:#1e3a8a;color:white;padding:25px 30px}
-.inv-header h1{margin:0;font-size:28px;font-weight:700}
-.inv-header.tagline{font-size:13px;opacity:0.9;margin-top:5px}
-.shop-info{margin-top:12px;font-size:14px;line-height:1.6}
-.inv-body{padding:30px}
-.bill-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin:25px 0}
-.bill-box{background:#f8fafc;padding:15px;border-radius:6px;border-left:4px solid #2563eb}
-.bill-box b{color:#1e3a8a;font-size:13px;text-transform:uppercase}
-table{width:100%;border-collapse:collapse;margin-top:20px}
-th{background:#1e3a8a;color:white;padding:12px;text-align:left;font-weight:600;font-size:14px}
-td{border-bottom:1px solid #e5e7eb;padding:12px;font-size:14px}
-tr:hover{background:#f9fafb}
-.total-section{margin-top:20px;display:flex;justify-content:flex-end}
-.total-box{background:#1e3a8a;color:white;padding:20px;border-radius:8px;min-width:280px}
-.total-row{display:flex;justify-content:space-between;margin:8px 0;font-size:15px}
-.grand-total{border-top:2px solid rgba(255,255,255,0.3);padding-top:10px;font-size:20px;font-weight:700}
-.terms{margin-top:30px;padding-top:20px;border-top:2px solid #e5e7eb;font-size:12px;color:#6b7280}
-.terms h4{color:#1a1a1a;margin-bottom:8px}
-.sign-section{display:flex;justify-content:space-between;margin-top:40px}
-.sign-box{text-align:center}
-.sign-line{border-top:2px solid #000;width:200px;margin:50px auto 5px}
-@media print{.box{display:none}body{background:white;padding:0}}
+body{background:#f0f2f5;font-family:Arial;padding:20px}
+.invoice-box{max-width:800px;margin:auto;background:#fff;padding:30px;border:1px solid #ddd;border-radius:8px}
+.header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #232f3e;padding-bottom:10px}
+.logo{font-size:24px;font-weight:bold;color:#232f3e}
+.table{width:100%;border-collapse:collapse;margin:20px 0}
+.table th, .table td{border:1px solid #ddd;padding:10px;text-align:left}
+.table th{background:#232f3e;color:#fff}
+.total-row{font-weight:bold;font-size:18px}
+.btn-print{background:#ff9900;border:none;padding:10px 20px;border-radius:4px;cursor:pointer;margin:5px;font-weight:bold}
+.btn-whatsapp{background:green;color:#fff;border:none;padding:10px 20px;border-radius:4px;cursor:pointer;margin:5px;font-weight:bold}
+.footer{text-align:center;margin-top:30px;font-size:12px;color:gray}
+@media print{.btn-print, .btn-whatsapp{display:none}}
 </style>
 </head>
 <body>
 
-<div class="box">
-<h2>🧾 Professional Invoice Generator</h2>
+<div id="invoiceData">Loading Invoice...</div>
 
-<div id="errorMsg" class="error-box"></div>
-
-<label>कस्टमर नाम *</label>
-<input type="text" id="cName" placeholder="राहुल शर्मा">
-
-<label>कस्टमर मोबाइल</label>
-<input type="text" id="cMobile" placeholder="98xxxxxx90">
-
-<label>कस्टमर एड्रेस</label>
-<textarea id="cAddress" rows="2" placeholder="पूरा एड्रेस"></textarea>
-
-<h3 style="margin-top:25px;color:#1a1a1a">प्रोडक्ट डिटेल</h3>
-<div id="items"></div>
-<button class="btn" type="button" onclick="addItem()">+ प्रोडक्ट जोड़ें</button>
-
-<button class="btn" type="button" onclick="generateBill()">बिल बनाएं</button>
-<button class="btn print-btn" type="button" onclick="window.print()">🖨️ Print/PDF</button>
-<button class="btn whatsapp-btn" type="button" onclick="shareWhatsApp()">📱 WhatsApp</button>
-</div>
-
-<!-- Professional Invoice -->
-<div class="invoice" id="invoice">
-<div class="inv-header">
-<h1>S K PHARMACY</h1>
-<div class="tagline">Healthcare & Wellness Products</div>
-<div class="shop-info">
-Proprietor: Dr Shakir<br>
-Silarpur Village, Dankaur, Greater Noida, Uttar Pradesh - 203201<br>
-Mobile: 9258751739 | Email: skpharmacy203201@gmail.com
-</div>
-</div>
-
-<div class="inv-body">
-<div style="text-align:center;margin-bottom:20px">
-<h2 style="color:#1e3a8a;margin:0">RETAIL CASH MEMO</h2>
-<p style="color:#dc2626;font-size:12px;margin:5px 0">Not a GST Invoice - GSTIN Not Applicable</p>
-</div>
-
-<div class="bill-grid">
-<div class="bill-box">
-<b>Bill To</b><br>
-<span id="billName" style="font-size:15px;font-weight:500"></span><br>
-<span id="billMobile"></span><br>
-<span id="billAddress"></span>
-</div>
-<div class="bill-box">
-<b>Invoice Details</b><br>
-Invoice No: <span id="billNo"></span><br>
-Date: <span id="billDate"></span><br>
-Payment: Cash/UPI
-</div>
-</div>
-
-<table>
-<thead>
-<tr>
-<th width="8%">S.No</th>
-<th width="50%">Product Description</th>
-<th width="10%">Qty</th>
-<th width="15%">Rate</th>
-<th width="17%">Amount</th>
-</tr>
-</thead>
-<tbody id="billItems"></tbody>
-</table>
-
-<div class="total-section">
-<div class="total-box">
-<div class="total-row"><span>Sub Total:</span><span id="subTotal">₹0</span></div>
-<div class="total-row"><span>Discount:</span><span>₹0</span></div>
-<div class="total-row grand-total"><span>Grand Total:</span><span id="grandTotal">₹0</span></div>
-</div>
-</div>
-
-<div class="terms">
-<h4>Terms & Conditions:</h4>
-1. Goods once sold cannot be returned or exchanged<br>
-2. Subject to Greater Noida jurisdiction<br>
-3. This is a computer generated invoice, signature not required
-</div>
-
-<div class="sign-section">
-<div class="sign-box">
-<div class="sign-line"></div>
-Customer Signature
-</div>
-<div class="sign-box">
-<div class="sign-line"></div>
-For S K Pharmacy<br>
-Authorized Signatory
-</div>
-</div>
-</div>
-</div>
+<button class="btn-print" onclick="window.print()">🖨️ Print Invoice</button>
+<button class="btn-whatsapp" id="whatsappBtn">📱 WhatsApp Bill</button>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyAOq3f9Sahe-8KNgA9p98gGzEW4LAsh3C4",
-  authDomain: "vs3-one.firebaseapp.com",
-  databaseURL: "https://vs3-one-default-rtdb.firebaseio.com",
-  projectId: "vs3-one",
-  storageBucket: "vs3-one.appspot.com",
-  messagingSenderId: "747842674908",
-  appId: "1:747842674908:web:21d368653703264767ce8f"
-};
+const firebaseConfig = {apiKey: "AIzaSyD2EoywecfBv8JUXnsmFS4A131in790XBW", databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com"};
+firebase.initializeApp(firebaseConfig); const db = firebase.database();
 
-addItem();
-let billCounter = parseInt(localStorage.getItem('billCounter') || '1000');
-let lastBillData = null;
+// URL से Order ID लेगा
+let params = new URLSearchParams(window.location.search);
+let orderId = params.get('id');
 
-function showError(msg){
-  const err = document.getElementById('errorMsg');
-  err.innerText = '⚠️ ' + msg;
-  err.style.display = 'block';
-  setTimeout(()=>{err.style.display='none'}, 4000);
-  window.scrollTo(0,0);
-}
-
-function addItem(){
-  const div = document.createElement('div');
-  div.className = 'item-row';
-  div.innerHTML = `
-    <input type="text" placeholder="प्रोडक्ट का नाम" class="pName" style="flex:2.5">
-    <input type="number" placeholder="Qty" class="pQty" value="1" min="1" style="width:80px">
-    <input type="number" placeholder="Rate ₹" class="pRate" style="width:120px">
-    <button class="del-btn" type="button" onclick="this.parentElement.remove()">✕</button>
-  `;
-  document.getElementById('items').appendChild(div);
-}
-
-function generateBill(){
-  document.getElementById('errorMsg').style.display = 'none';
-
-  const cName = document.getElementById('cName').value.trim();
-  if(!cName){
-    showError('कस्टमर नाम डालो');
-    return;
-  }
-
-  const names = document.querySelectorAll('.pName');
-  const qtys = document.querySelectorAll('.pQty');
-  const rates = document.querySelectorAll('.pRate');
-
-  let html = '';
-  let total = 0;
-  let items = [];
-
-  for(let i=0; i<names.length; i++){
-    if(names[i].value.trim() && rates[i].value){
-      const qty = parseInt(qtys[i].value) || 0;
-      const rate = parseFloat(rates[i].value) || 0;
-      const amt = qty * rate;
-      total += amt;
-      items.push({name:names[i].value, qty, rate, amt});
-      html += `<tr><td>${i+1}</td><td>${names[i].value}</td><td>${qty}</td><td>₹${rate.toFixed(2)}</td><td>₹${amt.toFixed(2)}</td></tr>`;
-    }
-  }
-
-  if(total==0){
-    showError('कम से कम 1 प्रोडक्ट डालो');
-    return;
-  }
-
-  billCounter++;
-  localStorage.setItem('billCounter', billCounter);
-  const billNo = 'SK-2026-' + String(billCounter).padStart(4,'0');
-  const billDate = new Date().toLocaleDateString('en-IN');
-
-  document.getElementById('billName').innerText = cName;
-  document.getElementById('billMobile').innerText = document.getElementById('cMobile').value;
-  document.getElementById('billAddress').innerText = document.getElementById('cAddress').value;
-  document.getElementById('billNo').innerText = billNo;
-  document.getElementById('billDate').innerText = billDate;
-  document.getElementById('billItems').innerHTML = html;
-  document.getElementById('subTotal').innerText = '₹' + total.toFixed(2);
-  document.getElementById('grandTotal').innerText = '₹' + total.toFixed(2);
-  document.getElementById('invoice').style.display = 'block';
-
-  lastBillData = {billNo, billDate, customer:cName, mobile:document.getElementById('cMobile').value, address:document.getElementById('cAddress').value, items, total, timestamp:Date.now()};
-
-  fetch(firebaseConfig.databaseURL + '/invoices/' + billNo + '.json', {
-    method: 'PUT',
-    body: JSON.stringify(lastBillData)
-  }).catch(()=>{});
-
-  window.scrollTo(0, document.body.scrollHeight);
-}
-
-function shareWhatsApp(){
-  document.getElementById('errorMsg').style.display = 'none';
-
-  if(!lastBillData){
-    showError('पहले बिल बनाओ');
-    return;
-  }
-  let mobile = lastBillData.mobile.replace(/\D/g,'');
-  if(mobile.length==10) mobile = '91' + mobile;
-  const msg = `*S K PHARMACY*\nInvoice: ${lastBillData.billNo}\nDate: ${lastBillData.billDate}\nCustomer: ${lastBillData.customer}\nAmount: ₹${lastBillData.total}\n\nThank you for choosing us! 🙏`;
-  window.open(`https://wa.me/${mobile}?text=${encodeURIComponent(msg)}`, '_blank');
+if(orderId){
+  db.ref('orders/'+orderId).once('value').then((snapshot)=>{
+    let o = snapshot.val();
+    if(!o){ document.getElementById('invoiceData').innerHTML = 'Order नहीं मिला'; return; }
+    
+    let date = new Date(o.time).toLocaleDateString('hi-IN');
+    
+    let html = `
+    <div class="invoice-box" id="printArea">
+      <div class="header">
+        <div>
+          <div class="logo">S K Pharmacy</div>
+          <p>Mathura, Uttar Pradesh<br>Mobile: 9258751739</p>
+        </div>
+        <div>
+          <h2>TAX INVOICE</h2>
+          <p><b>Order ID:</b> ${o.orderId}<br><b>Date:</b> ${date}</p>
+        </div>
+      </div>
+      
+      <h4>Bill To:</h4>
+      <p><b>${o.name}</b><br>${o.address}<br>Pin: ${o.pin}<br>Mobile: ${o.mobile}</p>
+      
+      <table class="table">
+        <tr><th>#</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+        <tr>
+          <td>1</td>
+          <td>${o.cart[0].name}</td>
+          <td>${o.cart[0].qty}</td>
+          <td>₹${o.cart[0].price}</td>
+          <td>₹${o.cart[0].price * o.cart[0].qty}</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="4" style="text-align:right">Grand Total</td>
+          <td>₹${o.total}</td>
+        </tr>
+      </table>
+      
+      <p><b>Payment Method:</b> ${o.payment}</p>
+      <p><b>Status:</b> ${o.status}</p>
+      
+      <div class="footer">
+        <p>Thank you for shopping with S K Pharmacy</p>
+        <p>This is a computer generated invoice</p>
+      </div>
+    </div>
+    `;
+    document.getElementById('invoiceData').innerHTML = html;
+    
+    // WhatsApp Button
+    let msg = encodeURIComponent(`S K Pharmacy Invoice\nOrder ID: ${o.orderId}\nProduct: ${o.cart[0].name}\nTotal: ₹${o.total}\nStatus: ${o.status}\nThank you!`);
+    document.getElementById('whatsappBtn').onclick = ()=> window.open(`https://wa.me/91${o.mobile}?text=`+msg);
+    
+  });
+}else{
+  document.getElementById('invoiceData').innerHTML = 'Order ID नहीं मिली';
 }
 </script>
 </body>
-  </html>
+</html>
