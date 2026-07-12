@@ -3,119 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <title>Checkout - S K Pharmacy</title>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
-body{font-family:Arial;background:#f3f3f3;margin:0;padding:15px}
-.box{background:#fff;padding:20px;border-radius:8px;max-width:500px;margin:auto}
-.box h2{text-align:center}
-input,textarea{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:4px;box-sizing:border-box}
-.btn{background:#FFD814;border:none;padding:12px;width:100%;font-size:16px;font-weight:bold;border-radius:8px;cursor:pointer}
-.cart-item{border-bottom:1px solid #eee;padding:8px 0;display:flex;justify-content:space-between}
-.total{font-size:18px;font-weight:bold;color:#B12704;text-align:right;margin:10px 0}
-.empty{color:red;text-align:center}
+body{background:#f0f2f5;font-family:Arial;margin:0}
+.header{background:#232f3e;color:#fff;padding:10px;}
+.box{background:#fff;padding:20px;margin:10px;border-radius:8px;max-width:600px;margin:auto;margin-top:20px}
+.box input, .box textarea{width:95%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:4px;}
+.box button{width:100%;padding:12px;background:#ffa41c;border:none;font-size:16px;font-weight:bold;border-radius:8px;cursor:pointer;margin-top:10px}
+.summary{background:#fff;padding:15px;border:1px solid #ddd;margin-bottom:15px;border-radius:8px}
 </style>
 </head>
 <body>
+<div class="header"><h3>S K Pharmacy - Checkout</h3></div>
 
 <div class="box">
-<h2>📦 Delivery Details</h2>
+<h3>Delivery Address</h3>
+<input id="cName" placeholder="पूरा नाम" required>
+<input id="cMobile" placeholder="10 अंकों का मोबाइल" required>
+<textarea id="cAddress" placeholder="पूरा पता, मकान नंबर, गली" required></textarea>
+<input id="cPin" placeholder="Pin Code" required>
 
+<div class="summary">
 <h4>Order Summary</h4>
-<div id="cartSummary"></div>
-<div class="total" id="totalPrice"></div>
+<p id="pName">Product: Kesh Shine Oil</p>
+<p id="pQty">Qty: 1</p>
+<p id="pTotal">Total: ₹199</p>
+</div>
 
-<input id="name" placeholder="पूरा नाम" required>
-<input id="mobile" placeholder="10 Digit Mobile Number" maxlength="10" required>
-<textarea id="address" placeholder="पूरा पता" required></textarea>
-<input id="pin" placeholder="Pincode" required>
-
-<button class="btn" onclick="placeOrder()">Place Order COD</button>
+<h3>Payment Method</h3>
+<button onclick="placeOrder('COD')">Cash on Delivery</button>
+<button style="background:#ff9900" onclick="placeOrder('UPI')">Pay Online UPI - ₹10 Off</button>
 </div>
 
 <script>
-emailjs.init("yOq3T9XyZ1aBcDeFg"); // अपना EmailJS Key
+emailjs.init("y0q3TPXyZlaBcDeFg");
+const firebaseConfig = {apiKey: "AIzaSyD2EoywecfBv8JUXnsmFS4A131in790XBW", databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com"};
+firebase.initializeApp(firebaseConfig); const db = firebase.database();
 
-// Firebase Config - तेरा वाला
-const firebaseConfig = {
-  apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y", 
-  databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+// Product detail URL से लेंगे
+let params = new URLSearchParams(window.location.search);
+let productName = params.get('name') || "Kesh Shine Oil";
+let productPrice = parseInt(params.get('price')) || 199;
+let qty = parseInt(params.get('qty')) || 1;
+document.getElementById('pName').innerText = "Product: " + productName;
+document.getElementById('pQty').innerText = "Qty: " + qty;
+document.getElementById('pTotal').innerText = "Total: ₹" + (productPrice*qty);
 
-// Cart और Total LocalStorage से लो
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-let finalTotal = Number(localStorage.getItem('total')) || 0;
+function placeOrder(payment){
+  let cName=document.getElementById('cName'), cMobile=document.getElementById('cMobile'), cAddress=document.getElementById('cAddress'), cPin=document.getElementById('cPin');
+  if(!cName.value || !cMobile.value || !cAddress.value || !cPin.value){alert('सभी डिटेल भरें'); return; }
 
-// Cart दिखाओ
-let summary = '';
-if(cart.length == 0){
-  summary = '<p class="empty">⚠️ Cart खाली है। पहले Product से Buy Now करें</p>';
-} else {
-  cart.forEach(item=>{
-    summary += `<div class="cart-item"><span>${item.name} x ${item.qty}</span><span>₹${item.price * item.qty}</span></div>`;
-  });
-}
-document.getElementById('cartSummary').innerHTML = summary;
-document.getElementById('totalPrice').innerText = finalTotal > 0 ? 'Total: ₹' + finalTotal : '';
-
-function placeOrder(){
-  let name = document.getElementById('name').value;
-  let mobile = document.getElementById('mobile').value;
-  let address = document.getElementById('address').value;
-  let pin = document.getElementById('pin').value;
-
-  if(!name || !mobile || !address || !pin){ alert('सारी डिटेल भरें'); return; }
-  if(mobile.length != 10){ alert('सही 10 डिजिट नंबर डालो'); return; }
-  if(cart.length == 0){ alert('Cart खाली है'); return; }
-
-  let orderId = 'SK' + Date.now();
-  let orderOTP = Math.floor(1000 + Math.random() * 9000); // 4 Digit OTP
+  let orderId = "SK"+Date.now();
+  let orderOTP = Math.floor(100000 + Math.random() * 900000);
+  let total = payment=='UPI' ? (productPrice*qty)-10 : productPrice*qty;
 
   let orderData = {
-    orderId: orderId,
-    name: name,
-    mobile: mobile,
-    address: address,
-    pin: pin,
-    cart: cart,
-    total: finalTotal,
-    payment: 'COD',
-    status: 'Order Placed', // settings में यही check होगा
-    time: Date.now(),
-    orderOTP: orderOTP,
-    otpTime: Date.now(), // 5 मिनट expire के लिए
-    cancelRequest: false
+    orderId: orderId, cart: [{name: productName, price: productPrice, qty: qty}],
+    name: cName.value, mobile: cMobile.value, address: cAddress.value, pin: cPin.value,
+    payment: payment, total: total, status: "Ordered", time: Date.now(), orderOTP: orderOTP
   };
 
-  db.ref('orders/' + orderId).set(orderData).then(()=>{
-    
-    // 1. Email तुझे
-    emailjs.send("service_u1c0727", "dg8drle", {
-      order_id: orderId,
-      customer_name: name,
-      total: finalTotal,
-      mobile: mobile
-    });
-
-    // 2. तुझे WhatsApp
-    window.open(`https://wa.me/919258751739?text=🚨 New Order!\nID: ${orderId}\nName: ${name}\nTotal: ₹${finalTotal}`, '_blank');
-
-    // 3. ग्राहक को OTP WhatsApp
-    window.open(`https://wa.me/91${mobile}?text=S K Pharmacy\nYour Order ${orderId}\nOTP: ${orderOTP}\nइसे संभाल कर रखें`, '_blank');
-
-    // 4. Login Save कर लो
-    localStorage.setItem('userMobile', mobile);
-    localStorage.setItem('isLoggedIn', 'true');
-
+  db.ref('orders/'+orderId).set(orderData).then(()=>{
+    let msg = encodeURIComponent(`🔔 New Order\nID: ${orderId}\nProduct: ${productName}\nTotal: ₹${total}`);
+    window.open(`https://wa.me/919258751739?text=`+msg);
+    let otpMsg = encodeURIComponent(`S K Pharmacy\nYour Order ${orderId} OTP: ${orderOTP}\nइसे संभाल कर रखें`);
+    window.open(`https://wa.me/91${cMobile.value}?text=`+otpMsg);
     alert('Order Placed! OTP आपके नंबर पर भेज दिया गया');
-    localStorage.removeItem('cart');
-    localStorage.removeItem('total');
-    window.location.href = 'settings.html'; // सीधा Live Tracking पर
-  }).catch(err=>{
-    alert('Firebase Error: ' + err.message);
+    window.location = `orders.html?mobile=${cMobile.value}`; // Customer के Orders पर भेज दो
   });
 }
 </script>
