@@ -1,34 +1,83 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Login Help - S K Pharmacy</title>
+<title>Login - S K Pharma</title>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 <style>
-body { background:#f8f9fa; font-family:Arial; }
-.container { max-width:600px; margin:40px auto; padding:30px; background:white; border-radius:8px; }
-h1 { color:#0f1111; margin-bottom:20px; }
-input { width:100%; padding:12px; border:1px solid #ddd; border-radius:4px; margin-bottom:15px; }
-.btn { background:#ff9900; border:none; padding:12px 30px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%; }
-.back { color:#007185; text-decoration:none; display:block; margin-bottom:20px; }
+body{text-align:center; padding:50px; font-family:Arial;}
+input{padding:10px; width:250px; margin:10px; border:1px solid #ccc; border-radius:5px;}
+button{padding:10px 20px; background:#FF9900; color:white; border:none; border-radius:5px; cursor:pointer;}
 </style>
 </head>
 <body>
-<div class="container">
-  <a href="customer-service.html" class="back">← Back to Customer Service</a>
-  <h1>Sign in or Create Account</h1>
-  <p style="color:#565959; margin-bottom:20px;">Mobile Number या Email डालें</p>
-  
-  <input type="text" placeholder="Enter mobile number or email">
-  <button class="btn" onclick="alert('OTP Sent to your number')">Continue</button>
-  
-  <p style="font-size:12px; color:#565959; margin-top:15px;">
-    By continuing, you agree to S K Pharmacy's <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
-  </p>
-  
-  <hr style="margin:20px 0;">
-  <p style="font-weight:bold;">Need help?</p>
-  <p><a href="tel:7983006957" style="color:#007185;">Call Customer Care</a></p>
-  <p><a href="https://wa.me/9258751739" style="color:#25D366;">WhatsApp Support</a></p>
+
+<h2>🔐 S K Pharma Login</h2>
+
+<div id="step1">
+  <input type="tel" id="mobile" placeholder="10 Digit Mobile No" maxlength="10"><br>
+  <button onclick="sendOTP()">OTP भेजो</button>
 </div>
+
+<div id="step2" style="display:none;">
+  <input type="text" id="otp" placeholder="4 Digit OTP" maxlength="4"><br>
+  <button onclick="verifyOTP()">Login करो</button>
+</div>
+
+<script>
+// 1. Firebase Config - अपना वाला
+var firebaseConfig = {
+  apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inw79UX8Y",
+  databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com"
+};
+firebase.initializeApp(firebaseConfig);
+
+// 2. अगर पहले से Login है तो सीधा भेज दो
+if(localStorage.getItem('isLoggedIn') == 'true'){
+  location = 'settings.html';
+}
+
+let generatedOTP = "";
+let userMobile = "";
+
+// 3. OTP भेजो
+function sendOTP(){
+  userMobile = document.getElementById('mobile').value;
+  if(userMobile.length != 10){ alert("सही 10 डिजिट नंबर डालो"); return; }
+  
+  generatedOTP = Math.floor(1000 + Math.random() * 9000);
+  
+  firebase.database().ref('otps/' + userMobile).set({
+    otp: generatedOTP,
+    time: Date.now()
+  });
+  
+  alert("आपका OTP है: " + generatedOTP); // बाद में WhatsApp से भेजेंगे
+  document.getElementById('step1').style.display='none';
+  document.getElementById('step2').style.display='block';
+}
+
+// 4. OTP Verify करो
+function verifyOTP(){
+  let enteredOTP = document.getElementById('otp').value;
+  firebase.database().ref('otps/' + userMobile).once('value', snap=>{
+    if(!snap.val()){ alert("OTP नहीं मिला"); return; }
+    
+    // 5 मिनट Expire Check
+    if(Date.now() - snap.val().time > 300000){
+      alert("OTP Expire हो गया, फिर से भेजो"); return;
+    }
+    
+    if(snap.val().otp == enteredOTP){
+      localStorage.setItem('userMobile', userMobile);
+      localStorage.setItem('isLoggedIn', 'true');
+      alert("Login Success!");
+      location = 'settings.html';
+    }else{
+      alert("गलत OTP");
+    }
+  })
+}
+</script>
 </body>
 </html>
