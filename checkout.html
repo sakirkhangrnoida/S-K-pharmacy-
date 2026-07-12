@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
@@ -9,32 +9,53 @@
 <style>
 body{font-family:Arial;background:#f3f3f3;margin:0;padding:15px}
 .box{background:#fff;padding:20px;border-radius:8px;max-width:500px;margin:auto}
+.box h2{text-align:center}
 input,textarea{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:4px;box-sizing:border-box}
 .btn{background:#FFD814;border:none;padding:12px;width:100%;font-size:16px;font-weight:bold;border-radius:8px;cursor:pointer}
-h2{text-align:center}
+.cart-item{border-bottom:1px solid #eee;padding:8px 0;display:flex;justify-content:space-between}
+.total{font-size:18px;font-weight:bold;color:#B12704;text-align:right;margin:10px 0}
+.empty{color:red;text-align:center}
 </style>
 </head>
 <body>
 
 <div class="box">
 <h2>📦 Delivery Details</h2>
-<input id="name" placeholder="पूरा नाम">
-<input id="mobile" placeholder="10 Digit Mobile Number" maxlength="10">
-<textarea id="address" placeholder="पूरा पता"></textarea>
-<input id="pin" placeholder="Pincode">
-<button class="btn" onclick="placeOrder()">Place Order</button>
+
+<h4>Order Summary</h4>
+<div id="cartSummary"></div>
+<div class="total" id="totalPrice"></div>
+
+<input id="name" placeholder="पूरा नाम" required>
+<input id="mobile" placeholder="10 Digit Mobile Number" maxlength="10" required>
+<textarea id="address" placeholder="पूरा पता" required></textarea>
+<input id="pin" placeholder="Pincode" required>
+
+<button class="btn" onclick="placeOrder()">Place Order COD</button>
 </div>
 
 <script>
-emailjs.init("yOq3T9XyZ1aBcDeFg"); // तेरा EmailJS Key
+emailjs.init("yOq3T9XyZ1aBcDeFg"); // अपना EmailJS Key
 
 const firebaseConfig = {apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y", databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app"};
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Cart और Total localStorage से ले लो
+// Cart और Total LocalStorage से लो
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-let finalTotal = localStorage.getItem('total') || 0;
+let finalTotal = Number(localStorage.getItem('total')) || 0;
+
+// Cart दिखाओ
+let summary = '';
+if(cart.length == 0){
+  summary = '<p class="empty">⚠️ Cart खाली है। पहले Product से Buy Now करें</p>';
+} else {
+  cart.forEach(item=>{
+    summary += `<div class="cart-item"><span>${item.name} x ${item.qty}</span><span>₹${item.price * item.qty}</span></div>`;
+  });
+}
+document.getElementById('cartSummary').innerHTML = summary;
+document.getElementById('totalPrice').innerText = finalTotal > 0 ? 'Total: ₹' + finalTotal : '';
 
 function placeOrder(){
   let name = document.getElementById('name').value;
@@ -42,10 +63,11 @@ function placeOrder(){
   let address = document.getElementById('address').value;
   let pin = document.getElementById('pin').value;
 
-  if(!name || !mobile || !address){ alert('सारी डिटेल भरें'); return; }
+  if(!name || !mobile || !address || !pin){ alert('सारी डिटेल भरें'); return; } // FIXED LINE 45
+  if(cart.length == 0){ alert('Cart खाली है'); return; }
 
-  let orderId = 'SK' + Date.now(); // Unique Order ID
-  let orderOTP = Math.floor(100000 + Math.random() * 900000); // 6 digit OTP
+  let orderId = 'SK' + Date.now();
+  let orderOTP = Math.floor(100000 + Math.random() * 900000);
 
   let orderData = {
     orderId: orderId,
@@ -62,10 +84,9 @@ function placeOrder(){
     cancelRequest: false
   };
 
-  // 1. Firebase में Save
   db.ref('orders/' + orderId).set(orderData).then(()=>{
     
-    // 2. तुझे Email
+    // 1. Email
     emailjs.send("service_u1c0727", "dg8drle", {
       order_id: orderId,
       customer_name: name,
@@ -73,15 +94,18 @@ function placeOrder(){
       mobile: mobile
     });
 
-    // 3. तुझे WhatsApp
+    // 2. तुझे WhatsApp
     window.open(`https://wa.me/919258751739?text=🚨 New Order!\nID: ${orderId}\nName: ${name}\nTotal: ₹${finalTotal}`, '_blank');
 
-    // 4. ग्राहक को Order OTP WhatsApp
+    // 3. ग्राहक को OTP WhatsApp
     window.open(`https://wa.me/91${mobile}?text=S K Pharmacy\nYour Order ${orderId} OTP: ${orderOTP}\nइसे संभाल कर रखें`, '_blank');
 
     alert('Order Placed! OTP आपके नंबर पर भेज दिया गया');
     localStorage.removeItem('cart');
+    localStorage.removeItem('total');
     window.location.href = 'orders.html';
+  }).catch(err=>{
+    alert('Firebase Error: ' + err.message);
   });
 }
 </script>
