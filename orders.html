@@ -2,110 +2,108 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<title>My Orders - S K Pharmacy</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<title>All Orders - S K Pharmacy Admin</title>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 <style>
-body{font-family:Arial;margin:0;background:#eaeded}
-.header{background:#232f3e;color:#fff;padding:15px;text-align:center;font-size:18px;font-weight:bold}
-.box{background:#fff;margin:15px;padding:15px;border-radius:8px;border:1px solid #ddd}
-.box.cancelled{border:2px solid red;background:#ffe6e6}
-.order-id{color:#007185;font-weight:bold}
-.price{color:#B12704;font-size:18px;font-weight:bold}
-.tracker{display:flex;justify-content:space-between;margin:20px 0;position:relative}
-.tracker::before{content:'';position:absolute;top:6px;left:0;right:0;height:2px;background:#ccc;z-index:0}
-.step{text-align:center;font-size:12px;flex:1;position:relative;z-index:1}
-.dot{width:14px;height:14px;border-radius:50%;background:#ccc;margin:0 auto 5px;border:2px solid #fff}
-.dot.active{background:#067d62}
-.step.active{color:#067d62;font-weight:bold}
-.btn{padding:10px 15px;border:none;border-radius:4px;cursor:pointer;margin:5px;font-weight:bold}
-.btn-yellow{background:#FFD814}
-.btn-cancel{background:#fff;border:1px solid red;color:red}
-.otp-box{margin-top:10px;display:none;padding:10px;background:#f7f7f7;border-radius:5px}
-.otp-box input{padding:8px;width:120px;margin-right:5px}
+body{font-family:Arial; background:#f3f3f3; padding:20px; margin:0}
+.header{background:#232f3e; color:white; padding:15px; display:flex; justify-content:space-between; align-items:center}
+.header h1{margin:0; font-size:22px}
+.back-btn{background:#6b7280; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer}
+.order-card{background:white; padding:15px; margin:15px 0; border-radius:8px; border-left:5px solid #ff9900; box-shadow:0 2px 4px rgba(0,0,0,0.08)}
+.order-card p{margin:6px 0; font-size:14px;}
+.order-card select{padding:8px; font-size:14px; border-radius:5px; margin-top:8px}
+.delivered{border-left:5px solid #16a34a;}
+.cancelled{border-left:5px solid #dc2626;}
+.otp-box{margin-top:10px; background:#fef3c7; padding:10px; border-radius:5px}
 </style>
 </head>
 <body>
 
-<div class="header">📦 My Orders - Live Tracking</div>
-<div id="orders">Loading...</div>
+<div class="header">
+  <h1>📦 All Orders - S K Pharmacy</h1>
+  <button class="back-btn" onclick="location.href='dashboard.html'">← Back to Dashboard</button>
+</div>
+
+<div id="allOrders">Loading Orders...</div>
 
 <script>
-const firebaseConfig = {apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y", databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app"};
+// Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y",
+  databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-let currentOTP = '';
 
-// हर 5 सेकंड में Auto Refresh होगा - Live Tracking
-setInterval(loadOrders, 5000);
-loadOrders();
-
-function loadOrders(){
-db.ref('orders').orderByChild('time').limitToLast(20).on('value', snap=>{
+// Live Orders Load
+firebase.database().ref('orders').orderByChild('time').on('value', snap=>{
   let html = '';
+  if(!snap.val()){ html = "<p style='text-align:center'>कोई Order नहीं है</p>"; }
+  
+  let orders = [];
   snap.forEach(child=>{
-    let o = child.val();
-    let productName = o.cart && o.cart[0]? o.cart[0].name : 'Product';
-
-    // 1. Amazon जैसा 5 Step Tracker
-    let statusSteps = ['Ordered','Packed','Shipped','Out for Delivery','Delivered'];
-    let currentStep = statusSteps.indexOf(o.status);
-
-    let tracker = '<div class="tracker">';
-    statusSteps.forEach((s,i)=>{
-      let activeClass = i<=currentStep? 'active' : '';
-      tracker += `<div class="step ${activeClass}"><div class="dot ${activeClass}"></div>${s}</div>`;
-    });
-    tracker += '</div>';
-
-    // 2. Cancel बटन सिर्फ Ordered/Packed में
-    let cancelBtn = '';
-    if(o.status == 'Ordered' || o.status == 'Packed'){
-      cancelBtn = `<button class="btn btn-cancel" onclick="sendCancelOTP('${o.orderId}','${o.mobile}')">Cancel Order</button>
-      <div class="otp-box" id="otp-${o.orderId}">
-        <input type="text" id="input-${o.orderId}" placeholder="6 Digit OTP">
-        <button class="btn btn-yellow" onclick="verifyCancelOTP('${o.orderId}')">Submit</button>
-      </div>`;
-    }
-
-    let boxClass = o.status == 'Cancelled'? 'box cancelled' : 'box';
-
-    html += `<div class="${boxClass}">
-      <div class="order-id">Order ID: #${o.orderId}</div>
-      <div><b>${productName}</b> x ${o.cart[0].qty}</div>
-      <div class="price">₹${o.total}</div>
-      <div style="font-size:12px">Ordered on: ${new Date(o.time).toLocaleDateString('hi-IN')}</div>
-
-      ${o.status!= 'Cancelled'? tracker : '<p style="color:red; font-weight:bold; text-align:center">❌ Order Cancelled</p>'}
-
-      <button class="btn btn-yellow" onclick="whatsapp('${o.orderId}')">Track on WhatsApp</button>
-      ${cancelBtn}
-    </div>`;
+    let order = child.val();
+    order.key = child.key;
+    orders.push(order);
   });
-  document.getElementById('orders').innerHTML = html || '<p style="text-align:center">कोई Order नहीं मिला</p>';
-});
+  
+  // Latest पहले
+  orders.reverse().forEach(o=>{
+    let cardClass = '';
+    if(o.status == 'Delivered') cardClass = 'delivered';
+    if(o.status == 'Cancelled') cardClass = 'cancelled';
+
+    html += `<div class="order-card ${cardClass}">
+      <p><b>Order ID:</b> ${o.orderId}</p>
+      <p><b>Name:</b> ${o.name} | <b>Mobile:</b> ${o.mobile}</p>
+      <p><b>Total:</b> ₹${o.total} | <b>Payment:</b> ${o.payment}</p>
+      <p><b>Address:</b> ${o.address}, ${o.pin}</p>
+      <p><b>Items:</b> ${o.cart.map(i=>i.name+' x '+i.qty).join(', ')}</p>
+      <p><b>Current Status:</b> <span style="color:#16a34a; font-weight:bold">${o.status}</span></p>
+      
+      <label><b>Update Status:</b></label>
+      <select onchange="updateStatus('${o.key}', this.value)">
+        <option ${o.status=='Order Placed'?'selected':''}>Order Placed</option>
+        <option ${o.status=='Packed'?'selected':''}>Packed</option>
+        <option ${o.status=='Shipped'?'selected':''}>Shipped</option>
+        <option ${o.status=='Out for Delivery'?'selected':''}>Out for Delivery</option>
+        <option ${o.status=='Delivered'?'selected':''}>Delivered</option>
+        <option ${o.status=='Cancelled'?'selected':''}>Cancelled</option>
+      </select>
+      
+      ${o.status=='Out for Delivery' ? 
+        `<div class="otp-box">
+          <b>Delivery OTP:</b> ${o.orderOTP} <br>
+          <input id="otp-${o.key}" placeholder="Enter OTP" maxlength="4" style="padding:8px; width:120px; margin-top:5px">
+          <button onclick="verifyOTP('${o.key}')" style="background:#16a34a; color:white; border:none; padding:8px 12px; border-radius:5px; cursor:pointer;">Verify & Delivered</button>
+        </div>` 
+        : ''}
+    </div>`
+  })
+  document.getElementById('allOrders').innerHTML = html;
+})
+
+// Status Update
+function updateStatus(orderKey, newStatus){
+  firebase.database().ref('orders/'+orderKey).update({status: newStatus});
+  alert("Status Updated to: " + newStatus);
 }
 
-function sendCancelOTP(orderId, mobile){
-  currentOTP = Math.floor(100000 + Math.random() * 900000);
-  document.getElementById(`otp-${orderId}`).style.display = 'block';
-  db.ref('orders/'+orderId).update({cancelOTP: currentOTP, cancelRequest: true});
-  window.open(`https://wa.me/91${mobile}?text=S K Pharmacy Cancel OTP: ${currentOTP} for Order ${orderId}`);
-  alert('OTP आपके नंबर पर भेज दिया गया है');
-}
+// OTP Verify
+function verifyOTP(orderKey){
+  let enteredOTP = document.getElementById('otp-'+orderKey).value;
+  if(enteredOTP.length != 4){ alert('4 Digit OTP डालो'); return; }
 
-function verifyCancelOTP(orderId){
-  let input = document.getElementById(`input-${orderId}`).value;
-  db.ref('orders/'+orderId).once('value', snap=>{
-    if(input == snap.val().cancelOTP){
-      alert('OTP सही है। Admin Approve करेगा');
+  firebase.database().ref('orders/'+orderKey).once('value').then(snap=>{
+    let order = snap.val();
+    if(enteredOTP == order.orderOTP){
+      firebase.database().ref('orders/'+orderKey).update({status: "Delivered"});
+      alert("✅ Order Delivered Successfully!");
     } else {
-      alert('गलत OTP। दोबारा कोशिश करें');
+      alert("❌ गलत OTP! Customer से फिर पूछो");
     }
-  });
+  })
 }
-
-function whatsapp(id){ window.open(`https://wa.me/919258751739?text=Track Order: ${id}`) }
 </script>
 </body>
 </html>
