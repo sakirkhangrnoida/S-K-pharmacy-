@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
@@ -6,111 +7,123 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
-body{margin:0; font-family:Arial; background:#f0f2f5}
-.header{background:#232f3e; color:#fff; padding:10px; display:flex; align-items:center; gap:10px; position:sticky; top:0; z-index:999}
-.header input{flex:1; padding:8px; border-radius:4px; border:none}
-.header button{background:none; border:none; color:#fff; font-size:20px; cursor:pointer}
-#dotMenu{display:none; position:absolute; right:10px; top:50px; background:#fff; color:#000; padding:10px; box-shadow:0 2px 10px #000; border-radius:5px}
-.category-bar{background:#37475a; padding:8px} .category-bar a{color:#fff; margin:0 10px; text-decoration:none}
-.product-box{display:flex; gap:20px; padding:20px; background:#fff; margin:10px; border-radius:8px}
-.product-box img{width:300px; border:1px solid #ddd; border-radius:8px}
-.step{background:#fff; padding:20px; margin:10px; border-radius:8px; display:none} .step.active{display:block}
-.step input, .step textarea{width:95%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:4px}
-.step button{padding:10px 20px; background:#ff9900; border:none; cursor:pointer; border-radius:4px; font-weight:bold; margin:5px}
-.buybtn{background:#ffa41c; padding:12px 30px; border:none; font-size:16px; cursor:pointer; border-radius:8px}
-.footer{background:#232f3e; color:#fff; padding:30px 20px; margin-top:30px; display:flex; flex-wrap:wrap; gap:30px}
-.footer a{color:#ddd; display:block; text-decoration:none; margin:5px 0}
+body{margin:0;font-family:Arial;background:#f0f2f5;}
+.header{background:#232f3e;color:#fff;padding:10px;display:flex;align-items:center;gap:10px;position:sticky;top:0;}
+.header input{flex:1;padding:8px;border-radius:4px;border:none;}
+.header button{background:none;border:none;color:#fff;font-size:20px;cursor:pointer}
+#dotMenu{display:none;position:absolute;right:10px;top:50px;background:#fff;color:#000;padding:10px;box-shadow:0 0 10px #ccc;}
+.category-bar{background:#37475a;padding:8px;}.category-bar a{color:#fff;margin:0 10px;text-decoration:none;}
+.product-box{display:flex;gap:20px;padding:20px;background:#fff;margin:10px;border-radius:8px;}
+.product-box img{width:300px;border:1px solid #ddd;border-radius:8px;}
+.step{background:#fff;padding:20px;margin:10px;border-radius:8px;display:none;}
+.step.active{display:block;}
+.step input, .step textarea{width:95%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:4px;}
+.step button{padding:10px 20px;background:#ff9900;border:none;cursor:pointer;border-radius:4px;font-weight:bold;}
+.buybtn{background:#ffa41c;padding:12px 30px;border:none;font-size:16px;cursor:pointer;border-radius:8px;}
+.footer{background:#232f3e;color:#fff;padding:30px 20px;margin-top:30px;display:flex;flex-wrap:wrap;gap:30px;}
+.footer a{color:#ddd;display:block;text-decoration:none;margin:5px 0;}
 </style>
 </head>
 <body>
 
 <header class="header">
-  <button onclick="window.location='index.html'">☰</button>
-  <img src="26113.png" width="40">
-  <input id="searchBox" placeholder="Search Skin Care, Hair Oil, Medicine..." onkeyup="searchProduct(this.value)">
-  <a href="orders.html" style="color:#fff">📦 Orders</a>
-  <a href="checkout.html" style="color:#fff">🛒 Cart</a>
-  <button onclick="toggle3Dot()">⋮</button>
+<button onclick="window.location='index.html'">☰</button>
+<img src="26113.png" width="40">
+<input id="searchBox" placeholder="Search Skin Care, Hair Oil, Medicine..." onkeyup="searchProduct(this.value)">
+<a href="orders.html" style="color:#fff">📦 Orders</a>
+<a href="checkout.html" style="color:#fff">🛒 Cart</a>
+<button onclick="toggleDot()">⋮</button>
 </header>
 
 <div id="dotMenu">
-  <a href="login.html">Login</a>
-  <a href="settings.html">Settings</a>
-  <a href="contact.html">Contact</a>
-  <a href="privacy.html">Privacy</a>
-  <a href="refund.html">Refund</a>
-  <a href="admin.html">Admin</a>
-  <a href="#" onclick="logout()">Logout</a>
+<a href="login.html">Login</a>
+<a href="settings.html">Settings</a>
+<a href="contact.html">Contact</a>
+<a href="privacy.html">Privacy</a>
+<a href="refund.html">Refund</a>
+<a href="admin.html">Admin</a>
+<a href="#" onclick="logout()">Logout</a>
 </div>
 
 <div class="category-bar">
-  <a href="skin-care.html">Skin Care</a> <a href="baby-care.html">Baby Care</a> 
-  <a href="health.html">Health</a> <a href="sell.html">Sell</a> <a href="medicine3.html">Pharmacy</a>
+<a href="skin-care.html">Skin Care</a> <a href="baby-care.html">Baby Care</a>
+<a href="health.html">Health</a> <a href="sell.html">Sell</a> <a href="medicine3.html">Pharmacy</a>
 </div>
 
 <!-- PRODUCT 3: KESH SHINE OIL -->
 <div class="product-box">
-  <div>
-  <img src="26113.png" alt="Kesh Shine Oil" width="300">
-    <h2>Kesh Shine Oil</h2>
-    <p>Ayurvedic Hair Oil</p>
-    <p>⭐ 4.4 (680 Reviews)</p>
-    <h3><s>₹299</s> <span style="color:red">₹199</span> <span style="color:green">33% off</span></h3>
-    <p>• बालों को काला, घना और मजबूत बनाता है<br>
-       • 15+ आयुर्वेदिक जड़ी बूटियों से बना<br>
-       • डैंड्रफ और हेयर फॉल रोके</p>
-    <button class="buybtn" onclick="startBuy('Kesh Shine Oil', 199)">Buy Now</button>
-    <button onclick="addReview()">Add Review</button>
-  </div>
+<div>
+<img src="26113.png" alt="Kesh Shine Oil" width="300">
+</div>
+<div>
+<h2>Kesh Shine Oil</h2>
+<p>Ayurvedic Hair Oil</p>
+<p>⭐ 4.4 (680 Reviews)</p>
+<h3><span style="color:red">₹199</span> <span style="color:green">33% off</span></h3>
+<p>• बालों को काला, घना और मुलायम बनाता है<br>
+• 15+ आयुर्वेदिक जड़ी बूटियों से बना<br>
+• डैंड्रफ और हेयर फॉल रोकेगा</p>
+<button class="buybtn" onclick="startBuy('Kesh Shine Oil', 199)">Buy Now</button>
+<button onclick="addReview()">Add Review</button>
+</div>
 </div>
 
 <!-- STEP BUY 5 STEP -->
-<div id="step1" class="step"><h3>Step 1: Quantity</h3><button onclick="setQty(1)">1</button><button onclick="setQty(2)">2</button><button onclick="nextStep(2)">Continue</button></div>
-<div id="step2" class="step"><h3>Step 2: Delivery Address</h3><input id="cName" placeholder="Name" required><input id="cMobile" placeholder="Mobile" maxlength="10" required><textarea id="cAddress" placeholder="Address" required></textarea><input id="cPin" placeholder="PIN" maxlength="6" required><button onclick="nextStep(3)">Continue</button></div>
-<div id="step3" class="step"><h3>Step 3: Payment</h3><button onclick="placeOrder('COD')">Cash on Delivery</button><button onclick="placeOrder('UPI')">Pay Online - ₹10 OFF</button></div>
-<div id="step4" class="step"><h3>Step 4: OTP Verify</h3><input id="otpInput" placeholder="6 Digit OTP"><button onclick="verifyOTP()">Verify</button></div>
-<div id="step5" class="step"><h3>Step 5: Order Placed ✅</h3>Order ID: <b id="orderId"></b><button onclick="window.location='orders.html'">Track Order</button></div>
+<div id="step1" class="step"><h3>Step 1: Quantity</h3><button onclick="setQty(1)">1</button><button onclick="setQty(2)">2</button></div>
+<div id="step2" class="step"><h3>Step 2: Delivery Address</h3><input id="cName" placeholder="Name" required><input id="cMobile" placeholder="Mobile" required><textarea id="cAddress" placeholder="Full Address"></textarea><input id="cPin" placeholder="Pin Code"></div>
+<div id="step3" class="step"><h3>Step 3: Payment</h3><button onclick="placeOrder('COD')">Cash on Delivery</button><button onclick="placeOrder('UPI')">Pay Online UPI</button></div>
+<div id="step4" class="step"><h3>Step 4: OTP Verify</h3><input id="otpInput" placeholder="6 Digit OTP"><button onclick="verifyOTP()">Verify & Place Order</button></div>
+<div id="step5" class="step"><h3>Step 5: Order Placed ✅</h3>Order ID: <b id="orderId"></b><button onclick="window.location='index.html'">Continue Shopping</button></div>
 
 <footer class="footer">
-  <div><h4>About</h4><a href="about.html">About Us</a><a href="contact.html">Contact</a></div>
-  <div><h4>Help</h4><a href="privacy.html">Privacy Policy</a><a href="refund.html">Refund</a><a href="orders.html">Live Tracking</a></div>
-  <div><h4>Account</h4><a href="settings.html">Settings</a><a href="admin.html">Admin</a><a href="add-review.html">Add Review</a></div>
+<div><h4>About</h4><a href="about.html">About Us</a><a href="contact.html">Contact</a></div>
+<div><h4>Help</h4><a href="privacy.html">Privacy Policy</a><a href="refund.html">Refund</a><a href="orders.html">Live Tracking</a></div>
+<div><h4>Account</h4><a href="settings.html">Settings</a><a href="admin.html">Admin</a><a href="add-review.html">Add Review</a></div>
 </footer>
 
 <script>
-emailjs.init("yOq3T9XyZ1aBcDeFg"); // अपना EmailJS Key डाल
+emailjs.init("y0q3TPXyZlaBcDeFg"); // अपनी EmailJS Key डाल
 
-const firebaseConfig = {apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y", databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app"};
+const firebaseConfig = {apiKey: "AIzaSyD2EoywecfBv8JUXnsmFS4A131in790XBW", databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com"};
 firebase.initializeApp(firebaseConfig); const db = firebase.database();
 
 let qty=1, productName="Kesh Shine Oil", productPrice=199, orderOTP=0;
 
-function toggle3Dot(){ let m=document.getElementById('dotMenu'); m.style.display=m.style.display=='block'?'none':'block'; }
-function logout(){ localStorage.clear(); location.reload(); }
-function searchProduct(q){ if(q.length>1) window.location='search.html?query='+q; }
+function toggleDot(){let m=document.getElementById('dotMenu');m.style.display=m.style.display=='block'?'none':'block';}
+function logout(){localStorage.clear();location.reload();}
+function searchProduct(q){if(q.length>1)window.location='search.html?query='+q;}
 
-function startBuy(name, price){ productName=name; productPrice=price; document.querySelector('.product-box').style.display='none'; nextStep(1); }
-function setQty(n){ qty=n; }
-function nextStep(n){ document.querySelectorAll('.step').forEach(s=>s.classList.remove('active')); document.getElementById('step'+n).classList.add('active'); }
+function startBuy(name, price){
+  productName=name; productPrice=price; 
+  document.querySelector('.product-box').style.display='none';
+  nextStep(1);
+}
+function setQty(n){qty=n; nextStep(2);}
+
+function nextStep(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+}
 
 // ==== YE NAYA CODE JODA HAI ====
 function placeOrder(payment){
-  if(!cName.value || !cMobile.value || !cAddress.value || !cPin.value){ alert('सारी डिटेल भरें'); return; }
+  let cName=document.getElementById('cName'), cMobile=document.getElementById('cMobile'), cAddress=document.getElementById('cAddress'), cPin=document.getElementById('cPin');
+  if(!cName.value || !cMobile.value || !cAddress.value || !cPin.value){alert('सभी डिटेल भरें'); return; }
 
   let orderId = "SK"+Date.now();
-  orderOTP = Math.floor(100000 + Math.random() * 900000);
+  orderOTP = Math.floor(100000 + Math.random() * 900000); // 6 Digit OTP
   let total = payment=='UPI' ? (productPrice*qty)-10 : productPrice*qty;
 
   let orderData = {
     orderId: orderId,
-    cart: [{name: productName, price: productPrice, qty: qty}], // admin में दिखाने के लिए
-    name: cName.value, 
-    mobile: cMobile.value, 
-    address: cAddress.value, 
+    cart: [{name: productName, price: productPrice, qty: qty}],
+    name: cName.value,
+    mobile: cMobile.value,
+    address: cAddress.value,
     pin: cPin.value,
-    payment: payment, 
+    payment: payment,
     total: total,
-    status: "Ordered", 
+    status: "Ordered",
     time: Date.now(),
     orderOTP: orderOTP,
     cancelRequest: false
@@ -118,36 +131,46 @@ function placeOrder(payment){
 
   db.ref('orders/'+orderId).set(orderData).then(()=>{
     
-    // 1. तुझे Email
-    emailjs.send("service_u1c0727", "dg8drle", {
+    // 1. ईमेल
+    emailjs.send("service_ulc0727", "dg8drle", {
       order_id: orderId,
       customer_name: cName.value,
       total: total,
       mobile: cMobile.value
     });
 
-    // 2. तुझे WhatsApp
-    window.open(`https://wa.me/919258751739?text=🚨 New Order!\nID: ${orderId}\nProduct: ${productName}\nTotal: ₹${total}`, '_blank');
+    // 2. मुझे WhatsApp
+    window.open(`https://wa.me/919258751739?text=🔔 New Order\\nID: ${orderId}\\nProduct: ${productName}\\nTotal: ₹${total}`);
 
     // 3. ग्राहक को OTP WhatsApp
-    window.open(`https://wa.me/91${cMobile.value}?text=S K Pharmacy\nYour Order ${orderId} OTP: ${orderOTP}\nइसे संभाल कर रखें`, '_blank');
+    window.open(`https://wa.me/91${cMobile.value}?text=S K Pharmacy\\nYour Order ${orderId} OTP: ${orderOTP}\\nइसे संभाल कर रखें`);
 
     document.getElementById('orderId').innerText = orderId;
-    nextStep(5);
+    nextStep(4);
     alert('Order Placed! OTP आपके नंबर पर भेज दिया गया');
-
-  }).catch((error)=>{
+    
+  }).catch(error=>{
     alert('Firebase Error: ' + error.message);
   });
 }
 
-function verifyOTP(){ 
-  alert('OTP Verify हो गया');
-  nextStep(5); 
+function verifyOTP(){
+  let enteredOTP = document.getElementById('otpInput').value;
+  let orderId = document.getElementById('orderId').innerText;
+  
+  db.ref('orders/' + orderId).once('value').then((snapshot)=>{
+    let data = snapshot.val();
+    if(data && data.orderOTP == enteredOTP){
+      alert('OTP Verify हो गया ✅');
+      nextStep(5);
+    } else {
+      alert('गलत OTP है');
+    }
+  });
 }
 
 function addReview(){ window.location='add-review.html'; }
 // ==== CODE KHATAM ====
 </script>
 </body>
-</html>
+</html
