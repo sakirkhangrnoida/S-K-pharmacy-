@@ -1,173 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Settings - S K Pharmacy</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #e3e6e6; font-family: Arial, sans-serif; }
-.site-container { max-width: 1500px; margin: 0 auto; background: white; min-height: 100vh; display: flex; }
-
-.settings-menu { width: 280px; border-right: 1px solid #ddd; padding: 20px 0; }
-.settings-menu h2 { padding: 0 20px 15px; font-size: 18px; border-bottom: 1px solid #ddd; }
-.menu-item { padding: 14px 20px; cursor: pointer; font-size: 14px; border-left: 3px solid transparent; }
-.menu-item:hover { background: #f7fafa; }
-.menu-item.active { background: #f0f2f2; border-left: 3px solid #ff9900; font-weight: 600; }
-
-.settings-content { flex: 1; padding: 25px 40px; }
-.content-box { display: none; }
-.content-box.active { display: block; animation: fadeIn 0.3s; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-.content-box h1 { font-size: 28px; margin-bottom: 8px; }
-.content-box h2 { font-size: 18px; margin: 25px 0 12px; }
-.content-box p,.content-box li { font-size: 14px; line-height: 1.6; margin-bottom: 10px; }
-.content-box ul,.content-box ol { padding-left: 25px; }
-
-.policy-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
-.policy-table th { background: #f0f2f2; padding: 12px; text-align: left; border: 1px solid #ddd; }
-.policy-table td { padding: 12px; border: 1px solid #ddd; vertical-align: top; }
-
-.note { font-size: 12px; color: #565959; margin: 15px 0; padding: 12px; background: #f7fafa; border-left: 3px solid #007185; }
-.back-home { display: inline-block; margin-bottom: 20px; color: #007185; text-decoration: none; font-size: 14px; }
-.logout-btn {float:right; background:red; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;}
-.order-box{border:1px solid #ddd; padding:15px; margin:15px 0; border-radius:8px; background:#fff;}
-
-    details { margin: 15px 0; }
-    summary { color: #007185; cursor: pointer; font-size: 14px; font-weight: 600; padding: 8px 0; list-style: none; }
-    summary::-webkit-details-marker { display: none; }
-    summary::before { content: '▶ '; font-size: 10px; }
-    details[open] summary::before { content: '▼ '; }
-    summary:hover { text-decoration: underline; }
-.details-content { padding: 10px 0 10px 15px; border-left: 2px solid #ddd; margin-top: 8px; }
-
-    @media (max-width: 768px) {
-  .site-container { flex-direction: column; }
-  .settings-menu { width: 100%; border-right: none; border-bottom: 1px solid #ddd; overflow-x: auto; white-space: nowrap; }
-  .menu-item { display: inline-block; border-left: none; border-bottom: 3px solid transparent; }
-  .menu-item.active { border-left: none; border-bottom: 3px solid #ff9900; }
-  .settings-content { padding: 20px 15px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Settings - S K Pharmacy</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<style>
+body{background:#f0f2f5;font-family:Arial;margin:0}
+.header{background:#232f3e;color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center}
+.container{max-width:600px;margin:20px auto;padding:20px}
+.box{background:#fff;padding:20px;margin-bottom:15px;border-radius:8px;box-shadow:0 1px 3px #ccc}
+.box h3{margin-top:0;border-bottom:1px solid #eee;padding-bottom:10px}
+.box input{width:95%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:4px}
+.btn{background:#ff9900;border:none;padding:10px 20px;border-radius:4px;cursor:pointer;font-weight:bold;margin:5px}
+.btn-danger{background:red;color:#fff}
+.btn-logout{background:#232f3e;color:#fff;width:100%;padding:12px}
+.menu a{display:block;padding:12px;border-bottom:1px solid #eee;text-decoration:none;color:#000}
+.menu a:hover{background:#f5f5f5}
+</style>
 </head>
 <body>
-<div class="site-container">
-
-  <div class="settings-menu">
-    <h2>Settings & Help</h2>
-    <div class="menu-item active" onclick="showTab(0)">📦 Your Orders</div>
-    <div class="menu-item" onclick="showTab(1)">🚚 Shipping Policy</div>
-    <div class="menu-item" onclick="showTab(2)">↩️ Returns & Refunds</div>
-    <div class="menu-item" onclick="showTab(3)">💰 Refund Status</div>
-    <div class="menu-item" onclick="showTab(4)">❌ Cancel Orders</div>
-    <div class="menu-item" onclick="showTab(5)">📞 Contact Us</div>
-    <div class="menu-item" onclick="showTab(6)">🔐 Account Settings</div>
-  </div>
-
-  <div class="settings-content">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <a href="index.html" class="back-home">← Back to Home</a>
-      <div>
-        <span id="userMobile" style="font-weight:bold; margin-right:15px;"></span>
-        <button class="logout-btn" onclick="logout()">Logout</button>
-      </div>
-    </div>
-
-    <!-- 1. Your Orders -->
-    <div class="content-box active">
-      <h1>Your Orders</h1>
-      <p>Track, return, or buy things again.</p>
-  <h2>Recent Orders</h2>
-      <div id="allOrders"></div>
-    </div>
-
-    <!-- 2 से 7 तक का कोड वही रहेगा -->
-    <!-- Shipping Policy -->
-    <div class="content-box"> <h1>Shipping Policy</h1> <p>Delivery charges and timelines for S K Pharmacy orders.</p> <table class="policy-table"> <tr><th>Shipping Speed</th><th>Delivery Time</th><th>Charges</th></tr> <tr><td>Standard Delivery</td><td>2-5 Working Days</td><td>Free* on ₹499+</td></tr> <tr><td>Express Delivery</td><td>1-2 Working Days</td><td>₹49</td></tr> </table> <div class="note">*Orders below ₹499 have ₹40 delivery charge. COD extra ₹40 always.</div> </div>
-    <!-- Returns & Refunds -->
-    <div class="content-box"> <h1>Returns & Refunds Policy</h1> <p>Last updated: 15 June 2026</p> </div>
-    <!-- Refund Status -->
-    <div class="content-box"> <h1>Check Refund Status</h1> <p>Track your refund for returned or cancelled orders.</p> </div>
-    <!-- Cancel Orders -->
-    <div class="content-box"> <h1>Cancel Items or Orders</h1> <p>Cancel orders before they are shipped.</p> </div>
-    <!-- Contact Us -->
-    <div class="content-box"> <h1>Contact S K Pharmacy</h1> <p>We're here to help you 24x7</p> </div>
-    <!-- Account Settings -->
-    <div class="content-box"> <h1>Account Settings</h1> <p>Manage your login, addresses and security.</p> </div>
-
-  </div>
+<div class="header">
+<h3>⚙️ Account Settings</h3>
+<a href="index.html" style="color:#fff;text-decoration:none">Home</a>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<div class="container">
+
+<!-- PROFILE BOX -->
+<div class="box">
+<h3>मेरी जानकारी</h3>
+<p><b>नाम:</b> <span id="uName">Guest</span></p>
+<p><b>मोबाइल:</b> <span id="uMobile">-</span></p>
+<button class="btn" onclick="editProfile()">Edit Profile</button>
+</div>
+
+<!-- CHANGE PASSWORD -->
+<div class="box">
+<h3>Password बदलें</h3>
+<input id="oldPass" placeholder="पुराना Password" type="password">
+<input id="newPass" placeholder="नया Password" type="password">
+<button class="btn" onclick="changePass()">Update Password</button>
+</div>
+
+<!-- QUICK LINKS -->
+<div class="box menu">
+<h3>Quick Links</h3>
+<a href="orders.html">📦 My Orders</a>
+<a href="invoice.html">🧾 My Invoices</a>
+<a href="dashboard.html">👨‍💼 Admin Panel</a>
+<a href="contact.html">📞 Contact Us</a>
+<a href="privacy.html">🔒 Privacy Policy</a>
+</div>
+
+<!-- LOGOUT -->
+<div class="box">
+<button class="btn-logout" onclick="logout()">Logout</button>
+</div>
+
+</div>
+
 <script>
-function showTab(index) {
-  document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
-  document.querySelectorAll('.content-box').forEach(box => box.classList.remove('active'));
-  document.querySelectorAll('.menu-item')[index].classList.add('active');
-  document.querySelectorAll('.content-box')[index].classList.add('active');
+const firebaseConfig = {apiKey: "AIzaSyD2EoywecfBv8JUXnsmFS4A131in790XBW", databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com"};
+firebase.initializeApp(firebaseConfig); const db = firebase.database();
+
+let userMobile = localStorage.getItem('userMobile');
+let userName = localStorage.getItem('userName');
+
+// अगर Login नहीं है तो Login पर भेज दो
+if(!userMobile){
+  alert('पहले Login करें');
+  window.location = 'login.html';
 }
 
-// 1. Firebase Config - तेरा वाला
-var firebaseConfig = {
-  apiKey: "AIzaSyD2EOywrcF8vJUXnsmF5PA3t3inW79UX8Y",
-  databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app"
-};
-firebase.initializeApp(firebaseConfig);
+document.getElementById('uName').innerText = userName;
+document.getElementById('uMobile').innerText = userMobile;
 
-// 2. Login Check
-let mobile = localStorage.getItem('userMobile');
-if(localStorage.getItem('isLoggedIn')!= 'true'){
-  location = 'cs-login.html';
-}
-document.getElementById('userMobile').innerText = "Hi, " + mobile;
-
-// 3. Logout
-function logout(){
-  localStorage.clear();
-  location = 'cs-login.html';
-}
-
-// 4. सारे Orders Live दिखाओ
-firebase.database().ref('orders').orderByChild('mobile').equalTo(mobile).on('value', snap=>{
-  let html = '';
-  if(!snap.val()){
-    html = "<div class='order-box'><p>अभी तक कोई ऑर्डर नहीं किया</p></div>";
+function editProfile(){
+  let newName = prompt('नया नाम डालो:', userName);
+  if(newName){
+    db.ref('users/'+userMobile).update({name:newName});
+    localStorage.setItem('userName', newName);
+    document.getElementById('uName').innerText = newName;
+    alert('Profile Update हो गई');
   }
-  snap.forEach(child=>{
-    let o = child.val();
-    let statusMap = {'Order Placed':1, 'Packed':2, 'Shipped':3, 'Out for Delivery':3, 'Delivered':4, 'Cancelled':0};
-    let step = statusMap[o.status] || 1;
-    let progress = (step-1)*33.33;
+}
 
-    html += `<div class="order-box">
-      <b>Order ID:</b> ${child.key}<br>
-      <b>Status:</b> <span style="color:green; font-weight:bold">${o.status}</span><br>
-      <b>Total:</b> ₹${o.total} | <b>Payment:</b> ${o.payment}<br>
-      <b>Address:</b> ${o.address}, ${o.pin}
+function changePass(){
+  let oldPass = document.getElementById('oldPass').value;
+  let newPass = document.getElementById('newPass').value;
+  
+  db.ref('users/'+userMobile).once('value').then((snap)=>{
+    if(snap.val().password == oldPass){
+      db.ref('users/'+userMobile).update({password:newPass});
+      alert('Password बदल गया');
+      document.getElementById('oldPass').value = '';
+      document.getElementById('newPass').value = '';
+    }else{
+      alert('पुराना Password गलत है');
+    }
+  });
+}
 
-      <div style="display:flex;justify-content:space-between;position:relative;margin:25px 0">
-        <div style="position:absolute;top:15px;left:0;right:0;height:4px;background:#ddd;z-index:1"></div>
-        <div style="position:absolute;top:15px;left:0;height:4px;background:#ff9900;z-index:2;width:${progress}%"></div>
-        <div style="text-align:center;z-index:3"><div style="width:30px;height:30px;background:${step>=1?'#ff9900':'#ddd'};border-radius:50%;margin:auto;border:2px solid #fff"></div><small>Placed</small></div>
-        <div style="text-align:center;z-index:3"><div style="width:30px;height:30px;background:${step>=2?'#ff9900':'#ddd'};border-radius:50%;margin:auto;border:2px solid #fff"></div><small>Packed</small></div>
-        <div style="text-align:center;z-index:3"><div style="width:30px;height:30px;background:${step>=3?'#ff9900':'#ddd'};border-radius:50%;margin:auto;border:2px solid #fff"></div><small>Shipped</small></div>
-        <div style="text-align:center;z-index:3"><div style="width:30px;height:30px;background:${step>=4?'#ff9900':'#ddd'};border-radius:50%;margin:auto;border:2px solid #fff"></div><small>Delivered</small></div>
-      </div>
-
-      ${o.status!= 'Delivered' && o.status!= 'Cancelled'?
-      `<button onclick="cancelOrder('${child.key}')" style="background:orange; color:white; border:none; padding:8px 12px; border-radius:5px; cursor:pointer;">Cancel Order</button>` : ''}
-    </div>`
-  })
-  document.getElementById('allOrders').innerHTML = html;
-})
-
-// 5. Cancel Order
-function cancelOrder(id){
-  if(confirm("क्या Order Cancel करना है?")){
-    firebase.database().ref('orders/'+id).update({status: "Cancelled"});
-    alert("Cancel Request भेज दी गई");
+function logout(){
+  if(confirm('पक्का Logout करना है?')){
+    localStorage.clear();
+    alert('Logout हो गए');
+    window.location = 'login.html';
   }
 }
 </script>
