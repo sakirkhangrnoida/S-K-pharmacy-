@@ -11,6 +11,7 @@ body{margin:0;font-family:Arial;background:#f0f2f5;}
 .header{background:#232f3e;color:#fff;padding:10px;display:flex;align-items:center;gap:10px;position:sticky;top:0;}
 .header input{flex:1;padding:8px;border-radius:4px;border:none;}
 .header button{background:none;border:none;color:#fff;font-size:20px;cursor:pointer}
+.header a{color:#fff;text-decoration:none;margin-left:10px;font-size:14px}
 #dotMenu{display:none;position:absolute;right:10px;top:50px;background:#fff;color:#000;padding:10px;box-shadow:0 0 10px #ccc;z-index:999}
 #dotMenu a{display:block;padding:5px 0;color:#000;text-decoration:none;}
 .category-bar{background:#37475a;padding:8px;}.category-bar a{color:#fff;margin:0 10px;text-decoration:none;}
@@ -21,8 +22,12 @@ body{margin:0;font-family:Arial;background:#f0f2f5;}
 .step input, .step textarea{width:95%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:4px;}
 .step button{padding:12px 25px;background:#ff9900;border:none;cursor:pointer;border-radius:4px;font-weight:bold;margin:5px;font-size:15px;}
 .buybtn{background:#ffa41c;padding:12px 30px;border:none;font-size:16px;cursor:pointer;border-radius:8px;margin:5px;}
-.footer{background:#232f3e;color:#fff;padding:30px 20px;margin-top:30px;display:flex;flex-wrap:wrap;gap:30px;}
-.footer a{color:#ddd;display:block;text-decoration:none;margin:5px 0;}
+.footer{background:#232f3e;color:#fff;padding:30px 20px;margin-top:30px;display:flex;flex-wrap:wrap;gap:30px;justify-content:center}
+.footer div{min-width:180px}
+.footer h4{margin-bottom:10px;color:#ff9900}
+.footer a{color:#ddd;display:block;text-decoration:none;margin:5px 0;font-size:14px}
+.footer a:hover{color:#ff9900;text-decoration:underline}
+.footer-bottom{text-align:center;padding:15px;background:#131921;color:#ddd;font-size:12px}
 </style>
 </head>
 <body>
@@ -31,8 +36,9 @@ body{margin:0;font-family:Arial;background:#f0f2f5;}
 <button onclick="window.location='index.html'">☰</button>
 <img src="26113.png" width="40">
 <input id="searchBox" placeholder="Search Skin Care, Hair Oil, Medicine..." onkeyup="searchProduct(this.value)">
-<a href="orders.html" style="color:#fff">📦 Orders</a>
-<a href="checkout.html" style="color:#fff">🛒 Cart</a>
+<a href="orders.html">📦 Orders</a>
+<a href="checkout.html">🛒 Cart</a>
+<a href="contact.html">📞 Help</a> <!-- NEW HELP LINK -->
 <button onclick="toggleDot()">⋮</button>
 </header>
 
@@ -76,11 +82,33 @@ body{margin:0;font-family:Arial;background:#f0f2f5;}
 <div id="step4" class="step"><h3>Step 4: OTP Verify</h3><p>आपके नंबर पर 6 Digit OTP भेजा गया है</p><input id="otpInput" placeholder="6 Digit OTP"><button onclick="verifyOTP()">Verify & Place Order</button></div>
 <div id="step5" class="step"><h3>Step 5: Order Placed ✅</h3><p>Order ID: <b id="orderId"></b></p><button onclick="window.location='index.html'">Continue Shopping</button></div>
 
+<!-- NEW PROFESSIONAL FOOTER -->
 <footer class="footer">
-<div><h4>About</h4><a href="about.html">About Us</a><a href="contact.html">Contact</a></div>
-<div><h4>Help</h4><a href="privacy.html">Privacy Policy</a><a href="refund.html">Refund</a><a href="orders.html">Live Tracking</a></div>
-<div><h4>Account</h4><a href="settings.html">Settings</a><a href="admin.html">Admin</a><a href="add-review.html">Add Review</a></div>
+<div>
+<h4>Get to Know Us</h4>
+<a href="about.html">About S K Pharmacy</a>
+<a href="contact.html">Contact Us</a>
+<a href="privacy.html">Privacy Policy</a>
+<a href="refund.html">Refund Policy</a>
+</div>
+<div>
+<h4>Your Account</h4>
+<a href="login.html">Login</a>
+<a href="settings.html">Settings</a>
+<a href="orders.html">My Orders</a>
+<a href="add-review.html">Add Review</a>
+</div>
+<div>
+<h4>Help & Support</h4>
+<a href="contact.html">24x7 Customer Care</a>
+<a href="orders.html">Track Order</a>
+<a href="admin.html">Admin Panel</a>
+</div>
 </footer>
+
+<div class="footer-bottom">
+© 2026 S K Pharmacy. All Rights Reserved. Mathura, Uttar Pradesh
+</div>
 
 <script>
 emailjs.init("y0q3TPXyZlaBcDeFg"); // अपनी EmailJS Key डाल
