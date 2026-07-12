@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Checkout - S K Pharmacy</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 body{font-family:Arial;background:#f3f3f3;margin:0;padding:15px}
@@ -37,7 +37,11 @@ input,textarea{width:100%;padding:10px;margin:8px 0;border:1px solid #ccc;border
 <script>
 emailjs.init("yOq3T9XyZ1aBcDeFg"); // अपना EmailJS Key
 
-const firebaseConfig = {apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y", databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app"};
+// Firebase Config - तेरा वाला
+const firebaseConfig = {
+  apiKey: "AIzaSyD2EoywrcF8vJUXnsmF5PA3t3inW79UX8Y", 
+  databaseURL: "https://grnoida-store-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
@@ -63,11 +67,12 @@ function placeOrder(){
   let address = document.getElementById('address').value;
   let pin = document.getElementById('pin').value;
 
-  if(!name || !mobile || !address || !pin){ alert('सारी डिटेल भरें'); return; } // FIXED LINE 45
+  if(!name || !mobile || !address || !pin){ alert('सारी डिटेल भरें'); return; }
+  if(mobile.length != 10){ alert('सही 10 डिजिट नंबर डालो'); return; }
   if(cart.length == 0){ alert('Cart खाली है'); return; }
 
   let orderId = 'SK' + Date.now();
-  let orderOTP = Math.floor(100000 + Math.random() * 900000);
+  let orderOTP = Math.floor(1000 + Math.random() * 9000); // 4 Digit OTP
 
   let orderData = {
     orderId: orderId,
@@ -78,15 +83,16 @@ function placeOrder(){
     cart: cart,
     total: finalTotal,
     payment: 'COD',
-    status: 'Ordered',
+    status: 'Order Placed', // settings में यही check होगा
     time: Date.now(),
     orderOTP: orderOTP,
+    otpTime: Date.now(), // 5 मिनट expire के लिए
     cancelRequest: false
   };
 
   db.ref('orders/' + orderId).set(orderData).then(()=>{
     
-    // 1. Email
+    // 1. Email तुझे
     emailjs.send("service_u1c0727", "dg8drle", {
       order_id: orderId,
       customer_name: name,
@@ -98,12 +104,16 @@ function placeOrder(){
     window.open(`https://wa.me/919258751739?text=🚨 New Order!\nID: ${orderId}\nName: ${name}\nTotal: ₹${finalTotal}`, '_blank');
 
     // 3. ग्राहक को OTP WhatsApp
-    window.open(`https://wa.me/91${mobile}?text=S K Pharmacy\nYour Order ${orderId} OTP: ${orderOTP}\nइसे संभाल कर रखें`, '_blank');
+    window.open(`https://wa.me/91${mobile}?text=S K Pharmacy\nYour Order ${orderId}\nOTP: ${orderOTP}\nइसे संभाल कर रखें`, '_blank');
+
+    // 4. Login Save कर लो
+    localStorage.setItem('userMobile', mobile);
+    localStorage.setItem('isLoggedIn', 'true');
 
     alert('Order Placed! OTP आपके नंबर पर भेज दिया गया');
     localStorage.removeItem('cart');
     localStorage.removeItem('total');
-    window.location.href = 'orders.html';
+    window.location.href = 'settings.html'; // सीधा Live Tracking पर
   }).catch(err=>{
     alert('Firebase Error: ' + err.message);
   });
