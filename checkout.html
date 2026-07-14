@@ -3,77 +3,155 @@
 <head>
 <meta charset="UTF-8">
 <title>Checkout - S K Pharmacy</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
-body{background:#f0f2f5;font-family:Arial;margin:0}
-.header{background:#232f3e;color:#fff;padding:10px;}
-.box{background:#fff;padding:20px;margin:10px;border-radius:8px;max-width:600px;margin:auto;margin-top:20px}
-.box input, .box textarea{width:95%;padding:10px;margin:8px 0;border:1px solid #ccc;border-radius:4px;}
-.box button{width:100%;padding:12px;background:#ffa41c;border:none;font-size:16px;font-weight:bold;border-radius:8px;cursor:pointer;margin-top:10px}
-.summary{background:#fff;padding:15px;border:1px solid #ddd;margin-bottom:15px;border-radius:8px}
+body{font-family:Arial;background:#f0f2f5;margin:0}
+.header{background:#232f3e;color:#fff;padding:15px;text-align:center}
+.step-box{background:#fff;margin:15px;padding:20px;border-radius:8px;display:none}
+.step-box.active{display:block}
+.step-title{font-size:18px;font-weight:bold;margin-bottom:15px;color:#232f3e}
+input{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:4px;box-sizing:border-box}
+.btn{width:100%;padding:14px;background:#ff9900;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:10px}
+.payment-option{border:1px solid #ddd;padding:12px;margin:8px 0;border-radius:4px;cursor:pointer}
+.payment-option.selected{border:2px solid #ff9900;background:#fff8e1}
+.otp-box{display:flex;gap:10px}
+.otp-box input{text-align:center;font-size:20px}
+.success-box{text-align:center;padding:40px}
+.success-box h2{color:green}
+.order-id{background:#f0f2f5;padding:10px;border-radius:4px;font-weight:bold}
 </style>
 </head>
 <body>
-<div class="header"><h3>S K Pharmacy - Checkout</h3></div>
 
-<div class="box">
-<h3>Delivery Address</h3>
-<input id="cName" placeholder="पूरा नाम" required>
-<input id="cMobile" placeholder="10 अंकों का मोबाइल" required>
-<textarea id="cAddress" placeholder="पूरा पता, मकान नंबर, गली" required></textarea>
-<input id="cPin" placeholder="Pin Code" required>
+<div class="header"><h2>Checkout</h2></div>
 
-<div class="summary">
-<h4>Order Summary</h4>
-<p id="pName">Product: Kesh Shine Oil</p>
-<p id="pQty">Qty: 1</p>
-<p id="pTotal">Total: ₹199</p>
+<!-- STEP 1: ADDRESS -->
+<div id="step1" class="step-box active">
+  <div class="step-title">1. Delivery Address</div>
+  <input type="text" id="name" placeholder="पूरा नाम">
+  <input type="tel" id="mobile" placeholder="10 Digit Mobile" maxlength="10">
+  <input type="text" id="address" placeholder="पूरा पता">
+  <input type="text" id="city" placeholder="City">
+  <input type="text" id="pin" placeholder="Pincode">
+  <button class="btn" onclick="nextStep(2)">Continue</button>
 </div>
 
-<h3>Payment Method</h3>
-<button onclick="placeOrder('COD')">Cash on Delivery</button>
-<button style="background:#ff9900" onclick="placeOrder('UPI')">Pay Online UPI - ₹10 Off</button>
+<!-- STEP 2: PAYMENT -->
+<div id="step2" class="step-box">
+  <div class="step-title">2. Payment Method</div>
+  <div class="payment-option selected" onclick="selectPayment('COD')">💵 Cash on Delivery</div>
+  <div class="payment-option" onclick="selectPayment('UPI')">📱 UPI / Card</div>
+  <input type="hidden" id="payment" value="COD">
+  <button class="btn" onclick="nextStep(3)">Continue</button>
 </div>
 
-<script>
+<!-- STEP 3: OTP -->
+<div id="step3" class="step-box">
+  <div class="step-title">3. Verify Mobile OTP</div>
+  <p id="otpSentTo"></p>
+  <div class="otp-box">
+    <input type="text" id="otp1" maxlength="1">
+    <input type="text" id="otp2" maxlength="1">
+    <input type="text" id="otp3" maxlength="1">
+    <input type="text" id="otp4" maxlength="1">
+    <input type="text" id="otp5" maxlength="1">
+    <input type="text" id="otp6" maxlength="1">
+  </div>
+  <button class="btn" onclick="verifyOTP()">Verify & Place Order</button>
+  <p id="otpError" style="color:red"></p>
+</div>
+
+<!-- STEP 4: SUCCESS -->
+<div id="step4" class="step-box">
+  <div class="success-box">
+    <h2>✅ Order Placed Successfully!</h2>
+    <p>आपका Order ID:</p>
+    <div class="order-id" id="orderId"></div>
+    <p>WhatsApp और Email पर Confirmation भेज दिया गया है</p>
+    <button class="btn" onclick="window.location='orders.html'">Track Order</button>
+  </div>
+</div>
+
+<script type="module" src="firebase.js"></script>
+<script type="module">
+import { db } from './firebase.js';
+import { ref, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import emailjs from "https://cdn.skypack.dev/emailjs-com@3";
+
+// EmailJS Init - तेरी Key
 emailjs.init("y0q3TPXyZlaBcDeFg");
-const firebaseConfig = {apiKey: "AIzaSyD2EoywecfBv8JUXnsmFS4A131in790XBW", databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com"};
-firebase.initializeApp(firebaseConfig); const db = firebase.database();
 
-// Product detail URL से लेंगे
-let params = new URLSearchParams(window.location.search);
-let productName = params.get('name') || "Kesh Shine Oil";
-let productPrice = parseInt(params.get('price')) || 199;
-let qty = parseInt(params.get('qty')) || 1;
-document.getElementById('pName').innerText = "Product: " + productName;
-document.getElementById('pQty').innerText = "Qty: " + qty;
-document.getElementById('pTotal').innerText = "Total: ₹" + (productPrice*qty);
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+let generatedOTP = Math.floor(100000 + Math.random() * 900000);
+let orderID = 'SK' + Date.now();
 
-function placeOrder(payment){
-  let cName=document.getElementById('cName'), cMobile=document.getElementById('cMobile'), cAddress=document.getElementById('cAddress'), cPin=document.getElementById('cPin');
-  if(!cName.value || !cMobile.value || !cAddress.value || !cPin.value){alert('सभी डिटेल भरें'); return; }
+let selectedPayment = 'COD';
 
-  let orderId = "SK"+Date.now();
-  let orderOTP = Math.floor(100000 + Math.random() * 900000);
-  let total = payment=='UPI' ? (productPrice*qty)-10 : productPrice*qty;
-
-  let orderData = {
-    orderId: orderId, cart: [{name: productName, price: productPrice, qty: qty}],
-    name: cName.value, mobile: cMobile.value, address: cAddress.value, pin: cPin.value,
-    payment: payment, total: total, status: "Ordered", time: Date.now(), orderOTP: orderOTP
-  };
-
-  db.ref('orders/'+orderId).set(orderData).then(()=>{
-    let msg = encodeURIComponent(`🔔 New Order\nID: ${orderId}\nProduct: ${productName}\nTotal: ₹${total}`);
-    window.open(`https://wa.me/919258751739?text=`+msg);
-    let otpMsg = encodeURIComponent(`S K Pharmacy\nYour Order ${orderId} OTP: ${orderOTP}\nइसे संभाल कर रखें`);
-    window.open(`https://wa.me/91${cMobile.value}?text=`+otpMsg);
-    alert('Order Placed! OTP आपके नंबर पर भेज दिया गया');
-    window.location = `orders.html?mobile=${cMobile.value}`; // Customer के Orders पर भेज दो
-  });
+function nextStep(step){
+  document.querySelectorAll('.step-box').forEach(s => s.classList.remove('active'));
+  document.getElementById('step'+step).classList.add('active');
+  
+  if(step == 3){
+    let mobile = document.getElementById('mobile').value;
+    document.getElementById('otpSentTo').innerText = 'OTP भेजा गया: ' + mobile;
+    // यहाँ असली SMS API लगेगा। अभी के लिए OTP Console में दिखेगा
+    console.log("Your OTP:", generatedOTP);
+    alert("Demo OTP: " + generatedOTP); // टेस्ट के लिए
+  }
 }
+
+function selectPayment(type){
+  selectedPayment = type;
+  document.getElementById('payment').value = type;
+  document.querySelectorAll('.payment-option').forEach(p => p.classList.remove('selected'));
+  event.target.classList.add('selected');
+}
+
+window.verifyOTP = function(){
+  let enteredOTP = '';
+  for(let i=1; i<=6; i++) enteredOTP += document.getElementById('otp'+i).value;
+  
+  if(enteredOTP != generatedOTP){
+    document.getElementById('otpError').innerText = 'गलत OTP';
+    return;
+  }
+  
+  placeOrder();
+}
+
+function placeOrder(){
+  let orderData = {
+    orderId: orderID,
+    name: document.getElementById('name').value,
+    mobile: document.getElementById('mobile').value,
+    address: document.getElementById('address').value + ', ' + document.getElementById('city').value + ' - ' + document.getElementById('pin').value,
+    cart: cart,
+    payment: selectedPayment,
+    total: total,
+    status: 'Ordered',
+    time: Date.now()
+  };
+  
+  // 1. Firebase में Save
+  set(ref(db, 'orders/' + orderID), orderData);
+  
+  // 2. WhatsApp Message
+  let waMsg = `New Order: ${orderID}%0AName: ${orderData.name}%0ATotal: ₹${total}%0APayment: ${selectedPayment}`;
+  window.open(`https://wa.me/919258751739?text=${waMsg}`, '_blank');
+  
+  // 3. Email
+  emailjs.send("service_ulc0727","dg8drle",{
+    order_id: orderID,
+    customer_name: orderData.name,
+    total: total,
+    mobile: orderData.mobile
+  });
+  
+  localStorage.removeItem('cart');
+  document.getElementById('orderId').innerText = orderID;
+  nextStep(4);
+}
+
 </script>
 </body>
 </html>
