@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Order Details - S K Pharmacy</title>
+<style>
+body{font-family:Arial;background:#f0f2f5;margin:0}
+.header{background:#232f3e;color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center}
+.header a{color:#fff;text-decoration:none}
+.box{background:#fff;margin:15px;padding:20px;border-radius:8px}
+.box h3{border-bottom:1px solid #eee;padding-bottom:10px}
+.info-row{display:flex;justify-content:space-between;margin:10px 0}
+.product-item{display:flex;gap:15px;margin:15px 0;padding-bottom:15px;border-bottom:1px solid #eee}
+.product-item img{width:80px;height:80px;object-fit:cover;border-radius:4px}
+.btn{padding:12px 20px;background:#ff9900;border:none;border-radius:4px;font-weight:bold;cursor:pointer;margin-right:10px}
+.review-box textarea{width:100%;padding:10px;border:1px solid #ddd;border-radius:4px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h2>Order Details</h2>
+  <a href="orders.html">← Back to Orders</a>
+</div>
+
+<div id="orderDetail">Loading...</div>
+
+<script type="module" src="firebase.js"></script>
+<script type="module">
+import { db } from './firebase.js';
+import { ref, get, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+// URL से Order ID निकालो
+const urlParams = new URLSearchParams(window.location.search);
+const orderId = urlParams.get('id');
+
+loadOrder();
+
+async function loadOrder(){
+  const snapshot = await get(ref(db, 'orders/' + orderId));
+  const order = snapshot.val();
+
+  if(!order){
+    document.getElementById('orderDetail').innerHTML = '<p>Order नहीं मिला</p>';
+    return;
+  }
+
+  let productsHtml = '';
+  let subtotal = 0;
+  order.cart.forEach(item => {
+    subtotal += item.price * item.qty;
+    productsHtml += `
+    <div class="product-item">
+      <img src="${item.img}">
+      <div>
+        <h4>${item.name}</h4>
+        <p>Qty: ${item.qty} | Price: ₹${item.price}</p>
+        <p><b>Total: ₹${item.price * item.qty}</b></p>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById('orderDetail').innerHTML = `
+  <div class="box">
+    <h3>Order #${order.orderId}</h3>
+    <div class="info-row"><span>Order Date:</span><span>${new Date(order.time).toLocaleString('hi-IN')}</span></div>
+    <div class="info-row"><span>Status:</span><span><b style="color:green">${order.status}</b></span></div>
+    <div class="info-row"><span>Payment:</span><span>${order.payment}</span></div>
+  </div>
+
+  <div class="box">
+    <h3>Delivery Address</h3>
+    <p><b>${order.name}</b></p>
+    <p>${order.address}</p>
+    <p>Mobile: ${order.mobile}</p>
+  </div>
+
+  <div class="box">
+    <h3>Order Items</h3>
+    ${productsHtml}
+    <div class="info-row"><span>Subtotal:</span><span>₹${subtotal}</span></div>
+    <div class="info-row"><span>Delivery:</span><span>FREE</span></div>
+    <div class="info-row" style="font-size:18px"><b>Total:</b><b>₹${order.total}</b></div>
+  </div>
+
+  <div class="box">
+    <button class="btn" onclick="downloadInvoice()">📄 Download Invoice</button>
+    <button class="btn" onclick="showReviewBox()">⭐ Rate & Review</button>
+  </div>
+
+  <div class="box review-box" id="reviewBox" style="display:none">
+    <h3>Review दें</h3>
+    <textarea id="reviewText" rows="4" placeholder="अपना Experience लिखें..."></textarea>
+    <button class="btn" onclick="submitReview()">Submit Review</button>
+  </div>
+  `;
+
+  window.orderData = order; // Global save for invoice
+}
+
+window.downloadInvoice = function(){
+  let order = window.orderData;
+  let invoice = `S K Pharmacy Invoice
+Order ID: ${order.orderId}
+Name: ${order.name}
+Address: ${order.address}
+Total: ₹${order.total}
+Payment: ${order.payment}
+Date: ${new Date(order.time).toLocaleString('hi-IN')}`;
+
+  let blob = new Blob([invoice], {type: 'text/plain'});
+  let url = URL.createObjectURL(blob);
+  let a = document.createElement('a');
+  a.href = url;
+  a.download = order.orderId + '.txt';
+  a.click();
+}
+
+window.showReviewBox = function(){
+  document.getElementById('reviewBox').style.display = 'block';
+}
+
+window.submitReview = function(){
+  let review = document.getElementById('reviewText').value;
+  set(ref(db, 'reviews/' + orderId), {
+    orderId: orderId,
+    review: review,
+    time: Date.now()
+  });
+  alert('Review Submit हो गया! धन्यवाद');
+  document.getElementById('reviewBox').style.display = 'none';
+}
+
+</script>
+</body>
+</html>
