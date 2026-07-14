@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Sign Up - S K Pharmacy</title>
+<link rel="stylesheet" href="signup.css">
+</head>
+<body>
+
+<div class="signup-box">
+  <h2>नया Account बनाएं</h2>
+  <input type="text" id="name" placeholder="पूरा नाम" required>
+  <input type="email" id="email" placeholder="Email डालें" required>
+  <input type="tel" id="mobile" placeholder="10 Digit Mobile" maxlength="10" required>
+  <input type="password" id="password" placeholder="Password बनाएं" required>
+  <button id="signupBtn">Sign Up</button>
+  <p id="error" class="error"></p>
+  <p>पहले से Account है? <a href="login.html">Login करें</a></p>
+</div>
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="signup.js"></script>
+</body>
+</html>
