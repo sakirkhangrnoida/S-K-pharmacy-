@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel - S K Pharmacy</title>
+<style>
+body{font-family:Arial;background:#f0f2f5;margin:0}
+.header{background:#232f3e;color:#fff;padding:15px;display:flex;justify-content:space-between}
+.box{background:#fff;margin:15px;padding:20px;border-radius:8px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left}
+th{background:#f0f2f5}
+select,button{padding:8px;border-radius:4px;border:1px solid #ddd}
+.btn{background:#ff9900;border:none;font-weight:bold;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h2>Admin Dashboard</h2>
+  <a href="../index.html" style="color:#fff">Go to Site</a>
+</div>
+
+<div class="box">
+  <h3>📦 All Orders</h3>
+  <table id="ordersTable">
+    <thead><tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Payment</th><th>Status</th><th>Action</th></tr></thead>
+    <tbody>Loading...</tbody>
+  </table>
+</div>
+
+<div class="box">
+  <h3>➕ Add New Product</h3>
+  <input type="text" id="pName" placeholder="Product Name">
+  <input type="number" id="pPrice" placeholder="Price">
+  <input type="text" id="pImg" placeholder="Image URL">
+  <button class="btn" onclick="addProduct()">Add Product</button>
+  <p id="msg"></p>
+</div>
+
+<script type="module" src="../firebase.js"></script>
+<script type="module">
+import { db } from '../firebase.js';
+import { ref, onValue, update, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+// 1. सारे Orders दिखाओ
+onValue(ref(db, 'orders/'), (snapshot) => {
+  const data = snapshot.val();
+  let html = '';
+  if(data){
+    Object.values(data).reverse().forEach(order => {
+      html += `<tr>
+        <td>${order.orderId}</td>
+        <td>${order.name}<br>${order.mobile}</td>
+        <td>₹${order.total}</td>
+        <td>${order.payment}</td>
+        <td>
+          <select id="status-${order.orderId}" onchange="updateStatus('${order.orderId}')">
+            <option ${order.status=='Ordered'?'selected':''}>Ordered</option>
+            <option ${order.status=='Confirmed'?'selected':''}>Confirmed</option>
+            <option ${order.status=='Packed'?'selected':''}>Packed</option>
+            <option ${order.status=='Shipped'?'selected':''}>Shipped</option>
+            <option ${order.status=='Out for Delivery'?'selected':''}>Out for Delivery</option>
+            <option ${order.status=='Delivered'?'selected':''}>Delivered</option>
+          </select>
+        </td>
+        <td><button onclick="window.open('../order-details.html?id=${order.orderId}')">View</button></td>
+      </tr>`;
+    });
+  }
+  document.querySelector('#ordersTable tbody').innerHTML = html || '<tr><td colspan="6">No Orders</td></tr>';
+});
+
+window.updateStatus = function(orderId){
+  let newStatus = document.getElementById('status-'+orderId).value;
+  update(ref(db, 'orders/' + orderId), { status: newStatus });
+  alert('Status Updated: ' + newStatus);
+}
+
+// 2. Product Add करो
+window.addProduct = function(){
+  let name = document.getElementById('pName').value;
+  let price = document.getElementById('pPrice').value;
+  let img = document.getElementById('pImg').value;
+  let id = 'P' + Date.now();
+  
+  set(ref(db, 'products/' + id), { name, price:parseInt(price), img });
+  document.getElementById('msg').innerText = 'Product Added!';
+}
+</script>
+</body>
+</html>
