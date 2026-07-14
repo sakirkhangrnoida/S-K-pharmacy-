@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>Search - S K Pharmacy</title>
+<style>
+body{font-family:Arial;background:#f0f2f5;margin:0}
+.header{background:#232f3e;color:#fff;padding:15px}
+.search-bar{display:flex;gap:10px}
+.search-bar input{flex:1;padding:12px;border-radius:4px;border:none;font-size:16px}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;padding:15px}
+.product-card{background:#fff;padding:10px;border-radius:8px;text-align:center;cursor:pointer}
+.product-card img{width:100%;height:150px;object-fit:cover;border-radius:4px}
+.price{color:#B12704;font-weight:bold;font-size:18px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search Medicine, Product..." onkeyup="searchProduct()">
+  </div>
+</div>
+
+<div id="resultCount" style="padding:15px;font-weight:bold"></div>
+<div class="product-grid" id="searchResults"></div>
+
+<script type="module" src="firebase.js"></script>
+<script type="module">
+import { db } from './firebase.js';
+import { ref, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+let allProducts = [];
+
+// Firebase से सारे Products लाओ
+get(ref(db, 'products/')).then((snapshot) => {
+  const data = snapshot.val();
+  if(data) allProducts = Object.values(data);
+  showProducts(allProducts);
+});
+
+function showProducts(products){
+  document.getElementById('resultCount').innerText = products.length + ' Results Found';
+  let html = '';
+  products.forEach(p => {
+    html += `<div class="product-card" onclick="viewProduct('${p.name}')">
+      <img src="${p.img}">
+      <h4>${p.name}</h4>
+      <p class="price">₹${p.price}</p>
+    </div>`;
+  });
+  document.getElementById('searchResults').innerHTML = html || '<p>No Product Found</p>';
+}
+
+window.searchProduct = function(){
+  let query = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = allProducts.filter(p => p.name.toLowerCase().includes(query));
+  showProducts(filtered);
+}
+
+window.viewProduct = function(name){
+  window.location = `product3.html?name=${name}`;
+}
+</script>
+</body>
+</html>
