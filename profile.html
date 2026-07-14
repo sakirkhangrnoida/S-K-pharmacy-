@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>My Profile - S K Pharmacy</title>
+<style>
+body{font-family:Arial;background:#f0f2f5;margin:0}
+.header{background:#232f3e;color:#fff;padding:15px;text-align:center}
+.box{background:#fff;margin:15px;padding:20px;border-radius:8px}
+.info-row{display:flex;justify-content:space-between;margin:15px 0;border-bottom:1px solid #eee;padding-bottom:10px}
+input{width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:4px}
+.btn{padding:12px 20px;background:#ff9900;border:none;border-radius:4px;font-weight:bold;cursor:pointer}
+.logout{background:red;color:#fff}
+</style>
+</head>
+<body>
+
+<div class="header"><h2>👤 My Profile</h2></div>
+
+<div class="box">
+  <h3>Personal Information</h3>
+  <input type="text" id="pName" placeholder="Name">
+  <input type="tel" id="pMobile" placeholder="Mobile" readonly>
+  <input type="email" id="pEmail" placeholder="Email" readonly>
+  <input type="text" id="pAddress" placeholder="Delivery Address">
+  <button class="btn" onclick="saveProfile()">Save Changes</button>
+</div>
+
+<div class="box">
+  <h3>My Orders</h3>
+  <div id="myOrders">Loading...</div>
+  <button class="btn" onclick="window.location='orders.html'">View All Orders</button>
+</div>
+
+<div class="box">
+  <button class="btn logout" onclick="logout()">Logout</button>
+</div>
+
+<script type="module" src="firebase.js"></script>
+<script type="module">
+import { db } from './firebase.js';
+import { ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+// Login user का email localStorage में save है
+let userEmail = localStorage.getItem('userEmail');
+if(!userEmail){
+  alert('पहले Login करें');
+  window.location = 'login.html';
+}
+
+// Profile Data Load
+get(ref(db, 'users/' + userEmail.replace('.','_'))).then((snap)=>{
+  if(snap.exists()){
+    let user = snap.val();
+    document.getElementById('pName').value = user.name || '';
+    document.getElementById('pMobile').value = user.mobile || '';
+    document.getElementById('pEmail').value = user.email || '';
+    document.getElementById('pAddress').value = user.address || '';
+  }
+});
+
+// User के Order Load
+onValue(ref(db, 'orders/'), (snapshot)=>{
+  const data = snapshot.val();
+  let html = '';
+  if(data){
+    Object.values(data).filter(o => o.email == userEmail).slice(0,3).forEach(order=>{
+      html += `<p><b>${order.orderId}</b> - ₹${order.total} - <span style="color:green">${order.status}</span></p>`;
+    });
+  }
+  document.getElementById('myOrders').innerHTML = html || 'कोई Order नहीं';
+});
+
+window.saveProfile = function(){
+  let userData = {
+    name: document.getElementById('pName').value,
+    mobile: document.getElementById('pMobile').value,
+    email: userEmail,
+    address: document.getElementById('pAddress').value
+  };
+  set(ref(db, 'users/' + userEmail.replace('.','_')), userData);
+  alert('Profile Updated!');
+}
+
+window.logout = function(){
+  localStorage.removeItem('userEmail');
+  window.location = 'login.html';
+}
+</script>
+</body>
+</html>
