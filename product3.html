@@ -74,14 +74,19 @@ body{margin:0;font-family:Arial;background:#f0f2f5;}
 <button onclick="addReview()">Add Review</button>
 </div>
 </div>
-
-<!-- STEP BUY 5 STEP -->
-<div id="step1" class="step"><h3>Step 1: Quantity चुने</h3><button onclick="setQty(1)">1 पीस</button><button onclick="setQty(2)">2 पीस</button></div>
-<div id="step2" class="step"><h3>Step 2: Delivery Address</h3><input id="cName" placeholder="Name" required><input id="cMobile" placeholder="Mobile 10 Digit" required><textarea id="cAddress" placeholder="Full Address"></textarea><input id="cPin" placeholder="Pin Code"><br><button onclick="nextStep(3)">Continue to Payment</button></div>
-<div id="step3" class="step"><h3>Step 3: Payment चुने</h3><button onclick="placeOrder('COD')">Cash on Delivery</button><button onclick="placeOrder('UPI')">Pay Online UPI - ₹10 Off</button></div>
-<div id="step4" class="step"><h3>Step 4: OTP Verify</h3><p>आपके नंबर पर 6 Digit OTP भेजा गया है</p><input id="otpInput" placeholder="6 Digit OTP"><button onclick="verifyOTP()">Verify & Place Order</button></div>
-<div id="step5" class="step"><h3>Step 5: Order Placed ✅</h3><p>Order ID: <b id="orderId"></b></p><button onclick="window.location='index.html'">Continue Shopping</button></div>
-
+function addToCart(){
+  let product = {
+    name: document.getElementById('productName').innerText,
+    price: parseInt(document.getElementById('price').innerText.replace('₹','')),
+    img: document.getElementById('mainImg').src,
+    qty: 1
+  };
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.push(product);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  alert(product.name + " Cart में जुड़ गया");
+  window.location = 'cart.html';
+}
 <!-- NEW PROFESSIONAL FOOTER -->
 <footer class="footer">
 <div>
