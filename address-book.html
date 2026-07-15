@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<title>Address Book</title>
+<link rel="stylesheet" href="login.css">
+<style>
+.address-card{border:1px solid #ddd;padding:15px;margin:10px 0;border-radius:8px}
+.address-card.selected{border:2px solid #0d6efd;background:#e7f1ff}
+.toast{position:fixed;bottom:20px;right:20px;background:#28a745;color:white;padding:12px 20px;border-radius:5px;display:none}
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Select Delivery Address</h2>
+    <div id="addressList"></div>
+
+    <h3>Add New Address</h3>
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="tel" id="mobile" placeholder="Mobile">
+    <textarea id="address" placeholder="Full Address"></textarea>
+    <input type="text" id="city" placeholder="City">
+    <input type="text" id="pincode" placeholder="Pincode">
+    <button onclick="saveAddress()">Save Address</button>
+
+    <button onclick="goToCheckout()" style="margin-top:20px;width:100%">Deliver Here</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { db } from './firebase.js';
+import { ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+let userMobile = localStorage.getItem('userMobile') || 'guest';
+let selectedAddress = null;
+
+function showToast(msg){
+    let t = document.getElementById('toast');
+    t.innerText = msg; t.style.display = 'block';
+    setTimeout(()=>t.style.display='none', 2000);
+}
+
+onValue(ref(db, 'users/' + userMobile + '/addresses'), (snap)=>{
+    let data = snap.val(); let html = '';
+    for(let id in data){
+        html += `<div class="address-card" onclick="selectAddress('${id}')">
+            <b>${data[id].name}</b> - ${data[id].mobile}<br>
+            ${data[id].address}, ${data[id].city} - ${data[id].pincode}
+        </div>`;
+    }
+    document.getElementById('addressList').innerHTML = html;
+})
+
+window.saveAddress = async function(){
+    let addr = {
+        name: name.value, mobile: mobile.value, address: address.value,
+        city: city.value, pincode: pincode.value
+    }
+    await push(ref(db, 'users/' + userMobile + '/addresses'), addr);
+    showToast("Address Saved");
+    name.value=''; mobile.value=''; address.value=''; city.value=''; pincode.value='';
+}
+
+window.selectAddress = function(id){
+    selectedAddress = id;
+    document.querySelectorAll('.address-card').forEach(c=>c.classList.remove('selected'));
+    event.currentTarget.classList.add('selected');
+    localStorage.setItem('selectedAddressId', id);
+}
+
+window.goToCheckout = function(){
+    if(!selectedAddress){ showToast("Please select address"); return; }
+    window.location.href = 'checkout.html';
+}
+</script>
+</body>
+</html>
