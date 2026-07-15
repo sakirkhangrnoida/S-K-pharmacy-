@@ -1,120 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nurokind Syrup 200ml - Mecobalamin Vitamin Syrup | S K Pharmacy</title>
+<title id="pageTitle">Product - S K Pharmacy</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-body{font-family:Arial,sans-serif;margin:0;background:#EAEDED}
+body{font-family:Arial,sans-serif;margin:0;background:#EAEDED;}
 .header{background:#131921;color:white;padding:10px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:20px;font-weight:bold}
-.dots{font-size:24px;cursor:pointer}
-.menu{position:fixed;top:0;right:-250px;width:250px;height:100%;background:white;box-shadow:-2px 0 5px rgba(0,0,0,0.3);transition:0.3s;z-index:999}
-.menu.active{right:0}
-.menu a{display:block;padding:15px;border-bottom:1px solid #ddd;color:#111;text-decoration:none}
-.ticker{background:#232F3E;color:white;padding:6px;font-size:12px;white-space:nowrap;overflow:hidden}
-.ticker span{display:inline-block;animation:scroll 15s linear infinite}
+.logo{font-size:20px;font-weight:bold;color:#FF9900;}
+.dots{font-size:24px;cursor:pointer;}
+.menu{display:none;position:fixed;top:0;right:-250px;width:250px;height:100%;background:white;box-shadow:-2px 0 5px rgba(0,0,0,0.3);z-index:999;transition:0.3s;}
+.menu a{display:block;padding:15px;border-bottom:1px solid #ddd;color:#111;text-decoration:none;}
+.ticker{background:#232F3E;color:white;padding:8px;font-size:12px;white-space:nowrap;overflow:hidden;}
+.ticker span{display:inline-block;animation:scroll 15s linear infinite;}
 @keyframes scroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
-.category{background:white;padding:8px;overflow-x:auto;white-space:nowrap;font-size:13px}
-.category span{margin-right:15px;color:#007185}
-.card{background:white;margin:8px;padding:12px;border-radius:8px}
-.price{color:#B12704;font-size:24px}
-.mrp{color:#565959;text-decoration:line-through;font-size:14px}
-.discount{color:#CC0C39;font-size:14px}
-.stock{color:#007600;font-size:16px;margin:8px 0}
-.delivery{background:#F0F2;padding:8px;border-radius:6px;font-size:14px}
-.btn{background:#FFD814;border:0;padding:12px;width:100%;border-radius:20px;font-size:16px;margin:8px 0}
-.btn2{background:#FFA41C}
-.offer{border:1px solid #ddd;padding:8px;border-radius:6px;margin:8px 0;font-size:13px}
-.signin{background:#F7F8FA;padding:10px;font-size:13px;border-bottom:1px solid #ddd}
+.category{background:white;padding:8px;overflow-x:auto;white-space:nowrap;font-size:13px;}
+.category span{margin-right:15px;color:#007185;}
+.card{background:white;margin:15px;padding:15px;border-radius:8px;}
+.price{color:#B12704;font-size:24px;}
+.mrp{color:#565959;text-decoration:line-through;font-size:14px;}
+.discount{color:#CC0C39;font-size:14px;}
+.stock{color:#007600;font-size:14px;margin:8px 0;}
+.delivery{background:#F0F2F2;padding:8px;border-radius:6px;font-size:14px;}
+.btn1{background:#FFD814;border:0;padding:12px;width:100%;border-radius:20px;font-size:16px;margin:8px 0;cursor:pointer;font-weight:bold;}
+.btn2{background:#FFA41C;border:0;padding:12px;width:100%;border-radius:20px;font-size:16px;margin:8px 0;cursor:pointer;font-weight:bold;}
+.offer{border:1px solid #ddd;padding:8px;border-radius:6px;margin:8px 0;font-size:13px;}
+.signin{background:#FFF8FA;padding:10px;font-size:13px;border-bottom:1px solid #ddd;}
+.loading{text-align:center;padding:50px;}
 </style>
 </head>
 <body>
 
 <!-- Header -->
 <div class="header">
-    <div class="logo">S K Pharmacy</div>
-    <div class="dots" onclick="toggleMenu()">⋮</div>
+  <div class="logo" onclick="window.location='index.html'">S K Pharmacy</div>
+  <div class="dots" onclick="toggleMenu()">⋮</div>
 </div>
 
 <!-- 3 Dot Menu -->
 <div class="menu" id="menu">
-    <a href="#" onclick="shareProduct()">Share</a>
-    <a href="#" onclick="copyLink()">Get Link</a>
-    <a href="index.html">Home</a>
-    <a href="#" onclick="toggleMenu()">Close</a>
+  <a href="#" onclick="shareProduct()">Share</a>
+  <a href="#" onclick="copyLink()">Get Link</a>
+  <a href="index.html">Home</a>
+  <a href="#" onclick="toggleMenu()">Close</a>
 </div>
 
 <!-- News Ticker -->
 <div class="ticker"><span>Free Delivery on orders above ₹499 | Cashback Offers Available | S K Pharmacy Noida</span></div>
 
-<!-- Hello Sign In -->
-<div class="signin">Hello, Sign in to see personalized recommendations</div>
+<!-- Sign In -->
+<div class="signin" id="signinBox">Hello, Sign in to see personalized recommendations</div>
 
-<!-- Category Strip -->
-<div class="category">
-    <span>Vitamin B12</span><span>Nerve Care</span><span>Multivitamin</span><span>Immunity</span><span>Diabetes</span>
-</div>
+<!-- Category -->
+<div class="category" id="categoryStrip"></div>
 
 <!-- Product Card -->
-<div class="card">
-    <img src="nurokind.jpg" alt="Nurokind Syrup 200ml" style="width:100%;max-width:300px;display:block;margin:auto;">
-    
-    <h2 style="font-size:18px;margin:10px 0;">Nurokind Syrup 200ml - Mecobalamin, Vitamins & Minerals Syrup</h2>
-    
-    <div class="price">₹149 <span class="mrp">M.R.P: ₹155</span> <span class="discount">4% off</span></div>
-    
-    <div class="stock">In Stock</div>
-    
-    <div class="delivery">
-        <b>FREE delivery Tomorrow, 2 Oct</b><br>
-        Or fastest delivery Today by 9 pm. Order within 3 hrs 20 mins.
-    </div>
+<div class="loading" id="loading">Product Load हो रहा है...</div>
 
-    <div class="offer"><b>Bank Offer:</b> 10% Instant Discount on SBI Credit Card</div>
-    <div class="offer"><b>Cashback:</b> Get ₹10 back on UPI Payment</div>
-    <div class="offer"><b>Partner Offer:</b> Buy 2 Get 5% Extra Off</div>
+<div class="card" id="productCard" style="display:none;">
+  <img id="productImg" src="" alt="" style="width:100%;max-width:300px;display:block;margin:auto;">
+  <h2 id="productName" style="font-size:18px;margin:10px 0;"></h2>
+  
+  <div class="price" id="productPrice"></div>
+  <span class="mrp" id="productMRP"></span> 
+  <span class="discount" id="productDiscount"></span>
 
-    <button class="btn" onclick="buyNow()">Buy Now</button>
-    <button class="btn btn2" onclick="addCart()">Add to Cart</button>
+  <div class="stock" id="productStock"></div>
+
+  <div class="delivery">
+    <b id="deliveryText">FREE delivery Tomorrow</b><br>
+    Or fastest delivery Today by 9 pm.
+  </div>
+
+  <div class="offer" id="offer1"></div>
+  <div class="offer" id="offer2"></div>
+  <div class="offer" id="offer3"></div>
+
+  <button class="btn1" id="addToCartBtn">Add to Cart</button>
+  <button class="btn2" id="buyNowBtn">Buy Now</button>
 </div>
 
-<!-- Footer with About Contact Privacy Refund -->
-<div style="background:#232F3E;color:white;text-align:center;padding:15px;margin-top:10px;font-size:13px;">
-    <div style="margin-bottom:10px;">
-        <a href="about.html" style="color:white;margin:0 10px;text-decoration:none;">About</a>
-        <a href="contact.html" style="color:white;margin:0 10px;text-decoration:none;">Contact</a>
-        <a href="privacy.html" style="color:white;margin:0 10px;text-decoration:none;">Privacy</a>
-        <a href="refund.html" style="color:white;margin:0 10px;text-decoration:none;">Refund Policy</a>
-    </div>
-    © 2026 S K Pharmacy, Noida
-</div>
+<script type="module">
+import { db, auth } from './firebase.js';
+import { ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-<script>
-function toggleMenu(){
-    document.getElementById('menu').classList.toggle('active');
-}
-function shareProduct(){
-    if(navigator.share){
-        navigator.share({title:'Nurokind Syrup',url:window.location.href})
-    } else {
-        alert('Share: ' + window.location.href);
+// URL से id निकालो ?id=nurokind
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get('id') || 'nurokind'; // default nurokind
+
+// Firebase से Product लाओ
+get(ref(db, 'products/' + productId)).then((snap)=>{
+  if(snap.exists()){
+    const p = snap.val();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('productCard').style.display = 'block';
+    
+    document.getElementById('pageTitle').innerText = p.name + ' - S K Pharmacy';
+    document.getElementById('productImg').src = p.image;
+    document.getElementById('productName').innerText = p.name;
+    document.getElementById('productPrice').innerText = '₹' + p.price;
+    document.getElementById('productMRP').innerText = 'M.R.P: ₹' + p.mrp;
+    document.getElementById('productDiscount').innerText = p.discount + '% off';
+    document.getElementById('productStock').innerText = p.stock > 0 ? 'In Stock' : 'Out of Stock';
+    
+    document.getElementById('categoryStrip').innerHTML = 
+      `<span>${p.category1}</span><span>${p.category2}</span><span>${p.category3}</span>`;
+    
+    document.getElementById('offer1').innerHTML = '<b>Bank Offer:</b> ' + p.offer1;
+    document.getElementById('offer2').innerHTML = '<b>Cashback:</b> ' + p.offer2;
+    document.getElementById('offer3').innerHTML = '<b>Partner Offer:</b> ' + p.offer3;
+
+    // Cart में Add
+    document.getElementById('addToCartBtn').onclick = () => {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({id: productId, name: p.name, price: p.price, img: p.image, qty: 1});
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(p.name + ' Cart में Add हो गया');
     }
-    toggleMenu();
-}
-function copyLink(){
-    navigator.clipboard.writeText(window.location.href);
-    alert('Link Copied: ' + window.location.href);
-    toggleMenu();
-}
-function buyNow(){
-    let msg = `*New Order - S K Pharmacy*%0A%0A*Product:* Nurokind Syrup 200ml%0A*Price:* ₹129%0A*Qty:* 1%0A*Total:* ₹129%0A%0A*Customer Details:*%0AName:%0AAddress:%0APincode:%0APhone:`;
-    window.open('https://wa.me/919258751739?text='+msg,'_blank');
-}
-function addCart(){
-    alert('Added to Cart: Nurokind Syrup 200ml');
-}
-</script>
 
+    // Buy Now
+    document.getElementById('buyNowBtn').onclick = () => {
+      localStorage.setItem('buyNow', JSON.stringify({id: productId, name: p.name, price: p.price, img: p.image, qty: 1}));
+      window.location = 'checkout.html';
+    }
+
+  } else {
+    document.getElementById('loading').innerText = 'Product नहीं मिला';
+  }
+});
+
+// Login Check
+onAuthStateChanged(auth, (user)=>{
+  if(user){
+    document.getElementById('signinBox').innerText = 'Hello, ' + user.displayName;
+  }
+});
+
+// Menu Functions
+function toggleMenu(){
+  let m = document.getElementById('menu');
+  m.style.display = m.style.display === 'block' ? 'none' : 'block';
+  m.style.right = m.style.right === '0px' ? '-250px' : '0px';
+}
+window.toggleMenu = toggleMenu;
+
+function shareProduct(){
+  navigator.share({title: document.getElementById('productName').innerText, url: window.location.href});
+}
+window.shareProduct = shareProduct;
+
+function copyLink(){
+  navigator.clipboard.writeText(window.location.href);
+  alert('Link Copied');
+}
+window.copyLink = copyLink;
+</script>
 </body>
 </html>
