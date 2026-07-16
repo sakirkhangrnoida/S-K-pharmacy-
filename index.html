@@ -1,97 +1,165 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>S K Pharmacy - दवाएं और हेल्थ प्रोडक्ट</title>
+<title>S K Pharmacy All - Fast Easy Shop | AI Assistant | Prime Deals</title>
+
+<!-- 1. GOOGLE ANALYTICS -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JHBYCVBM02"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JHBYCVBM02');</script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3497742030907539" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JHBYCVBM02');
+</script>
+
+<!-- 2. GOOGLE TAG MANAGER -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJQ8D6');</script>
+
+<!-- 3. ADSENSE -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-349774242030975039"
+     crossorigin="anonymous"></script>
+
+<!-- 4. EMAILJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<!-- 5. FIREBASE -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBApuRIQXK5JzIQK5JzIQK5JzIQK5JzIQK5JzQ",
+    authDomain: "s-k-pharmacy.firebaseapp.com",
+    databaseURL: "https://s-k-pharmacy-default-rtdb.firebaseio.com",
+    projectId: "s-k-pharmacy",
+    storageBucket: "s-k-pharmacy.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:123456789:web:abc123"
+  };
+  const app = initializeApp(firebaseConfig);
+  window.db = getDatabase(app);
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
-body{background:#E3E6E6;}
-.header{background:#131921;color:#fff;position:sticky;top:0;z-index:99;}
-.header-top{display:flex;align-items:center;padding:8px 15px;gap:10px;}
-.logo{font-size:22px;font-weight:bold;color:#FF9900;cursor:pointer;}
-.search{flex:1;display:flex;height:40px;}
-.search input{width:100%;padding:10px;border:none;}
-.search button{background:#febd69;border:none;padding:0 12px;cursor:pointer;}
-.nav{background:#232f3e;padding:8px 15px;display:flex;gap:15px;font-size:14px;overflow-x:auto;}
-.nav a{color:#fff;text-decoration:none;padding:5px 8px;}
-.ticker{background:#ff9800;color:#000;padding:8px;font-size:13px;font-weight:bold;text-align:center;}
-.banner{width:100%;height:280px;background:linear-gradient(90deg,#00A651,#00C851);color:#fff;display:flex;align-items:center;justify-content:space-around;padding:20px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;padding:20px;}
-.box{background:#fff;padding:20px;border-radius:4px;}
-.box h2{font-size:18px;margin-bottom:15px;}
-.box-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.box-item{text-align:center;cursor:pointer;}
-.box-item img{width:100%;height:120px;object-fit:contain;background:#f0f0f0;border-radius:4px;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
+  body{background:#E3E6E6;}
+ .nav-top{background:#131921;color:#fff;padding:4px 20px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;}
+ .logo{font-size:28px;font-weight:800;color:#FF9900;}
+ .search-wrap{flex:1;display:flex;}
+ .search-wrap input{flex:1;padding:10px;border:none;outline:none;}
+ .search-wrap button{background:#FEBD69;border:none;padding:10px 15px;border-radius:0 4px 4px 0;}
+ .nav-bottom{background:#232F3E;color:#fff;padding:8px 20px;display:flex;gap:20px;font-size:14px;}
+ .banner{background:linear-gradient(180deg, #8B5CF6 0%, #FFFFFF 100%);padding:50px 30px;min-height:280px;}
+ .banner h1{color:#fff;font-size:36px;font-weight:700;}
+ .main-wrap{max-width:1500px;margin:-140px auto 20px;padding:0 15px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative;z-index:2;}
+ .card{background:#fff;padding:20px;}
+ .card h2{font-size:21px;margin-bottom:10px;}
+ .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+ .card-item img{width:100%;height:115px;object-fit:cover;}
+ .card > a{color:#007185;font-size:13px;}
+ .ad-box{background:#fff;padding:10px;text-align:center;margin:20px auto;max-width:1500px;}
+ .buy-btn{background:#FFD814;border:none;padding:8px 15px;border-radius:8px;cursor:pointer;width:100%;margin-top:8px;font-weight:bold;}
 </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="header-top">
-    <div class="logo" onclick="location.reload()">S K Pharmacy</div>
-    <div class="search">
-      <input type="text" placeholder="Search S K Pharmacy">
-      <button><i class="fa fa-search"></i></button>
-    </div>
+<!-- GTM noscript -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJQ8D6" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- Header -->
+<div class="nav-top">
+  <div class="logo">skpharma</div>
+  <div class="search-wrap">
+    <input type="text" placeholder="Search SK Pharma">
+    <button><i class="fa-solid fa-magnifying-glass"></i></button>
   </div>
-</header>
-
-<nav class="nav">
-  <a href="#"><i class="fa fa-bars"></i> All</a>
-  <a href="#">Medicines</a>
-  <a href="#">Health Care</a>
-  <a href="admin-panel.html">Admin</a>
-</nav>
-
-<div class="ticker">
-  <marquee>FREE Delivery in मेरठ, गाजियाबाद, नोएडा | Call: 9258571739</marquee>
+  <div class="cart"><i class="fa-solid fa-cart-shopping"></i><span id="cart-count">0</span></div>
 </div>
 
-<div class="banner">
-  <div>
-    <h2>सभी दवाईयाँ उपलब्ध</h2>
-    <p>उचित दाम पर बेहतरीन क्वालिटी</p>
-    <p>100% असली दवाईयाँ</p>
-  </div>
-  <div style="background:#FFD814;color:#000;padding:20px;border-radius:8px;font-size:24px;font-weight:bold;">
-    FREE<br>HOME DELIVERY
-  </div>
+<div class="nav-bottom">
+  <a href="#">☰ All</a><a href="#">Medicines</a><a href="#">Health</a><a href="#">Offers</a>
 </div>
 
-<section class="grid">
-  <!-- NUROKIND PRODUCT BOX - तेरे वाले Product का लिंक -->
-  <div class="box">
-    <h2>Featured Product</h2>
-    <div class="box-grid">
-      <div class="box-item" onclick="window.location='product-nurokind.html?id=nurokind'">
-        <img src="nurokind.jpg" alt="Nurokind Syrup">
-        <p>Nurokind Syrup 200ml</p>
-        <p style="color:#B12704;font-weight:bold;">₹149</p>
-      </div>
+<!-- Banner -->
+<div class="banner"><h1>Shop Health Essentials<br>at every price</h1></div>
+
+<!-- ADSENSE -->
+<div class="ad-box">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-349774242030975039" data-ad-slot="1234567890" data-ad-format="auto"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<!-- 9 Cards -->
+<div class="main-wrap">
+  <div class="card">
+    <h2>Pick up where you left off</h2>
+    <div class="card-grid">
+      <div class="card-item"><img src="nurokind.jpg"><span>Nurokind B12</span><button class="buy-btn" onclick="openPopup('Nurokind B12')">Buy Now</button></div>
+      <div class="card-item"><img src="dolo-650.jpg"><span>Dolo 650</span><button class="buy-btn" onclick="openPopup('Dolo 650')">Buy Now</button></div>
+      <div class="card-item"><img src="cetirizine-10.jpg"><span>Cetirizine</span><button class="buy-btn" onclick="openPopup('Cetirizine')">Buy Now</button></div>
+      <div class="card-item"><img src="pantoprazole-40.jpg"><span>Pantop 40</span><button class="buy-btn" onclick="openPopup('Pantop 40')">Buy Now</button></div>
     </div>
-    <a href="product-nurokind.html?id=nurokind" style="color:#007185;font-size:13px;">View Details</a>
+    <a href="#">See all medicines</a>
   </div>
 
-  <div class="box">
-    <h2>Health Care</h2>
-    <div class="box-grid">
-      <div class="box-item"><img src="p2.jpg"><p>Vitamin C</p></div>
-      <div class="box-item"><img src="p3.jpg"><p>BP Monitor</p></div>
-    </div>
-  </div>
-</section>
+  <!-- बाकी 8 Cards ऐसे ही बना ले -->
+  <div class="card"><h2>Health & Wellness</h2><div class="card-grid"><div class="card-item"><img src="horlicks.jpg"><span>Horlicks</span><button class="buy-btn" onclick="openPopup('Horlicks')">Buy Now</button></div></div></div>
+  <div class="card"><h2>Get your game on</h2><img src="baby-care.jpg" style="width:100%;height:240px;"><a href="#">Shop Baby Care</a></div>
+  <div class="card"><h2>Must-have beauty</h2><div class="card-grid"><div class="card-item"><img src="serum.jpg"><span>Serum</span><button class="buy-btn" onclick="openPopup('Serum')">Buy Now</button></div></div></div>
+  <div class="card"><h2>Shop Deals</h2><div class="card-grid"><div class="card-item"><img src="p1.jpg"><span>Under ₹199</span><button class="buy-btn" onclick="openPopup('Deal')">Buy Now</button></div></div></div>
+  <div class="card"><h2>Top Medical</h2><img src="azithromycin-500.jpg" style="width:100%;height:240px;"><a href="#">Explore</a></div>
+  <div class="card"><h2>Easy updates</h2><div class="card-grid"><div class="card-item"><img src="dabur-amla.jpg"><span>Dabur</span><button class="buy-btn" onclick="openPopup('Dabur')">Buy Now</button></div></div></div>
+  <div class="card"><h2>Must-haves</h2><img src="shelcal-500.jpg" style="width:100%;height:240px;"><a href="#">Shop Vitamins</a></div>
+  <div class="card"><h2>Trending</h2><div class="card-grid"><div class="card-item"><img src="vasmol.jpg"><span>Vasmol</span><button class="buy-btn" onclick="openPopup('Vasmol')">Buy Now</button></div></div></div>
+</div>
 
-<div style="background:#fff;margin:20px;padding:20px;text-align:center;">
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3497742030907539" data-ad-slot="1234567890" data-ad-format="auto"></ins>
+<!-- Order Popup -->
+<div id="orderPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;">
+  <div style="background:#fff;width:90%;max-width:400px;margin:100px auto;padding:20px;border-radius:8px;">
+    <h3>Order: <span id="productName"></span></h3>
+    <input type="text" id="custName" placeholder="Your Name" style="width:100%;padding:8px;margin:5px 0;">
+    <input type="tel" id="custPhone" placeholder="Phone Number" style="width:100%;padding:8px;margin:5px 0;">
+    <button onclick="sendOrder()" style="background:#FF9900;border:none;padding:10px;width:100%;border-radius:4px;">Place Order</button>
+    <button onclick="closePopup()" style="margin-top:10px;">Close</button>
+  </div>
 </div>
 
 <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
+// EMAILJS INIT
+emailjs.init("z3cFw4MCTs6DKv2Cj"); // Public Key
+
+let selectedProduct = "";
+function openPopup(product) {
+  selectedProduct = product;
+  document.getElementById("productName").innerText = product;
+  document.getElementById("orderPopup").style.display = "block";
+}
+function closePopup() {
+  document.getElementById("orderPopup").style.display = "none";
+}
+function sendOrder() {
+  let name = document.getElementById("custName").value;
+  let phone = document.getElementById("custPhone").value;
+
+  emailjs.send("service_u1c0727", "dg8drle", { // Service ID, Template ID
+    to_email: "sakirkhangrnoida@gmail.com",
+    product: selectedProduct,
+    customer_name: name,
+    customer_phone: phone
+  }).then(function() {
+    alert("Order Sent! Mail aa jayega");
+    closePopup();
+  }, function(error) {
+    alert("Error: " + error);
+  });
+}
 </script>
+
 </body>
 </html>
