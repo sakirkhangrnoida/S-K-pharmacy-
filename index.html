@@ -3,153 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>S K Pharmacy All - Fast Easy Shop</title>
+<title>S K Pharmacy All - Amazon Style Store</title>
 
-<!-- GOOGLE ANALYTICS -->
+<!-- GOOGLE ANALYTICS ID: G-JHBYCVBM02 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-JHBYCVBM02"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JHBYCVBM02');</script>
 
-<!-- GOOGLE TAG MANAGER -->
+<!-- GOOGLE TAG MANAGER ID: GTM-KJQ8D6 -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KJQ8D6');</script>
 
-<!-- ADSENSE -->
+<!-- GOOGLE ADSENSE ID: ca-pub-3497742039075039 -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3497742039075039" crossorigin="anonymous"></script>
 
-<!-- EMAILJS -->
+<!-- EMAILJS ID: z3cFw4MCTs6DKv2Cj -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-<!-- FIREBASE -->
-<script type="module">import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";import{getDatabase}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";const firebaseConfig={apiKey:"AIzaSyBApuRIQXK5JzIQK5JzIQK5JzIQK5JzIQK5JzQ",authDomain:"s-k-pharmacy.firebaseapp.com",databaseURL:"https://s-k-pharmacy-default-rtdb.firebaseio.com",projectId:"s-k-pharmacy",storageBucket:"s-k-pharmacy.appspot.com",messagingSenderId:"123456789",appId:"1:123456789:web:abc123"};const app=initializeApp(firebaseConfig);window.db=getDatabase(app);</script>
+<!-- FIREBASE JS -->
+<script type="module" src="firebase.js"></script>
+
+<!-- OTP SYSTEM JS -->
+<script type="module" src="otp-system.js"></script>
+
+<!-- CART JS -->
+<script src="cart.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}body{background:#E3E6E6;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}body{background:#E3E6E6;}
 .nav1{background:#131921;color:#fff;padding:4px 15px;display:flex;align-items:center;gap:10px;font-size:12px;position:sticky;top:0;z-index:100;}
 .logo{font-size:28px;font-weight:800;color:#FF9900;}.search{flex:1;display:flex;}.search input{flex:1;padding:10px;border:none;outline:none;}.search button{background:#FEBD69;border:none;padding:10px 14px;cursor:pointer;}
 .nav2{background:#232F3E;color:#fff;padding:8px 15px;display:flex;gap:15px;font-size:14px;overflow-x:auto;white-space:nowrap;}
-.banner-slider{position:relative;height:250px;overflow:hidden;background:#8B5CF6;}
-.banner-slider img{width:100%;height:100%;object-fit:cover;position:absolute;opacity:0;transition:1s;}
-.banner-slider img.active{opacity:1;}.arrow{position:absolute;top:50%;transform:translateY(-50%);font-size:40px;color:#fff;cursor:pointer;padding:10px;z-index:10;}
-.info-bar{background:#fff;padding:10px;text-align:center;font-size:12px;margin:10px 20px;border-radius:4px;}
-.grid{max-width:1500px;margin:0 auto 20px;padding:0 15px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.nav2 span{cursor:pointer;padding:5px 0;}
+.grid{max-width:1500px;margin:20px auto;padding:0 15px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 .card{background:#fff;padding:20px;}.card h2{font-size:21px;margin-bottom:10px;}
-.card-4{display:grid;grid-template-columns:1fr 1fr;gap:12px;}.card-4 img{width:100%;height:110px;object-fit:cover;border-radius:4px;}
-.buy-btn{background:#FFD814;border:none;padding:6px 0;border-radius:8px;width:100%;margin-top:5px;cursor:pointer;font-size:12px;font-weight:bold;}
-.aff-btn{background:#FF9900;border:none;padding:8px 0;border-radius:8px;width:100%;margin-top:8px;cursor:pointer;font-size:13px;font-weight:bold;color:#000;text-align:center;display:block;}
+.btn{width:100%;background:#FFD814;border:none;padding:12px;border-radius:8px;cursor:pointer;font-weight:bold;margin-top:10px;}
+.btn:hover{background:#F7CA00;}
 </style>
 </head>
 <body>
 
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJQ8D6" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-<!-- Header -->
+<!-- Header 1 -->
 <div class="nav1">
   <div class="logo">skpharma</div>
   <div>Delivering to<br><b>Bilari 244301</b></div>
-  <div class="search"><input placeholder="Search SK Pharma"><button><i class="fa-solid fa-magnifying-glass"></i></button></div>
-  <div>Hello, Shakir<br><b>Account & Lists</b></div>
-  <div>Returns<br><b>& Orders</b></div>
-  <div><i class="fa-solid fa-cart-shopping fa-2x"></i><span id="cart-count">0</span></div>
+  <div class="search">
+    <input id="mainSearch" placeholder="Search Medicine, Product..." onkeypress="if(event.key==='Enter')goSearch()">
+    <button onclick="goSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+  <a href="login.html" style="color:white;">Hello, Sign in<br><b>Account & Lists</b></a>
+  <a href="singup.html" style="color:#FFD814;font-weight:bold;">New? Sign Up</a>
+  <a href="orders.html" style="color:white;">Returns<br><b>& Orders</b></a>
+  <a href="notification.html" style="color:white;"><i class="fa-solid fa-bell"></i><br><b>Notifications</b></a>
+  <a href="address-book.html" style="color:white;">Address<br><b>Book</b></a>
+  <a href="cart.html" style="color:white;"><i class="fa-solid fa-cart-shopping fa-2x"></i><span id="cart-count">0</span></a>
 </div>
 
+<!-- Header 2 -->
 <div class="nav2">
-  <a href="#">☰ All</a><a href="#">Medicines</a><a href="#">Health Products</a><a href="#">Beauty</a>
-  <a href="https://www.amazon.in/gp/goldbox?tag=skpharmacy078-21" target="_blank">Today's Deals</a> <!-- Amazon Affiliate Link -->
+  <span onclick="window.location.href='all.html'">☰ All</span>
+  <span onclick="window.location.href='settings2.html'">⚙️ Settings & Help</span>
+  <span onclick="window.location.href='offers.html'">🔥 Deals of the Day</span>
+  <span onclick="window.location.href='sell.html'">🏪 Sell With Us</span>
+  <span onclick="window.location.href='shipping-calculator.html'">📦 Shipping Calculator</span>
+  <span onclick="window.location.href='offers.html'">🎁 Coupon System</span>
+  <span onclick="window.location.href='pincode-checker-pincode.html'">📍 Delivery Check</span>
+  <span onclick="window.location.href='search.html'">🔍 Search Products</span>
+  <span onclick="window.location.href='baby-care.html'">Baby Care</span>
+  <span onclick="window.location.href='barcode-scan.html'">📷 Barcode Scan</span>
+  <span onclick="window.location.href='cart.html'">🛒 Cart</span>
+  <span onclick="window.location.href='checkout.html'">💳 Checkout</span> <!-- Checkout लिंक -->
+  <span onclick="window.location.href='health.html'">🩺 Health Tips</span>
+  <span onclick="window.location.href='health2.html'">👨‍⚕️ Dr. Advice</span>
+  <span onclick="window.location.href='login.html'">👤 Login</span>
+  <span onclick="window.location.href='notification.html'">🔔 Notifications</span>
+  <span onclick="window.location.href='orders.html'">📦 My Orders</span>
+  <span onclick="window.location.href='cs-payment.html'">💰 Payment Help</span>
+  <span onclick="window.location.href='cs-prescription.html'">📄 Prescription Help</span>
+  <span onclick="window.location.href='customer-service.html'">🎧 Customer Service</span>
+  <span onclick="window.location.href='details.html'">📦 Product Details</span>
+  <span onclick="window.location.href='forgot-password.html'">🔑 Forgot Password</span>
+  <span onclick="window.location.href=''">Refer & Earn</span>
+  <span onclick="window.location.href=''">Wallet</span>
+  <span onclick="window.location.href=''">Gift Cards</span>
+  <span onclick="window.location.href=''">Live Order Tracking</span>
+  <span onclick="window.location.href='admin-panel.html'" style="color:#FF9900;font-weight:bold;">Admin Panel</span>
+  <span onclick="window.location.href='https://www.amazon.in/gp/goldbox?tag=skpharmacy078-21'" style="color:#FFD814;font-weight:bold;">Amazon Deals</span>
 </div>
 
-<!-- Banner Slider -->
-<div class="banner-slider">
-  <span class="arrow left" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></span>
-  <img src="https://i.ibb.co/VQYb1bR/banner1.jpg" class="active">
-  <img src="https://i.ibb.co/0jK4QzN/banner2.jpg">
-  <img src="https://i.ibb.co/wR3k3YV/banner3.jpg">
-  <span class="arrow right" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></span>
+<!-- Banner -->
+<div style="background:#8B5CF6;height:250px;text-align:center;color:white;padding-top:80px;">
+  <h1>Banner Slider - Photo बाद में जोड़ेंगे</h1>
 </div>
 
-<!-- Info Bar -->
-<div class="info-bar">
-  You are on skpharma.com. You can also shop on Amazon India. <a href="https://www.amazon.in?tag=skpharmacy078-21" target="_blank">Go to Amazon.in</a>
-</div>
-
-<!-- ADSENSE -->
-<div style="text-align:center;margin:10px;">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3497742039075039" data-ad-slot="1234567890" data-ad-format="auto"></ins>
-<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-</div>
-
-<!-- 9 Cards -->
+<!-- 9 Cards Grid -->
 <div class="grid">
-  <!-- Card 1 - Amazon Affiliate Card -->
-  <div class="card">
-    <h2>Top Medicines on Amazon</h2>
-    <div class="card-4">
-      <div><img src="nurokind.jpg"><span>Nurokind B12</span>
-        <a href="https://www.amazon.in/s?k=Nurokind+B12&tag=skpharmacy078-21" target="_blank" class="aff-btn">Buy on Amazon</a>
-      </div>
-      <div><img src="dolo-650.jpg"><span>Dolo 650</span>
-        <a href="https://www.amazon.in/s?k=Dolo+650&tag=skpharmacy078-21" target="_blank" class="aff-btn">Buy on Amazon</a>
-      </div>
-      <div><img src="cetirizine-10.jpg"><span>Cetirizine</span>
-        <a href="https://www.amazon.in/s?k=Cetirizine&tag=skpharmacy078-21" target="_blank" class="aff-btn">Buy on Amazon</a>
-      </div>
-      <div><img src="pantoprazole-40.jpg"><span>Pantop 40</span>
-        <a href="https://www.amazon.in/s?k=Pantop+40&tag=skpharmacy078-21" target="_blank" class="aff-btn">Buy on Amazon</a>
-      </div>
-    </div>
-    <a href="https://www.amazon.in/s?k=medicine&tag=skpharmacy078-21" target="_blank" style="color:#007185;">See all on Amazon</a>
-  </div>
-
-  <!-- Card 2 -->
-  <div class="card">
-    <h2>Health & Wellness</h2>
-    <div class="card-4">
-      <div><img src="horlicks.jpg"><span>Horlicks</span><button class="buy-btn" onclick="openPopup('Horlicks')">Buy Now</button></div>
-      <div><img src="burnvita.jpg"><span>Bournvita</span><button class="buy-btn" onclick="openPopup('Bournvita')">Buy Now</button></div>
-      <div><img src="emami-7oil.jpg"><span>Emami Oil</span><button class="buy-btn" onclick="openPopup('Emami Oil')">Buy Now</button></div>
-      <div><img src="sesa-oil.jpg"><span>Sesa Oil</span><button class="buy-btn" onclick="openPopup('Sesa Oil')">Buy Now</button></div>
-    </div>
-  </div>
-
-  <!-- Card 3 -->
-  <div class="card">
-    <h2>Get your game on</h2>
-    <img src="baby-care.jpg" style="width:100%;height:230px;object-fit:cover;">
-    <a href="https://www.amazon.in/baby-products?tag=skpharmacy078-21" target="_blank" class="aff-btn">Shop Baby Care on Amazon</a>
-  </div>
-
-  <!-- बाकी 6 Card ऐसे ही... -->
-  <div class="card"><h2>Must-have beauty</h2><div class="card-4"><div><img src="serum.jpg"><span>Serum</span><button class="buy-btn" onclick="openPopup('Serum')">Buy Now</button></div></div></div>
-  <div class="card"><h2>Shop Deals</h2><div class="card-4"><div><img src="p1.jpg"><span>Under ₹199</span><button class="buy-btn" onclick="openPopup('Deal')">Buy Now</button></div></div></div>
-  <div class="card"><h2>Top Medical</h2><img src="azithromycin-500.jpg" style="width:100%;height:230px;"><a href="https://www.amazon.in/s?k=medical&tag=skpharmacy078-21" target="_blank" class="aff-btn">Explore on Amazon</a></div>
-  <div class="card"><h2>Easy updates</h2><div class="card-4"><div><img src="dabur-amla.jpg"><span>Dabur</span><button class="buy-btn" onclick="openPopup('Dabur')">Buy Now</button></div></div></div>
-  <div class="card"><h2>Must-haves</h2><img src="shelcal-500.jpg" style="width:100%;height:230px;"><a href="https://www.amazon.in/s?k=vitamins&tag=skpharmacy078-21" target="_blank" class="aff-btn">Shop Vitamins</a></div>
-  <div class="card"><h2>Trending</h2><div class="card-4"><div><img src="vasmol.jpg"><span>Vasmol</span><button class="buy-btn" onclick="openPopup('Vasmol')">Buy Now</button></div></div></div>
+  <div class="card"><h2>Medicines</h2><a href="details.html">View All</a></div>
+  <div class="card"><h2>Health Products</h2><a href="details.html">View All</a></div>
+  <div class="card"><h2>Baby Care</h2><a href="baby-care.html">View All</a></div>
+  <div class="card"><h2>Health Tips</h2><a href="health.html">Read Now</a></div>
+  <div class="card"><h2>Dr. Shakir Khan</h2><a href="health2.html">Get Advice</a></div>
+  <div class="card"><h2>📦 Shipping Calculator</h2><a href="shipping-calculator.html">Calculate Cost</a></div>
+  <div class="card"><h2>💳 Quick Checkout</h2><a href="checkout.html">Buy Now</a></div> <!-- Checkout Card -->
+  <div class="card"><h2>🔥 Top Deals</h2><a href="offers.html">View Offers</a></div>
+  <div class="card"><h2>⚙️ Settings & Help</h2><a href="settings2.html">Account, Policy</a></div>
 </div>
 
-<!-- Order Popup -->
-<div id="orderPopup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;">
-  <div style="background:#fff;width:90%;max-width:400px;margin:100px auto;padding:20px;border-radius:8px;">
-    <h3>Order: <span id="productName"></span></h3>
-    <input type="text" id="custName" placeholder="Your Name" style="width:100%;padding:8px;margin:5px 0;">
-    <input type="tel" id="custPhone" placeholder="Phone Number" style="width:100%;padding:8px;margin:5px 0;">
-    <button onclick="sendOrder()" style="background:#FF9900;border:none;padding:10px;width:100%;">Place Order</button>
-    <button onclick="closePopup()" style="margin-top:10px;width:100%;">Close</button>
-  </div>
+<!-- Footer Links -->
+<div style="background:#232F3E;color:white;padding:30px;text-align:center;">
+  <a href="about.html" style="color:#DDD;margin:0 10px;">About</a>
+  <a href="contact.html" style="color:#DDD;margin:0 10px;">Contact</a>
+  <a href="privacy.html" style="color:#DDD;margin:0 10px;">Privacy Policy</a>
+  <a href="search.html" style="color:#DDD;margin:0 10px;">Search</a>
+  <a href="sell.html" style="color:#DDD;margin:0 10px;">Sell With Us</a>
+  <a href="settings2.html" style="color:#DDD;margin:0 10px;">Settings & Help</a>
+  <a href="singup.html" style="color:#FFD814;margin:0 10px;font-weight:bold;">Sign Up</a>
+  <a href="checkout.html" style="color:#DDD;margin:0 10px;">Checkout</a> <!-- Footer Checkout -->
+  <a href="shipping-calculator.html" style="color:#DDD;margin:0 10px;">Shipping Calculator</a>
+  <a href="terms.html" style="color:#DDD;margin:0 10px;">Terms & Conditions</a>
+  <a href="shipping.html" style="color:#DDD;margin:0 10px;">Shipping Policy</a>
+  <a href="refund.html" style="color:#DDD;margin:0 10px;">Refund Policy</a>
+  <a href="faqs.html" style="color:#DDD;margin:0 10px;">FAQs</a>
+  <a href="address-book.html" style="color:#DDD;margin:0 10px;">Address Book</a>
+  <a href="health.html" style="color:#DDD;margin:0 10px;">Health Tips</a>
+  <a href="health2.html" style="color:#DDD;margin:0 10px;">Dr. Advice</a>
+  <a href="login.html" style="color:#DDD;margin:0 10px;">Login</a>
+  <a href="notification.html" style="color:#DDD;margin:0 10px;">Notifications</a>
+  <a href="offers.html" style="color:#DDD;margin:0 10px;">Deals & Offers</a>
+  <a href="orders.html" style="color:#DDD;margin:0 10px;">My Orders</a>
+  <a href="pincode-checker-pincode.html" style="color:#DDD;margin:0 10px;">Delivery Check</a>
+  <a href="cs-payment.html" style="color:#DDD;margin:0 10px;">Payment Help</a>
+  <a href="cs-prescription.html" style="color:#DDD;margin:0 10px;">Prescription Help</a>
+  <a href="customer-service.html" style="color:#DDD;margin:0 10px;">Customer Service</a>
+  <a href="details.html" style="color:#DDD;margin:0 10px;">Product Details</a>
+  <a href="forgot-password.html" style="color:#DDD;margin:0 10px;">Forgot Password</a>
 </div>
 
 <script>
 emailjs.init("z3cFw4MCTs6DKv2Cj");
-let selectedProduct="";
-function openPopup(p){selectedProduct=p;document.getElementById("productName").innerText=p;document.getElementById("orderPopup").style.display="block";}
-function closePopup(){document.getElementById("orderPopup").style.display="none";}
-function sendOrder(){emailjs.send("service_u1c0727","dg8drle",{to_email:"sakirkhangrnoida@gmail.com",product:selectedProduct,customer_name:document.getElementById("custName").value,customer_phone:document.getElementById("custPhone").value}).then(()=>{alert("Order Sent!");closePopup();});}
 
-let slideIndex=0;const slides=document.querySelectorAll('.banner-slider img');
-function showSlide(n){slides.forEach(s=>s.classList.remove('active'));slides[n].classList.add('active');}
-function nextSlide(){slideIndex=(slideIndex+1)%slides.length;showSlide(slideIndex);}
-function prevSlide(){slideIndex=(slideIndex-1+slides.length)%slides.length;showSlide(slideIndex);}
-setInterval(nextSlide,4000);
+// Search function
+function goSearch(){
+  let query = document.getElementById('mainSearch').value;
+  if(query.trim()!== ''){
+    window.location.href = 'search.html?q=' + encodeURIComponent(query);
+  } else {
+    window.location.href = 'search.html';
+  }
+}
 </script>
 
 </body>
-    </html>
+</html>
