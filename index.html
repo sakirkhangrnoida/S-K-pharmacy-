@@ -33,18 +33,23 @@
 .nav1{background:#131921;color:#fff;padding:4px 15px;display:flex;align-items:center;gap:10px;font-size:12px;position:sticky;top:0;z-index:100;}
 .logo{font-size:28px;font-weight:800;color:#FF9900;}.search{flex:1;display:flex;}.search input{flex:1;padding:10px;border:none;outline:none;}.search button{background:#FEBD69;border:none;padding:10px 14px;cursor:pointer;}
 .nav2{background:#232F3E;color:#fff;padding:8px 15px;display:flex;gap:15px;font-size:14px;overflow-x:auto;white-space:nowrap;}
-.nav2 span{cursor:pointer;padding:5px 0;}
+.nav2 span{cursor:pointer;padding:5px 0;position:relative;}
+.dropdown{display:none;position:absolute;top:30px;left:0;background:#fff;color:#000;padding:10px;min-width:200px;box-shadow:0 2px 5px rgba(0,0,0,0.2);z-index:99;}
+.nav2 span:hover.dropdown{display:block;}
+.dropdown a{display:block;padding:5px 0;color:#000;text-decoration:none;font-size:13px;}
+.dropdown a:hover{color:#C7511F;text-decoration:underline;}
 .grid{max-width:1500px;margin:20px auto;padding:0 15px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 .card{background:#fff;padding:20px;}.card h2{font-size:21px;margin-bottom:10px;}
-.btn{width:100%;background:#FFD814;border:none;padding:12px;border-radius:8px;cursor:pointer;font-weight:bold;margin-top:10px;}
-.btn:hover{background:#F7CA00;}
+.footer{background:#232F3E;color:#DDD;padding:20px;text-align:center;font-size:12px;margin-top:30px;}
+.footer a{color:#DDD;margin:0 8px;text-decoration:none;}
+.footer a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
 
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJQ8D6" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-<!-- Header 1 -->
+<!-- Header 1 - CLEAN -->
 <div class="nav1">
   <div class="logo">skpharma</div>
   <div>Delivering to<br><b>Bilari 244301</b></div>
@@ -55,39 +60,34 @@
   <a href="login.html" style="color:white;">Hello, Sign in<br><b>Account & Lists</b></a>
   <a href="singup.html" style="color:#FFD814;font-weight:bold;">New? Sign Up</a>
   <a href="orders.html" style="color:white;">Returns<br><b>& Orders</b></a>
-  <a href="notification.html" style="color:white;"><i class="fa-solid fa-bell"></i><br><b>Notifications</b></a>
-  <a href="address-book.html" style="color:white;">Address<br><b>Book</b></a>
   <a href="cart.html" style="color:white;"><i class="fa-solid fa-cart-shopping fa-2x"></i><span id="cart-count">0</span></a>
 </div>
 
-<!-- Header 2 -->
+<!-- Header 2 - CLEAN with All Dropdown -->
 <div class="nav2">
-  <span onclick="window.location.href='all.html'">☰ All</span>
-  <span onclick="window.location.href='settings2.html'">⚙️ Settings & Help</span>
+  <span>☰ All
+    <div class="dropdown">
+      <a href="all.html">All Categories</a>
+      <a href="search.html">🔍 Search Products</a>
+      <a href="pincode-checker-pincode.html">📍 Delivery Check</a>
+      <a href="checkout.html">💳 Checkout</a>
+      <a href="settings2.html">⚙️ Settings & Help</a>
+      <a href="address-book.html">📒 Address Book</a>
+      <a href="offers.html">🎁 Coupon System</a>
+      <a href="shipping-calculator.html">📦 Shipping Calculator</a>
+      <a href="barcode-scan.html">📷 Barcode Scan</a>
+      <a href="customer-service.html">🎧 Customer Service</a>
+      <a href="cs-payment.html">💰 Payment Help</a>
+      <a href="cs-prescription.html">📄 Prescription Help</a>
+      <a href="forgot-password.html">🔑 Forgot Password</a>
+    </div>
+  </span>
   <span onclick="window.location.href='offers.html'">🔥 Deals of the Day</span>
   <span onclick="window.location.href='sell.html'">🏪 Sell With Us</span>
-  <span onclick="window.location.href='shipping-calculator.html'">📦 Shipping Calculator</span>
-  <span onclick="window.location.href='offers.html'">🎁 Coupon System</span>
-  <span onclick="window.location.href='pincode-checker-pincode.html'">📍 Delivery Check</span>
-  <span onclick="window.location.href='search.html'">🔍 Search Products</span>
   <span onclick="window.location.href='baby-care.html'">Baby Care</span>
-  <span onclick="window.location.href='barcode-scan.html'">📷 Barcode Scan</span>
-  <span onclick="window.location.href='cart.html'">🛒 Cart</span>
-  <span onclick="window.location.href='checkout.html'">💳 Checkout</span> <!-- Checkout लिंक -->
   <span onclick="window.location.href='health.html'">🩺 Health Tips</span>
   <span onclick="window.location.href='health2.html'">👨‍⚕️ Dr. Advice</span>
-  <span onclick="window.location.href='login.html'">👤 Login</span>
   <span onclick="window.location.href='notification.html'">🔔 Notifications</span>
-  <span onclick="window.location.href='orders.html'">📦 My Orders</span>
-  <span onclick="window.location.href='cs-payment.html'">💰 Payment Help</span>
-  <span onclick="window.location.href='cs-prescription.html'">📄 Prescription Help</span>
-  <span onclick="window.location.href='customer-service.html'">🎧 Customer Service</span>
-  <span onclick="window.location.href='details.html'">📦 Product Details</span>
-  <span onclick="window.location.href='forgot-password.html'">🔑 Forgot Password</span>
-  <span onclick="window.location.href=''">Refer & Earn</span>
-  <span onclick="window.location.href=''">Wallet</span>
-  <span onclick="window.location.href=''">Gift Cards</span>
-  <span onclick="window.location.href=''">Live Order Tracking</span>
   <span onclick="window.location.href='admin-panel.html'" style="color:#FF9900;font-weight:bold;">Admin Panel</span>
   <span onclick="window.location.href='https://www.amazon.in/gp/goldbox?tag=skpharmacy078-21'" style="color:#FFD814;font-weight:bold;">Amazon Deals</span>
 </div>
@@ -97,47 +97,31 @@
   <h1>Banner Slider - Photo बाद में जोड़ेंगे</h1>
 </div>
 
-<!-- 9 Cards Grid -->
+<!-- 9 Cards Grid - CLEAN -->
 <div class="grid">
   <div class="card"><h2>Medicines</h2><a href="details.html">View All</a></div>
   <div class="card"><h2>Health Products</h2><a href="details.html">View All</a></div>
   <div class="card"><h2>Baby Care</h2><a href="baby-care.html">View All</a></div>
   <div class="card"><h2>Health Tips</h2><a href="health.html">Read Now</a></div>
   <div class="card"><h2>Dr. Shakir Khan</h2><a href="health2.html">Get Advice</a></div>
-  <div class="card"><h2>📦 Shipping Calculator</h2><a href="shipping-calculator.html">Calculate Cost</a></div>
-  <div class="card"><h2>💳 Quick Checkout</h2><a href="checkout.html">Buy Now</a></div> <!-- Checkout Card -->
+  <div class="card"><h2>📦 My Orders</h2><a href="orders.html">Track Order</a></div>
   <div class="card"><h2>🔥 Top Deals</h2><a href="offers.html">View Offers</a></div>
+  <div class="card"><h2>📦 Shipping Calculator</h2><a href="shipping-calculator.html">Calculate Cost</a></div>
   <div class="card"><h2>⚙️ Settings & Help</h2><a href="settings2.html">Account, Policy</a></div>
 </div>
 
-<!-- Footer Links -->
-<div style="background:#232F3E;color:white;padding:30px;text-align:center;">
-  <a href="about.html" style="color:#DDD;margin:0 10px;">About</a>
-  <a href="contact.html" style="color:#DDD;margin:0 10px;">Contact</a>
-  <a href="privacy.html" style="color:#DDD;margin:0 10px;">Privacy Policy</a>
-  <a href="search.html" style="color:#DDD;margin:0 10px;">Search</a>
-  <a href="sell.html" style="color:#DDD;margin:0 10px;">Sell With Us</a>
-  <a href="settings2.html" style="color:#DDD;margin:0 10px;">Settings & Help</a>
-  <a href="singup.html" style="color:#FFD814;margin:0 10px;font-weight:bold;">Sign Up</a>
-  <a href="checkout.html" style="color:#DDD;margin:0 10px;">Checkout</a> <!-- Footer Checkout -->
-  <a href="shipping-calculator.html" style="color:#DDD;margin:0 10px;">Shipping Calculator</a>
-  <a href="terms.html" style="color:#DDD;margin:0 10px;">Terms & Conditions</a>
-  <a href="shipping.html" style="color:#DDD;margin:0 10px;">Shipping Policy</a>
-  <a href="refund.html" style="color:#DDD;margin:0 10px;">Refund Policy</a>
-  <a href="faqs.html" style="color:#DDD;margin:0 10px;">FAQs</a>
-  <a href="address-book.html" style="color:#DDD;margin:0 10px;">Address Book</a>
-  <a href="health.html" style="color:#DDD;margin:0 10px;">Health Tips</a>
-  <a href="health2.html" style="color:#DDD;margin:0 10px;">Dr. Advice</a>
-  <a href="login.html" style="color:#DDD;margin:0 10px;">Login</a>
-  <a href="notification.html" style="color:#DDD;margin:0 10px;">Notifications</a>
-  <a href="offers.html" style="color:#DDD;margin:0 10px;">Deals & Offers</a>
-  <a href="orders.html" style="color:#DDD;margin:0 10px;">My Orders</a>
-  <a href="pincode-checker-pincode.html" style="color:#DDD;margin:0 10px;">Delivery Check</a>
-  <a href="cs-payment.html" style="color:#DDD;margin:0 10px;">Payment Help</a>
-  <a href="cs-prescription.html" style="color:#DDD;margin:0 10px;">Prescription Help</a>
-  <a href="customer-service.html" style="color:#DDD;margin:0 10px;">Customer Service</a>
-  <a href="details.html" style="color:#DDD;margin:0 10px;">Product Details</a>
-  <a href="forgot-password.html" style="color:#DDD;margin:0 10px;">Forgot Password</a>
+<!-- Footer - SHORT & BOTTOM -->
+<div class="footer">
+  <div style="margin-bottom:10px;">
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+    <a href="shipping.html">Shipping</a>
+    <a href="refund.html">Refund</a>
+    <a href="faqs.html">FAQs</a>
+  </div>
+  <div>© 2026 S K Pharmacy All. Made in India</div>
 </div>
 
 <script>
