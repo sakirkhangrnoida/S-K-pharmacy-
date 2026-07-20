@@ -1,11 +1,10 @@
-// Import the functions you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getDatabase } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-// तेरी Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyD2EoywecfBv8JUXnsmFS4A131in790XBW",
+  apiKey: "AIzaSyD2EoyewcF8vJUXnsmF5A131in790XGBW",
   authDomain: "grnoida-store.firebaseapp.com",
   databaseURL: "https://grnoida-store-default-rtdb.firebaseio.com",
   projectId: "grnoida-store",
@@ -14,7 +13,7 @@ const firebaseConfig = {
   appId: "1:123456789:web:abcdef123456"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const db = getDatabase(app);
+export const db = getFirestore(app); // Order, User के लिए
+export const rtdb = getDatabase(app); // Live Cart के लिए
