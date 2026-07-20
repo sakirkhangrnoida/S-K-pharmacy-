@@ -1,24 +1,17 @@
 <!DOCTYPE html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8">
-<title>Sign Up - S K Pharmacy</title>
-<link rel="stylesheet" href="signup.css">
-</head>
+<html>
+<head><title>New Account</title></head>
 <body>
+  <h2>New Account बनाओ</h2>
+  <input type="text" id="name" placeholder="Name" required>
+  <input type="email" id="email" placeholder="Email" required>
+  <input type="number" id="mobile" placeholder="Mobile" required>
+  <input type="password" id="password" placeholder="Password" required>
+  <button id="signupBtn">Create Account</button>
+  
+  <p>पहले से Account है? <a href="login.html">Login करो</a></p>
+  <p id="msg"></p> <!-- Alert की जगह -->
 
-<div class="signup-box">
-  <h2>नया Account बनाएं</h2>
-  <input type="text" id="name" placeholder="पूरा नाम" required>
-  <input type="email" id="email" placeholder="Email डालें" required>
-  <input type="tel" id="mobile" placeholder="10 Digit Mobile" maxlength="10" required>
-  <input type="password" id="password" placeholder="Password बनाएं" required>
-  <button id="signupBtn">Sign Up</button>
-  <p id="error" class="error"></p>
-  <p>पहले से Account है? <a href="login.html">Login करें</a></p>
-</div>
-
-<script type="module" src="firebase.js"></script>
-<script type="module" src="signup.js"></script>
+  <script type="module" src="signup.js"></script>
 </body>
 </html>
