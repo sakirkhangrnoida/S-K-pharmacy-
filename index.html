@@ -32,12 +32,12 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}body{background:#E3E6E6;}
 .nav1{background:#131921;color:#fff;padding:4px 15px;display:flex;align-items:center;gap:10px;font-size:12px;position:sticky;top:0;z-index:100;}
 .logo{font-size:28px;font-weight:800;color:#FF9900;}.search{flex:1;display:flex;}.search input{flex:1;padding:10px;border:none;outline:none;}.search button{background:#FEBD69;border:none;padding:10px 14px;cursor:pointer;}
-.nav2{background:#232F3E;color:#fff;padding:8px 15px;display:flex;gap:15px;font-size:14px;overflow-x:auto;white-space:nowrap;}
-.nav2 span{cursor:pointer;padding:5px 0;position:relative;}
-.dropdown{display:none;position:absolute;top:30px;left:0;background:#fff;color:#000;padding:10px;min-width:200px;box-shadow:0 2px 5px rgba(0,0,0,0.2);z-index:99;}
-.nav2 span:hover.dropdown{display:block;}
-.dropdown a{display:block;padding:5px 0;color:#000;text-decoration:none;font-size:13px;}
-.dropdown a:hover{color:#C7511F;text-decoration:underline;}
+.nav2{background:#232F3E;color:#fff;padding:8px 15px;display:flex;gap:15px;font-size:14px;overflow-x:auto;white-space:nowrap;position:relative;}
+.nav2 span{cursor:pointer;padding:5px 10px;}
+.dropdown{display:none;position:absolute;top:40px;left:10px;background:#fff;color:#000;padding:10px;min-width:220px;box-shadow:0 4px 10px rgba(0,0,0,0.3);z-index:999;border-radius:4px;}
+.dropdown.show{display:block;}
+.dropdown a{display:block;padding:8px 0;color:#000;text-decoration:none;font-size:13px;border-bottom:1px solid #eee;}
+.dropdown a:hover{color:#C7511F;}
 .grid{max-width:1500px;margin:20px auto;padding:0 15px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 .card{background:#fff;padding:20px;}.card h2{font-size:21px;margin-bottom:10px;}
 .footer{background:#232F3E;color:#DDD;padding:20px;text-align:center;font-size:12px;margin-top:30px;}
@@ -58,15 +58,15 @@
     <button onclick="goSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
   </div>
   <a href="login.html" style="color:white;">Hello, Sign in<br><b>Account & Lists</b></a>
-  <a href="singup.html" style="color:#FFD814;font-weight:bold;">New? Sign Up</a>
+  <a href="signup.html" style="color:#FFD814;font-weight:bold;">New? Sign Up</a> <!-- नाम सही कर दिया -->
   <a href="orders.html" style="color:white;">Returns<br><b>& Orders</b></a>
   <a href="cart.html" style="color:white;"><i class="fa-solid fa-cart-shopping fa-2x"></i><span id="cart-count">0</span></a>
 </div>
 
-<!-- Header 2 - CLEAN with All Dropdown -->
+<!-- Header 2 - CLEAN with Click Dropdown -->
 <div class="nav2">
-  <span>☰ All
-    <div class="dropdown">
+  <span onclick="toggleMenu()">☰ All</span>
+  <div id="allMenu" class="dropdown">
       <a href="all.html">All Categories</a>
       <a href="search.html">🔍 Search Products</a>
       <a href="pincode-checker-pincode.html">📍 Delivery Check</a>
@@ -80,8 +80,8 @@
       <a href="cs-payment.html">💰 Payment Help</a>
       <a href="cs-prescription.html">📄 Prescription Help</a>
       <a href="forgot-password.html">🔑 Forgot Password</a>
-    </div>
-  </span>
+  </div>
+
   <span onclick="window.location.href='offers.html'">🔥 Deals of the Day</span>
   <span onclick="window.location.href='sell.html'">🏪 Sell With Us</span>
   <span onclick="window.location.href='baby-care.html'">Baby Care</span>
@@ -126,6 +126,17 @@
 
 <script>
 emailjs.init("z3cFw4MCTs6DKv2Cj");
+
+// All Menu Toggle Function
+function toggleMenu(){
+  document.getElementById('allMenu').classList.toggle('show');
+}
+// बाहर Click करने पर बंद हो जाए
+window.onclick = function(event){
+  if(!event.target.matches('.nav2 span')){
+    document.getElementById('allMenu').classList.remove('show');
+  }
+}
 
 // Search function
 function goSearch(){
