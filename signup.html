@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head><title>New Account</title></head>
+<head>
+  <title>New Account</title>
+  <link rel="stylesheet" href="signup.css">  <!-- CSS जुड़ गई -->
+</head>
 <body>
-  <h2>New Account बनाओ</h2>
-  <input type="text" id="name" placeholder="Name" required>
-  <input type="email" id="email" placeholder="Email" required>
-  <input type="number" id="mobile" placeholder="Mobile" required>
-  <input type="password" id="password" placeholder="Password" required>
-  <button id="signupBtn">Create Account</button>
-  
-  <p>पहले से Account है? <a href="login.html">Login करो</a></p>
-  <p id="msg"></p> <!-- Alert की जगह -->
+  <div class="signup-box">  <!-- CSS के लिए box add किया -->
+    <h2>New Account बनाओ</h2>
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="number" id="mobile" placeholder="Mobile" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button id="signupBtn">Create Account</button>
+    
+    <p>पहले से Account है? <a href="login.html">Login करो</a></p>
+    <p id="msg"></p> <!-- Alert की जगह -->
+  </div>
 
   <script type="module" src="signup.js"></script>
 </body>
