@@ -12,19 +12,25 @@ th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left}
 th{background:#f0f2f5}
 select,button{padding:8px;border-radius:4px;border:1px solid #ddd}
 .btn{background:#ff9900;border:none;font-weight:bold;cursor:pointer}
+.new-order{animation:blink 1s infinite;background:#fff8e1}
+@keyframes blink{50%{background:#ffecb3}}
 </style>
 </head>
 <body>
 
 <div class="header">
   <h2>Admin Dashboard</h2>
-  <a href="../index.html" style="color:#fff">Go to Site</a>
+  <a href="./index.html" style="color:#fff">Go to Site</a>
 </div>
 
 <div class="box">
-  <h3>📦 All Orders</h3>
+  <h3>📦 All Orders - Live</h3>
   <table id="ordersTable">
-    <thead><tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Payment</th><th>Status</th><th>Action</th></tr></thead>
+    <thead>
+      <tr>
+        <th>Order ID</th><th>Customer</th><th>Total</th><th>Payment</th><th>Time</th><th>Status</th><th>Action</th>
+      </tr>
+    </thead>
     <tbody>Loading...</tbody>
   </table>
 </div>
@@ -38,22 +44,35 @@ select,button{padding:8px;border-radius:4px;border:1px solid #ddd}
   <p id="msg"></p>
 </div>
 
-
 <script type="module">
-import { db } from '../firebase.js';
+import { db } from './firebase.js';
 import { ref, onValue, update, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-// 1. सारे Orders दिखाओ
+let lastOrderCount = 0;
+const YOUR_NO = "919258751739"; // तेरा no
+const GHIRAKH_NO = "91XXXXXXXXXX"; // Ghirak का no यहाँ डाल
+
+// 1. सारे Orders Live दिखाओ
 onValue(ref(db, 'orders/'), (snapshot) => {
   const data = snapshot.val();
   let html = '';
+  let currentCount = 0;
+  
   if(data){
+    currentCount = Object.keys(data).length;
+    // नया ऑर्डर आया तो Alert
+    if(currentCount > lastOrderCount && lastOrderCount != 0){
+      alert("🔔 नया ऑर्डर आया है!");
+    }
+    lastOrderCount = currentCount;
+
     Object.values(data).reverse().forEach(order => {
-      html += `<tr>
+      html += `<tr class="${order.status=='Ordered'?'new-order':''}">
         <td>${order.orderId}</td>
         <td>${order.name}<br>${order.mobile}</td>
         <td>₹${order.total}</td>
         <td>${order.payment}</td>
+        <td>${new Date(order.time).toLocaleString()}</td>
         <td>
           <select id="status-${order.orderId}" onchange="updateStatus('${order.orderId}')">
             <option ${order.status=='Ordered'?'selected':''}>Ordered</option>
@@ -64,26 +83,33 @@ onValue(ref(db, 'orders/'), (snapshot) => {
             <option ${order.status=='Delivered'?'selected':''}>Delivered</option>
           </select>
         </td>
-        <td><button onclick="window.open('../order-details.html?id=${order.orderId}')">View</button></td>
+        <td><button onclick="window.open('./order-details.html?id=${order.orderId}')">View</button></td>
       </tr>`;
-    });
+    })
   }
-  document.querySelector('#ordersTable tbody').innerHTML = html || '<tr><td colspan="6">No Orders</td></tr>';
+  document.querySelector('#ordersTable tbody').innerHTML = html || '<tr><td colspan="7">No Orders</td></tr>';
 });
 
+// 2. Status Update + Customer Alert
 window.updateStatus = function(orderId){
   let newStatus = document.getElementById('status-'+orderId).value;
   update(ref(db, 'orders/' + orderId), { status: newStatus });
-  alert('Status Updated: ' + newStatus);
+  alert('Status Updated to: ' + newStatus);
+  
+  // Customer को WhatsApp
+  get(ref(db, 'orders/' + orderId)).then(snap=>{
+    let o = snap.val();
+    let msg = `Hi ${o.name},%0AYour Order ${orderId} status: *${newStatus}*%0A- S K Pharmacy`;
+    window.open(`https://wa.me/91${o.mobile}?text=${msg}`, '_blank');
+  })
 }
 
-// 2. Product Add करो
+// 3. नया Product Add
 window.addProduct = function(){
   let name = document.getElementById('pName').value;
   let price = document.getElementById('pPrice').value;
   let img = document.getElementById('pImg').value;
   let id = 'P' + Date.now();
-  
   set(ref(db, 'products/' + id), { name, price:parseInt(price), img });
   document.getElementById('msg').innerText = 'Product Added!';
 }
