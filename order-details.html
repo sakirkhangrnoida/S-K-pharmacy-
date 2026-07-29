@@ -8,7 +8,6 @@ body{font-family:Arial;background:#f0f2f5;margin:0}
 .header{background:#232f3e;color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center}
 .header a{color:#fff;text-decoration:none}
 .box{background:#fff;margin:15px;padding:20px;border-radius:8px}
-.box h3{border-bottom:1px solid #eee;padding-bottom:10px}
 .info-row{display:flex;justify-content:space-between;margin:10px 0}
 .product-item{display:flex;gap:15px;margin:15px 0;padding-bottom:15px;border-bottom:1px solid #eee}
 .product-item img{width:80px;height:80px;object-fit:cover;border-radius:4px}
@@ -25,7 +24,6 @@ body{font-family:Arial;background:#f0f2f5;margin:0}
 
 <div id="orderDetail">Loading...</div>
 
-<script type="module" src="firebase.js"></script>
 <script type="module">
 import { db } from './firebase.js';
 import { ref, get, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -51,9 +49,9 @@ async function loadOrder(){
     subtotal += item.price * item.qty;
     productsHtml += `
     <div class="product-item">
-      <img src="${item.img}">
+      <img src="${item.image}">
       <div>
-        <h4>${item.name}</h4>
+        <b>${item.name}</b>
         <p>Qty: ${item.qty} | Price: ₹${item.price}</p>
         <p><b>Total: ₹${item.price * item.qty}</b></p>
       </div>
@@ -64,7 +62,7 @@ async function loadOrder(){
   <div class="box">
     <h3>Order #${order.orderId}</h3>
     <div class="info-row"><span>Order Date:</span><span>${new Date(order.time).toLocaleString('hi-IN')}</span></div>
-    <div class="info-row"><span>Status:</span><span><b style="color:green">${order.status}</b></span></div>
+    <div class="info-row"><span>Status:</span><span style="color:green"><b>${order.status}</b></span></div>
     <div class="info-row"><span>Payment:</span><span>${order.payment}</span></div>
   </div>
 
@@ -89,12 +87,11 @@ async function loadOrder(){
   </div>
 
   <div class="box review-box" id="reviewBox" style="display:none">
-    <h3>Review दें</h3>
+    <h3>Review</h3>
     <textarea id="reviewText" rows="4" placeholder="अपना Experience लिखें..."></textarea>
     <button class="btn" onclick="submitReview()">Submit Review</button>
   </div>
   `;
-
   window.orderData = order; // Global save for invoice
 }
 
@@ -130,7 +127,6 @@ window.submitReview = function(){
   alert('Review Submit हो गया! धन्यवाद');
   document.getElementById('reviewBox').style.display = 'none';
 }
-
 </script>
 </body>
 </html>
